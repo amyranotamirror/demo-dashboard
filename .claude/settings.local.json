@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C \"/d/Holistics/1_GitHub/demo-dashboard\" show HEAD:rules/build-dashboard.md)",
+      "Bash(git -C \"/d/Holistics/1_GitHub/demo-dashboard\" ls-tree:*)",
+      "Bash(git -C:*)"
+    ]
+  }
+}
