@@ -1,96 +1,105 @@
 # demo-dashboard
 
-> A Claude Code toolkit for generating internal analytics dashboards — complete with data models, schema, and realistic synthetic data — for any department, in minutes.
+> A Claude Code slash command toolkit for building complete Holistics dashboards — from business concept to deployed AML — with approval gates at every step.
 
 ---
 
-## What is this?
+## Overview
 
-This repo is a **reusable prompt template** that turns a short brief into a full analytics dashboard data package. You describe your department and use case; Claude designs the data model, generates the schema, and writes a Node.js script that produces realistic CSV data — ready to load into any BI tool.
+This repo contains a set of Claude Code slash commands that guide you through the full dashboard development lifecycle. Each command covers one phase of the workflow, produces concrete file artifacts, and stops for your approval before moving to the next step.
 
-**Who it's for:** Anyone who needs a working demo dashboard with coherent fake data and doesn't want to design the data model from scratch.
+The workflow is split into **5 phases**:
+
+```
+Phase 1 — Align      concept.md + prototype.html
+Phase 2 — Design     schema.md + metric formulas
+Phase 3 — Data       generate.js + CSVs + Neon sync
+Phase 4 — Model      *.model.aml + *.dataset.aml
+Phase 5 — Dashboard  *.page.aml (+ optional theme + custom charts)
+```
+
+You don't have to run all phases. Each command detects where you are and skips what's already done.
 
 ---
 
-## What it produces
+## Commands
 
-For each dashboard, Claude generates five artifacts — one at a time, with your approval at each step:
-
-| Artifact | What it is |
-|---|---|
-| `concept.md` | Dashboard spec — tabs, widgets, filters, metrics |
-| `schema.md` | Conceptual ERD + field definitions |
-| `[slug].dbml` | Database schema, paste-ready for [dbdiagram.io](https://dbdiagram.io) |
-| `seed-data-spec.md` | Row counts, enum weights, date rules |
-| `data/generate.js` | Node.js script that outputs realistic CSV files — no `npm install` required |
+| Slash command | What it does | Phases |
+|---|---|---|
+| `/build-complete-dashboard` | End-to-end orchestrator — runs all phases, links to sub-commands | 1–5 |
+| `/modeling:build-data-model` | Concept doc → HTML prototype → schema → seed data → generate.js + CSVs → Neon sync | 1–3 |
+| `/modeling:build-metric` | Design and write Holistics AML: dimensions, measures, metrics, full datasets | 4 |
+| `/reporting:build-dashboard` | Write dashboard `.page.aml`: charts, layout, filters, interactions | 5 |
+| `/reporting:build-custom-chart` | Build a Vega-Lite custom chart: HTML prototype → `CustomChart` AML | 5 |
+| `/reporting:build-theme` | Design a dashboard theme: HTML preview → `PageTheme` AML | 5 |
 
 ---
 
 ## Prerequisites
 
-- [Claude Code](https://claude.ai/code) installed (`npm install -g @anthropic-ai/claude-code`)
-- Node.js (to run the generated `generate.js` script)
+- [Claude Code](https://claude.ai/code) (`npm install -g @anthropic-ai/claude-code`)
+- Node.js — to run `generate.js` and `sync.js`
+- [Neon](https://neon.tech) — PostgreSQL cloud database (free tier works)
+- [Holistics](https://holistics.io) — BI platform where the AML gets deployed
 
 ---
 
-## How to use it
-
-### 1. Clone the repo
+## Quick start
 
 ```bash
 git clone https://github.com/holistics/demo-dashboard.git
 cd demo-dashboard
-```
-
-### 2. Open Claude Code
-
-```bash
 claude
 ```
 
-### 3. Run the slash command
+Then in Claude Code:
 
 ```
-/build-dashboard
+/build-complete-dashboard
 ```
 
-Claude will ask for a few inputs — company name, department, tabs, user types — then produce each artifact one at a time and wait for your approval before continuing.
+Claude will ask four questions (department, what you already have, theme preference, custom charts needed), then work through each phase with approval gates.
 
-### 4. Run the data generator
-
-Once `data/generate.js` is ready:
-
-```bash
-cd your-dashboard-folder/data
-node generate.js
-```
-
-This outputs one CSV per table. Load them into Holistics, Metabase, or any BI tool to build your dashboard.
+**Already partway through?** Run the relevant sub-command directly — each one starts with a step 0 intent check that skips what's already done.
 
 ---
 
-## Works for any department
+## Output structure
 
-| Department | Example focus areas |
-|---|---|
-| Sales | Pipeline health, win/loss analysis, customer lifecycle |
-| Finance | Budget tracking, spend vs. forecast, cost center health |
-| HR / People Ops | Hiring pipeline, headcount, attrition signals |
-| Customer Support | Ticket volume, SLA health, escalation patterns |
-| Marketing | Campaign pipeline, lead conversion, channel attribution |
-| Product | Feature adoption, feedback → roadmap loop |
+Each dashboard lives in its own folder:
+
+```
+dashboards/<slug>/
+  concept.md                  ← tab structure, users, metric funnel, Kettle ERD
+  prototype.html              ← layout mockup — fake data, no AML
+  schema.md                   ← star/galaxy schema + metric formula definitions
+  seed-data-spec.md           ← row counts, story elements, enum weights
+  data-script/
+    generate.js               ← Node.js data generator (no npm install)
+    postgres.sql              ← DDL + COPY statements for Neon
+    sync.js                   ← incremental table re-sync without regenerating
+  data/
+    <table>.csv               ← one file per table
+  relationships.aml           ← all relationship declarations
+  <table>.model.aml           ← one model file per fact/dim table
+  <name>.dataset.aml          ← dataset with metrics
+  <name>.page.aml             ← dashboard layout, charts, filters
+themes/<slug>/
+  <slug>-v1.html              ← theme preview in browser
+  <slug>-v1.aml               ← PageTheme AML
+custom-chart/<slug>/
+  <slug>-v1.html              ← chart variants side-by-side
+  <slug>-v1.md                ← documentation + final AML
+```
 
 ---
 
 ## Reference example
 
-`sales-dashboard/` is a complete execution of the template for a B2B SaaS sales & customer lifecycle dashboard at Holistics. It includes:
+`dashboards/sales-dashboard/` is a complete Phase 1–3 execution for a B2B SaaS sales & customer lifecycle dashboard:
 
-- A 6-tab dashboard concept (Overview, Pipeline, Performance, Market Signals, Relationship, Customer Health)
-- A 10-entity conceptual schema with 12 physical tables
-- A generator script that produces ~37,900 rows across 12 CSV files, with story elements baked in (top deal blockers, competitor patterns, a churned rep's impact on win rate, etc.)
-
-See `sales-dashboard/` for the full output and `.claude/commands/build-dashboard.md` for the prompt that produced it.
+- 6 tabs: Overview, Pipeline, Performance, Market Signals, Relationship, Customer Health
+- 12 tables, ~37,900 rows of synthetic data with story elements baked in (top deal blockers, competitor patterns, rep performance variance, at-risk accounts)
 
 ---
 
@@ -98,16 +107,22 @@ See `sales-dashboard/` for the full output and `.claude/commands/build-dashboard
 
 ```
 demo-dashboard/
-├── CLAUDE.md                        # Auto-loaded by Claude Code — operating instructions
+├── CLAUDE.md                            # Operating instructions (auto-loaded by Claude Code)
 ├── .claude/
 │   └── commands/
-│       └── build-dashboard.md       # The full prompt template (slash command)
-└── sales-dashboard/                 # Reference execution for a sales dashboard
-    ├── 1-concept.md
-    ├── 2-schema.md
-    ├── 3-seed-data-spec.md
-    ├── data-script/
-    │   ├── sales-pipeline.dbml
-    │   └── generate.js
-    └── raw-data/                    # Generated CSVs
+│       ├── build-complete-dashboard.md  # Phase 1–5 orchestrator
+│       ├── modeling/
+│       │   ├── build-data-model.md      # Phases 1–3: concept → data → Neon
+│       │   ├── build-metric.md          # Phase 4: AML models + datasets
+│       │   └── _holistics-patterns.md   # Reference: schema patterns, naming, AQL
+│       └── reporting/
+│           ├── build-dashboard.md       # Phase 5: dashboard AML
+│           ├── build-custom-chart.md    # Phase 5: Vega-Lite custom charts
+│           ├── build-theme.md           # Phase 5: PageTheme AML
+│           ├── _chart-prototype-template.html
+│           └── _theme-preview-template.html
+├── dashboards/
+│   └── sales-dashboard/                 # Reference execution (Phases 1–3)
+├── themes/                              # Generated theme files
+└── custom-chart/                        # Generated custom chart files
 ```
