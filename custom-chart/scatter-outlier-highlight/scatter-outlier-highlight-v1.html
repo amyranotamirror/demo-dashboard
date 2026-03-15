@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scatter Outlier Highlight — v1</title>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Inter, system-ui, sans-serif; background: #f5f7fa; color: #1a1a2e; }
+
+    /* Version nav */
+    .version-nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; gap: 12px;
+      background: #1e1e2e; padding: 10px 24px;
+      border-bottom: 1px solid #333;
+    }
+    .nav-label { font-size: 13px; font-weight: 600; color: #a0a0c0; white-space: nowrap; }
+    .nav-links  { display: flex; gap: 6px; }
+    .nav-link {
+      padding: 4px 14px; border-radius: 6px; font-size: 12px; font-weight: 600;
+      text-decoration: none; color: #a0a0c0; background: #2a2a3e;
+      transition: background 0.15s;
+    }
+    .nav-link:hover  { background: #3a3a5e; color: #fff; }
+    .nav-link.active { background: #4f46e5; color: #fff; }
+
+    /* Page content */
+    .page { padding: 32px; }
+    header { margin-bottom: 28px; }
+    header h1 { font-size: 20px; font-weight: 700; color: #111; }
+    header p  { margin-top: 4px; font-size: 13px; color: #888; }
+
+    .context-box {
+      background: #fff8ed; border: 1px solid #fcd34d; border-radius: 8px;
+      padding: 12px 16px; margin-bottom: 24px;
+      font-size: 13px; color: #78350f; line-height: 1.6;
+    }
+
+    .variants {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(520px, 1fr));
+      gap: 24px;
+    }
+    .card {
+      background: #fff; border: 1px solid #e5e7eb; border-radius: 12px;
+      padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .card h2 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .card p  { font-size: 13px; color: #6b7280; margin-bottom: 16px; line-height: 1.5; }
+    .tag {
+      display: inline-block; margin-bottom: 10px;
+      padding: 1px 8px; border-radius: 99px;
+      font-size: 11px; font-weight: 600;
+    }
+    .tag-flag { background: #dbeafe; color: #1d4ed8; }
+    .tag-auto  { background: #dcfce7; color: #15803d; }
+    .chart-container { width: 100%; min-height: 300px; }
+  </style>
+</head>
+<body>
+
+<!-- VERSION NAV — update this block in all version files when a new version is added -->
+<nav class="version-nav">
+  <span class="nav-label">Scatter Outlier Highlight</span>
+  <div class="nav-links">
+    <a href="scatter-outlier-highlight-v1.html" class="nav-link active">v1</a>
+    <!-- <a href="scatter-outlier-highlight-v2.html" class="nav-link">v2</a> -->
+  </div>
+</nav>
+
+<div class="page">
+  <header>
+    <h1>Scatter Plot — Outlier Highlight</h1>
+    <p>v1 — open in browser to compare variants</p>
+  </header>
+
+  <div class="context-box">
+    <strong>Problem:</strong> When a scatter plot has extreme outliers, the axis scale zooms out to fit them,
+    making all normal cluster points tiny and nearly invisible. These variants explore different ways to
+    visually call out outliers so both clusters and extremes are clearly readable.
+  </div>
+
+  <div class="variants">
+
+    <div class="card">
+      <h2>Variant 1 — Color + Size + Shape</h2>
+      <span class="tag tag-flag">Needs is_outlier field</span>
+      <p>Outliers become large red diamonds; normal points are small blue circles. Simple and clean — most effective when outliers are few and clearly identifiable in the data model.</p>
+      <div class="chart-container" id="chart1"></div>
+    </div>
+
+    <div class="card">
+      <h2>Variant 2 — Hollow Ring Annotation</h2>
+      <span class="tag tag-flag">Needs is_outlier field</span>
+      <p>All points look normal, but outliers get a bold red ring drawn around them. Visually striking without distorting the shape encoding — great for cluster analysis.</p>
+      <div class="chart-container" id="chart2"></div>
+    </div>
+
+    <div class="card">
+      <h2>Variant 3 — Always-Visible Label</h2>
+      <span class="tag tag-flag">Needs is_outlier field</span>
+      <p>Outlier points have their group name always shown as a floating label, even without hovering. Ideal when you need to identify exactly which group is the outlier.</p>
+      <div class="chart-container" id="chart3"></div>
+    </div>
+
+    <div class="card">
+      <h2>Variant 4 — Auto Z-Score Detection</h2>
+      <span class="tag tag-auto">No flag field needed</span>
+      <p>Automatically detects outliers using Z-score (|Z| &gt; 2 on either axis) via a Vega-Lite transform. Combines ring + label. Adjust the threshold in the Holistics option panel.</p>
+      <div class="chart-container" id="chart4"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const embedOpts = { renderer: "svg", actions: false };
+
+  const mockData = [
+    {"group": "Cluster A", "x": 5.2, "y": 7.8,  "is_outlier": false},
+    {"group": "Cluster A", "x": 6.1, "y": 8.5,  "is_outlier": false},
+    {"group": "Cluster A", "x": 4.8, "y": 7.5,  "is_outlier": false},
+    {"group": "Cluster A", "x": 5.5, "y": 8.0,  "is_outlier": false},
+    {"group": "Cluster B", "x": 18.5,"y": 22.3, "is_outlier": false},
+    {"group": "Cluster B", "x": 20.1,"y": 21.8, "is_outlier": false},
+    {"group": "Cluster B", "x": 19.3,"y": 23.0, "is_outlier": false},
+    {"group": "Cluster C", "x": 33.0,"y": 38.5, "is_outlier": false},
+    {"group": "Cluster C", "x": 34.5,"y": 40.2, "is_outlier": false},
+    {"group": "Cluster C", "x": 32.8,"y": 39.7, "is_outlier": false},
+    {"group": "Outlier 1", "x": 92.0,"y": 98.0, "is_outlier": true},
+    {"group": "Outlier 2", "x": 88.0,"y": 4.5,  "is_outlier": true}
+  ];
+
+  // ── Variant 1: Color + Size + Shape ────────────────────────────────────────
+  vegaEmbed("#chart1", {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 300,
+    "data": {"values": mockData},
+    "mark": {"type": "point", "filled": true, "tooltip": true},
+    "encoding": {
+      "x": {"field": "x", "type": "quantitative", "title": "X Axis"},
+      "y": {"field": "y", "type": "quantitative", "title": "Y Axis"},
+      "color": {
+        "condition": {"test": "datum.is_outlier === true", "value": "#e45c5c"},
+        "value": "#4c78a8"
+      },
+      "size": {
+        "condition": {"test": "datum.is_outlier === true", "value": 250},
+        "value": 60
+      },
+      "shape": {
+        "condition": {"test": "datum.is_outlier === true", "value": "diamond"},
+        "value": "circle"
+      },
+      "opacity": {
+        "condition": {"test": "datum.is_outlier === true", "value": 1},
+        "value": 0.7
+      },
+      "tooltip": [
+        {"field": "group", "type": "nominal",      "title": "Group"},
+        {"field": "x",     "type": "quantitative", "title": "X"},
+        {"field": "y",     "type": "quantitative", "title": "Y"}
+      ]
+    }
+  }, embedOpts);
+
+  // ── Variant 2: Hollow Ring Annotation ──────────────────────────────────────
+  vegaEmbed("#chart2", {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 300,
+    "data": {"values": mockData},
+    "layer": [
+      {
+        "mark": {"type": "point", "filled": true, "tooltip": true, "size": 80},
+        "encoding": {
+          "x": {"field": "x", "type": "quantitative", "title": "X Axis"},
+          "y": {"field": "y", "type": "quantitative", "title": "Y Axis"},
+          "color": {"value": "#4c78a8"},
+          "tooltip": [
+            {"field": "group", "type": "nominal",      "title": "Group"},
+            {"field": "x",     "type": "quantitative", "title": "X"},
+            {"field": "y",     "type": "quantitative", "title": "Y"}
+          ]
+        }
+      },
+      {
+        "transform": [{"filter": "datum.is_outlier === true"}],
+        "mark": {"type": "point", "filled": false, "strokeWidth": 2.5, "opacity": 0.85},
+        "encoding": {
+          "x": {"field": "x", "type": "quantitative"},
+          "y": {"field": "y", "type": "quantitative"},
+          "stroke": {"value": "#e45c5c"},
+          "size":   {"value": 900}
+        }
+      }
+    ]
+  }, embedOpts);
+
+  // ── Variant 3: Always-Visible Label ────────────────────────────────────────
+  vegaEmbed("#chart3", {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 300,
+    "data": {"values": mockData},
+    "layer": [
+      {
+        "mark": {"type": "point", "filled": true, "tooltip": true},
+        "encoding": {
+          "x": {"field": "x", "type": "quantitative", "title": "X Axis"},
+          "y": {"field": "y", "type": "quantitative", "title": "Y Axis"},
+          "color": {
+            "condition": {"test": "datum.is_outlier === true", "value": "#e45c5c"},
+            "value": "#4c78a8"
+          },
+          "size": {
+            "condition": {"test": "datum.is_outlier === true", "value": 180},
+            "value": 60
+          },
+          "tooltip": [
+            {"field": "group", "type": "nominal",      "title": "Group"},
+            {"field": "x",     "type": "quantitative", "title": "X"},
+            {"field": "y",     "type": "quantitative", "title": "Y"}
+          ]
+        }
+      },
+      {
+        "transform": [{"filter": "datum.is_outlier === true"}],
+        "mark": {"type": "text", "dy": -14, "fontSize": 11, "fontWeight": "bold"},
+        "encoding": {
+          "x":    {"field": "x",     "type": "quantitative"},
+          "y":    {"field": "y",     "type": "quantitative"},
+          "text": {"field": "group", "type": "nominal"},
+          "color":{"value": "#e45c5c"}
+        }
+      }
+    ]
+  }, embedOpts);
+
+  // ── Variant 4: Auto Z-Score Detection ──────────────────────────────────────
+  vegaEmbed("#chart4", {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 300,
+    "data": {"values": mockData},
+    "transform": [
+      {
+        "joinaggregate": [
+          {"op": "mean",  "field": "x", "as": "_mean_x"},
+          {"op": "stdev", "field": "x", "as": "_stdev_x"},
+          {"op": "mean",  "field": "y", "as": "_mean_y"},
+          {"op": "stdev", "field": "y", "as": "_stdev_y"}
+        ]
+      },
+      {
+        "calculate": "abs((datum.x - datum._mean_x) / datum._stdev_x) > 2 || abs((datum.y - datum._mean_y) / datum._stdev_y) > 2",
+        "as": "_is_outlier"
+      }
+    ],
+    "layer": [
+      {
+        "mark": {"type": "point", "filled": true, "tooltip": true},
+        "encoding": {
+          "x": {"field": "x", "type": "quantitative", "title": "X Axis"},
+          "y": {"field": "y", "type": "quantitative", "title": "Y Axis"},
+          "color": {
+            "condition": {"test": "datum._is_outlier", "value": "#e45c5c"},
+            "value": "#4c78a8"
+          },
+          "size": {
+            "condition": {"test": "datum._is_outlier", "value": 180},
+            "value": 60
+          },
+          "tooltip": [
+            {"field": "group", "type": "nominal",      "title": "Group"},
+            {"field": "x",     "type": "quantitative", "title": "X"},
+            {"field": "y",     "type": "quantitative", "title": "Y"}
+          ]
+        }
+      },
+      {
+        "transform": [{"filter": "datum._is_outlier"}],
+        "mark": {"type": "point", "filled": false, "strokeWidth": 2.5},
+        "encoding": {
+          "x":      {"field": "x", "type": "quantitative"},
+          "y":      {"field": "y", "type": "quantitative"},
+          "stroke": {"value": "#e45c5c"},
+          "size":   {"value": 900}
+        }
+      },
+      {
+        "transform": [{"filter": "datum._is_outlier"}],
+        "mark": {"type": "text", "dy": -14, "fontSize": 11, "fontWeight": "bold"},
+        "encoding": {
+          "x":    {"field": "x",     "type": "quantitative"},
+          "y":    {"field": "y",     "type": "quantitative"},
+          "text": {"field": "group", "type": "nominal"},
+          "color":{"value": "#e45c5c"}
+        }
+      }
+    ]
+  }, embedOpts);
+</script>
+
+</body>
+</html>

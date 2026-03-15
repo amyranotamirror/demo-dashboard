@@ -1,0 +1,11 @@
+id,theme_id,name,description
+8827d88a-12e7-46f7-a1bb-f19c58aefbad,ddee9b0a-c6ae-4a3d-aae6-bc65c745c970,External sharing,Share dashboards outside the organization
+578e4e2e-da34-40a0-b12e-08e6285af78c,ddee9b0a-c6ae-4a3d-aae6-bc65c745c970,Team workspaces,Organize content by team or project
+d15a5df5-dc6e-459d-84d4-448c0a05f7b3,bf16bfb8-5d1b-4ca6-b8ca-2188464c798a,Column-level access,Restrict access to sensitive columns
+85b22292-40d3-481e-979b-bf7c6557cf66,bf16bfb8-5d1b-4ca6-b8ca-2188464c798a,Row-level security,Restrict visible rows per user or role
+e2a7c969-6f3c-47c3-8e68-15227ad0e859,4b1a13a7-ce58-4ae6-b787-cc3247c70531,Query caching,Cache results to speed up repeated queries
+d343957b-4fb1-4437-8267-8f99612b1bc3,4b1a13a7-ce58-4ae6-b787-cc3247c70531,Pre-aggregation,Pre-compute heavy aggregates at refresh time
+1cdc9d99-9428-4890-817a-b9e21838a502,e48ad37d-9cd0-490d-b2b3-00d5d5de4f0f,Warehouse connectors,Native connections to major data warehouses
+f5c8e6a4-2719-4231-832c-eac0b23aec06,e48ad37d-9cd0-490d-b2b3-00d5d5de4f0f,API & embedding,Embed dashboards and access data via API
+3ec89fbd-704d-4ad1-8d6b-e1e7c238db68,3e1233f2-b2c7-4d60-9225-3286441d1f9a,SSO & authentication,Single sign-on and enterprise authentication
+caafc018-1022-4452-8d83-a817918f75ae,3e1233f2-b2c7-4d60-9225-3286441d1f9a,Audit & compliance,Track user actions for security and compliance

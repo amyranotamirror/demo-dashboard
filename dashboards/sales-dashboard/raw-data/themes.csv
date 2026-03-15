@@ -1,0 +1,6 @@
+id,name,description
+ddee9b0a-c6ae-4a3d-aae6-bc65c745c970,Collaboration,Working together on data and dashboards
+bf16bfb8-5d1b-4ca6-b8ca-2188464c798a,Data Governance,Controlling who sees what data and when
+4b1a13a7-ce58-4ae6-b787-cc3247c70531,Reporting Speed,Making reports and dashboards load faster
+e48ad37d-9cd0-490d-b2b3-00d5d5de4f0f,Integrations,"Connecting to warehouses, tools, and external APIs"
+3e1233f2-b2c7-4d60-9225-3286441d1f9a,Administration,"User management, security, and compliance"
