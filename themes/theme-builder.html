@@ -1,0 +1,1902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Holistics Theme Builder</title>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <style>
+/* ═══ RESET ════════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ═══ LAYOUT ═══════════════════════════════════════════════════════════ */
+body {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #0d0d10;
+}
+
+/* ═══ SIDEBAR ══════════════════════════════════════════════════════════ */
+.sidebar {
+  width: 272px;
+  min-width: 272px;
+  background: #111114;
+  border-right: 1px solid rgba(255,255,255,0.07);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-size: 12px;
+}
+
+.sb-head {
+  padding: 13px 14px 11px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  flex-shrink: 0;
+}
+
+.sb-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ececf4;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 11px;
+}
+
+.sb-title-icon {
+  width: 22px; height: 22px;
+  background: linear-gradient(135deg, #5865f2, #8b5cf6);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+}
+
+.preset-row-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #484858;
+  margin-bottom: 5px;
+}
+
+.presets {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.preset-btn {
+  padding: 3px 9px 4px;
+  border-radius: 5px;
+  border: 1px solid rgba(255,255,255,0.09);
+  background: rgba(255,255,255,0.04);
+  color: #7878a0;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.12s;
+  font-family: inherit;
+}
+.preset-btn:hover { background: rgba(255,255,255,0.09); color: #d0d0e8; border-color: rgba(255,255,255,0.18); }
+.preset-btn.active-preset { background: rgba(88,101,242,0.18); border-color: rgba(88,101,242,0.4); color: #a0a8ff; }
+
+/* Scrollable body */
+.sb-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 6px;
+}
+.sb-body::-webkit-scrollbar { width: 3px; }
+.sb-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+/* Section */
+details.grp { border-bottom: 1px solid rgba(255,255,255,0.04); }
+
+details.grp > summary {
+  padding: 8px 14px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #484858;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+details.grp > summary::after {
+  content: '›';
+  margin-left: auto;
+  font-size: 14px;
+  color: #383848;
+  transition: transform 0.15s;
+}
+details[open].grp > summary::after { transform: rotate(90deg); }
+details.grp > summary:hover { color: #8888a8; }
+
+.grp-body {
+  padding: 2px 14px 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+/* Control row */
+.ctrl { display: flex; align-items: center; gap: 6px; }
+.ctrl-label {
+  font-size: 11.5px;
+  color: #7878a0;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Color picker */
+.color-ctrl { display: flex; align-items: center; gap: 5px; }
+
+.swatch {
+  width: 21px; height: 21px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.14);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.swatch input[type="color"] {
+  position: absolute;
+  inset: -8px;
+  width: calc(100% + 16px);
+  height: calc(100% + 16px);
+  opacity: 0;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+}
+
+.hex-inp {
+  width: 68px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 4px;
+  padding: 3px 5px;
+  color: #c0c0d8;
+  font-size: 11px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  text-align: center;
+  transition: border-color 0.12s;
+}
+.hex-inp:focus { outline: none; border-color: rgba(100,110,255,0.5); }
+
+/* Slider */
+.slider-wrap { display: flex; align-items: center; gap: 8px; flex: 1; }
+
+input[type="range"] {
+  -webkit-appearance: none;
+  flex: 1;
+  height: 3px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 13px; height: 13px;
+  border-radius: 50%;
+  background: #7878ff;
+  box-shadow: 0 0 0 2px rgba(120,120,255,0.22);
+  cursor: pointer;
+}
+
+.sv {
+  font-size: 11px;
+  color: #7878ff;
+  font-family: monospace;
+  min-width: 26px;
+  text-align: right;
+}
+
+/* Select */
+select.sb-sel {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 5px;
+  padding: 5px 8px;
+  color: #c0c0d8;
+  font-size: 12px;
+  cursor: pointer;
+  outline: none;
+  font-family: inherit;
+}
+select.sb-sel:focus { border-color: rgba(100,110,255,0.4); }
+
+/* Footer */
+.sb-footer {
+  padding: 10px 14px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.btn {
+  flex: 1;
+  padding: 7px 10px;
+  border-radius: 6px;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.btn-primary { background: #5865F2; color: white; }
+.btn-primary:hover { background: #6b77f8; }
+.btn-ghost { background: rgba(255,255,255,0.05); color: #8080a8; border: 1px solid rgba(255,255,255,0.08); }
+.btn-ghost:hover { color: #d0d0e8; }
+
+/* ═══ PREVIEW ═══════════════════════════════════════════════════════════ */
+.preview-wrap {
+  flex: 1;
+  overflow: auto;
+  background: var(--page-bg);
+  transition: background 0.15s;
+}
+
+/* ═══ CSS VARIABLES (defaults = Clean Light) ════════════════════════════ */
+:root {
+  --page-bg:              #f0f4f8;
+  --canvas-bg:            #ffffff;
+  --canvas-border:        #e2e8f0;
+  --canvas-radius:        12px;
+  --canvas-shadow:        0 4px 24px rgba(0,0,0,0.10);
+  --block-bg:             #ffffff;
+  --block-border:         #e5e7eb;
+  --block-radius:         8px;
+  --block-shadow:         0 1px 4px rgba(0,0,0,0.07);
+  --block-pad:            16px;
+  --font-head:            'Inter', system-ui, sans-serif;
+  --font-body:            'Inter', system-ui, sans-serif;
+  --text-pri:             #111827;
+  --text-sec:             #374151;
+  --text-mut:             #9ca3af;
+  --label-col:            #374151;
+  --kpi-col:              #111827;
+  --c-primary:            #3b82f6;
+  --c-positive:           #10b981;
+  --c-negative:           #ef4444;
+  --tbl-hd-bg:            #f9fafb;
+  --tbl-hd-col:           #374151;
+  --tbl-hover:            #eff6ff;
+  --tbl-band:             #fafafa;
+  --tbl-border:           #e5e7eb;
+  --nav-bg:               #1e293b;
+  --nav-text:             #94a3b8;
+  --nav-accent:           #3b82f6;
+}
+
+/* ═══ DASHBOARD STYLES ══════════════════════════════════════════════════ */
+
+/* Nav */
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--nav-bg);
+  height: 46px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+}
+.top-bar::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--nav-accent);
+}
+
+.tb-logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.logo-box {
+  width: 26px; height: 26px;
+  background: var(--c-primary);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800;
+  color: white;
+  font-family: var(--font-head);
+}
+.tb-name {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--nav-text);
+  letter-spacing: -0.01em;
+}
+
+.nav-tabs { display: flex; gap: 2px; margin-left: 10px; }
+.nav-tab {
+  padding: 0 14px;
+  height: 46px;
+  display: flex; align-items: center;
+  font-size: 13px;
+  font-family: var(--font-body);
+  color: var(--nav-text);
+  cursor: pointer;
+  opacity: 0.65;
+  border-bottom: 2px solid transparent;
+  transition: all 0.12s;
+  white-space: nowrap;
+  user-select: none;
+}
+.nav-tab.active { opacity: 1; color: #ffffff; border-bottom-color: var(--nav-accent); }
+
+/* Canvas */
+.canvas {
+  background: var(--canvas-bg);
+  border-radius: var(--canvas-radius);
+  box-shadow: var(--canvas-shadow);
+  border: 1px solid var(--canvas-border);
+  margin: 18px;
+  padding: 20px;
+  transition: background 0.15s, box-shadow 0.15s, border-color 0.15s, border-radius 0.15s;
+}
+
+/* Filters */
+.filter-row { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+.filter-block {
+  background: var(--block-bg);
+  border: 1px solid var(--block-border);
+  border-radius: var(--block-radius);
+  box-shadow: var(--block-shadow);
+  padding: 7px 14px;
+  display: flex; align-items: center; gap: 8px;
+  transition: all 0.15s;
+}
+.filter-label {
+  font-size: 10px;
+  color: var(--label-col);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-family: var(--font-head);
+}
+.filter-val { font-size: 13px; color: var(--text-sec); font-family: var(--font-body); }
+
+/* Section heading */
+.sec-head {
+  font-family: var(--font-head);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-primary);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--block-border);
+  margin-bottom: 14px;
+}
+
+/* KPI row */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.kpi-row-6 { grid-template-columns: repeat(6, 1fr); }
+.kpi-card {
+  background: var(--block-bg);
+  border: 1px solid var(--block-border);
+  border-left: 3px solid var(--c-primary);
+  border-radius: var(--block-radius);
+  box-shadow: var(--block-shadow);
+  padding: var(--block-pad);
+  transition: all 0.15s;
+}
+.kpi-label {
+  font-family: var(--font-head);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--label-col);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 8px;
+}
+.kpi-value {
+  font-family: var(--font-head);
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--kpi-col);
+  line-height: 1;
+  margin-bottom: 7px;
+}
+.kpi-delta { font-size: 12px; font-family: var(--font-body); font-weight: 500; }
+.delta-up { color: var(--c-positive); }
+.delta-dn { color: var(--c-negative); }
+
+/* Chart grids */
+.chart-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.chart-row-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.block {
+  background: var(--block-bg);
+  border: 1px solid var(--block-border);
+  border-radius: var(--block-radius);
+  box-shadow: var(--block-shadow);
+  padding: var(--block-pad);
+  transition: all 0.15s;
+}
+.block-label {
+  font-family: var(--font-head);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--label-col);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  margin-bottom: 4px;
+}
+.block-sub {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--text-mut);
+  margin-bottom: 12px;
+}
+.chart-cont { height: 185px; width: 100%; }
+.chart-cont-sm { height: 155px; width: 100%; }
+
+/* Table */
+.table-wrap {
+  background: var(--block-bg);
+  border: 1px solid var(--block-border);
+  border-radius: var(--block-radius);
+  box-shadow: var(--block-shadow);
+  overflow: hidden;
+  margin-bottom: 16px;
+  transition: all 0.15s;
+}
+.table-head-row {
+  padding: 11px var(--block-pad);
+  border-bottom: 1px solid var(--block-border);
+  font-family: var(--font-head);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--label-col);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+}
+table { width: 100%; border-collapse: collapse; font-family: var(--font-body); font-size: 13px; }
+thead th {
+  background: var(--tbl-hd-bg);
+  color: var(--tbl-hd-col);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 9px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--tbl-border);
+}
+tbody tr { transition: background 0.1s; }
+tbody tr:hover { background: var(--tbl-hover) !important; }
+tbody tr:nth-child(even) { background: var(--tbl-band); }
+tbody td {
+  padding: 9px 14px;
+  color: var(--text-sec);
+  border-bottom: 1px solid var(--tbl-border);
+}
+.td-pri { color: var(--text-pri) !important; font-weight: 500; }
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.badge-g { background: rgba(16,185,129,0.12); color: var(--c-positive); }
+.badge-b { background: rgba(59,130,246,0.12); color: var(--c-primary); }
+.badge-r { background: rgba(239,68,68,0.10); color: var(--c-negative); }
+.badge-y { background: rgba(245,158,11,0.12); color: #f59e0b; }
+
+.prog-bar-wrap { display: flex; align-items: center; gap: 8px; }
+.prog-bar { height: 4px; border-radius: 2px; flex: 1; min-width: 60px; background: var(--block-border); overflow: hidden; }
+.prog-bar-fill { height: 100%; border-radius: 2px; background: var(--c-primary); }
+
+/* ═══ EXPORT MODAL ══════════════════════════════════════════════════════ */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.72);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+.overlay.open { display: flex; }
+.modal {
+  background: #18181e;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  width: 620px;
+  max-width: 90vw;
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.modal-hd {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal-title { font-size: 14px; font-weight: 700; color: #f0f0f8; }
+.modal-x {
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 6px;
+  border: none;
+  background: rgba(255,255,255,0.05);
+  color: #8080a0;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  font-family: inherit;
+}
+.modal-x:hover { background: rgba(255,255,255,0.1); color: #f0f0f8; }
+.modal-bd { flex: 1; overflow: auto; padding: 16px 20px; }
+.mtabs { display: flex; gap: 3px; margin-bottom: 14px; }
+.mtab {
+  padding: 5px 14px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #8080a0;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.12s;
+  font-family: inherit;
+}
+.mtab.active { background: rgba(88,101,242,0.14); border-color: rgba(88,101,242,0.3); color: #a0a8ff; }
+pre.export-pre {
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 14px;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 12px;
+  color: #c0c8e0;
+  white-space: pre;
+  overflow: auto;
+  line-height: 1.65;
+}
+.modal-ft {
+  padding: 12px 20px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+  </style>
+</head>
+<body>
+
+<!-- ╔══════════════════════════════════════════════════════════════════╗ -->
+<!-- ║  SIDEBAR                                                         ║ -->
+<!-- ╚══════════════════════════════════════════════════════════════════╝ -->
+<aside class="sidebar">
+  <div class="sb-head">
+    <div class="sb-title">
+      <div class="sb-title-icon">🎨</div>
+      Theme Builder
+    </div>
+    <div class="preset-row-label">Quick presets</div>
+    <div class="presets" id="preset-row">
+      <button class="preset-btn" onclick="applyPreset('holistics',this)">H Holistics</button>
+      <button class="preset-btn" onclick="applyPreset('discord',this)">◈ Discord</button>
+      <button class="preset-btn" onclick="applyPreset('anthropic',this)">◇ Anthropic</button>
+      <button class="preset-btn" onclick="applyPreset('figma',this)">▦ Figma</button>
+      <button class="preset-btn" onclick="applyPreset('netflix',this)">▶ Netflix</button>
+    </div>
+  </div>
+
+  <div class="sb-body">
+
+    <!-- SURFACES -->
+    <details class="grp" open>
+      <summary>Surfaces</summary>
+      <div class="grp-body">
+        <div class="ctrl"><span class="ctrl-label">Page background</span>
+          <div class="color-ctrl">
+            <div class="swatch" id="sw-page-bg"><input type="color" id="cp-page-bg" oninput="oc('--page-bg','page-bg',this.value)"></div>
+            <input class="hex-inp" id="hx-page-bg" maxlength="7" oninput="oh('--page-bg','page-bg',this.value)">
+          </div>
+        </div>
+        <div class="ctrl"><span class="ctrl-label">Canvas background</span>
+          <div class="color-ctrl">
+            <div class="swatch" id="sw-canvas-bg"><input type="color" id="cp-canvas-bg" oninput="oc('--canvas-bg','canvas-bg',this.value)"></div>
+            <input class="hex-inp" id="hx-canvas-bg" maxlength="7" oninput="oh('--canvas-bg','canvas-bg',this.value)">
+          </div>
+        </div>
+        <div class="ctrl"><span class="ctrl-label">Block background</span>
+          <div class="color-ctrl">
+            <div class="swatch" id="sw-block-bg"><input type="color" id="cp-block-bg" oninput="oc('--block-bg','block-bg',this.value)"></div>
+            <input class="hex-inp" id="hx-block-bg" maxlength="7" oninput="oh('--block-bg','block-bg',this.value)">
+          </div>
+        </div>
+        <div class="ctrl"><span class="ctrl-label">Canvas border</span>
+          <div class="color-ctrl">
+            <div class="swatch" id="sw-canvas-border"><input type="color" id="cp-canvas-border" oninput="oc('--canvas-border','canvas-border',this.value)"></div>
+            <input class="hex-inp" id="hx-canvas-border" maxlength="7" oninput="oh('--canvas-border','canvas-border',this.value)">
+          </div>
+        </div>
+        <div class="ctrl"><span class="ctrl-label">Block border</span>
+          <div class="color-ctrl">
+            <div class="swatch" id="sw-block-border"><input type="color" id="cp-block-border" oninput="oc('--block-border','block-border',this.value)"></div>
+            <input class="hex-inp" id="hx-block-border" maxlength="7" oninput="oh('--block-border','block-border',this.value)">
+          </div>
+        </div>
+        <div class="ctrl"><span class="ctrl-label">Nav background</span>
+          <div class="color-ctrl">
+            <div class="swatch" id="sw-nav-bg"><input type="color" id="cp-nav-bg" oninput="oc('--nav-bg','nav-bg',this.value)"></div>
+            <input class="hex-inp" id="hx-nav-bg" maxlength="7" oninput="oh('--nav-bg','nav-bg',this.value)">
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- ACCENT & TEXT -->
+    <details class="grp" open>
+      <summary>Accent & Text</summary>
+      <div class="grp-body">
+        <div class="ctrl"><span class="ctrl-label">Primary / accent</span>
+          <div class="color-ctrl">
+            <div class="swatch" id="sw-c-primary"><input type="color" id="cp-c-primary" oninput="oc('--c-primary','c-primary',this.value);scheduleCharts()"></div>
+            <input class="hex-inp" id="hx-c-primary" maxlength="7" oninput="oh('--c-primary','c-primary',this.value);scheduleCharts()">
+          </div>
+        </div>
+        <div class="ctrl"><span class="ctrl-label">Nav accent bar</span>
+          <div class="color-ctrl">
+            <div class="swatch" id="sw-nav-accent"><input type="color" id="cp-nav-accent" oninput="oc('--nav-accent','nav-accent',this.value)"></div>
+            <input class="hex-inp" id="hx-nav-accent" maxlength="7" oninput="oh('--nav-accent','nav-accent',this.value)">
+          </div>
+        </div>
+        <div class="ctrl"><span class="ctrl-label">KPI value</span>
+          <div class="color-ctrl">
+            <div class="swatch" id="sw-kpi-col"><input type="color" id="cp-kpi-col" oninput="oc('--kpi-col','kpi-col',this.value)"></div>
+            <input class="hex-inp" id="hx-kpi-col" maxlength="7" oninput="oh('--kpi-col','kpi-col',this.value)">
+          </div>
+        </div>
+        <div class="ctrl"><span class="ctrl-label">Block label</span>
+          <div class="color-ctrl">
+            <div class="swatch" id="sw-label-col"><input type="color" id="cp-label-col" oninput="oc('--label-col','label-col',this.value)"></div>
+            <input class="hex-inp" id="hx-label-col" maxlength="7" oninput="oh('--label-col','label-col',this.value)">
+          </div>
+        </div>
+        <div class="ctrl"><span class="ctrl-label">Body text</span>
+          <div class="color-ctrl">
+            <div class="swatch" id="sw-text-pri"><input type="color" id="cp-text-pri" oninput="oc('--text-pri','text-pri',this.value)"></div>
+            <input class="hex-inp" id="hx-text-pri" maxlength="7" oninput="oh('--text-pri','text-pri',this.value)">
+          </div>
+        </div>
+        <div class="ctrl"><span class="ctrl-label">Secondary text</span>
+          <div class="color-ctrl">
+            <div class="swatch" id="sw-text-sec"><input type="color" id="cp-text-sec" oninput="oc('--text-sec','text-sec',this.value)"></div>
+            <input class="hex-inp" id="hx-text-sec" maxlength="7" oninput="oh('--text-sec','text-sec',this.value)">
+          </div>
+        </div>
+        <div class="ctrl"><span class="ctrl-label">Nav text</span>
+          <div class="color-ctrl">
+            <div class="swatch" id="sw-nav-text"><input type="color" id="cp-nav-text" oninput="oc('--nav-text','nav-text',this.value)"></div>
+            <input class="hex-inp" id="hx-nav-text" maxlength="7" oninput="oh('--nav-text','nav-text',this.value)">
+          </div>
+        </div>
+        <div class="ctrl"><span class="ctrl-label">Positive delta ↑</span>
+          <div class="color-ctrl">
+            <div class="swatch" id="sw-c-positive"><input type="color" id="cp-c-positive" oninput="oc('--c-positive','c-positive',this.value)"></div>
+            <input class="hex-inp" id="hx-c-positive" maxlength="7" oninput="oh('--c-positive','c-positive',this.value)">
+          </div>
+        </div>
+        <div class="ctrl"><span class="ctrl-label">Negative delta ↓</span>
+          <div class="color-ctrl">
+            <div class="swatch" id="sw-c-negative"><input type="color" id="cp-c-negative" oninput="oc('--c-negative','c-negative',this.value)"></div>
+            <input class="hex-inp" id="hx-c-negative" maxlength="7" oninput="oh('--c-negative','c-negative',this.value)">
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- TYPOGRAPHY -->
+    <details class="grp">
+      <summary>Typography</summary>
+      <div class="grp-body">
+        <div class="ctrl" style="flex-direction:column;align-items:flex-start;gap:4px">
+          <span class="ctrl-label">Heading / label font</span>
+          <select class="sb-sel" id="sel-hf" onchange="setFont('head',this.value)">
+            <option>Inter</option>
+            <option>Plus Jakarta Sans</option>
+            <option>DM Sans</option>
+            <option>Poppins</option>
+            <option>Nunito</option>
+            <option>Raleway</option>
+            <option>Space Grotesk</option>
+            <option>Outfit</option>
+            <option>Sora</option>
+            <option>Cinzel</option>
+            <option>Playfair Display</option>
+            <option>Merriweather</option>
+            <option>Lora</option>
+            <option>Noto Sans</option>
+            <option>Roboto</option>
+          </select>
+        </div>
+        <div class="ctrl" style="flex-direction:column;align-items:flex-start;gap:4px">
+          <span class="ctrl-label">Body font</span>
+          <select class="sb-sel" id="sel-bf" onchange="setFont('body',this.value)">
+            <option>Inter</option>
+            <option>DM Sans</option>
+            <option>Roboto</option>
+            <option>Source Sans 3</option>
+            <option>Lato</option>
+            <option>Open Sans</option>
+            <option>Nunito Sans</option>
+            <option>Noto Sans</option>
+            <option>Plus Jakarta Sans</option>
+            <option>Poppins</option>
+            <option>Space Grotesk</option>
+          </select>
+        </div>
+      </div>
+    </details>
+
+    <!-- TABLE -->
+    <details class="grp">
+      <summary>Table</summary>
+      <div class="grp-body">
+        <div class="ctrl"><span class="ctrl-label">Header background</span>
+          <div class="color-ctrl">
+            <div class="swatch" id="sw-tbl-hd-bg"><input type="color" id="cp-tbl-hd-bg" oninput="oc('--tbl-hd-bg','tbl-hd-bg',this.value)"></div>
+            <input class="hex-inp" id="hx-tbl-hd-bg" maxlength="7" oninput="oh('--tbl-hd-bg','tbl-hd-bg',this.value)">
+          </div>
+        </div>
+        <div class="ctrl"><span class="ctrl-label">Header text</span>
+          <div class="color-ctrl">
+            <div class="swatch" id="sw-tbl-hd-col"><input type="color" id="cp-tbl-hd-col" oninput="oc('--tbl-hd-col','tbl-hd-col',this.value)"></div>
+            <input class="hex-inp" id="hx-tbl-hd-col" maxlength="7" oninput="oh('--tbl-hd-col','tbl-hd-col',this.value)">
+          </div>
+        </div>
+        <div class="ctrl"><span class="ctrl-label">Row hover</span>
+          <div class="color-ctrl">
+            <div class="swatch" id="sw-tbl-hover"><input type="color" id="cp-tbl-hover" oninput="oc('--tbl-hover','tbl-hover',this.value)"></div>
+            <input class="hex-inp" id="hx-tbl-hover" maxlength="7" oninput="oh('--tbl-hover','tbl-hover',this.value)">
+          </div>
+        </div>
+        <div class="ctrl"><span class="ctrl-label">Row banding</span>
+          <div class="color-ctrl">
+            <div class="swatch" id="sw-tbl-band"><input type="color" id="cp-tbl-band" oninput="oc('--tbl-band','tbl-band',this.value)"></div>
+            <input class="hex-inp" id="hx-tbl-band" maxlength="7" oninput="oh('--tbl-band','tbl-band',this.value)">
+          </div>
+        </div>
+        <div class="ctrl"><span class="ctrl-label">Border</span>
+          <div class="color-ctrl">
+            <div class="swatch" id="sw-tbl-border"><input type="color" id="cp-tbl-border" oninput="oc('--tbl-border','tbl-border',this.value)"></div>
+            <input class="hex-inp" id="hx-tbl-border" maxlength="7" oninput="oh('--tbl-border','tbl-border',this.value)">
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- SHAPE & SPACE -->
+    <details class="grp">
+      <summary>Shape & Space</summary>
+      <div class="grp-body">
+        <div class="ctrl">
+          <span class="ctrl-label">Block radius</span>
+          <div class="slider-wrap">
+            <input type="range" id="sl-br" min="0" max="20" value="8"
+              oninput="ss('--block-radius',this.value+'px','sv-br',this.value+'px');S['block-radius']=this.value">
+            <span class="sv" id="sv-br">8px</span>
+          </div>
+        </div>
+        <div class="ctrl">
+          <span class="ctrl-label">Canvas radius</span>
+          <div class="slider-wrap">
+            <input type="range" id="sl-cr" min="0" max="28" value="12"
+              oninput="ss('--canvas-radius',this.value+'px','sv-cr',this.value+'px');S['canvas-radius']=this.value">
+            <span class="sv" id="sv-cr">12px</span>
+          </div>
+        </div>
+        <div class="ctrl">
+          <span class="ctrl-label">Block padding</span>
+          <div class="slider-wrap">
+            <input type="range" id="sl-bp" min="8" max="32" value="16"
+              oninput="ss('--block-pad',this.value+'px','sv-bp',this.value+'px');S['block-pad']=this.value">
+            <span class="sv" id="sv-bp">16px</span>
+          </div>
+        </div>
+        <div class="ctrl" style="flex-direction:column;align-items:flex-start;gap:4px;margin-top:2px">
+          <span class="ctrl-label">Block shadow</span>
+          <select class="sb-sel" id="sel-shadow" onchange="setShadow(this.value)">
+            <option value="none">None</option>
+            <option value="sm" selected>Small</option>
+            <option value="md">Medium</option>
+            <option value="lg">Large</option>
+            <option value="glow">Accent glow</option>
+          </select>
+        </div>
+      </div>
+    </details>
+
+  </div><!-- /sb-body -->
+
+  <div class="sb-footer">
+    <button class="btn btn-primary" onclick="openExportModal('aml')">Export AML</button>
+    <button class="btn btn-ghost" onclick="openExportModal('css')">CSS Vars</button>
+  </div>
+</aside>
+
+<!-- ╔══════════════════════════════════════════════════════════════════╗ -->
+<!-- ║  DASHBOARD PREVIEW                                               ║ -->
+<!-- ╚══════════════════════════════════════════════════════════════════╝ -->
+<div class="preview-wrap" id="preview">
+
+  <!-- Nav -->
+  <div class="top-bar">
+    <div class="tb-logo">
+      <div class="logo-box">A</div>
+      <span class="tb-name">Acme Analytics</span>
+    </div>
+    <div class="nav-tabs">
+      <div class="nav-tab active" onclick="switchPreviewTab('overview',this)">Overview</div>
+      <div class="nav-tab" onclick="switchPreviewTab('pipeline',this)">Pipeline</div>
+      <div class="nav-tab" onclick="switchPreviewTab('customers',this)">Customers</div>
+    </div>
+  </div>
+
+  <!-- ── TAB: OVERVIEW ───────────────────────────────────────────── -->
+  <div class="canvas" id="tab-overview">
+
+    <div class="filter-row">
+      <div class="filter-block"><span class="filter-label">Period</span><span class="filter-val">Jan 2024 — Dec 2024</span></div>
+      <div class="filter-block"><span class="filter-label">Region</span><span class="filter-val">All Regions</span></div>
+      <div class="filter-block"><span class="filter-label">Segment</span><span class="filter-val">All Segments</span></div>
+    </div>
+
+    <div class="sec-head">Performance</div>
+
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-label">Total Revenue</div>
+        <div class="kpi-value">$4.8M</div>
+        <div class="kpi-delta delta-up">↑ 23.4% vs last year</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Deals Closed</div>
+        <div class="kpi-value">342</div>
+        <div class="kpi-delta delta-up">↑ 18.2% vs last year</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Win Rate</div>
+        <div class="kpi-value">41.3%</div>
+        <div class="kpi-delta delta-dn">↓ 2.1% vs last year</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Avg Deal Size</div>
+        <div class="kpi-value">$14.0K</div>
+        <div class="kpi-delta delta-up">↑ 4.5% vs last year</div>
+      </div>
+    </div>
+
+    <div class="sec-head">Revenue Trends</div>
+
+    <div class="chart-row">
+      <div class="block">
+        <div class="block-label">Monthly Revenue</div>
+        <div class="block-sub">Jan – Dec 2024 · $K</div>
+        <div class="chart-cont" id="chart-trend"></div>
+      </div>
+      <div class="block">
+        <div class="block-label">Revenue by Segment</div>
+        <div class="block-sub">Cumulative YTD · $K</div>
+        <div class="chart-cont" id="chart-seg"></div>
+      </div>
+    </div>
+
+    <div class="sec-head">Composition & Analysis</div>
+
+    <div class="chart-row-3">
+      <div class="block">
+        <div class="block-label">Revenue Mix</div>
+        <div class="block-sub">By motion type</div>
+        <div class="chart-cont" id="chart-mix"></div>
+      </div>
+      <div class="block">
+        <div class="block-label">Deal Size vs Win Rate</div>
+        <div class="block-sub">By segment · bubble = deal count</div>
+        <div class="chart-cont" id="chart-scatter"></div>
+      </div>
+      <div class="block">
+        <div class="block-label">Pipeline by Stage</div>
+        <div class="block-sub">Current open pipeline · $K</div>
+        <div class="chart-cont" id="chart-stage"></div>
+      </div>
+    </div>
+
+    <div class="sec-head">Top Deals</div>
+
+    <div class="table-wrap">
+      <div class="table-head-row">Closed Won — Last 30 Days</div>
+      <table>
+        <thead><tr><th>Company</th><th>Deal</th><th>Amount</th><th>Segment</th><th>Rep</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td class="td-pri">Acme Corp</td><td>Enterprise License</td><td>$84,000</td><td>Enterprise</td><td>Alex Chen</td><td><span class="badge badge-g">Closed Won</span></td></tr>
+          <tr><td class="td-pri">Brightwave</td><td>Annual Platform</td><td>$36,500</td><td>Mid-Market</td><td>Sam Park</td><td><span class="badge badge-g">Closed Won</span></td></tr>
+          <tr><td class="td-pri">Northstar AI</td><td>Pilot Expansion</td><td>$22,000</td><td>SMB</td><td>Jordan Lee</td><td><span class="badge badge-b">In Progress</span></td></tr>
+          <tr><td class="td-pri">Solaris Inc</td><td>Startup Growth</td><td>$18,800</td><td>SMB</td><td>Riley Kim</td><td><span class="badge badge-g">Closed Won</span></td></tr>
+          <tr><td class="td-pri">Vertex Labs</td><td>Data Stack Pro</td><td>$61,200</td><td>Enterprise</td><td>Jordan Lee</td><td><span class="badge badge-r">Closed Lost</span></td></tr>
+          <tr><td class="td-pri">CloudNine</td><td>Professional Tier</td><td>$28,400</td><td>Mid-Market</td><td>Alex Chen</td><td><span class="badge badge-g">Closed Won</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /tab-overview -->
+
+  <!-- ── TAB: PIPELINE ───────────────────────────────────────────── -->
+  <div class="canvas" id="tab-pipeline" style="display:none">
+
+    <div class="filter-row">
+      <div class="filter-block"><span class="filter-label">Quarter</span><span class="filter-val">Q4 2024</span></div>
+      <div class="filter-block"><span class="filter-label">Stage</span><span class="filter-val">All Stages</span></div>
+      <div class="filter-block"><span class="filter-label">Rep</span><span class="filter-val">All Reps</span></div>
+    </div>
+
+    <div class="sec-head">Pipeline Health</div>
+
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-label">Open Deals</div>
+        <div class="kpi-value">128</div>
+        <div class="kpi-delta delta-up">↑ 14 vs last quarter</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Pipeline Value</div>
+        <div class="kpi-value">$12.4M</div>
+        <div class="kpi-delta delta-up">↑ 8.3% vs last quarter</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Avg Deal Age</div>
+        <div class="kpi-value">42d</div>
+        <div class="kpi-delta delta-dn">↑ 3d vs last quarter</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Forecast</div>
+        <div class="kpi-value">$3.2M</div>
+        <div class="kpi-delta delta-up">↑ 11.2% vs last quarter</div>
+      </div>
+    </div>
+
+    <div class="sec-head">Stage Trends</div>
+
+    <div class="chart-row">
+      <div class="block">
+        <div class="block-label">Monthly Pipeline by Stage</div>
+        <div class="block-sub">Normalized stacked · Jul–Dec 2024</div>
+        <div class="chart-cont" id="chart-pipe-stack"></div>
+      </div>
+      <div class="block">
+        <div class="block-label">Win Rate by Segment</div>
+        <div class="block-sub">% closed-won of qualified · Jul–Dec 2024</div>
+        <div class="chart-cont" id="chart-winrate"></div>
+      </div>
+    </div>
+
+    <div class="sec-head">Rep Performance</div>
+
+    <div class="chart-row">
+      <div class="block">
+        <div class="block-label">Rep Performance</div>
+        <div class="block-sub">Deals closed vs revenue generated · Q4</div>
+        <div class="chart-cont" id="chart-rep"></div>
+      </div>
+      <div class="block">
+        <div class="block-label">Deal Age Distribution</div>
+        <div class="block-sub">Open deals by days in pipeline</div>
+        <div class="chart-cont" id="chart-age"></div>
+      </div>
+    </div>
+
+    <div class="sec-head">Active Opportunities</div>
+
+    <div class="table-wrap">
+      <div class="table-head-row">High-Value Open Deals</div>
+      <table>
+        <thead><tr><th>Company</th><th>Stage</th><th>Value</th><th>Days Open</th><th>Rep</th><th>Health</th></tr></thead>
+        <tbody>
+          <tr><td class="td-pri">Apex Systems</td><td>Proposal</td><td>$84,000</td><td>18d</td><td>Alex Chen</td><td><span class="badge badge-g">On Track</span></td></tr>
+          <tr><td class="td-pri">DataSync Pro</td><td>Negotiation</td><td>$52,000</td><td>34d</td><td>Jordan Lee</td><td><span class="badge badge-y">At Risk</span></td></tr>
+          <tr><td class="td-pri">Luminos Corp</td><td>Qualified</td><td>$120,000</td><td>12d</td><td>Drew Liu</td><td><span class="badge badge-g">On Track</span></td></tr>
+          <tr><td class="td-pri">NovaTech</td><td>Commit</td><td>$38,500</td><td>47d</td><td>Sam Park</td><td><span class="badge badge-r">Stalled</span></td></tr>
+          <tr><td class="td-pri">Cascade AI</td><td>Proposal</td><td>$96,000</td><td>9d</td><td>Riley Kim</td><td><span class="badge badge-g">On Track</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /tab-pipeline -->
+
+  <!-- ── TAB: CUSTOMERS ─────────────────────────────────────────── -->
+  <div class="canvas" id="tab-customers" style="display:none">
+
+    <div class="filter-row">
+      <div class="filter-block"><span class="filter-label">Cohort</span><span class="filter-val">All Cohorts</span></div>
+      <div class="filter-block"><span class="filter-label">Plan</span><span class="filter-val">All Plans</span></div>
+    </div>
+
+    <div class="sec-head">Customer Health</div>
+
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-label">Total Customers</div>
+        <div class="kpi-value">1,240</div>
+        <div class="kpi-delta delta-up">↑ 18.4% YoY</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Net Revenue Retention</div>
+        <div class="kpi-value">118%</div>
+        <div class="kpi-delta delta-up">↑ 4% vs last year</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Avg LTV</div>
+        <div class="kpi-value">$48K</div>
+        <div class="kpi-delta delta-up">↑ 9.2% vs last year</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Monthly Churn</div>
+        <div class="kpi-value">2.0%</div>
+        <div class="kpi-delta delta-up">↓ 1.8% vs last year</div>
+      </div>
+    </div>
+
+    <div class="sec-head">Acquisition</div>
+
+    <div class="chart-row">
+      <div class="block">
+        <div class="block-label">New Customers by Channel</div>
+        <div class="block-sub">FY2024 total new logos</div>
+        <div class="chart-cont" id="chart-channel"></div>
+      </div>
+      <div class="block">
+        <div class="block-label">LTV vs CAC by Segment</div>
+        <div class="block-sub">Bubble size = customer count</div>
+        <div class="chart-cont" id="chart-ltv"></div>
+      </div>
+    </div>
+
+    <div class="sec-head">Retention</div>
+
+    <div class="chart-row">
+      <div class="block">
+        <div class="block-label">Monthly Churn Rate</div>
+        <div class="block-sub">% of ARR churned · Jan–Dec 2024</div>
+        <div class="chart-cont" id="chart-churn"></div>
+      </div>
+      <div class="block">
+        <div class="block-label">Cohort Retention Curves</div>
+        <div class="block-sub">% customers retained by months since signup</div>
+        <div class="chart-cont" id="chart-cohort"></div>
+      </div>
+    </div>
+
+    <div class="sec-head">At-Risk Accounts</div>
+
+    <div class="table-wrap">
+      <div class="table-head-row">Churn Risk — Top Priority</div>
+      <table>
+        <thead><tr><th>Company</th><th>Segment</th><th>ARR</th><th>NRR</th><th>Last Activity</th><th>Risk</th></tr></thead>
+        <tbody>
+          <tr><td class="td-pri">Lumix Corp</td><td>Enterprise</td><td>$84,000</td><td>88%</td><td>14d ago</td><td><span class="badge badge-r">High</span></td></tr>
+          <tr><td class="td-pri">Prism Data</td><td>Mid-Market</td><td>$36,000</td><td>92%</td><td>8d ago</td><td><span class="badge badge-y">Medium</span></td></tr>
+          <tr><td class="td-pri">Nexus Labs</td><td>SMB</td><td>$12,000</td><td>78%</td><td>22d ago</td><td><span class="badge badge-r">High</span></td></tr>
+          <tr><td class="td-pri">WaveForm Inc</td><td>Mid-Market</td><td>$48,000</td><td>95%</td><td>5d ago</td><td><span class="badge badge-y">Medium</span></td></tr>
+          <tr><td class="td-pri">Solace AI</td><td>Enterprise</td><td>$120,000</td><td>104%</td><td>2d ago</td><td><span class="badge badge-g">Healthy</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sec-head">Segment Breakdown</div>
+
+    <div class="table-wrap">
+      <div class="table-head-row">ARR by Segment</div>
+      <table>
+        <thead><tr><th>Segment</th><th>Customers</th><th>Total ARR</th><th>Avg ARR</th><th>NRR</th><th>Share</th></tr></thead>
+        <tbody>
+          <tr><td class="td-pri">Enterprise</td><td>120</td><td>$2.4M</td><td>$20,000</td><td>132%</td>
+            <td><div class="prog-bar-wrap"><div class="prog-bar"><div class="prog-bar-fill" style="width:50%"></div></div><span style="font-size:11px;color:var(--text-mut)">50%</span></div></td></tr>
+          <tr><td class="td-pri">Mid-Market</td><td>280</td><td>$1.4M</td><td>$5,000</td><td>118%</td>
+            <td><div class="prog-bar-wrap"><div class="prog-bar"><div class="prog-bar-fill" style="width:29%"></div></div><span style="font-size:11px;color:var(--text-mut)">29%</span></div></td></tr>
+          <tr><td class="td-pri">SMB</td><td>620</td><td>$0.6M</td><td>$968</td><td>108%</td>
+            <td><div class="prog-bar-wrap"><div class="prog-bar"><div class="prog-bar-fill" style="width:13%"></div></div><span style="font-size:11px;color:var(--text-mut)">13%</span></div></td></tr>
+          <tr><td class="td-pri">Startup</td><td>220</td><td>$0.4M</td><td>$1,818</td><td>96%</td>
+            <td><div class="prog-bar-wrap"><div class="prog-bar"><div class="prog-bar-fill" style="width:8%"></div></div><span style="font-size:11px;color:var(--text-mut)">8%</span></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /tab-customers -->
+
+</div><!-- /preview-wrap -->
+
+<!-- ╔══════════════════════════════════════════════════════════════════╗ -->
+<!-- ║  EXPORT MODAL                                                    ║ -->
+<!-- ╚══════════════════════════════════════════════════════════════════╝ -->
+<div class="overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-hd">
+      <span class="modal-title" id="modal-title">Export AML Code</span>
+      <button class="modal-x" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-bd">
+      <div class="mtabs">
+        <button class="mtab active" id="mtab-aml" onclick="switchModalTab('aml')">PageTheme AML</button>
+        <button class="mtab" id="mtab-css" onclick="switchModalTab('css')">CSS Variables</button>
+      </div>
+      <pre class="export-pre" id="export-pre"></pre>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-ghost" onclick="closeModal()">Close</button>
+      <button class="btn btn-primary" id="copy-btn" onclick="doCopy()">Copy to clipboard</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// STATE
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const S = {
+  'page-bg':      '#f0f4f8',
+  'canvas-bg':    '#ffffff',
+  'canvas-border':'#e2e8f0',
+  'canvas-radius':'12',
+  'block-bg':     '#ffffff',
+  'block-border': '#e5e7eb',
+  'block-radius': '8',
+  'block-pad':    '16',
+  'nav-bg':       '#1e293b',
+  'nav-text':     '#94a3b8',
+  'nav-accent':   '#3b82f6',
+  'c-primary':    '#3b82f6',
+  'kpi-col':      '#111827',
+  'label-col':    '#374151',
+  'text-pri':     '#111827',
+  'text-sec':     '#374151',
+  'text-mut':     '#9ca3af',
+  'c-positive':   '#10b981',
+  'c-negative':   '#ef4444',
+  'tbl-hd-bg':    '#f9fafb',
+  'tbl-hd-col':   '#374151',
+  'tbl-hover':    '#eff6ff',
+  'tbl-band':     '#fafafa',
+  'tbl-border':   '#e5e7eb',
+  'head-font':    'Inter',
+  'body-font':    'Inter',
+  'block-shadow': 'sm',
+};
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// BRAND PRESETS
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const BRANDS = {
+  holistics: {
+    'page-bg':'#03152C','canvas-bg':'#05264C','canvas-border':'#259b6c33',
+    'block-bg':'#0D3A6B','block-border':'#5ea3ed24',
+    'nav-bg':'#020c1e','nav-text':'#8DBEF2','nav-accent':'#259B6C',
+    'c-primary':'#259B6C','kpi-col':'#52C396','label-col':'#52C396',
+    'text-pri':'#E8F2FD','text-sec':'#8DBEF2','text-mut':'#5EA3ED',
+    'c-positive':'#52C396','c-negative':'#FF6B6B',
+    'tbl-hd-bg':'#0A2E5A','tbl-hd-col':'#52C396',
+    'tbl-hover':'#259b6c1a','tbl-band':'#259b6c0a','tbl-border':'#5ea3ed1a',
+    'canvas-radius':'14','block-radius':'11','block-pad':'16','block-shadow':'lg',
+    'head-font':'Inter','body-font':'Inter',
+  },
+  discord: {
+    'page-bg':'#1E1F22','canvas-bg':'#313338','canvas-border':'#ffffff0f',
+    'block-bg':'#383A40','block-border':'#ffffff1e',
+    'nav-bg':'#1E1F22','nav-text':'#B5BAC1','nav-accent':'#5865F2',
+    'c-primary':'#5865F2','kpi-col':'#949CF7','label-col':'#949CF7',
+    'text-pri':'#DBDEE1','text-sec':'#B5BAC1','text-mut':'#80848E',
+    'c-positive':'#57F287','c-negative':'#ED4245',
+    'tbl-hd-bg':'#2B2D31','tbl-hd-col':'#949CF7',
+    'tbl-hover':'#5865f21f','tbl-band':'#ffffff05','tbl-border':'#ffffff14',
+    'canvas-radius':'8','block-radius':'8','block-pad':'16','block-shadow':'md',
+    'head-font':'Noto Sans','body-font':'Noto Sans',
+  },
+  anthropic: {
+    'page-bg':'#f0ece4','canvas-bg':'#fdfaf5','canvas-border':'#e8e2d9',
+    'block-bg':'#ffffff','block-border':'#ede8e0',
+    'nav-bg':'#131314','nav-text':'#ffffff99','nav-accent':'#d97757',
+    'c-primary':'#d97757','kpi-col':'#d97757','label-col':'#131314',
+    'text-pri':'#131314','text-sec':'#6b6860','text-mut':'#9a9590',
+    'c-positive':'#2d8653','c-negative':'#c94f38',
+    'tbl-hd-bg':'#f5f0e8','tbl-hd-col':'#131314',
+    'tbl-hover':'#d9775712','tbl-band':'#faf7f2','tbl-border':'#ede8e0',
+    'canvas-radius':'14','block-radius':'10','block-pad':'18','block-shadow':'sm',
+    'head-font':'DM Sans','body-font':'DM Sans',
+  },
+  figma: {
+    'page-bg':'#f5f5f5','canvas-bg':'#ffffff','canvas-border':'#e0e0e0',
+    'block-bg':'#ffffff','block-border':'#e5e5e5',
+    'nav-bg':'#000000','nav-text':'#ffffffa6','nav-accent':'#4D49FC',
+    'c-primary':'#4D49FC','kpi-col':'#000000','label-col':'#4D49FC',
+    'text-pri':'#000000','text-sec':'#000000a6','text-mut':'#00000066',
+    'c-positive':'#0ACF83','c-negative':'#F24E1E',
+    'tbl-hd-bg':'#f5f5f5','tbl-hd-col':'#4D49FC',
+    'tbl-hover':'#4D49FC0d','tbl-band':'#fafafa','tbl-border':'#e5e5e5',
+    'canvas-radius':'12','block-radius':'8','block-pad':'16','block-shadow':'sm',
+    'head-font':'Space Grotesk','body-font':'Inter',
+  },
+  netflix: {
+    'page-bg':'#000000','canvas-bg':'#141414','canvas-border':'#ffffff12',
+    'block-bg':'#1f1f1f','block-border':'#ffffff12',
+    'nav-bg':'#000000','nav-text':'#ffffffa6','nav-accent':'#E50914',
+    'c-primary':'#E50914','kpi-col':'#E50914','label-col':'#ffffffa6',
+    'text-pri':'#ffffff','text-sec':'#ffffffb3','text-mut':'#ffffff6b',
+    'c-positive':'#46d369','c-negative':'#fb4b4b',
+    'tbl-hd-bg':'#0a0a0a','tbl-hd-col':'#E50914',
+    'tbl-hover':'#E5091419','tbl-band':'#ffffff07','tbl-border':'#ffffff12',
+    'canvas-radius':'4','block-radius':'4','block-pad':'16','block-shadow':'lg',
+    'head-font':'DM Sans','body-font':'DM Sans',
+  },
+};
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// CONTROLS
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function oc(cssVar, key, val) {
+  S[key] = val;
+  document.documentElement.style.setProperty(cssVar, val);
+  const hx = document.getElementById('hx-' + key);
+  if (hx) hx.value = val;
+  const sw = document.getElementById('sw-' + key);
+  if (sw) sw.style.background = val;
+  if (cssVar === '--page-bg') document.getElementById('preview').style.background = val;
+}
+
+function oh(cssVar, key, val) {
+  if (!/^#[0-9a-fA-F]{6}$/.test(val)) return;
+  S[key] = val;
+  document.documentElement.style.setProperty(cssVar, val);
+  const cp = document.getElementById('cp-' + key);
+  if (cp) cp.value = val;
+  const sw = document.getElementById('sw-' + key);
+  if (sw) sw.style.background = val;
+  if (cssVar === '--page-bg') document.getElementById('preview').style.background = val;
+}
+
+function ss(cssVar, cssVal, svId, display) {
+  document.documentElement.style.setProperty(cssVar, cssVal);
+  document.getElementById(svId).textContent = display;
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// SHADOW
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const SHADOWS = {
+  none: 'none',
+  sm:   '0 1px 4px rgba(0,0,0,0.07)',
+  md:   '0 4px 16px rgba(0,0,0,0.14)',
+  lg:   '0 8px 32px rgba(0,0,0,0.22)',
+};
+
+function setShadow(val) {
+  S['block-shadow'] = val;
+  let v = SHADOWS[val] ?? SHADOWS.sm;
+  if (val === 'glow') v = `0 0 0 1px ${S['c-primary']}40, 0 4px 20px ${S['c-primary']}2e`;
+  document.documentElement.style.setProperty('--block-shadow', v);
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// FONTS
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const loadedFonts = new Set(['Inter']);
+
+function loadFont(name) {
+  if (loadedFonts.has(name)) return;
+  loadedFonts.add(name);
+  const l = document.createElement('link');
+  l.rel = 'stylesheet';
+  l.href = `https://fonts.googleapis.com/css2?family=${name.replace(/\s+/g,'+')}:wght@400;500;600;700;800&display=swap`;
+  document.head.appendChild(l);
+}
+
+function setFont(role, name) {
+  loadFont(name);
+  const stack = `'${name}', system-ui, sans-serif`;
+  if (role === 'head') {
+    S['head-font'] = name;
+    document.documentElement.style.setProperty('--font-head', stack);
+  } else {
+    S['body-font'] = name;
+    document.documentElement.style.setProperty('--font-body', stack);
+  }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// APPLY PRESET
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function applyPreset(name, btn) {
+  const p = BRANDS[name];
+  if (!p) return;
+  Object.assign(S, p);
+  // highlight active preset btn
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active-preset'));
+  if (btn) btn.classList.add('active-preset');
+  syncControls();
+  applyVars();
+  scheduleCharts();
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// PREVIEW TAB SWITCHING
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let activePreviewTab = 'overview';
+
+function switchPreviewTab(name, btn) {
+  activePreviewTab = name;
+  document.querySelectorAll('#tab-overview,#tab-pipeline,#tab-customers')
+    .forEach(t => t.style.display = 'none');
+  document.getElementById('tab-' + name).style.display = 'block';
+  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  setTimeout(() => renderTabCharts(name), 80);
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// SYNC CONTROLS FROM STATE
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const HEX6 = /^#[0-9a-fA-F]{6}$/;
+
+function syncControls() {
+  const colorKeys = [
+    'page-bg','canvas-bg','canvas-border','block-bg','block-border',
+    'nav-bg','nav-text','nav-accent','c-primary','kpi-col','label-col',
+    'text-pri','text-sec','text-mut','c-positive','c-negative',
+    'tbl-hd-bg','tbl-hd-col','tbl-hover','tbl-band','tbl-border',
+  ];
+  for (const k of colorKeys) {
+    const v = S[k]; if (!v) continue;
+    const isHex = HEX6.test(v);
+    const cp = document.getElementById('cp-' + k);
+    const hx = document.getElementById('hx-' + k);
+    const sw = document.getElementById('sw-' + k);
+    if (cp && isHex) cp.value = v;
+    if (hx) hx.value = v;
+    if (sw) sw.style.background = v;
+  }
+
+  const sliders = [['sl-br','sv-br','block-radius'],['sl-cr','sv-cr','canvas-radius'],['sl-bp','sv-bp','block-pad']];
+  for (const [slId, svId, key] of sliders) {
+    const v = parseInt(S[key] || 0);
+    const el = document.getElementById(slId);
+    if (el) { el.value = v; document.getElementById(svId).textContent = v + 'px'; }
+  }
+
+  const hf = document.getElementById('sel-hf');
+  const bf = document.getElementById('sel-bf');
+  if (hf && S['head-font']) { hf.value = S['head-font']; loadFont(S['head-font']); }
+  if (bf && S['body-font']) { bf.value = S['body-font']; loadFont(S['body-font']); }
+
+  const sh = document.getElementById('sel-shadow');
+  if (sh && S['block-shadow']) sh.value = S['block-shadow'];
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// APPLY ALL CSS VARS FROM STATE
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function applyVars() {
+  const R = document.documentElement;
+  const set = (v, val) => val !== undefined && R.style.setProperty(v, val);
+
+  set('--page-bg',       S['page-bg']);
+  set('--canvas-bg',     S['canvas-bg']);
+  set('--canvas-border', S['canvas-border']);
+  set('--canvas-radius', S['canvas-radius'] + 'px');
+  set('--block-bg',      S['block-bg']);
+  set('--block-border',  S['block-border']);
+  set('--block-radius',  S['block-radius'] + 'px');
+  set('--block-pad',     S['block-pad'] + 'px');
+  set('--nav-bg',        S['nav-bg']);
+  set('--nav-text',      S['nav-text']);
+  set('--nav-accent',    S['nav-accent']);
+  set('--c-primary',     S['c-primary']);
+  set('--kpi-col',       S['kpi-col']);
+  set('--label-col',     S['label-col']);
+  set('--text-pri',      S['text-pri']);
+  set('--text-sec',      S['text-sec']);
+  set('--text-mut',      S['text-mut']);
+  set('--c-positive',    S['c-positive']);
+  set('--c-negative',    S['c-negative']);
+  set('--tbl-hd-bg',     S['tbl-hd-bg']);
+  set('--tbl-hd-col',    S['tbl-hd-col']);
+  set('--tbl-hover',     S['tbl-hover']);
+  set('--tbl-band',      S['tbl-band']);
+  set('--tbl-border',    S['tbl-border']);
+  set('--font-head',     `'${S['head-font']}', system-ui, sans-serif`);
+  set('--font-body',     `'${S['body-font']}', system-ui, sans-serif`);
+
+  setShadow(S['block-shadow'] || 'sm');
+  document.getElementById('preview').style.background = S['page-bg'];
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// CHART DATA
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const MONTHS12 = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MONTHS6  = ['Jul','Aug','Sep','Oct','Nov','Dec'];
+
+const monthlyRevenue = MONTHS12.map((m,i) => ({ m, v: [280,340,310,420,390,510,480,560,530,610,580,680][i] }));
+const segRevenue     = [{seg:'Enterprise',v:2100},{seg:'Mid-Market',v:1450},{seg:'SMB',v:780},{seg:'Startup',v:340},{seg:'Partner',v:130}];
+const revMix         = [{label:'New Logos',v:2100},{label:'Expansion',v:1450},{label:'Renewal',v:1800},{label:'Partner',v:450}];
+const dealScatter    = [
+  {seg:'Enterprise',size:85,rate:52,n:40},{seg:'Enterprise',size:120,rate:48,n:30},{seg:'Enterprise',size:210,rate:41,n:20},
+  {seg:'Mid-Market',size:38,rate:62,n:80},{seg:'Mid-Market',size:52,rate:58,n:60},{seg:'Mid-Market',size:71,rate:55,n:50},
+  {seg:'SMB',size:12,rate:72,n:120},{seg:'SMB',size:18,rate:68,n:100},{seg:'SMB',size:22,rate:65,n:90},
+  {seg:'Startup',size:8,rate:45,n:60},{seg:'Startup',size:14,rate:42,n:40},{seg:'Startup',size:24,rate:38,n:30},
+];
+const pipeStages = [{stage:'Prospecting',v:4200},{stage:'Qualified',v:3100},{stage:'Proposal',v:2400},{stage:'Negotiation',v:1800},{stage:'Commit',v:900}];
+
+// Pipeline stacked
+const PIPE_STAGES = ['Prospecting','Qualified','Proposal','Commit'];
+const PIPE_BASE   = [[820,890,930,880,950,1020],[610,640,680,720,750,800],[380,410,440,420,470,490],[180,200,220,240,260,280]];
+const pipeStack   = PIPE_STAGES.flatMap((stage,si) => MONTHS6.map((m,mi) => ({m,stage,v:PIPE_BASE[si][mi]})));
+
+// Win rate trend
+const WR_SEGS = ['Enterprise','Mid-Market','SMB'];
+const WR_BASE = [[48,50,47,52,51,53],[61,63,60,64,65,67],[70,68,72,71,74,76]];
+const winRates = WR_SEGS.flatMap((seg,si) => MONTHS6.map((m,mi) => ({m,seg,rate:WR_BASE[si][mi]})));
+
+// Rep performance
+const repPerf  = [
+  {rep:'Alex C.',deals:28,rev:840},{rep:'Sam P.',deals:22,rev:660},
+  {rep:'Jordan L.',deals:31,rev:1020},{rep:'Riley K.',deals:19,rev:570},
+  {rep:'Morgan W.',deals:25,rev:750},{rep:'Casey N.',deals:17,rev:510},
+  {rep:'Drew L.',deals:34,rev:1150},{rep:'Taylor H.',deals:12,rev:360},
+];
+const dealAge  = [{bucket:'0–7d',n:18},{bucket:'8–14d',n:24},{bucket:'15–30d',n:31},{bucket:'31–60d',n:22},{bucket:'61–90d',n:14},{bucket:'90d+',n:8}];
+
+// Customer charts
+const channelAcq = [{ch:'Organic',n:284},{ch:'Paid Search',n:198},{ch:'Referral',n:156},{ch:'Events',n:89},{ch:'Partner',n:134},{ch:'Outbound',n:72}];
+const ltvCac     = [{seg:'Enterprise',ltv:84,cac:12,n:120},{seg:'Mid-Market',ltv:28,cac:4.2,n:280},{seg:'SMB',ltv:8.4,cac:1.8,n:620},{seg:'Startup',ltv:3.6,cac:0.9,n:340}];
+const churnMo    = MONTHS12.map((m,i) => ({m, rate:[3.8,3.4,3.2,3.6,3.1,2.9,2.8,2.6,2.4,2.3,2.1,2.0][i]}));
+
+// Cohort retention
+const COHORTS = ['Q1 2024','Q2 2024','Q3 2024'];
+const C_RATES = [[94,82,74,66],[96,85,79,72],[97,88,82,76]];
+const cohortData = COHORTS.flatMap((cohort,ci) => ['M1','M3','M6','M12'].map((p,pi) => ({cohort,period:p,rate:C_RATES[ci][pi]})));
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// CHART RENDERING
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let chartTimer = null;
+function scheduleCharts() { clearTimeout(chartTimer); chartTimer = setTimeout(() => renderTabCharts(activePreviewTab), 280); }
+
+function isDark(hex) {
+  if (!hex || !hex.startsWith('#') || hex.length < 7) return false;
+  const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+  return (r*0.299 + g*0.587 + b*0.114) < 128;
+}
+
+function renderTabCharts(tab) {
+  const dark    = isDark(S['canvas-bg'] || '#ffffff');
+  const gridC   = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
+  const labelC  = dark ? (S['text-mut'] || 'rgba(255,255,255,0.45)') : '#6b7280';
+  const primary = S['c-primary'] || '#3b82f6';
+  const pos     = S['c-positive'] || '#10b981';
+  const bfont   = S['body-font'] || 'Inter';
+
+  // Categorical palette: primary + 4 complementary
+  const cat = dark
+    ? [primary, pos, '#fbd38d', '#b794f4', '#63b3ed']
+    : [primary, pos, '#f59e0b', '#8b5cf6', '#0891b2'];
+
+  const ax = {
+    labelColor: labelC, gridColor: gridC, domainColor: gridC,
+    tickColor: 'transparent', labelFont: bfont, title: null,
+  };
+  const axNoGrid = { ...ax, gridColor: 'transparent' };
+  const cfg = {
+    view: { stroke: 'transparent' },
+    legend: { labelColor: labelC, titleColor: labelC, labelFontSize: 11, symbolSize: 70, orient: 'bottom', columns: 4, rowPadding: 2, columnPadding: 8 },
+  };
+
+  const embed = (id, spec) => vegaEmbed(id, spec, { actions: false, renderer: 'svg' }).catch(() => {});
+
+  if (tab === 'overview') {
+    // 1. Monthly Revenue — area + line + points
+    embed('#chart-trend', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 165, background: 'transparent',
+      data: { values: monthlyRevenue },
+      layer: [
+        { mark: { type: 'area', line: { color: primary, strokeWidth: 2 }, color: primary, fillOpacity: 0.15 },
+          encoding: { x: { field:'m', type:'ordinal', sort:null, axis: ax }, y: { field:'v', type:'quantitative', axis: ax } } },
+        { mark: { type: 'point', color: primary, filled: true, size: 40 },
+          encoding: { x: { field:'m', type:'ordinal', sort:null }, y: { field:'v', type:'quantitative' } } },
+      ],
+      config: cfg,
+    });
+
+    // 2. Revenue by Segment — vertical bar
+    embed('#chart-seg', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 165, background: 'transparent',
+      data: { values: segRevenue },
+      mark: { type: 'bar', cornerRadiusTopLeft: 4, cornerRadiusTopRight: 4, color: primary },
+      encoding: {
+        x: { field:'seg', type:'nominal', sort:'-y', axis: { ...ax, labelAngle: -18 } },
+        y: { field:'v', type:'quantitative', axis: ax },
+      },
+      config: cfg,
+    });
+
+    // 3. Revenue Mix — donut
+    embed('#chart-mix', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 165, background: 'transparent',
+      data: { values: revMix },
+      mark: { type: 'arc', innerRadius: 45, outerRadius: 72, padAngle: 0.02 },
+      encoding: {
+        theta: { field: 'v', type: 'quantitative' },
+        color: { field: 'label', type: 'nominal', scale: { range: cat }, legend: { ...cfg.legend, orient: 'bottom', columns: 2 } },
+      },
+      config: cfg,
+    });
+
+    // 4. Deal Size vs Win Rate — scatter
+    embed('#chart-scatter', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 165, background: 'transparent',
+      data: { values: dealScatter },
+      mark: { type: 'point', filled: true, opacity: 0.75, strokeWidth: 0 },
+      encoding: {
+        x: { field: 'size', type: 'quantitative', axis: { ...ax, title: 'Avg Deal $K' }, title: 'Avg Deal $K' },
+        y: { field: 'rate', type: 'quantitative', axis: { ...ax, title: 'Win Rate %' }, title: 'Win Rate %' },
+        size: { field: 'n', type: 'quantitative', legend: null, scale: { range: [60, 360] } },
+        color: { field: 'seg', type: 'nominal', scale: { range: cat }, legend: null },
+      },
+      config: cfg,
+    });
+
+    // 5. Pipeline by Stage — horizontal bar
+    embed('#chart-stage', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 165, background: 'transparent',
+      data: { values: pipeStages },
+      mark: { type: 'bar', cornerRadiusTopRight: 3, cornerRadiusBottomRight: 3, color: primary },
+      encoding: {
+        y: { field: 'stage', type: 'nominal', sort: '-x', axis: { ...axNoGrid, labelLimit: 90 } },
+        x: { field: 'v', type: 'quantitative', axis: ax },
+      },
+      config: cfg,
+    });
+
+  } else if (tab === 'pipeline') {
+    // 6. Pipeline by Stage (stacked, normalized) — stacked bar
+    embed('#chart-pipe-stack', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 165, background: 'transparent',
+      data: { values: pipeStack },
+      mark: { type: 'bar' },
+      encoding: {
+        x: { field: 'm', type: 'ordinal', axis: ax },
+        y: { field: 'v', type: 'quantitative', stack: 'normalize', axis: { ...ax, format: '.0%' } },
+        color: { field: 'stage', type: 'nominal', scale: { range: cat }, legend: cfg.legend },
+      },
+      config: cfg,
+    });
+
+    // 7. Win Rate by Segment — multi-line
+    embed('#chart-winrate', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 165, background: 'transparent',
+      data: { values: winRates },
+      mark: { type: 'line', strokeWidth: 2, point: { filled: true, size: 40 } },
+      encoding: {
+        x: { field: 'm', type: 'ordinal', axis: ax },
+        y: { field: 'rate', type: 'quantitative', axis: { ...ax, title: 'Win Rate %' } },
+        color: { field: 'seg', type: 'nominal', scale: { range: cat }, legend: cfg.legend },
+      },
+      config: cfg,
+    });
+
+    // 8. Rep Performance — scatter
+    embed('#chart-rep', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 165, background: 'transparent',
+      data: { values: repPerf },
+      layer: [
+        {
+          mark: { type: 'point', filled: true, size: 90, color: primary, opacity: 0.8 },
+          encoding: {
+            x: { field: 'deals', type: 'quantitative', axis: ax },
+            y: { field: 'rev', type: 'quantitative', axis: ax },
+          },
+        },
+        {
+          mark: { type: 'text', dy: -10, fontSize: 10, color: labelC },
+          encoding: {
+            x: { field: 'deals', type: 'quantitative' },
+            y: { field: 'rev', type: 'quantitative' },
+            text: { field: 'rep' },
+          },
+        },
+      ],
+      config: cfg,
+    });
+
+    // 9. Deal Age Distribution — bar
+    embed('#chart-age', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 165, background: 'transparent',
+      data: { values: dealAge },
+      mark: { type: 'bar', cornerRadiusTopLeft: 4, cornerRadiusTopRight: 4, color: primary },
+      encoding: {
+        x: { field: 'bucket', type: 'ordinal', sort: null, axis: ax },
+        y: { field: 'n', type: 'quantitative', axis: ax },
+        opacity: { condition: { test: "datum.bucket === '90d+'", value: 0.5 }, value: 1.0 },
+      },
+      config: cfg,
+    });
+
+  } else if (tab === 'customers') {
+    // 10. New Customers by Channel — bar
+    embed('#chart-channel', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 165, background: 'transparent',
+      data: { values: channelAcq },
+      mark: { type: 'bar', cornerRadiusTopLeft: 4, cornerRadiusTopRight: 4, color: primary },
+      encoding: {
+        x: { field: 'ch', type: 'nominal', sort: '-y', axis: { ...ax, labelAngle: -20 } },
+        y: { field: 'n', type: 'quantitative', axis: ax },
+      },
+      config: cfg,
+    });
+
+    // 11. LTV vs CAC — bubble scatter
+    embed('#chart-ltv', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 165, background: 'transparent',
+      data: { values: ltvCac },
+      mark: { type: 'point', filled: true, opacity: 0.75, strokeWidth: 0 },
+      encoding: {
+        x: { field: 'cac', type: 'quantitative', axis: { ...ax, title: 'CAC $K' } },
+        y: { field: 'ltv', type: 'quantitative', axis: { ...ax, title: 'LTV $K' } },
+        size: { field: 'n', type: 'quantitative', legend: null, scale: { range: [80, 500] } },
+        color: { field: 'seg', type: 'nominal', scale: { range: cat }, legend: null },
+      },
+      config: cfg,
+    });
+
+    // 12. Monthly Churn — area + line
+    embed('#chart-churn', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 165, background: 'transparent',
+      data: { values: churnMo },
+      layer: [
+        { mark: { type: 'area', line: { color: primary, strokeWidth: 2 }, color: primary, fillOpacity: 0.12 },
+          encoding: { x: { field: 'm', type: 'ordinal', sort: null, axis: ax }, y: { field: 'rate', type: 'quantitative', axis: ax } } },
+        { mark: { type: 'point', color: primary, filled: true, size: 40 },
+          encoding: { x: { field: 'm', type: 'ordinal', sort: null }, y: { field: 'rate', type: 'quantitative' } } },
+      ],
+      config: cfg,
+    });
+
+    // 13. Cohort Retention Curves — multi-line
+    embed('#chart-cohort', {
+      $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
+      width: 'container', height: 165, background: 'transparent',
+      data: { values: cohortData },
+      mark: { type: 'line', strokeWidth: 2, point: { filled: true, size: 40 } },
+      encoding: {
+        x: { field: 'period', type: 'ordinal', sort: null, axis: ax },
+        y: { field: 'rate', type: 'quantitative', axis: ax, scale: { domain: [50, 100] } },
+        color: { field: 'cohort', type: 'nominal', scale: { range: cat }, legend: cfg.legend },
+      },
+      config: cfg,
+    });
+  }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// EXPORT MODAL
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let exportTab = 'aml';
+
+function openExportModal(tab) {
+  exportTab = tab;
+  document.getElementById('modal').classList.add('open');
+  renderModal();
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+function switchModalTab(tab) { exportTab = tab; renderModal(); }
+function renderModal() {
+  document.getElementById('mtab-aml').classList.toggle('active', exportTab === 'aml');
+  document.getElementById('mtab-css').classList.toggle('active', exportTab === 'css');
+  document.getElementById('modal-title').textContent = exportTab === 'aml' ? 'Export AML Code' : 'Export CSS Variables';
+  document.getElementById('export-pre').textContent = exportTab === 'aml' ? genAML() : genCSS();
+}
+
+function doCopy() {
+  navigator.clipboard.writeText(document.getElementById('export-pre').textContent);
+  const btn = document.getElementById('copy-btn');
+  const orig = btn.textContent;
+  btn.textContent = '✓ Copied!';
+  btn.style.background = '#10b981';
+  setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 2200);
+}
+
+function shadowAML(s) {
+  return { none:'"none"', sm:'"sm"', md:'"md"', lg:'"lg"', glow:'"md"' }[s] || '"sm"';
+}
+
+function genAML() {
+  const hf = S['head-font'] || 'Inter';
+  const bf = S['body-font'] || 'Inter';
+  const cr = parseInt(S['canvas-radius'] || 12);
+  const br = parseInt(S['block-radius'] || 8);
+  const bp = parseInt(S['block-pad'] || 16);
+
+  const fonts = [...new Set([hf, bf])].filter(f => f !== 'Inter');
+  const imports = fonts.map(f =>
+    `    @import url('https://fonts.googleapis.com/css2?family=${f.replace(/\s+/g,'+')}:wght@400;500;600;700;800&display=swap');`
+  ).join('\n');
+
+  return `PageTheme my_theme {
+  background {
+    bg_color: "${S['page-bg']}"
+  }
+  canvas {
+    background { bg_color: "${S['canvas-bg']}" }
+    border {
+      border_width: 1
+      border_radius: ${cr}
+      border_color: "${S['canvas-border']}"
+      border_style: "solid"
+    }
+    shadow: "sm"
+  }
+  block {
+    label {
+      font_family: "${hf}, system-ui, sans-serif"
+      font_size: 11
+      font_color: "${S['label-col']}"
+      font_weight: "semibold"
+    }
+    text {
+      font_family: "${bf}, system-ui, sans-serif"
+      font_size: 13
+      font_color: "${S['text-pri']}"
+      font_weight: "normal"
+    }
+    border {
+      border_width: 1
+      border_radius: ${br}
+      border_color: "${S['block-border']}"
+      border_style: "solid"
+    }
+    background { bg_color: "${S['block-bg']}" }
+    padding: ${bp}
+    shadow: ${shadowAML(S['block-shadow'])}
+  }
+  viz {
+    table {
+      general {
+        bg_color: "${S['block-bg']}"
+        hover_color: "${S['tbl-hover']}"
+        banding_color: "${S['tbl-band']}"
+        font_size: 13
+        font_color: "${S['text-pri']}"
+        font_family: "${bf}, system-ui, sans-serif"
+        border_color: "${S['tbl-border']}"
+        border_width: 1
+        grid_color: "${S['tbl-border']}"
+      }
+      header {
+        bg_color: "${S['tbl-hd-bg']}"
+        font_size: 11
+        font_color: "${S['tbl-hd-col']}"
+        font_weight: "semibold"
+      }
+    }
+  }
+  custom_css: @css
+${imports ? imports + '\n' : ''}    /* KPI metric value */
+    .h-kpi-metric-kpi { color: ${S['kpi-col']} !important; }
+    /* Nav bar background */
+    .dac-nav-bar { background: ${S['nav-bg']} !important; }
+  ;;
+}`;
+}
+
+function genCSS() {
+  const cr = parseInt(S['canvas-radius'] || 12);
+  const br = parseInt(S['block-radius'] || 8);
+  const bp = parseInt(S['block-pad'] || 16);
+  return `:root {
+  /* ── Surfaces ─────────────────────────────── */
+  --page-bg:              ${S['page-bg']};
+  --canvas-bg:            ${S['canvas-bg']};
+  --canvas-border-color:  ${S['canvas-border']};
+  --canvas-radius:        ${cr}px;
+  --block-bg:             ${S['block-bg']};
+  --block-border-color:   ${S['block-border']};
+  --block-radius:         ${br}px;
+  --block-padding:        ${bp}px;
+
+  /* ── Navigation ───────────────────────────── */
+  --nav-bg:               ${S['nav-bg']};
+  --nav-text:             ${S['nav-text']};
+  --nav-accent:           ${S['nav-accent']};
+
+  /* ── Brand ────────────────────────────────── */
+  --color-primary:        ${S['c-primary']};
+  --color-positive:       ${S['c-positive']};
+  --color-negative:       ${S['c-negative']};
+
+  /* ── Typography ───────────────────────────── */
+  --font-heading:         '${S['head-font']}', system-ui, sans-serif;
+  --font-body:            '${S['body-font']}', system-ui, sans-serif;
+  --text-primary:         ${S['text-pri']};
+  --text-secondary:       ${S['text-sec']};
+  --text-muted:           ${S['text-mut']};
+  --label-color:          ${S['label-col']};
+  --kpi-value-color:      ${S['kpi-col']};
+
+  /* ── Table ────────────────────────────────── */
+  --table-bg:             ${S['block-bg']};
+  --table-hover:          ${S['tbl-hover']};
+  --table-band:           ${S['tbl-band']};
+  --table-header-bg:      ${S['tbl-hd-bg']};
+  --table-header-color:   ${S['tbl-hd-col']};
+  --table-border:         ${S['tbl-border']};
+}`;
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// INIT
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+document.addEventListener('DOMContentLoaded', () => {
+  syncControls();
+  applyVars();
+  scheduleCharts();
+});
+</script>
+</body>
+</html>

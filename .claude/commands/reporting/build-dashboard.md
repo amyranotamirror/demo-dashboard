@@ -30,7 +30,7 @@ Before doing anything, ask:
    - Layout adjustment or tab restructuring only
 
 3. **Do you have a theme to apply?**
-   - Use a built-in theme (`default`, `light`, `dark`, `hextech`, `forest`, `ocean`, `sunset`)
+   - Use a built-in theme (`default`, `light`, `dark`, `forest`, `ocean`, `sunset`)
    - Use a custom `PageTheme` (if so, do you have the AML already, or does it need to be built first via `.claude/commands/reporting/build-theme.md`?)
    - No theme needed
 
@@ -413,7 +413,7 @@ Dashboard my_dash {
 }
 ```
 
-Built-in system themes: `default`, `light`, `dark`, `hextech`, `forest`, `ocean`, `sunset`
+Built-in system themes: `default`, `light`, `dark`, `forest`, `ocean`, `sunset`
 
 ### Define a local theme inline
 

@@ -52,15 +52,83 @@ Ask for (or infer from context):
 6. **Style direction** — 1–2 words: minimal, bold, enterprise, playful, dark, luxury, clean, vibrant
 7. **Logo / icon** (optional) — if provided as SVG or description; otherwise use placeholder
 
+### Brand research — required when a brand name is given
+
+**When the user names a brand** (even without providing colors), always fetch and research the brand before generating anything. This is not optional.
+
+Steps:
+1. Fetch the brand's **marketing website** (homepage + about page) — inspect CSS for exact hex values, font-family, and background colors
+2. Fetch the brand's **style guide / brand page** if one exists (e.g. `brand.netflix.com`, `figma.com/using-the-figma-brand`) — these are the highest-reliability source
+3. Identify the **signature visual technique** from the marketing hero sections (gradients, glows, mesh orbs, geometry, texture, cinematic strips, etc.)
+4. Look at the **nav / header structure** specifically — what color is it? Is there an accent line, border, or glow?
+5. Extract the **exact CSS font-family** — do not assume or guess fonts
+
+This is a brand theme, not a color theme. The goal is to make someone look at the preview and immediately recognize the brand. Raw colors alone do not achieve that — font, hierarchy, and signature technique are what make it feel like the real brand.
+
+**The theme-builder is a quick interactive preview tool only.** When building a brand theme through this command, do not treat it as "apply a preset." Research the brand and craft decisions with the same depth used for Holistics (navy + green brand palette, not product UI purple) and Discord (correct surface depth hierarchy, not inverted blocks).
+
 Suggest sensible defaults if any are missing, based on the style direction.
 
 If the user provided a URL in Step 0, fetch it now and extract primary/secondary colors, font usage, and overall visual tone before proceeding.
 
 ---
 
+## Step 1b — Brand Completeness Audit
+
+**Run this audit on every brand input before starting the prototype.** For each gap, either resolve it from context (if obvious) or ask the user. Never silently guess.
+
+### Critical signals — must be resolved before proceeding
+
+| Signal | What to check | Why it matters |
+|---|---|---|
+| **Light vs. dark theme** | Is the dominant surface light or dark? If not stated, ask — do NOT assume light. | Getting this wrong wastes the entire prototype. |
+| **Dominant surface color** | Which color covers ~60% of the visual space? This is usually NOT the "primary color" (which is typically the accent/CTA). | The Holistics mistake: `#9250e5` was a product-UI feature color, not the brand surface. |
+| **Surface hierarchy** | Are there 2 or 3 depth levels (page → canvas → block)? What are the specific hex values? | Blocks must be *lighter* than canvas to float. If hierarchy is unknown, derive from the provided colors. |
+| **Accent role** | Does "data wear the brand"? (KPI values, block labels, chart bars all in accent color) — or is accent for buttons/borders only? | Accent-as-content is what makes themes feel designed, not just colored. |
+| **Font identity** | Is the brand font distinctive (Cinzel, Playfair Display) or generic (Inter, Roboto)? | Distinctive fonts are the single highest-impact identity signal. If unknown, fetch the brand website. |
+| **Signature visual technique** | Gradient? Mesh orbs? Texture? Glow? Pattern? | Replicating the brand's visual fingerprint in the header block is what separates "themed" from "colored". |
+
+### Source reliability — check before trusting inputs
+
+| Source | Reliability | Watch out for |
+|---|---|---|
+| Brand/marketing website (homepage, about page) | ✅ High | Screenshot colors may differ from actual CSS |
+| Brand repo / style guide / brand.json | ✅ Highest | Ground truth — always prefer this |
+| Product UI / design system | ⚠️ Medium | Colors here are often feature-specific (e.g. purple for ad-hoc), not brand colors |
+| User-described colors ("it's blue and green") | ⚠️ Low | Ask for hex or fetch the website to confirm |
+| Screenshot or image | ⚠️ Low | Use as direction only; extract approximate hex |
+
+### Gap → resolution rules
+
+- **No dark/light specified** → ask explicitly: *"Is this a dark-background or light-background theme?"*
+- **Only one color provided** → derive surface hierarchy: for dark, step down in luminosity for page, step up for blocks; for light, reverse
+- **"Primary color" looks like an accent (saturated, bright)** → assume it's the accent, not the surface; ask what the background color is
+- **Brand source is product UI only** → fetch the marketing website too before proceeding; product and brand palettes often differ
+- **No font specified** → fetch brand website and inspect font-family in CSS; do not default to Inter without checking
+- **No signature technique** → look for gradients, shadows, or textures in the brand's marketing hero sections; replicate in header block
+
+### Output of this audit
+
+Before generating the prototype, output a short **"Brand Brief"** block:
+
+```
+Brand Brief — <Brand Name>
+  Theme mode:   dark / light
+  Surface:      page=#______ canvas=#______ block=#______
+  Accent:       #______ (role: data / decoration / both)
+  Font:         <name> — <source>
+  Signature:    <technique or "none identified">
+  Gaps filled:  <list any values you inferred> | none
+  Gaps pending: <list any values still unresolved> | none
+```
+
+If there are pending gaps, stop and ask. If all gaps are filled (inferred or provided), state your assumptions and proceed.
+
+---
+
 ## Step 2 — Generate HTML prototype
 
-1. Start from the **Standard Dashboard Template** at `.claude/commands/reporting/_theme-preview-template.html`. Read it before generating.
+1. Start from the **Standard Dashboard Template** at `.claude/commands/reporting/_theme-preview-template.html`. Read it first — but if the template doesn't match the quality of existing brand files like `themes/discord/discord-v1.html` or `themes/holistics/holistics-brand-v1.html`, use those files as structural reference instead.
 2. Replace the `<!-- ★ THEME SLOT START ★ -->` block:
    - CSS variables (colors, fonts, radii, shadows)
    - Google Fonts `@import` if using a custom font
@@ -69,6 +137,17 @@ If the user provided a URL in Step 0, fetch it now and extract primary/secondary
 5. Optionally update the logo SVG in `.header-block` to match the brand.
 6. Save to `themes/<slug>/<slug>-v1.html`
 7. Save documentation to `themes/<slug>/<slug>-v1.md`
+
+**Minimum prototype quality bar — every brand HTML file must meet all of these:**
+- **2 tabs minimum** with working `switchTab()` navigation
+- **5+ Vega-Lite charts** across the tabs — mix types: area/line, vertical bar, horizontal bar, scatter/bubble, and at least one multi-series chart (stacked bar, multi-line, or donut)
+- **Brand-specific content** — section labels, KPI names, table columns, and chart titles must reflect the brand's actual domain (e.g. "API Requests" not "Total Revenue", "Subscriber Growth" not "Deals Closed")
+- **Brand-specific data** — chart values and table rows should be plausible for the brand; avoid generic "Acme Corp" placeholder rows
+- **Consistent `vegaConfig`** pattern — use the `axisConfig` / `cfg` object approach, not per-encoding axis properties; use `fillOpacity` for area charts (not 8-digit hex gradient stops)
+- **Signature technique applied** to the `.header-block` — gradient, glow, texture strip, or other brand fingerprint from research
+- **Table with 5–8 rows** of brand-relevant data including progress bars or badges
+
+The `themes/theme-builder.html` is a generic interactive tool for quick color/font previewing. Brand-specific HTML prototypes are different — they must represent the brand, not a generic sales dashboard.
 
 Tell the user: **"Open `<path>` in your browser to preview the theme."**
 
@@ -415,7 +494,7 @@ Dashboard my_dashboard {
 ### System theme names (built-in)
 
 Reference with `H.themes.name` or directly by name:
-`default`, `light`, `dark`, `hextech`, `forest`, `ocean`, `sunset`
+`default`, `light`, `dark`, `forest`, `ocean`, `sunset`
 
 ---
 

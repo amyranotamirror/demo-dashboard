@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Holistics Brand — Dashboard Preview</title>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+  <!-- ★★★ THEME SLOT START — Holistics Brand ★★★ -->
+  <style>
+  /* ── FONT IMPORT ──────────────────────────────────────────────────────── */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    /* Page — code-block dark, deepest surface */
+    --page-bg:              #03152C;
+
+    /* Canvas — brand navy.900, THE primary brand surface */
+    --canvas-bg:            #05264C;
+    --canvas-border-color:  rgba(37,155,108,0.20);
+    --canvas-radius:        14px;
+    /* Green glow — from brand.json shadow spec */
+    --canvas-shadow:        0 8px 48px rgba(0,0,0,0.65), 0 0 0 1px rgba(37,155,108,0.18), 0 0 40px rgba(37,155,108,0.07);
+
+    /* Blocks — between navy.900 and blue.800: clearly lighter than canvas */
+    --block-bg:             #0D3A6B;
+    --block-border-color:   rgba(94,163,237,0.14);
+    --block-radius:         11px;
+    --block-shadow:         0 2px 12px rgba(0,0,0,0.45);
+    --block-padding:        16px;
+
+    /* Typography */
+    --font-heading:         'Inter', system-ui, sans-serif;
+    --font-body:            'Inter', system-ui, sans-serif;
+    --text-primary:         #E8F2FD;   /* blue.50 — white-ish with slight blue tint */
+    --text-secondary:       #8DBEF2;   /* blue.300 */
+    --text-muted:           #5EA3ED;   /* blue.400 — muted on dark navy */
+    --label-color:          #52C396;   /* green.400 — bright on dark, labels in brand green */
+
+    /* Brand palette — from brand.json */
+    --color-primary:        #259B6C;   /* green.600 — brand primary accent */
+    --color-primary-light:  #52C396;   /* green.400 — lighter green for values/text */
+    --color-primary-subtle: rgba(37,155,108,0.15);
+    --color-secondary:      #1B7CE4;   /* blue.600 */
+    --color-secondary-light:#5EA3ED;   /* blue.400 */
+    --color-accent:         #7AD1AE;   /* green.300 — highlight, positive delta */
+    --color-danger:         #FF6B6B;   /* softened red on dark */
+
+    /* Header / hero — brand mesh gradient technique:
+       navy base + green radial orb (lower-left) + blue radial orb (upper-right) */
+    --header-bg:
+      radial-gradient(ellipse at 15% 85%, rgba(37,155,108,0.32) 0%, transparent 58%),
+      radial-gradient(ellipse at 85% 15%, rgba(27,124,228,0.22) 0%, transparent 50%),
+      linear-gradient(145deg, #020c1e 0%, #05264c 45%, #104a89 100%);
+    --header-text:          #ffffff;
+    --header-subtitle:      rgba(141,190,242,0.75);   /* blue.300 tinted */
+
+    /* Nav — darkest surface, above canvas */
+    --nav-bg:               #020c1e;
+    --nav-text:             rgba(141,190,242,0.50);
+    --nav-active-text:      #ffffff;
+    --nav-active-bg:        rgba(37,155,108,0.18);
+
+    /* Filters — slightly elevated from block */
+    --filter-bg:            #0D3A6B;
+    --filter-border:        rgba(94,163,237,0.20);
+    --filter-text:          #E8F2FD;
+
+    /* KPI — green values: data wears the brand green */
+    --kpi-value-size:       30px;
+    --kpi-value-color:      #52C396;   /* green.400 — bright, on-brand */
+    --kpi-pos-color:        #7AD1AE;   /* green.300 */
+    --kpi-neg-color:        #FF6B6B;
+
+    /* Table */
+    --table-bg:             #0D3A6B;
+    --table-header-bg:      #05264C;   /* canvas level = deepest in table */
+    --table-header-color:   #52C396;   /* green labels on navy */
+    --table-border:         rgba(94,163,237,0.12);
+    --table-hover:          rgba(37,155,108,0.10);
+    --table-band:           rgba(0,0,0,0.18);
+
+    /* Section headings */
+    --section-accent:       #259B6C;
+    --section-text:         #ffffff;
+  }
+
+  /* ── Holistics structural overrides ─────────────────────────────────── */
+
+  /* Top bar: blue→green gradient bar — the brand "Code Highlight Bar" gradient */
+  .top-bar {
+    border-bottom: none !important;
+    position: relative;
+  }
+  .top-bar::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, #1b7ce4 0%, #259b6c 100%);
+  }
+
+  /* Active tab: green underline */
+  .tab-btn.active { border-bottom-color: #259B6C !important; }
+
+  /* Header: green bottom edge */
+  .header-block { border-bottom: 1px solid rgba(37,155,108,0.28); }
+
+  /* KPI: green left accent */
+  .kpi-card {
+    border-left: 3px solid #259B6C !important;
+    transition: box-shadow 0.15s;
+  }
+  /* Green glow on hover — from brand.json */
+  .kpi-card:hover {
+    box-shadow: 0 0 0 1px #52c396, 0 0 20px rgba(44,182,127,0.22) !important;
+  }
+
+  /* Filter: green dropdown arrow */
+  .filter-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23259B6C' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 8px center !important;
+  }
+  .filter-select option { background: #0D3A6B; color: #E8F2FD; }
+
+  /* Section headings: green accent line */
+  .section-heading { border-left: 4px solid #259B6C !important; }
+
+  /* Badges: dark-navy palette */
+  .badge-green { background: rgba(37,155,108,0.18);  color: #7AD1AE; }
+  .badge-amber { background: rgba(227,106,1,0.18);   color: #FFBB77; }
+  .badge-red   { background: rgba(231,31,24,0.18);   color: #FF6B6B; }
+  .badge-blue  { background: rgba(27,124,228,0.18);  color: #8DBEF2; }
+  .badge-gray  { background: rgba(143,153,163,0.18); color: #8DBEF2; }
+
+  /* Progress track */
+  .progress-track { background: rgba(141,190,242,0.12); }
+
+  /* Sankey */
+  .s-label { fill: #8DBEF2 !important; }
+  .s-value  { fill: #5EA3ED !important; }
+
+  /* Header nav */
+  .header-nav a { color: rgba(141,190,242,0.65); }
+  .header-nav a:hover { color: #ffffff !important; border-bottom-color: rgba(37,155,108,0.6) !important; }
+
+  /* Canvas: green top glow ring */
+  .canvas { border-top: 1px solid rgba(37,155,108,0.22); }
+
+  /* Version links */
+  .ver-link { border-color: rgba(141,190,242,0.20) !important; }
+  </style>
+  <!-- ★★★ THEME SLOT END ★★★ -->
+
+  <style>
+  /* ── BASE STRUCTURAL STYLES — do not modify for theming ──────────── */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-body); background: var(--page-bg); color: var(--text-primary); min-height: 100vh; }
+
+  /* Top bar */
+  .top-bar {
+    position: sticky; top: 0; z-index: 200;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--nav-bg); padding: 0 24px;
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+  }
+  .top-bar-title { font-family: var(--font-heading); font-size: 13px; font-weight: 700; color: var(--header-text); padding: 12px 0; letter-spacing: 0.01em; }
+  .tabs { display: flex; }
+  .tab-btn {
+    padding: 12px 20px; font-size: 12px; font-weight: 600; border: none; cursor: pointer;
+    background: transparent; color: var(--nav-text); border-bottom: 3px solid transparent;
+    transition: all 0.15s; font-family: var(--font-body); letter-spacing: 0.01em;
+  }
+  .tab-btn.active { color: var(--nav-active-text); border-bottom-color: #259B6C; background: var(--nav-active-bg); }
+  .tab-btn:hover:not(.active) { color: var(--nav-active-text); }
+  .version-nav { display: flex; gap: 6px; align-items: center; }
+  .ver-link {
+    padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 600;
+    text-decoration: none; color: var(--nav-text); border: 1px solid rgba(141,190,242,0.20);
+    transition: all 0.15s;
+  }
+  .ver-link.active, .ver-link:hover { background: rgba(37,155,108,0.18); color: var(--nav-active-text); }
+
+  /* Canvas wrapper */
+  .canvas {
+    max-width: 1360px; margin: 28px auto;
+    background: var(--canvas-bg);
+    border: 1px solid var(--canvas-border-color);
+    border-radius: var(--canvas-radius);
+    box-shadow: var(--canvas-shadow);
+    overflow: hidden;
+  }
+
+  /* Header / hero */
+  .header-block { background: var(--header-bg); padding: 28px 32px; font-family: var(--font-heading); }
+  .header-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .header-logo-name { font-size: 11px; font-weight: 600; color: var(--header-subtitle); letter-spacing: 0.08em; text-transform: uppercase; }
+  .header-title { font-size: 26px; font-weight: 700; color: var(--header-text); margin-bottom: 4px; letter-spacing: -0.02em; }
+  .header-subtitle-text { font-size: 13px; color: var(--header-subtitle); }
+  .header-nav { display: flex; gap: 24px; margin-top: 16px; }
+  .header-nav a { font-size: 12px; font-weight: 600; color: var(--header-subtitle); text-decoration: none; border-bottom: 2px solid transparent; padding-bottom: 2px; transition: all 0.15s; }
+  .header-nav a:hover { color: var(--header-text); border-bottom-color: rgba(37,155,108,0.7); }
+
+  /* Tabs display */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  .dash-body { padding: 24px 32px 36px; }
+
+  /* Filter row */
+  .filter-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; align-items: flex-end; }
+  .filter-item { display: flex; flex-direction: column; gap: 4px; }
+  .filter-label { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .filter-select {
+    padding: 6px 28px 6px 10px; font-size: 12px; font-family: var(--font-body);
+    background: var(--filter-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%235EA3ED' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 8px center;
+    border: 1px solid var(--filter-border); border-radius: 6px; color: var(--filter-text);
+    appearance: none; cursor: pointer; min-width: 140px;
+  }
+  .filter-select:focus { outline: 2px solid var(--color-primary); outline-offset: 1px; }
+
+  /* KPI row */
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .kpi-card {
+    background: var(--block-bg); border: 1px solid var(--block-border-color);
+    border-radius: var(--block-radius); box-shadow: var(--block-shadow); padding: var(--block-padding);
+  }
+  .kpi-block-label { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .kpi-value { font-family: var(--font-heading); font-size: var(--kpi-value-size); font-weight: 700; color: var(--kpi-value-color); margin-bottom: 4px; line-height: 1.1; }
+  .kpi-delta { font-size: 11px; font-weight: 600; }
+  .kpi-delta.pos { color: var(--kpi-pos-color); }
+  .kpi-delta.neg { color: var(--kpi-neg-color); }
+
+  /* Section headings */
+  .section-heading { display: flex; align-items: flex-start; gap: 0; margin: 28px 0 14px; border-left: 4px solid var(--section-accent); padding-left: 12px; }
+  .section-heading h2 { font-family: var(--font-heading); font-size: 14px; font-weight: 700; color: var(--section-text); }
+  .section-heading p { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+  /* Chart grid */
+  .chart-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 4px; }
+  .chart-block {
+    background: var(--block-bg); border: 1px solid var(--block-border-color);
+    border-radius: var(--block-radius); box-shadow: var(--block-shadow); padding: var(--block-padding);
+  }
+  .block-label { font-size: 10px; font-weight: 700; color: var(--label-color); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+  .chart-container { width: 100%; min-height: 250px; }
+
+  /* Table block */
+  .table-block {
+    background: var(--block-bg); border: 1px solid var(--block-border-color);
+    border-radius: var(--block-radius); box-shadow: var(--block-shadow); overflow: hidden; margin-bottom: 4px;
+  }
+  .table-block-header { padding: 10px 16px; border-bottom: 1px solid var(--table-border); }
+  table.data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  table.data-table thead th {
+    background: var(--table-header-bg); color: var(--table-header-color);
+    font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 8px 14px; text-align: left; border-bottom: 1px solid rgba(37,155,108,0.20); white-space: nowrap;
+  }
+  table.data-table tbody tr { border-bottom: 1px solid var(--table-border); transition: background 0.1s; }
+  table.data-table tbody tr:hover { background: var(--table-hover); }
+  table.data-table tbody tr:nth-child(even) { background: var(--table-band); }
+  table.data-table tbody tr:nth-child(even):hover { background: var(--table-hover); }
+  table.data-table td { padding: 8px 14px; vertical-align: middle; color: var(--text-primary); }
+  .prod-icon { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+  .prod-name { font-weight: 600; font-size: 12px; }
+  .prod-sub  { font-size: 11px; color: var(--text-secondary); }
+  .progress-wrap { display: flex; align-items: center; gap: 8px; }
+  .progress-track { flex: 1; height: 5px; background: rgba(141,190,242,0.12); border-radius: 99px; overflow: hidden; min-width: 60px; }
+  .progress-fill { height: 100%; border-radius: 99px; }
+  .progress-fill.p-primary  { background: var(--color-primary); }
+  .progress-fill.p-secondary{ background: var(--color-secondary); }
+  .progress-fill.p-green    { background: var(--color-accent); }
+  .progress-fill.p-amber    { background: #FFBB77; }
+  .progress-fill.p-red      { background: var(--color-danger); }
+  .pct-label { font-size: 11px; font-weight: 600; color: var(--text-secondary); min-width: 28px; }
+  .badge { display: inline-flex; align-items: center; padding: 2px 7px; border-radius: 99px; font-size: 10px; font-weight: 700; }
+  .badge-green  { background: rgba(37,155,108,0.18); color: #7AD1AE; }
+  .badge-amber  { background: rgba(227,106,1,0.18);  color: #FFBB77; }
+  .badge-red    { background: rgba(231,31,24,0.18);  color: #FF6B6B; }
+  .badge-blue   { background: rgba(27,124,228,0.18); color: #8DBEF2; }
+  .badge-gray   { background: rgba(94,163,237,0.12); color: #8DBEF2; }
+
+  /* Sankey block */
+  .sankey-block {
+    background: var(--block-bg); border: 1px solid var(--block-border-color);
+    border-radius: var(--block-radius); box-shadow: var(--block-shadow); padding: var(--block-padding);
+  }
+  .sankey-svg { width: 100%; height: 230px; overflow: visible; }
+  .s-label { font-size: 11px; fill: #8DBEF2; font-family: var(--font-body); }
+  .s-value { font-size: 10px; fill: #5EA3ED; font-family: var(--font-body); }
+  </style>
+</head>
+<body>
+
+<!-- ── TOP BAR ─────────────────────────────────────────────────────────── -->
+<div class="top-bar">
+  <div class="top-bar-title">Holistics — Dashboard Preview</div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('overview', this)">Overview</button>
+    <button class="tab-btn" onclick="switchTab('deepdive', this)">Deep Dive</button>
+  </div>
+  <nav class="version-nav">
+    <a href="holistics-brand-v1.html" class="ver-link active">v1</a>
+  </nav>
+</div>
+
+<!-- ── CANVAS ──────────────────────────────────────────────────────────── -->
+<div class="canvas">
+
+  <!-- Header (always visible) -->
+  <div class="header-block">
+    <div class="header-logo">
+      <!-- Holistics: 3×3 data-grid mark on navy -->
+      <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+        <rect width="34" height="34" rx="9" fill="rgba(37,155,108,0.18)"/>
+        <circle cx="9.5"  cy="9.5"  r="2.5" fill="#52C396"/>
+        <circle cx="17"   cy="9.5"  r="2.5" fill="rgba(82,195,150,0.50)"/>
+        <circle cx="24.5" cy="9.5"  r="2.5" fill="rgba(82,195,150,0.22)"/>
+        <circle cx="9.5"  cy="17"   r="2.5" fill="rgba(82,195,150,0.50)"/>
+        <circle cx="17"   cy="17"   r="2.5" fill="#52C396"/>
+        <circle cx="24.5" cy="17"   r="2.5" fill="rgba(82,195,150,0.50)"/>
+        <circle cx="9.5"  cy="24.5" r="2.5" fill="rgba(82,195,150,0.22)"/>
+        <circle cx="17"   cy="24.5" r="2.5" fill="rgba(82,195,150,0.50)"/>
+        <circle cx="24.5" cy="24.5" r="2.5" fill="#52C396"/>
+      </svg>
+      <span class="header-logo-name">Holistics Analytics</span>
+    </div>
+    <div class="header-title">Product Revenue Dashboard</div>
+    <div class="header-subtitle-text">Performance Overview — Q1 2026</div>
+    <nav class="header-nav">
+      <a href="#">Revenue</a>
+      <a href="#">Products</a>
+      <a href="#">Customers</a>
+      <a href="#">Flow</a>
+    </nav>
+  </div>
+
+  <!-- ── TAB 1: OVERVIEW ─────────────────────────────────────────────── -->
+  <div id="tab-overview" class="tab-content active">
+  <div class="dash-body">
+
+    <!-- Filters -->
+    <div class="filter-row">
+      <div class="filter-item">
+        <span class="filter-label">Date Range</span>
+        <select class="filter-select"><option>Q1 2026</option><option>Q4 2025</option><option>Last 12 months</option></select>
+      </div>
+      <div class="filter-item">
+        <span class="filter-label">Region</span>
+        <select class="filter-select"><option>All Regions</option><option>North America</option><option>Europe</option><option>Asia Pacific</option></select>
+      </div>
+      <div class="filter-item">
+        <span class="filter-label">Segment</span>
+        <select class="filter-select"><option>All Segments</option><option>Enterprise</option><option>Mid-Market</option><option>SMB</option></select>
+      </div>
+      <div class="filter-item">
+        <span class="filter-label">Product Line</span>
+        <select class="filter-select"><option>All Products</option><option>Analytics</option><option>Platform</option><option>API</option></select>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-block-label">Monthly Revenue</div>
+        <div class="kpi-value">$124K</div>
+        <div class="kpi-delta pos">▲ 12.4% vs last month</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-block-label">Active Users</div>
+        <div class="kpi-value">8,432</div>
+        <div class="kpi-delta pos">▲ 5.1% vs last month</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-block-label">Conversion Rate</div>
+        <div class="kpi-value">3.2%</div>
+        <div class="kpi-delta neg">▼ 0.3pp vs last month</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-block-label">Avg Session</div>
+        <div class="kpi-value">4m 32s</div>
+        <div class="kpi-delta pos">▲ 8.7% vs last month</div>
+      </div>
+    </div>
+
+    <!-- Revenue Analysis -->
+    <div class="section-heading">
+      <div>
+        <h2>Revenue Analysis</h2>
+        <p>Revenue by product line and regional distribution</p>
+      </div>
+    </div>
+    <div class="chart-grid-2">
+      <div class="chart-block">
+        <div class="block-label">Revenue by Product Line</div>
+        <div class="chart-container" id="chart-bar"></div>
+      </div>
+      <div class="chart-block">
+        <div class="block-label">Users vs Revenue by Region</div>
+        <div class="chart-container" id="chart-scatter"></div>
+      </div>
+    </div>
+
+    <!-- Product Performance -->
+    <div class="section-heading">
+      <div>
+        <h2>Product Performance</h2>
+        <p>Revenue, adoption health and growth per product line</p>
+      </div>
+    </div>
+    <div class="table-block">
+      <div class="table-block-header">
+        <span class="block-label">Product Lines — 6 items</span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th></th><th>Product</th><th>Category</th><th>Revenue</th>
+            <th>Orders</th><th>Adoption</th><th>Growth</th><th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="prod-icon" style="background:rgba(37,155,108,0.18);">📊</div></td>
+            <td><div class="prod-name">Analytics Suite</div><div class="prod-sub">Core Platform</div></td>
+            <td>Platform</td><td>$48,200</td><td>312</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-primary" style="width:87%"></div></div><span class="pct-label">87%</span></div></td>
+            <td style="color:#7AD1AE;font-weight:700;">+18.2%</td>
+            <td><span class="badge badge-green">● Active</span></td>
+          </tr>
+          <tr>
+            <td><div class="prod-icon" style="background:rgba(27,124,228,0.18);">⚡</div></td>
+            <td><div class="prod-name">Data Pipeline</div><div class="prod-sub">Infrastructure</div></td>
+            <td>Platform</td><td>$31,500</td><td>198</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-secondary" style="width:72%"></div></div><span class="pct-label">72%</span></div></td>
+            <td style="color:#7AD1AE;font-weight:700;">+9.5%</td>
+            <td><span class="badge badge-green">● Active</span></td>
+          </tr>
+          <tr>
+            <td><div class="prod-icon" style="background:rgba(94,163,237,0.15);">🔗</div></td>
+            <td><div class="prod-name">API Gateway</div><div class="prod-sub">Developer</div></td>
+            <td>API</td><td>$22,800</td><td>145</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-secondary" style="width:61%"></div></div><span class="pct-label">61%</span></div></td>
+            <td style="color:#7AD1AE;font-weight:700;">+14.1%</td>
+            <td><span class="badge badge-blue">● Beta</span></td>
+          </tr>
+          <tr>
+            <td><div class="prod-icon" style="background:rgba(255,107,107,0.15);">📱</div></td>
+            <td><div class="prod-name">Mobile SDK</div><div class="prod-sub">Developer</div></td>
+            <td>API</td><td>$11,200</td><td>89</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-amber" style="width:44%"></div></div><span class="pct-label">44%</span></div></td>
+            <td style="color:#FFBB77;font-weight:700;">+2.3%</td>
+            <td><span class="badge badge-amber">● Review</span></td>
+          </tr>
+          <tr>
+            <td><div class="prod-icon" style="background:rgba(37,155,108,0.12);">🤖</div></td>
+            <td><div class="prod-name">AI Insights</div><div class="prod-sub">Add-on</div></td>
+            <td>Analytics</td><td>$8,100</td><td>54</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-primary" style="width:31%"></div></div><span class="pct-label">31%</span></div></td>
+            <td style="color:#7AD1AE;font-weight:700;">+28.9%</td>
+            <td><span class="badge badge-blue">● New</span></td>
+          </tr>
+          <tr>
+            <td><div class="prod-icon" style="background:rgba(143,153,163,0.15);">📋</div></td>
+            <td><div class="prod-name">Report Builder</div><div class="prod-sub">Core Platform</div></td>
+            <td>Platform</td><td>$2,200</td><td>18</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-red" style="width:12%"></div></div><span class="pct-label">12%</span></div></td>
+            <td style="color:#FF6B6B;font-weight:700;">−5.1%</td>
+            <td><span class="badge badge-red">● At Risk</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Flow Analysis -->
+    <div class="section-heading">
+      <div>
+        <h2>Customer Flow Analysis</h2>
+        <p>Traffic source → Product area → Conversion outcome</p>
+      </div>
+    </div>
+    <div class="sankey-block">
+      <div class="block-label">Acquisition → Engagement → Conversion</div>
+      <svg class="sankey-svg" viewBox="0 0 700 210" preserveAspectRatio="xMidYMid meet">
+        <rect x="0" y="5"   width="16" height="96"  rx="3" fill="#259B6C"/>
+        <rect x="0" y="111" width="16" height="60"  rx="3" fill="#1B7CE4"/>
+        <rect x="0" y="181" width="16" height="26"  rx="3" fill="#FFBB77"/>
+        <text x="22" y="50"  class="s-label" dominant-baseline="middle">Organic Search</text>
+        <text x="22" y="63"  class="s-value" dominant-baseline="middle">4,500 users</text>
+        <text x="22" y="143" class="s-label" dominant-baseline="middle">Product Hunt</text>
+        <text x="22" y="156" class="s-value" dominant-baseline="middle">2,800 users</text>
+        <text x="22" y="193" class="s-label" dominant-baseline="middle">Referral</text>
+        <text x="22" y="206" class="s-value" dominant-baseline="middle">1,900 users</text>
+        <path d="M16,22  C175,22  175,16  330,16"  stroke="#259B6C" stroke-width="30" fill="none" opacity="0.22"/>
+        <path d="M16,60  C175,60  175,118 330,118" stroke="#259B6C" stroke-width="18" fill="none" opacity="0.22"/>
+        <path d="M16,92  C175,92  175,183 330,183" stroke="#259B6C" stroke-width="10" fill="none" opacity="0.22"/>
+        <path d="M16,120 C175,120 175,50  330,50"  stroke="#1B7CE4" stroke-width="18" fill="none" opacity="0.24"/>
+        <path d="M16,144 C175,144 175,148 330,148" stroke="#1B7CE4" stroke-width="22" fill="none" opacity="0.24"/>
+        <path d="M16,168 C175,168 175,194 330,194" stroke="#1B7CE4" stroke-width="12" fill="none" opacity="0.24"/>
+        <path d="M16,188 C175,188 175,72  330,72"  stroke="#FFBB77" stroke-width="14" fill="none" opacity="0.28"/>
+        <path d="M16,200 C175,200 175,164 330,164" stroke="#FFBB77" stroke-width="10" fill="none" opacity="0.28"/>
+        <rect x="330" y="0"   width="16" height="86"  rx="3" fill="#259B6C" opacity="0.80"/>
+        <rect x="330" y="96"  width="16" height="78"  rx="3" fill="#1B7CE4" opacity="0.80"/>
+        <rect x="330" y="184" width="16" height="26"  rx="3" fill="#FFBB77" opacity="0.80"/>
+        <text x="352" y="44"  class="s-label" dominant-baseline="middle">Dashboards</text>
+        <text x="352" y="57"  class="s-value" dominant-baseline="middle">3,800</text>
+        <text x="352" y="137" class="s-label" dominant-baseline="middle">Reports</text>
+        <text x="352" y="150" class="s-value" dominant-baseline="middle">3,200</text>
+        <text x="352" y="196" class="s-label" dominant-baseline="middle">API Usage</text>
+        <text x="352" y="209" class="s-value" dominant-baseline="middle">2,200</text>
+        <path d="M346,18  C520,18  520,24  684,24"  stroke="#259B6C" stroke-width="36" fill="none" opacity="0.22"/>
+        <path d="M346,76  C520,76  520,60  684,60"  stroke="#259B6C" stroke-width="20" fill="none" opacity="0.22"/>
+        <path d="M346,112 C520,112 520,88  684,88"  stroke="#1B7CE4" stroke-width="28" fill="none" opacity="0.24"/>
+        <path d="M346,154 C520,154 520,140 684,140" stroke="#1B7CE4" stroke-width="24" fill="none" opacity="0.24"/>
+        <path d="M346,190 C520,190 520,172 684,172" stroke="#FFBB77" stroke-width="14" fill="none" opacity="0.28"/>
+        <path d="M346,204 C520,204 520,196 684,196" stroke="#FFBB77" stroke-width="10" fill="none" opacity="0.28"/>
+        <rect x="684" y="5"   width="16" height="94"  rx="3" fill="#52C396"/>
+        <rect x="684" y="109" width="16" height="66"  rx="3" fill="#1B7CE4" opacity="0.85"/>
+        <rect x="684" y="185" width="16" height="22"  rx="3" fill="#FF6B6B" opacity="0.75"/>
+        <text x="678" y="50"  class="s-label" dominant-baseline="middle" text-anchor="end">Converted</text>
+        <text x="678" y="63"  class="s-value" dominant-baseline="middle" text-anchor="end">4,100</text>
+        <text x="678" y="143" class="s-label" dominant-baseline="middle" text-anchor="end">In Trial</text>
+        <text x="678" y="156" class="s-value" dominant-baseline="middle" text-anchor="end">3,500</text>
+        <text x="678" y="196" class="s-label" dominant-baseline="middle" text-anchor="end">Churned</text>
+        <text x="678" y="209" class="s-value" dominant-baseline="middle" text-anchor="end">1,600</text>
+      </svg>
+    </div>
+
+  </div>
+  </div><!-- end tab-overview -->
+
+  <!-- ── TAB 2: DEEP DIVE ────────────────────────────────────────────── -->
+  <div id="tab-deepdive" class="tab-content">
+  <div class="dash-body">
+
+    <div class="section-heading">
+      <div>
+        <h2>Product Deep Dive</h2>
+        <p>Select a product to explore revenue trend and segment breakdown</p>
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <div class="filter-item">
+        <span class="filter-label">Product</span>
+        <select class="filter-select"><option>Analytics Suite</option><option>Data Pipeline</option><option>API Gateway</option><option>Mobile SDK</option></select>
+      </div>
+      <div class="filter-item">
+        <span class="filter-label">Metric</span>
+        <select class="filter-select"><option>Revenue</option><option>Users</option><option>Sessions</option></select>
+      </div>
+    </div>
+
+    <div class="chart-block" style="margin-bottom:14px;">
+      <div class="block-label">Revenue Trend — Analytics Suite</div>
+      <div class="chart-container" id="chart-trend" style="min-height:200px;"></div>
+    </div>
+
+    <div class="section-heading">
+      <div>
+        <h2>Segment Breakdown</h2>
+        <p>Revenue share and health by customer segment</p>
+      </div>
+    </div>
+    <div class="table-block">
+      <div class="table-block-header">
+        <span class="block-label">Segments — 3 items</span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Segment</th><th>Tier</th><th>Customers</th>
+            <th>Revenue</th><th>Revenue Share</th><th>Trend</th><th>Health</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:600;">Enterprise</td>
+            <td><span class="badge badge-green">Platinum</span></td>
+            <td>42</td><td>$28,400</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-primary" style="width:82%"></div></div><span class="pct-label">59%</span></div></td>
+            <td style="color:#7AD1AE;font-weight:700;">▲ 22%</td>
+            <td><span class="badge badge-green">Strong</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;">Mid-Market</td>
+            <td><span class="badge badge-blue">Gold</span></td>
+            <td>118</td><td>$14,200</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-secondary" style="width:55%"></div></div><span class="pct-label">29%</span></div></td>
+            <td style="color:#7AD1AE;font-weight:700;">▲ 8%</td>
+            <td><span class="badge badge-blue">Good</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;">SMB</td>
+            <td><span class="badge badge-amber">Silver</span></td>
+            <td>394</td><td>$5,600</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-amber" style="width:30%"></div></div><span class="pct-label">12%</span></div></td>
+            <td style="color:#FF6B6B;font-weight:700;">▼ 3%</td>
+            <td><span class="badge badge-amber">Watch</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  </div><!-- end tab-deepdive -->
+
+</div><!-- end canvas -->
+
+<script>
+  // ★★★ THEME CONSTANTS — Holistics Brand (navy + green) ★★★
+  const THEME_PRIMARY   = '#259B6C';   // brand green
+  const THEME_SECONDARY = '#1B7CE4';   // brand blue
+  const THEME_ACCENT    = '#7AD1AE';   // green.300
+  const THEME_DANGER    = '#FF6B6B';
+  const THEME_FONT      = 'Inter';
+
+  function switchTab(name, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 60);
+  }
+
+  const embedOpts = { renderer: 'svg', actions: false };
+  // Vega axis: dark navy bg — use blue-tinted grids, blue-light labels
+  const vegaConfig = {
+    font: THEME_FONT, background: 'transparent',
+    axis: {
+      gridColor: 'rgba(94,163,237,0.15)', domainColor: 'rgba(94,163,237,0.25)',
+      tickColor: 'rgba(94,163,237,0.25)', labelColor: '#8DBEF2', titleColor: '#E8F2FD'
+    },
+    legend: { labelColor: '#8DBEF2', titleColor: '#E8F2FD', labelFontSize: 10 },
+    view: { stroke: 'transparent' }
+  };
+
+  vegaEmbed('#chart-bar', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 240, "config": vegaConfig,
+    "data": { "values": [
+      {"product": "Analytics Suite", "revenue": 48200},
+      {"product": "Data Pipeline",   "revenue": 31500},
+      {"product": "API Gateway",     "revenue": 22800},
+      {"product": "Mobile SDK",      "revenue": 11200},
+      {"product": "AI Insights",     "revenue": 8100},
+      {"product": "Report Builder",  "revenue": 2200}
+    ]},
+    "mark": {"type": "bar", "tooltip": true, "cornerRadiusEnd": 4, "color": THEME_PRIMARY},
+    "encoding": {
+      "x": {"field": "product", "type": "nominal", "sort": "-y", "axis": {"labelAngle": -28, "title": null}},
+      "y": {"field": "revenue", "type": "quantitative", "axis": {"title": "Revenue ($)", "format": "~s"}},
+      "tooltip": [
+        {"field": "product", "type": "nominal",      "title": "Product"},
+        {"field": "revenue", "type": "quantitative", "title": "Revenue", "format": "$,"}
+      ]
+    }
+  }, embedOpts);
+
+  vegaEmbed('#chart-scatter', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 240, "config": vegaConfig,
+    "data": { "values": [
+      {"region": "North America", "users": 3200, "revenue": 52000},
+      {"region": "Europe",        "users": 2100, "revenue": 34000},
+      {"region": "Asia Pacific",  "users": 1800, "revenue": 22000},
+      {"region": "Latin America", "users": 640,  "revenue": 8400},
+      {"region": "Middle East",   "users": 390,  "revenue": 5200},
+      {"region": "Africa",        "users": 180,  "revenue": 2400},
+      {"region": "ANZ",           "users": 90,   "revenue": 1200},
+      {"region": "Canada",        "users": 920,  "revenue": 14800}
+    ]},
+    "mark": {"type": "point", "filled": true, "tooltip": true, "size": 90},
+    "encoding": {
+      "x": {"field": "users",   "type": "quantitative", "axis": {"title": "Active Users"}},
+      "y": {"field": "revenue", "type": "quantitative", "axis": {"title": "Revenue ($)", "format": "~s"}},
+      "color": {"field": "region", "type": "nominal", "legend": {"orient": "right"}},
+      "tooltip": [
+        {"field": "region",  "type": "nominal",      "title": "Region"},
+        {"field": "users",   "type": "quantitative", "title": "Users",   "format": ","},
+        {"field": "revenue", "type": "quantitative", "title": "Revenue", "format": "$,"}
+      ]
+    }
+  }, embedOpts);
+
+  vegaEmbed('#chart-trend', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 200, "config": vegaConfig,
+    "data": { "values": [
+      {"month": "2025-07", "revenue": 28400}, {"month": "2025-08", "revenue": 31200},
+      {"month": "2025-09", "revenue": 30100}, {"month": "2025-10", "revenue": 34500},
+      {"month": "2025-11", "revenue": 38200}, {"month": "2025-12", "revenue": 41000},
+      {"month": "2026-01", "revenue": 39800}, {"month": "2026-02", "revenue": 44100},
+      {"month": "2026-03", "revenue": 48200}
+    ]},
+    "layer": [{
+      "mark": {"type": "area", "line": {"color": THEME_PRIMARY, "strokeWidth": 2},
+               "point": {"color": THEME_PRIMARY, "filled": true, "size": 60},
+               "color": THEME_PRIMARY, "fillOpacity": 0.12, "tooltip": true},
+      "encoding": {
+        "x": {"field": "month",   "type": "temporal", "axis": {"title": null, "format": "%b %Y"}},
+        "y": {"field": "revenue", "type": "quantitative", "axis": {"title": "Revenue ($)", "format": "~s"}},
+        "tooltip": [
+          {"field": "month",   "type": "temporal",     "title": "Month",   "format": "%B %Y"},
+          {"field": "revenue", "type": "quantitative", "title": "Revenue", "format": "$,"}
+        ]
+      }
+    }]
+  }, embedOpts);
+</script>
+
+</body>
+</html>

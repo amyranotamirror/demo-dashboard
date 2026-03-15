@@ -16,7 +16,7 @@ End-to-end workflow: business concept → layout prototype → data → Holistic
 Before starting, ask only:
 1. What department / use case? (e.g., Sales pipeline, Finance budget, HR attrition)
 2. What do you already have? (skip completed phases)
-3. Custom theme or built-in? (`default`, `light`, `dark`, `hextech`, `forest`, `ocean`, `sunset`)
+3. Custom theme or built-in? (`default`, `light`, `dark`, `forest`, `ocean`, `sunset`)
 4. Any custom Vega-Lite charts, or built-in chart types sufficient?
 
 ---

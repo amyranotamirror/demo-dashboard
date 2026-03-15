@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discord — Dashboard Preview</title>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+  <!-- ★★★ THEME SLOT START — Discord Dark ★★★ -->
+  <style>
+  /* ── FONT IMPORT ──────────────────────────────────────────────────────── */
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    /* Page — Discord guild bar level (darkest) */
+    --page-bg:              #1E1F22;
+
+    /* Canvas — Discord main content area */
+    --canvas-bg:            #313338;
+    --canvas-border-color:  rgba(255,255,255,0.06);
+    --canvas-radius:        12px;
+    --canvas-shadow:        0 8px 48px rgba(88,101,242,0.25), 0 2px 12px rgba(0,0,0,0.70);
+
+    /* Blocks — Discord elevated/modal level (lighter than canvas = floats) */
+    --block-bg:             #383A40;
+    --block-border-color:   rgba(255,255,255,0.12);
+    --block-radius:         8px;
+    --block-shadow:         0 2px 12px rgba(0,0,0,0.50);
+    --block-padding:        16px;
+
+    /* Typography */
+    --font-heading:         'Noto Sans', 'Inter', system-ui, sans-serif;
+    --font-body:            'Noto Sans', 'Inter', system-ui, sans-serif;
+    --text-primary:         #DBDEE1;
+    --text-secondary:       #B5BAC1;
+    --text-muted:           #80848E;
+    --label-color:          #949CF7;   /* soft blurple — chart labels */
+
+    /* Discord brand palette */
+    --color-primary:        #5865F2;   /* Blurple */
+    --color-primary-subtle: rgba(88,101,242,0.18);
+    --color-secondary:      #57F287;   /* Discord Green */
+    --color-accent:         #FEE75C;   /* Discord Yellow */
+    --color-danger:         #ED4245;   /* Discord Red */
+
+    /* Header / hero */
+    --header-bg:            linear-gradient(155deg, #0D0E17 0%, #171930 30%, #252860 65%, #3D42A0 100%);
+    --header-text:          #FFFFFF;
+    --header-subtitle:      rgba(255,255,255,0.50);
+
+    /* Nav / tab bar — darkest guild-bar level */
+    --nav-bg:               #1E1F22;
+    --nav-text:             rgba(255,255,255,0.45);
+    --nav-active-text:      #FFFFFF;
+    --nav-active-bg:        rgba(88,101,242,0.22);
+
+    /* Filters — elevated input bg */
+    --filter-bg:            #383A40;
+    --filter-border:        rgba(255,255,255,0.08);
+    --filter-text:          #DBDEE1;
+
+    /* KPI */
+    --kpi-value-size:       30px;
+    --kpi-value-color:      #949CF7;   /* soft blurple — data wears the brand */
+    --kpi-pos-color:        #57F287;
+    --kpi-neg-color:        #ED4245;
+
+    /* Table */
+    --table-bg:             #383A40;
+    --table-header-bg:      #2B2D31;
+    --table-header-color:   #949CF7;   /* soft blurple headers */
+    --table-border:         rgba(255,255,255,0.10);
+    --table-hover:          rgba(88,101,242,0.12);
+    --table-band:           rgba(0,0,0,0.18);
+
+    /* Section headings */
+    --section-accent:       #5865F2;
+    --section-text:         #FFFFFF;
+  }
+
+  /* ── Discord-specific structural overrides ─────────────────────────── */
+
+  /* Top bar: blurple bottom edge */
+  .top-bar { border-bottom: 1px solid rgba(88,101,242,0.30) !important; }
+
+  /* Active tab: blurple underline (not white — this is the Discord way) */
+  .tab-btn.active { border-bottom-color: #5865F2 !important; }
+
+  /* Header: blurple bottom glow line */
+  .header-block { border-bottom: 1px solid rgba(88,101,242,0.35); }
+
+  /* KPI cards: blurple left accent + blurple top-glow on hover */
+  .kpi-card {
+    border-left: 3px solid #5865F2 !important;
+    transition: box-shadow 0.15s, transform 0.1s;
+  }
+  .kpi-card:hover {
+    box-shadow: 0 4px 20px rgba(88,101,242,0.30) !important;
+    transform: translateY(-1px);
+  }
+
+  /* Filter: blurple dropdown arrow */
+  .filter-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%235865F2' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 8px center !important;
+  }
+  .filter-select option { background: #383A40; color: #DBDEE1; }
+
+  /* Section headings: blurple accent line */
+  .section-heading { border-left: 4px solid #5865F2 !important; }
+
+  /* Badges: Discord-dark transparent palette */
+  .badge-green { background: rgba(87,242,135,0.15);  color: #57F287; }
+  .badge-amber { background: rgba(254,231,92,0.15);  color: #FEE75C; }
+  .badge-red   { background: rgba(237,66,69,0.15);   color: #ED4245; }
+  .badge-blue  { background: rgba(88,101,242,0.18);  color: #949CF7; }
+  .badge-gray  { background: rgba(128,132,142,0.18); color: #B5BAC1; }
+
+  /* Progress track */
+  .progress-track { background: rgba(255,255,255,0.08); }
+
+  /* Sankey labels */
+  .s-label { fill: #B5BAC1 !important; }
+  .s-value  { fill: #80848E !important; }
+
+  /* Header nav */
+  .header-nav a { color: rgba(255,255,255,0.50); }
+  .header-nav a:hover { color: #FFFFFF !important; border-bottom-color: rgba(88,101,242,0.7) !important; }
+
+  /* Version links */
+  .ver-link { border-color: rgba(255,255,255,0.15) !important; }
+
+  /* Canvas: subtle blurple inner-glow on top edge */
+  .canvas { border-top: 1px solid rgba(88,101,242,0.25); }
+  </style>
+  <!-- ★★★ THEME SLOT END ★★★ -->
+
+  <style>
+  /* ── BASE STRUCTURAL STYLES — do not modify for theming ──────────── */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-body); background: var(--page-bg); color: var(--text-primary); min-height: 100vh; }
+
+  /* Top bar */
+  .top-bar {
+    position: sticky; top: 0; z-index: 200;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--nav-bg); padding: 0 24px;
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+  }
+  .top-bar-title { font-family: var(--font-heading); font-size: 13px; font-weight: 700; color: var(--header-text); padding: 12px 0; letter-spacing: 0.01em; }
+  .tabs { display: flex; }
+  .tab-btn {
+    padding: 12px 20px; font-size: 12px; font-weight: 600; border: none; cursor: pointer;
+    background: transparent; color: var(--nav-text); border-bottom: 3px solid transparent;
+    transition: all 0.15s; font-family: var(--font-body); letter-spacing: 0.01em;
+  }
+  .tab-btn.active { color: var(--nav-active-text); border-bottom-color: rgba(255,255,255,0.9); background: var(--nav-active-bg); }
+  .tab-btn:hover:not(.active) { color: var(--nav-active-text); }
+  .version-nav { display: flex; gap: 6px; align-items: center; }
+  .ver-link {
+    padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 600;
+    text-decoration: none; color: var(--nav-text); border: 1px solid rgba(255,255,255,0.25);
+    transition: all 0.15s;
+  }
+  .ver-link.active, .ver-link:hover { background: rgba(88,101,242,0.25); color: #FFFFFF; }
+
+  /* Canvas wrapper */
+  .canvas {
+    max-width: 1360px; margin: 28px auto;
+    background: var(--canvas-bg);
+    border: 1px solid var(--canvas-border-color);
+    border-radius: var(--canvas-radius);
+    box-shadow: var(--canvas-shadow);
+    overflow: hidden;
+  }
+
+  /* Header / hero */
+  .header-block { background: var(--header-bg); padding: 28px 32px; font-family: var(--font-heading); }
+  .header-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .header-logo-name { font-size: 11px; font-weight: 700; color: var(--header-subtitle); letter-spacing: 0.1em; text-transform: uppercase; }
+  .header-title { font-size: 26px; font-weight: 800; color: var(--header-text); margin-bottom: 4px; letter-spacing: -0.01em; }
+  .header-subtitle-text { font-size: 13px; color: var(--header-subtitle); }
+  .header-nav { display: flex; gap: 24px; margin-top: 16px; }
+  .header-nav a { font-size: 12px; font-weight: 600; color: var(--header-subtitle); text-decoration: none; border-bottom: 2px solid transparent; padding-bottom: 2px; transition: all 0.15s; }
+  .header-nav a:hover { color: var(--header-text); border-bottom-color: rgba(255,255,255,0.6); }
+
+  /* Tabs display */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  .dash-body { padding: 24px 32px 36px; }
+
+  /* Filter row */
+  .filter-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; align-items: flex-end; }
+  .filter-item { display: flex; flex-direction: column; gap: 4px; }
+  .filter-label { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .filter-select {
+    padding: 6px 28px 6px 10px; font-size: 12px; font-family: var(--font-body);
+    background: var(--filter-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%2380848E' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 8px center;
+    border: 1px solid var(--filter-border); border-radius: 4px; color: var(--filter-text);
+    appearance: none; cursor: pointer; min-width: 140px;
+  }
+  .filter-select:focus { outline: 2px solid var(--color-primary); outline-offset: 1px; }
+
+  /* KPI row */
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .kpi-card {
+    background: var(--block-bg); border: 1px solid var(--block-border-color);
+    border-radius: var(--block-radius); box-shadow: var(--block-shadow); padding: var(--block-padding);
+  }
+  .kpi-block-label { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .kpi-value { font-family: var(--font-heading); font-size: var(--kpi-value-size); font-weight: 800; color: var(--kpi-value-color); margin-bottom: 4px; line-height: 1.1; }
+  .kpi-delta { font-size: 11px; font-weight: 600; }
+  .kpi-delta.pos { color: var(--kpi-pos-color); }
+  .kpi-delta.neg { color: var(--kpi-neg-color); }
+
+  /* Section headings */
+  .section-heading { display: flex; align-items: flex-start; gap: 0; margin: 28px 0 14px; border-left: 4px solid var(--section-accent); padding-left: 12px; }
+  .section-heading h2 { font-family: var(--font-heading); font-size: 14px; font-weight: 700; color: var(--section-text); }
+  .section-heading p { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+
+  /* Chart grid */
+  .chart-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 4px; }
+  .chart-block {
+    background: var(--block-bg); border: 1px solid var(--block-border-color);
+    border-radius: var(--block-radius); box-shadow: var(--block-shadow); padding: var(--block-padding);
+  }
+  .block-label { font-size: 10px; font-weight: 700; color: var(--label-color); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+  .chart-container { width: 100%; min-height: 250px; }
+
+  /* Table block */
+  .table-block {
+    background: var(--block-bg); border: 1px solid var(--block-border-color);
+    border-radius: var(--block-radius); box-shadow: var(--block-shadow); overflow: hidden; margin-bottom: 4px;
+  }
+  .table-block-header { padding: 10px 16px; border-bottom: 1px solid var(--table-border); }
+  table.data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  table.data-table thead th {
+    background: var(--table-header-bg); color: var(--table-header-color);
+    font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 8px 14px; text-align: left; border-bottom: 1px solid var(--table-border); white-space: nowrap;
+  }
+  table.data-table tbody tr { border-bottom: 1px solid var(--table-border); transition: background 0.1s; }
+  table.data-table tbody tr:hover { background: var(--table-hover); }
+  table.data-table tbody tr:nth-child(even) { background: var(--table-band); }
+  table.data-table tbody tr:nth-child(even):hover { background: var(--table-hover); }
+  table.data-table td { padding: 8px 14px; vertical-align: middle; color: var(--text-primary); }
+  .prod-icon { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+  .prod-name { font-weight: 600; font-size: 12px; }
+  .prod-sub  { font-size: 11px; color: var(--text-secondary); }
+  .progress-wrap { display: flex; align-items: center; gap: 8px; }
+  .progress-track { flex: 1; height: 5px; background: var(--table-border); border-radius: 99px; overflow: hidden; min-width: 60px; }
+  .progress-fill { height: 100%; border-radius: 99px; }
+  .progress-fill.p-primary  { background: var(--color-primary); }
+  .progress-fill.p-green    { background: var(--color-secondary); }
+  .progress-fill.p-amber    { background: var(--color-accent); }
+  .progress-fill.p-red      { background: var(--color-danger); }
+  .pct-label { font-size: 11px; font-weight: 600; color: var(--text-secondary); min-width: 28px; }
+  .badge { display: inline-flex; align-items: center; padding: 2px 7px; border-radius: 99px; font-size: 10px; font-weight: 700; }
+  .badge-green  { background: #dcfce7; color: #15803d; }
+  .badge-amber  { background: #fef3c7; color: #92400e; }
+  .badge-red    { background: #fee2e2; color: #b91c1c; }
+  .badge-blue   { background: var(--color-primary-subtle); color: var(--color-primary); }
+  .badge-gray   { background: #f3f4f6; color: #6b7280; }
+
+  /* Sankey block */
+  .sankey-block {
+    background: var(--block-bg); border: 1px solid var(--block-border-color);
+    border-radius: var(--block-radius); box-shadow: var(--block-shadow); padding: var(--block-padding);
+  }
+  .sankey-svg { width: 100%; height: 230px; overflow: visible; }
+  .s-label { font-size: 11px; fill: var(--text-secondary); font-family: var(--font-body); }
+  .s-value { font-size: 10px; fill: var(--text-muted); font-family: var(--font-body); }
+  </style>
+</head>
+<body>
+
+<!-- ── TOP BAR ─────────────────────────────────────────────────────────── -->
+<div class="top-bar">
+  <div class="top-bar-title">Discord — Dashboard Preview</div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('overview', this)">Overview</button>
+    <button class="tab-btn" onclick="switchTab('deepdive', this)">Deep Dive</button>
+  </div>
+  <nav class="version-nav">
+    <a href="discord-v1.html" class="ver-link active">v1</a>
+  </nav>
+</div>
+
+<!-- ── CANVAS ──────────────────────────────────────────────────────────── -->
+<div class="canvas">
+
+  <!-- Header (always visible) -->
+  <div class="header-block">
+    <div class="header-logo">
+      <!-- Discord Clyde logo mark (simplified) -->
+      <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+        <rect width="34" height="34" rx="10" fill="rgba(88,101,242,0.25)"/>
+        <path d="M22.5 9.5C21.1 9.2 19.6 9 18 9C17.9 9 17.9 9 17.8 9.1C17.6 9.4 17.4 9.9 17.2 10.2C15.5 10 13.8 10 12.1 10.2C11.9 9.9 11.7 9.4 11.5 9.1C11.4 9 11.3 9 11.2 9C9.6 9 8.1 9.2 6.7 9.5C6.7 9.5 3.5 14.2 3 18.7C4.5 19.8 6.2 20.6 8 21.1C8.4 20.5 8.8 19.9 9.1 19.2C8.4 18.9 7.8 18.6 7.2 18.2C7.4 18.1 7.5 17.9 7.7 17.8C11.3 19.5 15.3 19.5 18.8 17.8C19 17.9 19.1 18.1 19.3 18.2C18.7 18.6 18.1 18.9 17.4 19.2C17.7 19.9 18.1 20.5 18.5 21.1C20.3 20.6 22 19.8 23.5 18.7C23 14.2 19.8 9.5 22.5 9.5ZM11.8 16.5C11 16.5 10.3 15.7 10.3 14.8C10.3 13.9 11 13.1 11.8 13.1C12.7 13.1 13.4 13.9 13.3 14.8C13.4 15.7 12.7 16.5 11.8 16.5ZM17.3 16.5C16.5 16.5 15.8 15.7 15.8 14.8C15.8 13.9 16.5 13.1 17.3 13.1C18.2 13.1 18.9 13.9 18.8 14.8C18.9 15.7 18.2 16.5 17.3 16.5Z" fill="white" opacity="0.9"/>
+      </svg>
+      <span class="header-logo-name">Discord Analytics</span>
+    </div>
+    <div class="header-title">Community Growth Dashboard</div>
+    <div class="header-subtitle-text">Platform Metrics Overview — Q1 2026</div>
+    <nav class="header-nav">
+      <a href="#">Engagement</a>
+      <a href="#">Communities</a>
+      <a href="#">Monetization</a>
+      <a href="#">Safety</a>
+    </nav>
+  </div>
+
+  <!-- ── TAB 1: OVERVIEW ─────────────────────────────────────────────── -->
+  <div id="tab-overview" class="tab-content active">
+  <div class="dash-body">
+
+    <!-- Filters -->
+    <div class="filter-row">
+      <div class="filter-item">
+        <span class="filter-label">Time Period</span>
+        <select class="filter-select"><option>Q1 2026</option><option>Q4 2025</option><option>Last 12 months</option></select>
+      </div>
+      <div class="filter-item">
+        <span class="filter-label">Region</span>
+        <select class="filter-select"><option>All Regions</option><option>North America</option><option>Europe</option><option>Asia Pacific</option></select>
+      </div>
+      <div class="filter-item">
+        <span class="filter-label">Server Type</span>
+        <select class="filter-select"><option>All Servers</option><option>Gaming</option><option>Communities</option><option>Education</option></select>
+      </div>
+      <div class="filter-item">
+        <span class="filter-label">Nitro Tier</span>
+        <select class="filter-select"><option>All Users</option><option>Nitro Basic</option><option>Nitro</option><option>Free</option></select>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-block-label">Daily Active Users</div>
+        <div class="kpi-value">196.4M</div>
+        <div class="kpi-delta pos">▲ 8.2% vs last quarter</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-block-label">Messages / Day</div>
+        <div class="kpi-value">4.1B</div>
+        <div class="kpi-delta pos">▲ 12.7% vs last quarter</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-block-label">New Servers</div>
+        <div class="kpi-value">284K</div>
+        <div class="kpi-delta neg">▼ 2.1% vs last quarter</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-block-label">Voice Minutes</div>
+        <div class="kpi-value">6.8B</div>
+        <div class="kpi-delta pos">▲ 18.4% vs last quarter</div>
+      </div>
+    </div>
+
+    <!-- Engagement Analysis -->
+    <div class="section-heading">
+      <div>
+        <h2>Engagement Analysis</h2>
+        <p>Messages by server category and DAU by region</p>
+      </div>
+    </div>
+    <div class="chart-grid-2">
+      <div class="chart-block">
+        <div class="block-label">Messages by Server Category</div>
+        <div class="chart-container" id="chart-bar"></div>
+      </div>
+      <div class="chart-block">
+        <div class="block-label">DAU vs Revenue by Region</div>
+        <div class="chart-container" id="chart-scatter"></div>
+      </div>
+    </div>
+
+    <!-- Server Performance -->
+    <div class="section-heading">
+      <div>
+        <h2>Server Category Performance</h2>
+        <p>Engagement, retention and growth across community types</p>
+      </div>
+    </div>
+    <div class="table-block">
+      <div class="table-block-header">
+        <span class="block-label">Top Categories — 6 items</span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th></th><th>Category</th><th>Type</th><th>Servers</th>
+            <th>Avg Members</th><th>Retention</th><th>MoM Growth</th><th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="prod-icon" style="background:rgba(88,101,242,0.20);">🎮</div></td>
+            <td><div class="prod-name">Gaming</div><div class="prod-sub">Most active category</div></td>
+            <td>Entertainment</td><td>4.2M</td><td>8,412</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-green" style="width:91%"></div></div><span class="pct-label">91%</span></div></td>
+            <td style="color:var(--color-secondary);font-weight:700;">+14.2%</td>
+            <td><span class="badge badge-green">● Thriving</span></td>
+          </tr>
+          <tr>
+            <td><div class="prod-icon" style="background:rgba(254,231,92,0.15);">🎵</div></td>
+            <td><div class="prod-name">Music & Arts</div><div class="prod-sub">High voice usage</div></td>
+            <td>Entertainment</td><td>1.8M</td><td>6,200</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-primary" style="width:78%"></div></div><span class="pct-label">78%</span></div></td>
+            <td style="color:var(--color-secondary);font-weight:700;">+9.8%</td>
+            <td><span class="badge badge-green">● Thriving</span></td>
+          </tr>
+          <tr>
+            <td><div class="prod-icon" style="background:rgba(88,101,242,0.15);">💻</div></td>
+            <td><div class="prod-name">Tech & Dev</div><div class="prod-sub">High Nitro adoption</div></td>
+            <td>Education</td><td>2.1M</td><td>4,880</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-primary" style="width:68%"></div></div><span class="pct-label">68%</span></div></td>
+            <td style="color:var(--color-secondary);font-weight:700;">+21.3%</td>
+            <td><span class="badge badge-blue">● Growing</span></td>
+          </tr>
+          <tr>
+            <td><div class="prod-icon" style="background:rgba(87,242,135,0.12);">📚</div></td>
+            <td><div class="prod-name">Education</div><div class="prod-sub">Fastest growing</div></td>
+            <td>Education</td><td>840K</td><td>3,120</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-amber" style="width:52%"></div></div><span class="pct-label">52%</span></div></td>
+            <td style="color:var(--color-accent);font-weight:700;">+31.7%</td>
+            <td><span class="badge badge-amber">● Watch</span></td>
+          </tr>
+          <tr>
+            <td><div class="prod-icon" style="background:rgba(254,231,92,0.12);">😂</div></td>
+            <td><div class="prod-name">Memes & Fun</div><div class="prod-sub">High turnover</div></td>
+            <td>Social</td><td>3.6M</td><td>2,400</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-amber" style="width:38%"></div></div><span class="pct-label">38%</span></div></td>
+            <td style="color:var(--color-accent);font-weight:700;">+4.1%</td>
+            <td><span class="badge badge-amber">● Watch</span></td>
+          </tr>
+          <tr>
+            <td><div class="prod-icon" style="background:rgba(237,66,69,0.12);">🌍</div></td>
+            <td><div class="prod-name">Politics & News</div><div class="prod-sub">High report rate</div></td>
+            <td>Social</td><td>620K</td><td>1,840</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-red" style="width:19%"></div></div><span class="pct-label">19%</span></div></td>
+            <td style="color:var(--color-danger);font-weight:700;">−6.4%</td>
+            <td><span class="badge badge-red">● At Risk</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Flow Analysis -->
+    <div class="section-heading">
+      <div>
+        <h2>User Journey Flow</h2>
+        <p>Discovery source → Engagement type → Retention outcome</p>
+      </div>
+    </div>
+    <div class="sankey-block">
+      <div class="block-label">Acquisition → Activity → Retention</div>
+      <svg class="sankey-svg" viewBox="0 0 700 210" preserveAspectRatio="xMidYMid meet">
+        <rect x="0" y="5"   width="16" height="96"  rx="3" fill="var(--color-primary)"/>
+        <rect x="0" y="111" width="16" height="60"  rx="3" fill="var(--color-secondary)"/>
+        <rect x="0" y="181" width="16" height="26"  rx="3" fill="var(--color-accent)"/>
+        <text x="22" y="50"  class="s-label" dominant-baseline="middle">Friend Invite</text>
+        <text x="22" y="63"  class="s-value" dominant-baseline="middle">48.2M users</text>
+        <text x="22" y="143" class="s-label" dominant-baseline="middle">Organic / Search</text>
+        <text x="22" y="156" class="s-value" dominant-baseline="middle">29.8M users</text>
+        <text x="22" y="193" class="s-label" dominant-baseline="middle">Gaming Platform</text>
+        <text x="22" y="206" class="s-value" dominant-baseline="middle">18.4M users</text>
+        <path d="M16,22  C175,22  175,16  330,16"  stroke="var(--color-primary)"   stroke-width="30" fill="none" opacity="0.22"/>
+        <path d="M16,60  C175,60  175,118 330,118" stroke="var(--color-primary)"   stroke-width="18" fill="none" opacity="0.22"/>
+        <path d="M16,92  C175,92  175,183 330,183" stroke="var(--color-primary)"   stroke-width="10" fill="none" opacity="0.22"/>
+        <path d="M16,120 C175,120 175,50  330,50"  stroke="var(--color-secondary)" stroke-width="18" fill="none" opacity="0.24"/>
+        <path d="M16,144 C175,144 175,148 330,148" stroke="var(--color-secondary)" stroke-width="22" fill="none" opacity="0.24"/>
+        <path d="M16,168 C175,168 175,194 330,194" stroke="var(--color-secondary)" stroke-width="12" fill="none" opacity="0.24"/>
+        <path d="M16,188 C175,188 175,72  330,72"  stroke="var(--color-accent)"    stroke-width="14" fill="none" opacity="0.30"/>
+        <path d="M16,200 C175,200 175,164 330,164" stroke="var(--color-accent)"    stroke-width="10" fill="none" opacity="0.30"/>
+        <rect x="330" y="0"   width="16" height="86"  rx="3" fill="var(--color-primary)"   opacity="0.80"/>
+        <rect x="330" y="96"  width="16" height="78"  rx="3" fill="var(--color-secondary)" opacity="0.80"/>
+        <rect x="330" y="184" width="16" height="26"  rx="3" fill="var(--color-accent)"    opacity="0.80"/>
+        <text x="352" y="44"  class="s-label" dominant-baseline="middle">Messaging</text>
+        <text x="352" y="57"  class="s-value" dominant-baseline="middle">62.1M</text>
+        <text x="352" y="137" class="s-label" dominant-baseline="middle">Voice / Video</text>
+        <text x="352" y="150" class="s-value" dominant-baseline="middle">38.4M</text>
+        <text x="352" y="196" class="s-label" dominant-baseline="middle">Browsing</text>
+        <text x="352" y="209" class="s-value" dominant-baseline="middle">21.8M</text>
+        <path d="M346,18  C520,18  520,24  684,24"  stroke="var(--color-primary)"   stroke-width="36" fill="none" opacity="0.22"/>
+        <path d="M346,76  C520,76  520,60  684,60"  stroke="var(--color-primary)"   stroke-width="20" fill="none" opacity="0.22"/>
+        <path d="M346,112 C520,112 520,88  684,88"  stroke="var(--color-secondary)" stroke-width="28" fill="none" opacity="0.24"/>
+        <path d="M346,154 C520,154 520,140 684,140" stroke="var(--color-secondary)" stroke-width="24" fill="none" opacity="0.24"/>
+        <path d="M346,190 C520,190 520,172 684,172" stroke="var(--color-accent)"    stroke-width="14" fill="none" opacity="0.30"/>
+        <path d="M346,204 C520,204 520,196 684,196" stroke="var(--color-accent)"    stroke-width="10" fill="none" opacity="0.30"/>
+        <rect x="684" y="5"   width="16" height="94"  rx="3" fill="var(--color-secondary)"/>
+        <rect x="684" y="109" width="16" height="66"  rx="3" fill="var(--color-primary)"   opacity="0.85"/>
+        <rect x="684" y="185" width="16" height="22"  rx="3" fill="var(--color-danger)"    opacity="0.75"/>
+        <text x="678" y="50"  class="s-label" dominant-baseline="middle" text-anchor="end">Retained D30</text>
+        <text x="678" y="63"  class="s-value" dominant-baseline="middle" text-anchor="end">78.4M</text>
+        <text x="678" y="143" class="s-label" dominant-baseline="middle" text-anchor="end">Casual (D7)</text>
+        <text x="678" y="156" class="s-value" dominant-baseline="middle" text-anchor="end">52.2M</text>
+        <text x="678" y="196" class="s-label" dominant-baseline="middle" text-anchor="end">Churned</text>
+        <text x="678" y="209" class="s-value" dominant-baseline="middle" text-anchor="end">21.3M</text>
+      </svg>
+    </div>
+
+  </div>
+  </div><!-- end tab-overview -->
+
+  <!-- ── TAB 2: DEEP DIVE ────────────────────────────────────────────── -->
+  <div id="tab-deepdive" class="tab-content">
+  <div class="dash-body">
+
+    <div class="section-heading">
+      <div>
+        <h2>Server Category Deep Dive</h2>
+        <p>Select a category to explore engagement trend and rank breakdown</p>
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <div class="filter-item">
+        <span class="filter-label">Category</span>
+        <select class="filter-select"><option>Gaming</option><option>Music & Arts</option><option>Tech & Dev</option><option>Education</option></select>
+      </div>
+      <div class="filter-item">
+        <span class="filter-label">Metric</span>
+        <select class="filter-select"><option>Daily Active Users</option><option>Messages Sent</option><option>Voice Minutes</option></select>
+      </div>
+    </div>
+
+    <div class="chart-block" style="margin-bottom:14px;">
+      <div class="block-label">DAU Trend — Gaming Servers (Patch History)</div>
+      <div class="chart-container" id="chart-trend" style="min-height:200px;"></div>
+    </div>
+
+    <div class="section-heading">
+      <div>
+        <h2>Server Size Breakdown</h2>
+        <p>Engagement and health by server size tier</p>
+      </div>
+    </div>
+    <div class="table-block">
+      <div class="table-block-header">
+        <span class="block-label">Size Tiers — 3 brackets</span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Size Tier</th><th>Tier</th><th>Servers</th>
+            <th>Avg DAU</th><th>Message Share</th><th>Trend</th><th>Health</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:600;">Large (10K+)</td>
+            <td><span class="badge badge-blue">Partnered</span></td>
+            <td>48,200</td><td>12,840</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-green" style="width:82%"></div></div><span class="pct-label">58%</span></div></td>
+            <td style="color:var(--color-secondary);font-weight:700;">▲ 19%</td>
+            <td><span class="badge badge-green">Strong</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;">Medium (100–10K)</td>
+            <td><span class="badge badge-blue">Verified</span></td>
+            <td>1.2M</td><td>1,420</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-primary" style="width:55%"></div></div><span class="pct-label">31%</span></div></td>
+            <td style="color:var(--color-secondary);font-weight:700;">▲ 7%</td>
+            <td><span class="badge badge-blue">Good</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;">Small (&lt;100)</td>
+            <td><span class="badge badge-amber">Standard</span></td>
+            <td>18.4M</td><td>24</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-amber" style="width:30%"></div></div><span class="pct-label">11%</span></div></td>
+            <td style="color:var(--color-danger);font-weight:700;">▼ 4%</td>
+            <td><span class="badge badge-amber">Watch</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  </div><!-- end tab-deepdive -->
+
+</div><!-- end canvas -->
+
+<script>
+  // ★★★ THEME CONSTANTS — Discord Dark ★★★
+  const THEME_PRIMARY   = '#5865F2';
+  const THEME_SECONDARY = '#57F287';
+  const THEME_ACCENT    = '#FEE75C';
+  const THEME_DANGER    = '#ED4245';
+  const THEME_FONT      = 'Noto Sans';
+
+  function switchTab(name, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 60);
+  }
+
+  const embedOpts = { renderer: 'svg', actions: false };
+  const vegaConfig = {
+    font: THEME_FONT, background: 'transparent',
+    axis: {
+      gridColor: 'rgba(255,255,255,0.06)', domainColor: 'rgba(255,255,255,0.10)',
+      tickColor: 'rgba(255,255,255,0.10)', labelColor: '#B5BAC1', titleColor: '#DBDEE1'
+    },
+    legend: { labelColor: '#B5BAC1', titleColor: '#DBDEE1', labelFontSize: 10 },
+    view: { stroke: 'transparent' }
+  };
+
+  vegaEmbed('#chart-bar', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 240, "config": vegaConfig,
+    "data": { "values": [
+      {"category": "Gaming",      "messages": 1840},
+      {"category": "Music",       "messages": 920},
+      {"category": "Tech & Dev",  "messages": 680},
+      {"category": "Memes",       "messages": 460},
+      {"category": "Education",   "messages": 340},
+      {"category": "Politics",    "messages": 120}
+    ]},
+    "mark": {"type": "bar", "tooltip": true, "cornerRadiusEnd": 4, "color": THEME_PRIMARY},
+    "encoding": {
+      "x": {"field": "category", "type": "nominal", "sort": "-y", "axis": {"labelAngle": -28, "title": null}},
+      "y": {"field": "messages", "type": "quantitative", "axis": {"title": "Messages / day (M)", "format": "~s"}},
+      "tooltip": [
+        {"field": "category", "type": "nominal",      "title": "Category"},
+        {"field": "messages", "type": "quantitative", "title": "Messages (M)", "format": ","}
+      ]
+    }
+  }, embedOpts);
+
+  vegaEmbed('#chart-scatter', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 240, "config": vegaConfig,
+    "data": { "values": [
+      {"region": "North America", "dau": 62000, "revenue": 48000},
+      {"region": "Europe",        "dau": 48000, "revenue": 32000},
+      {"region": "Asia Pacific",  "dau": 42000, "revenue": 18000},
+      {"region": "Latin America", "dau": 18000, "revenue": 6400},
+      {"region": "Middle East",   "dau": 8200,  "revenue": 3800},
+      {"region": "Africa",        "dau": 4800,  "revenue": 1200},
+      {"region": "ANZ",           "dau": 3600,  "revenue": 2800},
+      {"region": "Canada",        "dau": 12800, "revenue": 9400}
+    ]},
+    "mark": {"type": "point", "filled": true, "tooltip": true, "size": 90},
+    "encoding": {
+      "x": {"field": "dau",     "type": "quantitative", "axis": {"title": "Daily Active Users (K)"}},
+      "y": {"field": "revenue", "type": "quantitative", "axis": {"title": "Revenue ($K)", "format": "~s"}},
+      "color": {"field": "region", "type": "nominal", "legend": {"orient": "right"}},
+      "tooltip": [
+        {"field": "region",  "type": "nominal",      "title": "Region"},
+        {"field": "dau",     "type": "quantitative", "title": "DAU (K)",     "format": ","},
+        {"field": "revenue", "type": "quantitative", "title": "Revenue ($K)", "format": ","}
+      ]
+    }
+  }, embedOpts);
+
+  vegaEmbed('#chart-trend', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 200, "config": vegaConfig,
+    "data": { "values": [
+      {"month": "2025-07", "dau": 148000}, {"month": "2025-08", "dau": 162000},
+      {"month": "2025-09", "dau": 158000}, {"month": "2025-10", "dau": 174000},
+      {"month": "2025-11", "dau": 181000}, {"month": "2025-12", "dau": 196000},
+      {"month": "2026-01", "dau": 188000}, {"month": "2026-02", "dau": 201000},
+      {"month": "2026-03", "dau": 218000}
+    ]},
+    "layer": [{
+      "mark": {"type": "area", "line": {"color": THEME_PRIMARY, "strokeWidth": 2},
+               "point": {"color": THEME_PRIMARY, "filled": true, "size": 60},
+               "color": THEME_PRIMARY, "fillOpacity": 0.10, "tooltip": true},
+      "encoding": {
+        "x": {"field": "month", "type": "temporal", "axis": {"title": null, "format": "%b %Y"}},
+        "y": {"field": "dau",   "type": "quantitative", "axis": {"title": "DAU (K)", "format": "~s"}},
+        "tooltip": [
+          {"field": "month", "type": "temporal",     "title": "Month", "format": "%B %Y"},
+          {"field": "dau",   "type": "quantitative", "title": "DAU (K)", "format": ","}
+        ]
+      }
+    }]
+  }, embedOpts);
+</script>
+
+</body>
+</html>
