@@ -128,7 +128,7 @@ If there are pending gaps, stop and ask. If all gaps are filled (inferred or pro
 
 ## Step 2 — Generate HTML prototype
 
-1. Start from the **Standard Dashboard Template** at `.claude/commands/reporting/_theme-preview-template.html`. Read it first — but if the template doesn't match the quality of existing brand files like `themes/discord/discord-v1.html` or `themes/holistics/holistics-brand-v1.html`, use those files as structural reference instead.
+1. Start from the **Standard Dashboard Template** at `.claude/commands/reporting/_theme-preview-template.html`. Read it first — but if the template doesn't match the quality of existing brand files like `themes/discord/discord-v1.html` or `themes/holistics/holistics-brand-v1.html`, use those files as structural reference instead. `themes/tft-dark/tft-dark-v1.html` is another high-quality reference (dark luxury palette with gold accents).
 2. Replace the `<!-- ★ THEME SLOT START ★ -->` block:
    - CSS variables (colors, fonts, radii, shadows)
    - Google Fonts `@import` if using a custom font

@@ -3,7 +3,7 @@
 **Version:** v1
 **Mode:** Preview only (Mode A)
 **Preview:** open `holistics-brand-v1.html` in browser
-**AML Code:** `holistics-brand-v1.aml` *(pending approval)*
+**AML Code:** `holistics-brand-v1.aml`
 
 ---
 

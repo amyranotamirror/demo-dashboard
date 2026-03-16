@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Dashboard v2 · Holistics</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg-page:   #0d1117;
+      --bg-nav:    #0a0e14;
+      --bg-card:   #161b27;
+      --bg-card2:  #1a2030;
+      --border:    rgba(255,255,255,0.07);
+      --border2:   rgba(255,255,255,0.12);
+      --green:     #00c47a;
+      --green-dim: rgba(0,196,122,0.12);
+      --blue:      #3b82f6;
+      --indigo:    #6366f1;
+      --purple:    #8b5cf6;
+      --amber:     #f59e0b;
+      --red:       #ef4444;
+      --teal:      #06b6d4;
+      --t1:        #e2e8f0;
+      --t2:        #94a3b8;
+      --t3:        #475569;
+      --r:         8px;
+      --sh:        0 4px 24px rgba(0,0,0,.5);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg-page);
+      color: var(--t1);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      background: var(--bg-nav);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      height: 52px;
+      gap: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 300;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; color: #fff; text-decoration: none; }
+    .logo-mark { width: 26px; height: 26px; background: var(--green); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 900; color: #000; }
+    .nav-sep { color: var(--t3); font-size: 20px; font-weight: 300; }
+    .nav-title { color: var(--t2); font-size: 13px; }
+    .nav-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+    .nbadge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 99px; background: var(--green-dim); color: var(--green); border: 1px solid rgba(0,196,122,.25); }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      background: var(--bg-nav);
+      border-bottom: 1px solid var(--border2);
+      padding: 8px 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 52px;
+      z-index: 200;
+    }
+    .f-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--t3); flex-shrink: 0; }
+    .f-select {
+      background: var(--bg-card2);
+      border: 1px solid var(--border2);
+      color: var(--t1);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      outline: none;
+      transition: border-color .15s;
+    }
+    .f-select:focus, .f-select:hover { border-color: var(--green); }
+    .f-sep { width: 1px; height: 20px; background: var(--border2); flex-shrink: 0; }
+    .f-scope { font-size: 11px; color: var(--t3); margin-left: 4px; }
+    .f-reset { margin-left: auto; font-size: 11px; color: var(--t3); cursor: pointer; padding: 4px 10px; border-radius: 5px; border: 1px solid var(--border); transition: all .15s; }
+    .f-reset:hover { color: var(--t2); border-color: var(--border2); }
+    .view-toggle { display: flex; gap: 3px; }
+    .vt-btn { padding: 4px 12px; border-radius: 6px; border: 1px solid var(--border2); background: none; color: var(--t2); font-size: 12px; font-weight: 500; cursor: pointer; transition: all .15s; }
+    .vt-btn.active { background: var(--green-dim); color: var(--green); border-color: rgba(0,196,122,.3); }
+
+    /* ── TAB BAR ── */
+    .tabs-bar {
+      background: var(--bg-nav);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex;
+      overflow-x: auto;
+      position: sticky;
+      top: 92px;
+      z-index: 100;
+    }
+    .tabs-bar::-webkit-scrollbar { display: none; }
+    .tab-btn { padding: 13px 20px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--t2); cursor: pointer; font-size: 13px; font-weight: 500; white-space: nowrap; transition: color .15s, border-color .15s; }
+    .tab-btn:hover { color: var(--t1); }
+    .tab-btn.active { color: #fff; border-bottom-color: var(--green); }
+    .tab-count { font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 99px; background: rgba(239,68,68,.2); color: #f87171; margin-left: 5px; }
+
+    /* ── LAYOUT ── */
+    .tab-pane { display: none; padding: 20px 24px 48px; max-width: 1440px; margin: 0 auto; }
+    .tab-pane.active { display: block; }
+    .grid { display: grid; gap: 16px; }
+    .g4  { grid-template-columns: repeat(4, 1fr); }
+    .g3  { grid-template-columns: repeat(3, 1fr); }
+    .g2  { grid-template-columns: 1fr 1fr; }
+    .g21 { grid-template-columns: 2fr 1fr; }
+    .g12 { grid-template-columns: 1fr 2fr; }
+    .mt  { margin-top: 16px; }
+    @media (max-width: 1100px) { .g4, .g3 { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 700px)  { .g4, .g3, .g2, .g21, .g12 { grid-template-columns: 1fr; } }
+
+    /* ── CARD ── */
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r); padding: 18px 20px; box-shadow: var(--sh); }
+    .card-hd { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; gap: 8px; }
+    .card-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--t2); }
+    .card-sub { font-size: 11px; color: var(--t3); margin-top: 2px; }
+
+    /* ── CHIPS ── */
+    .chip { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 99px; white-space: nowrap; flex-shrink: 0; }
+    .chip-r  { background: rgba(239,68,68,.15);  color: #f87171; }
+    .chip-g  { background: rgba(0,196,122,.12);  color: #34d399; }
+    .chip-a  { background: rgba(245,158,11,.15); color: #fbbf24; }
+    .chip-b  { background: rgba(59,130,246,.15); color: #60a5fa; }
+    .chip-gr { background: rgba(255,255,255,.07); color: var(--t2); }
+
+    /* ── KPI ── */
+    .kpi-lbl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--t2); margin-bottom: 10px; }
+    .kpi-val { font-size: 30px; font-weight: 700; color: #fff; line-height: 1; margin-bottom: 7px; }
+    .kpi-val.danger { color: #f87171; }
+    .kpi-val.warn   { color: #fbbf24; }
+    .kpi-val.ok     { color: #34d399; }
+    .kpi-sub { font-size: 12px; color: var(--t2); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .delta { font-size: 12px; font-weight: 600; }
+    .up { color: #34d399; }
+    .dn { color: #f87171; }
+    .bar-track { margin-top: 10px; height: 4px; border-radius: 2px; background: rgba(255,255,255,.07); overflow: hidden; }
+    .bar-fill  { height: 100%; border-radius: 2px; background: var(--green); }
+    .bar-label { font-size: 11px; color: var(--t3); margin-top: 5px; }
+
+    /* ── PILLS ── */
+    .pill { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 600; }
+    .p-g  { background: rgba(0,196,122,.12);  color: #34d399; }
+    .p-r  { background: rgba(239,68,68,.15);  color: #f87171; }
+    .p-a  { background: rgba(245,158,11,.15); color: #fbbf24; }
+    .p-b  { background: rgba(59,130,246,.15); color: #60a5fa; }
+    .p-p  { background: rgba(139,92,246,.15); color: #a78bfa; }
+    .p-gr { background: rgba(255,255,255,.07); color: var(--t2); }
+
+    /* ── STAGE BADGES ── */
+    .sb { display: inline-flex; align-items: center; padding: 2px 9px; border-radius: 99px; font-size: 11px; font-weight: 600; border: 1px solid transparent; white-space: nowrap; }
+    .s-qualifying  { background: rgba(59,130,246,.12);  color: #60a5fa;  border-color: rgba(59,130,246,.2); }
+    .s-validating  { background: rgba(99,102,241,.12);  color: #818cf8;  border-color: rgba(99,102,241,.2); }
+    .s-progressing { background: rgba(139,92,246,.12);  color: #a78bfa;  border-color: rgba(139,92,246,.2); }
+    .s-focus       { background: rgba(0,196,122,.12);   color: #34d399;  border-color: rgba(0,196,122,.2); }
+    .s-negotiating { background: rgba(6,182,212,.12);   color: #22d3ee;  border-color: rgba(6,182,212,.2); }
+
+    /* ── ALERT ITEMS ── */
+    .ai { display: flex; align-items: flex-start; gap: 10px; padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border); margin-bottom: 6px; background: rgba(255,255,255,.015); cursor: default; transition: background .1s; }
+    .ai:hover { background: rgba(255,255,255,.035); }
+    .dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+    .dot-r { background: #ef4444; }
+    .dot-a { background: #f59e0b; }
+    .dot-b { background: #3b82f6; }
+    .dot-g { background: #00c47a; }
+    .ai-name { font-weight: 600; font-size: 13px; color: var(--t1); }
+    .ai-meta { font-size: 12px; color: var(--t2); margin-top: 1px; }
+
+    /* ── TABLE ── */
+    .dt { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .dt th { text-align: left; padding: 7px 12px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--t3); border-bottom: 1px solid var(--border); }
+    .dt td { padding: 9px 12px; border-bottom: 1px solid rgba(255,255,255,.04); vertical-align: middle; }
+    .dt tr:last-child td { border-bottom: none; }
+    .dt tr.clickable { cursor: pointer; }
+    .dt tr.clickable:hover td { background: rgba(0,196,122,.04); }
+
+    /* ── EXPAND ROWS ── */
+    .xrow { display: none; }
+    .xrow.open { display: table-row; }
+    .xrow > td { background: var(--bg-card2) !important; padding: 0 !important; }
+    .xinner { padding: 14px 20px 16px; border-bottom: 1px solid rgba(255,255,255,.05); }
+
+    /* ── FUNNEL ── */
+    .fn-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .fn-lbl  { width: 110px; font-size: 12px; color: var(--t2); flex-shrink: 0; text-align: right; }
+    .fn-track { flex: 1; height: 28px; background: rgba(255,255,255,.05); border-radius: 4px; overflow: hidden; }
+    .fn-fill  { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 10px; font-size: 12px; font-weight: 700; color: #fff; }
+    .fn-pct  { width: 40px; text-align: right; font-size: 12px; font-weight: 600; color: var(--t2); }
+    .fn-drop { width: 50px; text-align: right; font-size: 11px; }
+
+    /* ── PROGRESS BARS ── */
+    .pb-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .pb-lbl  { width: 150px; font-size: 12px; color: var(--t2); flex-shrink: 0; }
+    .pb-track { flex: 1; height: 7px; background: rgba(255,255,255,.07); border-radius: 4px; overflow: hidden; }
+    .pb-fill  { height: 100%; border-radius: 4px; }
+    .pb-val  { width: 52px; text-align: right; font-size: 12px; color: var(--t2); }
+
+    /* ── FEED ── */
+    .feed-item { padding: 9px 0; border-bottom: 1px solid var(--border); }
+    .feed-item:last-child { border-bottom: none; }
+    .feed-co  { font-weight: 600; color: var(--t1); font-size: 13px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .feed-txt { font-size: 12px; color: var(--t2); margin-top: 2px; line-height: 1.4; }
+    .feed-ts  { font-size: 11px; color: var(--t3); margin-top: 2px; }
+
+    /* ── NOTICES ── */
+    .notice { padding: 9px 13px; border-radius: 6px; font-size: 12px; line-height: 1.55; }
+    .nr { background: rgba(239,68,68,.08);  border: 1px solid rgba(239,68,68,.2);  color: #f87171; }
+    .na { background: rgba(245,158,11,.08); border: 1px solid rgba(245,158,11,.2); color: #fbbf24; }
+    .ng { background: rgba(0,196,122,.07);  border: 1px solid rgba(0,196,122,.2);  color: #34d399; }
+    .nb { background: rgba(59,130,246,.08); border: 1px solid rgba(59,130,246,.2); color: #60a5fa; }
+
+    /* ── READING GUIDE ── */
+    .guide { background: rgba(255,255,255,.03); border: 1px solid var(--border2); border-radius: var(--r); padding: 11px 16px; font-size: 12px; color: var(--t2); line-height: 1.7; margin-bottom: 18px; }
+    .guide strong { color: var(--t1); }
+
+    /* ── SECTION LABEL ── */
+    .sec { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--t3); margin: 18px 0 10px; }
+
+    /* ── CHART WRAP ── */
+    .ch { position: relative; }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════ NAVBAR ════════════════ -->
+<nav class="navbar">
+  <a class="logo" href="#">
+    <div class="logo-mark">H</div>
+    Holistics
+  </a>
+  <span class="nav-sep">/</span>
+  <span class="nav-title">Sales Dashboard</span>
+  <div class="nav-right">
+    <span id="nav-period" class="chip chip-gr">Q1 2026</span>
+    <span class="nbadge">Demo Dataset</span>
+  </div>
+</nav>
+
+<!-- ════════════════ FILTER BAR ════════════════ -->
+<div class="filter-bar">
+  <span class="f-label">View</span>
+  <div class="view-toggle">
+    <button class="vt-btn active" onclick="setView('team')">Team</button>
+    <button class="vt-btn"        onclick="setView('my')">My Deals</button>
+  </div>
+  <div class="f-sep"></div>
+  <span class="f-label">Period</span>
+  <select class="f-select" id="f-period" onchange="applyFilters()">
+    <option value="q1">Q1 2026 (Jan – Mar)</option>
+    <option value="q4">Q4 2025 (Oct – Dec)</option>
+    <option value="l90">Last 90 Days</option>
+    <option value="l30">Last 30 Days</option>
+    <option value="ytd">Year-to-Date 2026</option>
+  </select>
+  <div class="f-sep"></div>
+  <span class="f-label">Owner</span>
+  <select class="f-select" id="f-owner" onchange="applyFilters()">
+    <option value="all">All Reps</option>
+    <option value="sc">Sarah Chen</option>
+    <option value="pp">Priya Patel</option>
+    <option value="mt">Mike Torres</option>
+    <option value="jw">James Wilson</option>
+  </select>
+  <div class="f-sep"></div>
+  <span class="f-label">Type</span>
+  <select class="f-select" id="f-type" onchange="applyFilters()">
+    <option value="all">All Types</option>
+    <option value="new">New Business</option>
+    <option value="renewal">Renewal</option>
+    <option value="expansion">Expansion</option>
+  </select>
+  <span class="f-scope" id="f-scope">115 open · 140 in scope this quarter</span>
+  <button class="f-reset" onclick="resetFilters()">Reset filters</button>
+</div>
+
+<!-- ════════════════ TAB BAR ════════════════ -->
+<div class="tabs-bar">
+  <button class="tab-btn active" onclick="switchTab(0)">Overview</button>
+  <button class="tab-btn"        onclick="switchTab(1)">Pipeline</button>
+  <button class="tab-btn"        onclick="switchTab(2)">Performance</button>
+  <button class="tab-btn"        onclick="switchTab(3)">Signals</button>
+  <button class="tab-btn"        onclick="switchTab(4)">Renewals</button>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  TAB 0 · OVERVIEW — "Is the business on track?"       -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="tab-pane active" id="pane-0">
+
+  <div class="guide">
+    <strong>How to read this tab:</strong> 30-second pulse check. Top row answers "are we hitting targets?" The funnel shows where deals are moving or stalling. Priority actions = things requiring human intervention today. <strong>Red = act now · Amber = watch closely · Green = on track.</strong>
+  </div>
+
+  <!-- KPIs -->
+  <div class="grid g4">
+    <div class="card">
+      <div class="kpi-lbl">Pipeline Value</div>
+      <div class="kpi-val">$2.1M</div>
+      <div class="kpi-sub"><span class="delta up">▲ $180K</span> vs last quarter</div>
+      <div class="bar-track"><div class="bar-fill" style="width:72%"></div></div>
+      <div class="bar-label">72% toward $3M quarterly target · 115 open deals</div>
+    </div>
+    <div class="card">
+      <div class="kpi-lbl">Win Rate</div>
+      <div class="kpi-val warn">34%</div>
+      <div class="kpi-sub"><span class="delta up">▲ 3pp</span> vs Q4 · Target: 40%</div>
+      <div class="bar-track"><div class="bar-fill" style="width:85%;background:var(--amber)"></div></div>
+      <div class="bar-label">6pp below target — see Performance tab</div>
+    </div>
+    <div class="card">
+      <div class="kpi-lbl">Closed This Quarter</div>
+      <div class="kpi-val">38</div>
+      <div class="kpi-sub">
+        <span style="color:#34d399">24 won</span> ·
+        <span style="color:#f87171">14 lost</span> ·
+        <strong style="color:#fff">$842K</strong> won
+      </div>
+    </div>
+    <div class="card">
+      <div class="kpi-lbl">Net MRR Change</div>
+      <div class="kpi-val ok">+$11K</div>
+      <div class="kpi-sub"><span class="delta up">▲ 6.2%</span> vs last month · Total MRR: $187K</div>
+      <div class="bar-track"><div class="bar-fill" style="width:78%"></div></div>
+      <div class="bar-label">42 active customers</div>
+    </div>
+  </div>
+
+  <!-- Funnel + Priority Actions -->
+  <div class="grid g12 mt">
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Deal Funnel — Q1 2026</div>
+          <div class="card-sub">All deals created this quarter · 140 total · stages in order</div>
+        </div>
+        <span class="chip chip-gr">qualifying → won</span>
+      </div>
+      <div style="margin-top:6px">
+        <div class="fn-row">
+          <span class="fn-lbl">Qualifying</span>
+          <div class="fn-track"><div class="fn-fill" style="width:100%;background:#3b82f6">140</div></div>
+          <span class="fn-pct">100%</span>
+          <span class="fn-drop" style="color:var(--t3)">—</span>
+        </div>
+        <div class="fn-row">
+          <span class="fn-lbl">Validating</span>
+          <div class="fn-track"><div class="fn-fill" style="width:79%;background:#6366f1">111</div></div>
+          <span class="fn-pct">79%</span>
+          <span class="fn-drop" style="color:#fbbf24">−21%</span>
+        </div>
+        <div class="fn-row">
+          <span class="fn-lbl">Progressing</span>
+          <div class="fn-track"><div class="fn-fill" style="width:61%;background:#8b5cf6">86</div></div>
+          <span class="fn-pct">61%</span>
+          <span class="fn-drop" style="color:#fbbf24">−18%</span>
+        </div>
+        <div class="fn-row">
+          <span class="fn-lbl">Focus</span>
+          <div class="fn-track"><div class="fn-fill" style="width:46%;background:#a855f7">64</div></div>
+          <span class="fn-pct">46%</span>
+          <span class="fn-drop" style="color:#fbbf24">−15%</span>
+        </div>
+        <div class="fn-row">
+          <span class="fn-lbl">Negotiating</span>
+          <div class="fn-track"><div class="fn-fill" style="width:38%;background:#22d3ee">53</div></div>
+          <span class="fn-pct">38%</span>
+          <span class="fn-drop" style="color:#fbbf24">−8%</span>
+        </div>
+        <div class="fn-row">
+          <span class="fn-lbl">Won</span>
+          <div class="fn-track"><div class="fn-fill" style="width:34%;background:#00c47a">48</div></div>
+          <span class="fn-pct">34%</span>
+          <span class="fn-drop" style="color:#f87171">−4%</span>
+        </div>
+      </div>
+      <div class="notice na" style="margin-top:12px">
+        ⚠ Biggest single drop: Qualifying → Validating (−21pp). Many deals are entering the pipeline but not advancing. Check if new deals are being properly followed up.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd">
+        <span class="card-title">Priority Actions</span>
+        <span class="chip chip-r">12 items</span>
+      </div>
+      <div class="ai"><div class="dot dot-r"></div><div>
+        <div class="ai-name">Innovatech Solutions — Ghost Deal</div>
+        <div class="ai-meta">No activity 58 days · $18,000 · James Wilson · Qualifying</div>
+      </div></div>
+      <div class="ai"><div class="dot dot-r"></div><div>
+        <div class="ai-name">TrustLayer — Customer Going Dark</div>
+        <div class="ai-meta">No CS contact 94 days · $4,800/mo · Lisa Nguyen</div>
+      </div></div>
+      <div class="ai"><div class="dot dot-r"></div><div>
+        <div class="ai-name">SSO / SAML blocking 4 active deals</div>
+        <div class="ai-meta">$71K pipeline at risk — share Q2 roadmap ETA with accounts</div>
+      </div></div>
+      <div class="ai"><div class="dot dot-a"></div><div>
+        <div class="ai-name">DataBridge Co — Stuck 22 days in Focus</div>
+        <div class="ai-meta">$9,600 · Sarah Chen · Negotiation call scheduled Mar 18</div>
+      </div></div>
+      <div class="ai"><div class="dot dot-a"></div><div>
+        <div class="ai-name">Vortex Analytics — Ghost Deal</div>
+        <div class="ai-meta">No activity 51 days · $4,800 · Mike Torres · Validating</div>
+      </div></div>
+      <div class="ai"><div class="dot dot-b"></div><div>
+        <div class="ai-name">Nexus Data — Overdue Check-in</div>
+        <div class="ai-meta">No contact 67 days · $799/mo · renewal due Apr 18</div>
+      </div></div>
+      <div style="text-align:center;margin-top:10px">
+        <a href="#" style="font-size:12px;color:var(--green)">View all 12 items →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Trend + This Week -->
+  <div class="grid g2 mt">
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Won vs Lost — Monthly Trend</div>
+          <div class="card-sub">Closed deals by outcome · Oct 2025 – Mar 2026</div>
+        </div>
+      </div>
+      <div class="ch" style="height:210px"><canvas id="c0_wl"></canvas></div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">This Week</div>
+          <div class="card-sub">Mar 16 – Mar 22, 2026</div>
+        </div>
+      </div>
+      <div class="sec" style="margin-top:0">Upcoming Calls</div>
+      <div class="feed-item">
+        <div class="feed-co">HealthTrack <span class="sb s-negotiating">Negotiating</span></div>
+        <div class="feed-txt">Evaluation call · Sarah Chen</div>
+        <div class="feed-ts">Today, Mar 16 · $36,000</div>
+      </div>
+      <div class="feed-item">
+        <div class="feed-co">Finvantage <span class="sb s-progressing">Progressing</span></div>
+        <div class="feed-txt">Demo · Priya Patel</div>
+        <div class="feed-ts">Mar 17 · $18,000</div>
+      </div>
+      <div class="feed-item">
+        <div class="feed-co">DataBridge Co <span class="sb s-focus">Focus</span></div>
+        <div class="feed-txt">Negotiation · Sarah Chen</div>
+        <div class="feed-ts">Mar 18 · $9,600</div>
+      </div>
+      <div class="sec">Expected to Close This Week</div>
+      <div class="feed-item">
+        <div class="feed-co">HealthTrack <span class="chip chip-g" style="font-size:10px">$36K · High confidence</span></div>
+        <div class="feed-txt">Expansion upgrade · contract review stage</div>
+        <div class="feed-ts">Sarah Chen</div>
+      </div>
+      <div class="feed-item">
+        <div class="feed-co">CloudSync <span class="chip chip-a" style="font-size:10px">$4.8K · Moderate</span></div>
+        <div class="feed-txt">New business · pending contract sign</div>
+        <div class="feed-ts">Sarah Chen</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /tab-0 -->
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  TAB 1 · PIPELINE — "What's in my pipeline?"          -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="tab-pane" id="pane-1">
+
+  <div class="guide">
+    <strong>How to read this tab:</strong> Three zoom levels. <strong>KPIs</strong> = do you have enough deals and activity? <strong>Stage distribution</strong> = are deals advancing? <strong>Active deals table</strong> = where each deal actually stands. Click any row to see deal context. Sort by "Days in Stage" to find what's stalling.
+  </div>
+
+  <div class="grid g4">
+    <div class="card">
+      <div class="kpi-lbl">New This Month</div>
+      <div class="kpi-val">14</div>
+      <div class="kpi-sub"><span class="delta up">▲ 3</span> vs last month · $196K value</div>
+    </div>
+    <div class="card">
+      <div class="kpi-lbl">Total Open Deals</div>
+      <div class="kpi-val">115</div>
+      <div class="kpi-sub">$2.1M total pipeline value</div>
+    </div>
+    <div class="card">
+      <div class="kpi-lbl">Ghost Deals</div>
+      <div class="kpi-val warn">16</div>
+      <div class="kpi-sub"><span class="delta dn">▲ 2</span> vs last week · 14% of open pipeline</div>
+    </div>
+    <div class="card">
+      <div class="kpi-lbl">Stuck in Stage</div>
+      <div class="kpi-val danger">11</div>
+      <div class="kpi-sub">No stage change in 14+ days</div>
+    </div>
+  </div>
+
+  <!-- Stage dist + ghost alerts -->
+  <div class="grid g21 mt">
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Open Deals by Stage</div>
+          <div class="card-sub">Active (in-progress) deals only · 115 open</div>
+        </div>
+      </div>
+      <div class="ch" style="height:260px"><canvas id="c1_stages"></canvas></div>
+      <div class="notice na" style="margin-top:12px">
+        ⚠ 16 deals are ghosts (45+ days no activity). They inflate pipeline value but are unlikely to close without re-engagement.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd">
+        <span class="card-title">Ghost Deals</span>
+        <span class="chip chip-a">45+ days idle</span>
+      </div>
+      <div class="ai"><div class="dot dot-r"></div><div>
+        <div class="ai-name">Innovatech Solutions</div>
+        <div class="ai-meta">58d idle · $18,000 · James Wilson · Qualifying</div>
+      </div></div>
+      <div class="ai"><div class="dot dot-r"></div><div>
+        <div class="ai-name">Vortex Analytics</div>
+        <div class="ai-meta">51d idle · $4,800 · Mike Torres · Validating</div>
+      </div></div>
+      <div class="ai"><div class="dot dot-a"></div><div>
+        <div class="ai-name">PixelFlow Media</div>
+        <div class="ai-meta">47d idle · $2,400 · James Wilson · Qualifying</div>
+      </div></div>
+      <div class="ai"><div class="dot dot-a"></div><div>
+        <div class="ai-name">CloudMosaic</div>
+        <div class="ai-meta">46d idle · $9,600 · Priya Patel · Progressing</div>
+      </div></div>
+      <div class="ai"><div class="dot dot-a"></div><div>
+        <div class="ai-name">OptiRoute</div>
+        <div class="ai-meta">45d idle · $1,200 · Mike Torres · Qualifying</div>
+      </div></div>
+      <div style="text-align:center;margin-top:10px">
+        <a href="#" style="font-size:12px;color:var(--green)">View all 16 →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rep coverage -->
+  <div class="grid g2 mt">
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Open Deals per Rep</div>
+          <div class="card-sub">Target: 15 deals/rep · dashed line</div>
+        </div>
+      </div>
+      <div class="ch" style="height:210px"><canvas id="c1_reps"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Calls per Rep — This Week</div>
+          <div class="card-sub">Target: 6 calls/week · dashed line</div>
+        </div>
+      </div>
+      <div class="ch" style="height:210px"><canvas id="c1_calls"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Active Deals Table -->
+  <div class="card mt">
+    <div class="card-hd">
+      <div>
+        <div class="card-title">Active Deals</div>
+        <div class="card-sub">Click any row to expand deal context · Sorted by days in stage (high → low)</div>
+      </div>
+      <span class="chip chip-b">showing 10 of 115</span>
+    </div>
+    <div style="overflow-x:auto">
+    <table class="dt">
+      <thead><tr>
+        <th>Company</th><th>Stage</th><th>Type</th><th>Owner</th><th>Value</th>
+        <th>Days in Stage</th><th>Last Call</th><th>Flag</th>
+      </tr></thead>
+      <tbody>
+
+        <tr class="clickable" onclick="toggleExpand(this)">
+          <td><strong>Innovatech Solutions</strong></td>
+          <td><span class="sb s-qualifying">Qualifying</span></td>
+          <td><span class="pill p-b">New</span></td>
+          <td>James Wilson</td><td>$18,000</td>
+          <td><strong style="color:#f87171">58d</strong></td>
+          <td>58 days ago</td>
+          <td><span class="pill p-r">Ghost</span></td>
+        </tr>
+        <tr class="xrow"><td colspan="8"><div class="xinner">
+          <div class="grid g3" style="gap:14px">
+            <div>
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--t3);margin-bottom:6px">Stage History</div>
+              <div style="font-size:12px;color:var(--t2)">Created Jan 10 → Entered Qualifying Jan 10 → No movement since. 58 days in first stage.</div>
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--t3);margin-bottom:6px">Last Activity</div>
+              <div style="font-size:12px;color:var(--t2)">Discovery call Jan 10 · 3 attendees. No follow-up ever scheduled.</div>
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--t3);margin-bottom:6px">Signals Raised</div>
+              <div style="font-size:12px;color:var(--t2)">SSO/SAML <span class="pill p-r">blocking</span> · Excel Export <span class="pill p-a">high</span></div>
+            </div>
+          </div>
+        </div></td></tr>
+
+        <tr class="clickable" onclick="toggleExpand(this)">
+          <td><strong>DataBridge Co</strong></td>
+          <td><span class="sb s-focus">Focus</span></td>
+          <td><span class="pill p-b">New</span></td>
+          <td>Sarah Chen</td><td>$9,600</td>
+          <td><strong style="color:#fbbf24">22d</strong></td>
+          <td>3 days ago</td>
+          <td><span class="pill p-a">Stuck</span></td>
+        </tr>
+        <tr class="xrow"><td colspan="8"><div class="xinner">
+          <div class="grid g3" style="gap:14px">
+            <div>
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--t3);margin-bottom:6px">Stage History</div>
+              <div style="font-size:12px;color:var(--t2)">Qualifying Feb 2 → Validating Feb 12 (10d) → Progressing Feb 20 (8d) → Focus Feb 22 (22d and counting)</div>
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--t3);margin-bottom:6px">Last Activity</div>
+              <div style="font-size:12px;color:var(--t2)">Evaluation call Mar 13 · Negotiation scheduled Mar 18</div>
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--t3);margin-bottom:6px">Blockers</div>
+              <div style="font-size:12px;color:var(--t2)">SSO/SAML <span class="pill p-r">blocking</span> · Excel Export <span class="pill p-a">high priority</span></div>
+            </div>
+          </div>
+        </div></td></tr>
+
+        <tr class="clickable" onclick="toggleExpand(this)">
+          <td>LogiMetric</td>
+          <td><span class="sb s-progressing">Progressing</span></td>
+          <td><span class="pill p-b">New</span></td>
+          <td>Mike Torres</td><td>$2,400</td>
+          <td><strong style="color:#fbbf24">19d</strong></td>
+          <td>6 days ago</td>
+          <td><span class="pill p-a">Stuck</span></td>
+        </tr>
+        <tr class="xrow"><td colspan="8"><div class="xinner">
+          <div style="font-size:12px;color:var(--t2)">Evaluation pending — no demo scheduled yet. Excel Export raised as deal blocker. Competitor: Metabase mentioned once.</div>
+        </div></td></tr>
+
+        <tr class="clickable" onclick="toggleExpand(this)">
+          <td>NexGen Analytics</td>
+          <td><span class="sb s-focus">Focus</span></td>
+          <td><span class="pill p-b">New</span></td>
+          <td>Mike Torres</td><td>$9,600</td>
+          <td><strong style="color:#fbbf24">14d</strong></td>
+          <td>9 days ago</td>
+          <td><span class="pill p-a">Needs action</span></td>
+        </tr>
+        <tr class="xrow"><td colspan="8"><div class="xinner">
+          <div style="font-size:12px;color:var(--t2)">Row-level Security is a blocking request. Competitor: Metabase mentioned twice. No call scheduled since last evaluation.</div>
+        </div></td></tr>
+
+        <tr class="clickable" onclick="toggleExpand(this)">
+          <td>HealthTrack</td>
+          <td><span class="sb s-negotiating">Negotiating</span></td>
+          <td><span class="pill p-p">Expansion</span></td>
+          <td>Sarah Chen</td><td>$36,000</td>
+          <td>11d</td>
+          <td>Today</td>
+          <td><span class="pill p-g">Hot</span></td>
+        </tr>
+        <tr class="xrow"><td colspan="8"><div class="xinner">
+          <div style="font-size:12px;color:var(--t2)">Strong positive signals. SSO/SAML promised for Q2 — champion aware of timeline. High close confidence this week.</div>
+        </div></td></tr>
+
+        <tr class="clickable" onclick="toggleExpand(this)">
+          <td>Finvantage</td>
+          <td><span class="sb s-progressing">Progressing</span></td>
+          <td><span class="pill p-b">New</span></td>
+          <td>Priya Patel</td><td>$18,000</td>
+          <td>8d</td>
+          <td>1 day ago</td>
+          <td></td>
+        </tr>
+        <tr class="xrow"><td colspan="8"><div class="xinner">
+          <div style="font-size:12px;color:var(--t2)">Demo scheduled Mar 17. Excel Export raised as concern (not yet blocking). Competing against Looker.</div>
+        </div></td></tr>
+
+        <tr class="clickable" onclick="toggleExpand(this)">
+          <td>Solarwave</td>
+          <td><span class="sb s-validating">Validating</span></td>
+          <td><span class="pill p-b">New</span></td>
+          <td>Priya Patel</td><td>$4,800</td>
+          <td>7d</td>
+          <td>2 days ago</td>
+          <td></td>
+        </tr>
+        <tr class="xrow"><td colspan="8"><div class="xinner">
+          <div style="font-size:12px;color:var(--t2)">Discovery call complete. Demo being prepared. No blockers raised yet.</div>
+        </div></td></tr>
+
+        <tr class="clickable" onclick="toggleExpand(this)">
+          <td>CloudSync</td>
+          <td><span class="sb s-focus">Focus</span></td>
+          <td><span class="pill p-b">New</span></td>
+          <td>Sarah Chen</td><td>$4,800</td>
+          <td>5d</td>
+          <td>2 days ago</td>
+          <td></td>
+        </tr>
+        <tr class="xrow"><td colspan="8"><div class="xinner">
+          <div style="font-size:12px;color:var(--t2)">Evaluation complete. Contract review in progress. No major blockers.</div>
+        </div></td></tr>
+
+        <tr class="clickable" onclick="toggleExpand(this)">
+          <td>Meridian Labs</td>
+          <td><span class="sb s-qualifying">Qualifying</span></td>
+          <td><span class="pill p-b">New</span></td>
+          <td>James Wilson</td><td>$2,400</td>
+          <td>4d</td>
+          <td>Today</td>
+          <td></td>
+        </tr>
+        <tr class="xrow"><td colspan="8"><div class="xinner">
+          <div style="font-size:12px;color:var(--t2)">Discovery call scheduled Mar 21. Early-stage inbound. No signals yet.</div>
+        </div></td></tr>
+
+        <tr class="clickable" onclick="toggleExpand(this)">
+          <td>RetailEdge</td>
+          <td><span class="sb s-qualifying">Qualifying</span></td>
+          <td><span class="pill p-b">New</span></td>
+          <td>James Wilson</td><td>$1,200</td>
+          <td>2d</td>
+          <td>Yesterday</td>
+          <td></td>
+        </tr>
+        <tr class="xrow"><td colspan="8"><div class="xinner">
+          <div style="font-size:12px;color:var(--t2)">New inbound. Discovery call Mar 19. No signals yet.</div>
+        </div></td></tr>
+
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- Upcoming Calls -->
+  <div class="card mt">
+    <div class="card-hd">
+      <div>
+        <div class="card-title">Upcoming Calls — Next 7 Days</div>
+        <div class="card-sub">Mar 16 – Mar 22, 2026</div>
+      </div>
+    </div>
+    <table class="dt">
+      <thead><tr>
+        <th>Date</th><th>Company</th><th>Call Type</th><th>Owner</th><th>Stage</th><th>Deal Value</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Today, Mar 16</td><td>HealthTrack</td><td>Evaluation</td><td>Sarah Chen</td><td><span class="sb s-negotiating">Negotiating</span></td><td>$36,000</td></tr>
+        <tr><td>Mar 17</td><td>Finvantage</td><td>Demo</td><td>Priya Patel</td><td><span class="sb s-progressing">Progressing</span></td><td>$18,000</td></tr>
+        <tr><td>Mar 18</td><td>DataBridge Co</td><td>Negotiation</td><td>Sarah Chen</td><td><span class="sb s-focus">Focus</span></td><td>$9,600</td></tr>
+        <tr><td>Mar 19</td><td>RetailEdge</td><td>Discovery</td><td>James Wilson</td><td><span class="sb s-qualifying">Qualifying</span></td><td>$1,200</td></tr>
+        <tr><td>Mar 20</td><td>CloudSync</td><td>Demo</td><td>Sarah Chen</td><td><span class="sb s-focus">Focus</span></td><td>$4,800</td></tr>
+        <tr><td>Mar 21</td><td>Meridian Labs</td><td>Discovery</td><td>James Wilson</td><td><span class="sb s-qualifying">Qualifying</span></td><td>$2,400</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- /tab-1 -->
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  TAB 2 · PERFORMANCE — "How well are we converting?"  -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="tab-pane" id="pane-2">
+
+  <div class="guide">
+    <strong>How to read this tab:</strong> This is about <strong>quality</strong>, not quantity. The funnel shows where deals leak. Avg days per stage shows where negotiations stall. Win rate by rep shows coaching opportunities. <strong>If "Missing Feature" loss reason exceeds 40%, it's a product problem, not a sales problem — escalate to PM.</strong>
+  </div>
+
+  <div class="grid g4">
+    <div class="card">
+      <div class="kpi-lbl">Win Rate</div>
+      <div class="kpi-val warn">34%</div>
+      <div class="kpi-sub"><span class="delta up">▲ 3pp</span> vs Q4 · Target: 40%</div>
+    </div>
+    <div class="card">
+      <div class="kpi-lbl">Avg Cycle — Won</div>
+      <div class="kpi-val">47d</div>
+      <div class="kpi-sub"><span class="delta up">▼ 4d</span> faster than Q4</div>
+    </div>
+    <div class="card">
+      <div class="kpi-lbl">Avg Cycle — Lost</div>
+      <div class="kpi-val danger">62d</div>
+      <div class="kpi-sub">15d longer than won deals — wasted effort</div>
+    </div>
+    <div class="card">
+      <div class="kpi-lbl">Closed This Quarter</div>
+      <div class="kpi-val">38</div>
+      <div class="kpi-sub"><span style="color:#34d399">24 won</span> · <span style="color:#f87171">14 lost</span></div>
+    </div>
+  </div>
+
+  <div class="grid g2 mt">
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Stage Conversion Funnel</div>
+          <div class="card-sub">% of deals that reached each stage · Q1 2026 · 140 deals</div>
+        </div>
+      </div>
+      <div style="margin-top:6px">
+        <div class="fn-row">
+          <span class="fn-lbl">Qualifying</span>
+          <div class="fn-track"><div class="fn-fill" style="width:100%;background:#3b82f6">140</div></div>
+          <span class="fn-pct">100%</span>
+          <span class="fn-drop" style="color:var(--t3)">base</span>
+        </div>
+        <div class="fn-row">
+          <span class="fn-lbl">Validating</span>
+          <div class="fn-track"><div class="fn-fill" style="width:79%;background:#6366f1">111</div></div>
+          <span class="fn-pct">79%</span>
+          <span class="fn-drop" style="color:#fbbf24">−21%</span>
+        </div>
+        <div class="fn-row">
+          <span class="fn-lbl">Progressing</span>
+          <div class="fn-track"><div class="fn-fill" style="width:61%;background:#8b5cf6">86</div></div>
+          <span class="fn-pct">61%</span>
+          <span class="fn-drop" style="color:#fbbf24">−18%</span>
+        </div>
+        <div class="fn-row">
+          <span class="fn-lbl">Focus</span>
+          <div class="fn-track"><div class="fn-fill" style="width:46%;background:#a855f7">64</div></div>
+          <span class="fn-pct">46%</span>
+          <span class="fn-drop" style="color:#fbbf24">−15%</span>
+        </div>
+        <div class="fn-row">
+          <span class="fn-lbl">Negotiating</span>
+          <div class="fn-track"><div class="fn-fill" style="width:38%;background:#22d3ee">53</div></div>
+          <span class="fn-pct">38%</span>
+          <span class="fn-drop" style="color:#fbbf24">−8%</span>
+        </div>
+        <div class="fn-row">
+          <span class="fn-lbl">Won</span>
+          <div class="fn-track"><div class="fn-fill" style="width:34%;background:#00c47a">48</div></div>
+          <span class="fn-pct">34%</span>
+          <span class="fn-drop" style="color:#f87171">−4%</span>
+        </div>
+      </div>
+      <div class="notice na" style="margin-top:12px">
+        ⚠ Qualifying → Validating is the biggest single drop (−21pp). Many prospects are entered but not properly followed up after first contact.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Avg Days per Stage</div>
+          <div class="card-sub">Won deals only · Q1 2026 · total avg cycle: 47 days</div>
+        </div>
+      </div>
+      <div class="ch" style="height:260px"><canvas id="c2_time"></canvas></div>
+      <div class="notice nb" style="margin-top:10px">
+        Focus stage takes the longest (avg 18d). This is where feature-gap negotiations happen — often tied to SSO/SAML and Excel Export blockers.
+      </div>
+    </div>
+  </div>
+
+  <div class="grid g2 mt">
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Win Rate by Rep</div>
+          <div class="card-sub">Q1 2026 · dashed line = 40% target</div>
+        </div>
+      </div>
+      <div class="ch" style="height:220px"><canvas id="c2_reps"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Monthly Win / Loss Trend</div>
+          <div class="card-sub">Closed deals by outcome · Oct 2025 – Mar 2026</div>
+        </div>
+      </div>
+      <div class="ch" style="height:220px"><canvas id="c2_trend"></canvas></div>
+    </div>
+  </div>
+
+  <div class="grid g2 mt">
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Lost Reason Breakdown</div>
+          <div class="card-sub">63 lost deals this quarter</div>
+        </div>
+      </div>
+      <div class="ch" style="height:200px"><canvas id="c2_lost"></canvas></div>
+      <div class="notice nr" style="margin-top:10px">
+        ⚠ "Missing Feature" at 38% — approaching the 40% alert threshold. Top drivers: SSO/SAML and Excel Export. Review Signals tab for detail.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Ghost Rate Trend</div>
+          <div class="card-sub">% of open deals with no activity 45+ days · monthly</div>
+        </div>
+      </div>
+      <div class="ch" style="height:200px"><canvas id="c2_ghost"></canvas></div>
+      <div class="notice na" style="margin-top:10px">
+        Ghost rate climbing from 8% (Oct) to 14% (Mar). Growing number of orphaned deals inflating reported pipeline.
+      </div>
+    </div>
+  </div>
+
+</div><!-- /tab-2 -->
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  TAB 3 · SIGNALS — "What's blocking or helping?"      -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="tab-pane" id="pane-3">
+
+  <div class="guide">
+    <strong>How to read this tab:</strong> Signals = what customers tell you during calls, via tickets, and emails. <strong>Blockers</strong> = improvements actively preventing deals from closing right now — each one has a dollar value at risk. <strong>Competitor displacement</strong> = how much your win rate drops when each competitor appears. <strong>Promise Tracker</strong> = what was committed to customers during the sales process — product teams use this to set roadmap priority.
+  </div>
+
+  <!-- Active blockers table -->
+  <div class="card">
+    <div class="card-hd">
+      <div>
+        <div class="card-title">Active Deal Blockers</div>
+        <div class="card-sub">Product improvements marked as blocking in currently open deals</div>
+      </div>
+      <span class="chip chip-r">revenue at risk</span>
+    </div>
+    <div style="overflow-x:auto">
+    <table class="dt">
+      <thead><tr>
+        <th>Improvement</th><th>Theme</th><th>Roadmap Status</th>
+        <th>Active Deals Blocked</th><th>Pipeline at Risk</th>
+        <th>In Lost Deals</th><th>Total Signals</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>SSO / SAML</strong></td>
+          <td>Administration</td>
+          <td><span class="pill p-a">Planned Q2</span></td>
+          <td><strong style="color:#f87171">4 deals</strong></td>
+          <td style="color:#f87171;font-weight:600">$71,400</td>
+          <td>9 lost</td><td>14</td>
+        </tr>
+        <tr>
+          <td><strong>Excel / CSV Export</strong></td>
+          <td>Integrations</td>
+          <td><span class="pill p-gr">Open</span></td>
+          <td><strong style="color:#f87171">3 deals</strong></td>
+          <td style="color:#fbbf24;font-weight:600">$30,000</td>
+          <td>7 lost</td><td>18</td>
+        </tr>
+        <tr>
+          <td><strong>Row-level Security</strong></td>
+          <td>Data Governance</td>
+          <td><span class="pill p-gr">Open</span></td>
+          <td><strong style="color:#fbbf24">2 deals</strong></td>
+          <td style="color:#fbbf24;font-weight:600">$19,200</td>
+          <td>5 lost</td><td>9</td>
+        </tr>
+        <tr>
+          <td>Audit Logs</td>
+          <td>Administration</td>
+          <td><span class="pill p-b">In development</span></td>
+          <td>1 deal</td>
+          <td style="color:var(--t2)">$9,600</td>
+          <td>3 lost</td><td>6</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="notice nr" style="margin-top:12px">
+      Total pipeline at risk from blockers: <strong style="color:#f87171">$130,200</strong>. SSO/SAML is planned for Q2 — communicating the concrete ETA to affected accounts may save 2–3 deals this quarter.
+    </div>
+  </div>
+
+  <div class="grid g2 mt">
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Competitor Impact on Win Rate</div>
+          <div class="card-sub">Win rate when competitor is mentioned vs. not · Q1 2026</div>
+        </div>
+      </div>
+      <table class="dt" style="margin-top:4px">
+        <thead><tr>
+          <th>Competitor</th><th>Deals w/ mention</th>
+          <th>Win rate (with)</th><th>Win rate (without)</th><th>Impact</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>Metabase</td><td>45</td><td>18%</td><td>41%</td><td><strong style="color:#f87171">−23pp</strong></td></tr>
+          <tr><td>Looker</td><td>31</td><td>24%</td><td>41%</td><td><strong style="color:#f87171">−17pp</strong></td></tr>
+          <tr><td>Tableau</td><td>22</td><td>28%</td><td>41%</td><td><strong style="color:#fbbf24">−13pp</strong></td></tr>
+          <tr><td>Power BI</td><td>20</td><td>31%</td><td>41%</td><td><strong style="color:#fbbf24">−10pp</strong></td></tr>
+          <tr><td>Sigma</td><td>14</td><td>35%</td><td>41%</td><td><span style="color:var(--t2)">−6pp</span></td></tr>
+          <tr><td>Redash</td><td>9</td><td>38%</td><td>41%</td><td><span style="color:var(--t2)">−3pp</span></td></tr>
+        </tbody>
+      </table>
+      <div class="notice na" style="margin-top:10px">
+        Metabase is the toughest competitor — win rate drops 23pp when they appear. Build Metabase-specific battlecards and assign manager to coach these deals.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Top Improvements by Signal Volume</div>
+          <div class="card-sub">Unique companies that raised each item · all time</div>
+        </div>
+      </div>
+      <div class="ch" style="height:270px"><canvas id="c3_improv"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Promise Tracker -->
+  <div class="card mt">
+    <div class="card-hd">
+      <div>
+        <div class="card-title">Promise Tracker</div>
+        <div class="card-sub">What was committed to customers during the sales process — informs product roadmap priority</div>
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+    <table class="dt">
+      <thead><tr>
+        <th>Customer</th><th>Improvement</th><th>Theme</th>
+        <th>Roadmap Status</th><th>Signals</th><th>Blocking?</th><th>Sales Owner</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>DataBridge Co</td><td>SSO / SAML</td><td>Administration</td><td><span class="pill p-a">Planned Q2</span></td><td>3</td><td><span class="pill p-r">Yes</span></td><td>Sarah Chen</td></tr>
+        <tr><td>Finvantage</td><td>Excel Export</td><td>Integrations</td><td><span class="pill p-gr">Open</span></td><td>4</td><td><span class="pill p-r">Yes</span></td><td>Priya Patel</td></tr>
+        <tr><td>TrustLayer</td><td>Column Masking</td><td>Data Governance</td><td><span class="pill p-g">Shipped ✓</span></td><td>2</td><td>—</td><td>Mike Torres</td></tr>
+        <tr><td>NexGen Analytics</td><td>Row-level Security</td><td>Data Governance</td><td><span class="pill p-gr">Open</span></td><td>3</td><td><span class="pill p-r">Yes</span></td><td>Mike Torres</td></tr>
+        <tr><td>HealthTrack</td><td>SSO / SAML</td><td>Administration</td><td><span class="pill p-a">Planned Q2</span></td><td>2</td><td><span class="pill p-r">Yes</span></td><td>Sarah Chen</td></tr>
+        <tr><td>Nexus Data</td><td>Audit Logs</td><td>Administration</td><td><span class="pill p-b">In dev</span></td><td>2</td><td>—</td><td>Alex Kim</td></tr>
+        <tr><td>LogiMetric</td><td>Excel Export</td><td>Integrations</td><td><span class="pill p-gr">Open</span></td><td>2</td><td><span class="pill p-a">Partial</span></td><td>Mike Torres</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="notice ng" style="margin-top:12px">
+      <strong>Column Masking shipped 36 days ago.</strong> 9 customers who requested it haven't been re-contacted. Reach out now — this is a direct retention and expansion opportunity.
+    </div>
+  </div>
+
+</div><!-- /tab-3 -->
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  TAB 4 · RENEWALS — "Are we keeping what we've won?"  -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="tab-pane" id="pane-4">
+
+  <div class="guide">
+    <strong>How to read this tab:</strong> Renewals are your revenue floor. <strong>NRR above 100%</strong> means expansion is outpacing churn — healthy. <strong>MRR Churn above 3%</strong> = danger zone, act immediately. The at-risk list = accounts that will likely churn if not contacted. Upcoming renewals = the next 60-day window where deals can be lost or expanded.
+  </div>
+
+  <div class="grid g4">
+    <div class="card">
+      <div class="kpi-lbl">Active Subscriptions</div>
+      <div class="kpi-val">42</div>
+      <div class="kpi-sub">Total MRR: <strong style="color:#34d399">$187K</strong></div>
+    </div>
+    <div class="card">
+      <div class="kpi-lbl">MRR Churn Rate</div>
+      <div class="kpi-val warn">2.3%</div>
+      <div class="kpi-sub"><span class="delta dn">▲ 0.4pp</span> vs last month · limit: 3%</div>
+      <div class="bar-track"><div class="bar-fill" style="width:77%;background:var(--amber)"></div></div>
+      <div class="bar-label">77% toward 3% danger threshold</div>
+    </div>
+    <div class="card">
+      <div class="kpi-lbl">Net Revenue Retention</div>
+      <div class="kpi-val ok">108%</div>
+      <div class="kpi-sub">Expansion outpacing churn — healthy</div>
+    </div>
+    <div class="card">
+      <div class="kpi-lbl">Renewals Due (60 days)</div>
+      <div class="kpi-val warn">7</div>
+      <div class="kpi-sub">$18,400 MRR · 4 need outreach</div>
+    </div>
+  </div>
+
+  <div class="card mt">
+    <div class="card-hd">
+      <div>
+        <div class="card-title">MRR Trend</div>
+        <div class="card-sub">Apr 2025 – Mar 2026 · total, new added, churned</div>
+      </div>
+    </div>
+    <div class="ch" style="height:220px"><canvas id="c4_mrr"></canvas></div>
+  </div>
+
+  <div class="grid g2 mt">
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">At-Risk Accounts</div>
+          <div class="card-sub">No contact 60+ days, or 2+ open issues, or no upgrade in 6 months</div>
+        </div>
+        <span class="chip chip-r">8 flagged</span>
+      </div>
+      <table class="dt">
+        <thead><tr>
+          <th>Company</th><th>Plan</th><th>MRR</th>
+          <th>No Contact</th><th>Open Issues</th><th>Risk Level</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>TrustLayer</strong></td><td>Business</td><td>$4,800</td>
+            <td style="color:#f87171">94d</td><td><span style="color:#f87171">3</span></td>
+            <td><span class="pill p-r">High</span></td>
+          </tr>
+          <tr>
+            <td><strong>Nexus Data</strong></td><td>Starter</td><td>$799</td>
+            <td style="color:#f87171">67d</td><td><span style="color:#f87171">2</span></td>
+            <td><span class="pill p-r">High</span></td>
+          </tr>
+          <tr>
+            <td>RetailStack</td><td>Growth</td><td>$1,599</td>
+            <td style="color:#fbbf24">62d</td><td><span style="color:#fbbf24">2</span></td>
+            <td><span class="pill p-a">Medium</span></td>
+          </tr>
+          <tr>
+            <td>Meridian Labs</td><td>Starter</td><td>$299</td>
+            <td style="color:#fbbf24">61d</td><td><span style="color:#fbbf24">2</span></td>
+            <td><span class="pill p-a">Medium</span></td>
+          </tr>
+          <tr>
+            <td>CloudBase Inc</td><td>Growth</td><td>$239</td>
+            <td style="color:#fbbf24">38d</td><td>1</td>
+            <td><span class="pill p-a">Medium</span></td>
+          </tr>
+          <tr>
+            <td>Solarwave</td><td>Growth</td><td>$299</td>
+            <td>35d</td><td>0</td>
+            <td><span class="pill p-a">Medium</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="notice nr" style="margin-top:10px">
+        TrustLayer ($4,800/mo) — 94 days dark. Immediate re-engagement needed. High churn risk.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Upcoming Renewals</div>
+          <div class="card-sub">Due in next 60 days · sorted by date</div>
+        </div>
+        <span class="chip chip-a">7 renewals</span>
+      </div>
+      <table class="dt">
+        <thead><tr>
+          <th>Company</th><th>Plan</th><th>MRR</th>
+          <th>Renewal Date</th><th>Health</th><th>Next Step</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td>DataBridge Co</td><td>Growth</td><td>$299</td>
+            <td>Mar 25</td><td><span class="pill p-a">At-Risk</span></td>
+            <td style="color:var(--green);font-size:12px">Book renewal call</td>
+          </tr>
+          <tr>
+            <td>HealthTrack</td><td>Enterprise</td><td>$1,999</td>
+            <td>Apr 1</td><td><span class="pill p-g">Healthy</span></td>
+            <td style="color:var(--t3);font-size:12px">Auto-renew likely</td>
+          </tr>
+          <tr>
+            <td>LogiMetric</td><td>Starter</td><td>$99</td>
+            <td>Apr 5</td><td><span class="pill p-g">Healthy</span></td>
+            <td style="color:var(--t3);font-size:12px">Auto-renew likely</td>
+          </tr>
+          <tr>
+            <td>Solarwave</td><td>Growth</td><td>$299</td>
+            <td>Apr 12</td><td><span class="pill p-a">At-Risk</span></td>
+            <td style="color:var(--green);font-size:12px">Check in first</td>
+          </tr>
+          <tr>
+            <td>Nexus Data</td><td>Starter</td><td>$799</td>
+            <td>Apr 18</td><td><span class="pill p-r">Dark</span></td>
+            <td style="color:#f87171;font-size:12px">Urgent: re-engage</td>
+          </tr>
+          <tr>
+            <td>Finvantage</td><td>Business</td><td>$799</td>
+            <td>Apr 25</td><td><span class="pill p-g">Healthy</span></td>
+            <td style="color:var(--t3);font-size:12px">Expansion opp.</td>
+          </tr>
+          <tr>
+            <td>RetailStack</td><td>Growth</td><td>$1,599</td>
+            <td>May 2</td><td><span class="pill p-a">At-Risk</span></td>
+            <td style="color:var(--green);font-size:12px">Book renewal call</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="grid g2 mt">
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Recent Subscription Changes</div>
+          <div class="card-sub">Last 60 days</div>
+        </div>
+      </div>
+      <table class="dt">
+        <thead><tr><th>Company</th><th>Change</th><th>MRR Impact</th><th>Date</th></tr></thead>
+        <tbody>
+          <tr><td>HealthTrack</td><td><span class="pill p-g">Upgrade</span></td><td><span style="color:#34d399">+$1,200</span></td><td>Feb 28</td></tr>
+          <tr><td>DataBridge Co</td><td><span class="pill p-g">Renewal</span></td><td><span style="color:#34d399">+$299</span></td><td>Feb 20</td></tr>
+          <tr><td>OptiRoute</td><td><span class="pill p-r">Churn</span></td><td><span style="color:#f87171">−$799</span></td><td>Feb 15</td></tr>
+          <tr><td>Vortex Analytics</td><td><span class="pill p-r">Churn</span></td><td><span style="color:#f87171">−$299</span></td><td>Feb 8</td></tr>
+          <tr><td>Finvantage</td><td><span class="pill p-g">Expansion</span></td><td><span style="color:#34d399">+$500</span></td><td>Jan 31</td></tr>
+          <tr><td>LogiMetric</td><td><span class="pill p-g">Renewal</span></td><td><span style="color:#34d399">+$99</span></td><td>Jan 24</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Churn Reason Breakdown</div>
+          <div class="card-sub">Churned customers · last 12 months</div>
+        </div>
+      </div>
+      <div class="ch" style="height:220px"><canvas id="c4_churn"></canvas></div>
+    </div>
+  </div>
+
+</div><!-- /tab-4 -->
+
+
+<!-- ════════════════════════════════════════════════════ -->
+<!--  SCRIPTS                                             -->
+<!-- ════════════════════════════════════════════════════ -->
+<script>
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.borderColor = 'rgba(255,255,255,0.07)';
+Chart.defaults.font.family = "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif";
+Chart.defaults.font.size = 12;
+
+const C = {
+  green: '#00c47a', blue: '#3b82f6', indigo: '#6366f1',
+  purple: '#8b5cf6', amber: '#f59e0b', red: '#ef4444',
+  teal: '#06b6d4', violet: '#a855f7'
+};
+
+function a(hex, alpha) {
+  const r = parseInt(hex.slice(1,3), 16),
+        g = parseInt(hex.slice(3,5), 16),
+        b = parseInt(hex.slice(5,7), 16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+const base = { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } };
+const gX = { grid: { color: 'rgba(255,255,255,.06)' }, ticks: { color: '#94a3b8' } };
+const gY = { grid: { color: 'rgba(255,255,255,.06)' }, ticks: { color: '#94a3b8' } };
+const noXG = { grid: { display: false }, ticks: { color: '#94a3b8' } };
+
+/* ── Tab switching ── */
+function switchTab(idx) {
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
+  document.querySelectorAll('.tab-pane').forEach((p, i) => p.classList.toggle('active', i === idx));
+  const inits = [null, initTab1, initTab2, initTab3, initTab4];
+  if (!window['_t' + idx] && inits[idx]) { inits[idx](); window['_t' + idx] = true; }
+}
+
+/* ── Filter bar ── */
+const PERIOD_LABELS = { q1: 'Q1 2026', q4: 'Q4 2025', l90: 'Last 90 Days', l30: 'Last 30 Days', ytd: 'YTD 2026' };
+const SCOPE_BY_OWNER = {
+  all: '115 open · 140 in scope this quarter',
+  sc:  '32 open · 48 in scope (Sarah Chen)',
+  pp:  '28 open · 36 in scope (Priya Patel)',
+  mt:  '24 open · 33 in scope (Mike Torres)',
+  jw:  '16 open · 23 in scope (James Wilson)',
+};
+
+function applyFilters() {
+  const p = document.getElementById('f-period').value;
+  const o = document.getElementById('f-owner').value;
+  document.getElementById('nav-period').textContent = PERIOD_LABELS[p] || 'Q1 2026';
+  document.getElementById('f-scope').textContent = SCOPE_BY_OWNER[o] || SCOPE_BY_OWNER.all;
+  document.querySelectorAll('.vt-btn').forEach((b, i) => b.classList.toggle('active', (i === 0 && o === 'all') || (i === 1 && o !== 'all')));
+}
+
+function resetFilters() {
+  document.getElementById('f-period').value = 'q1';
+  document.getElementById('f-owner').value  = 'all';
+  document.getElementById('f-type').value   = 'all';
+  applyFilters();
+}
+
+function setView(v) {
+  if (v === 'my') {
+    document.getElementById('f-owner').value = 'sc';
+  } else {
+    document.getElementById('f-owner').value = 'all';
+  }
+  applyFilters();
+}
+
+/* ── Expandable rows ── */
+function toggleExpand(tr) {
+  const next = tr.nextElementSibling;
+  if (next && next.classList.contains('xrow')) {
+    const isOpen = next.classList.contains('open');
+    document.querySelectorAll('.xrow.open').forEach(r => r.classList.remove('open'));
+    if (!isOpen) next.classList.add('open');
+  }
+}
+
+/* ══ TAB 0 — initialize immediately ══ */
+(function initTab0() {
+  new Chart(document.getElementById('c0_wl'), {
+    type: 'bar',
+    data: {
+      labels: ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'],
+      datasets: [
+        { label: 'Won',  data: [7, 9, 8, 11, 10, 12], backgroundColor: a(C.green, .75), borderRadius: 4 },
+        { label: 'Lost', data: [5, 6,  4,  7,  5,  5], backgroundColor: a(C.red,   .65), borderRadius: 4 },
+      ]
+    },
+    options: {
+      ...base,
+      plugins: { legend: { display: true, labels: { color: '#94a3b8', boxWidth: 12, padding: 14 } } },
+      scales: { x: { ...noXG }, y: { ...gY, ticks: { ...gY.ticks, stepSize: 3 } } }
+    }
+  });
+})();
+window['_t0'] = true;
+
+/* ══ TAB 1 ══ */
+function initTab1() {
+  new Chart(document.getElementById('c1_stages'), {
+    type: 'bar',
+    data: {
+      labels: ['Qualifying', 'Validating', 'Progressing', 'Focus', 'Negotiating'],
+      datasets: [{
+        data: [32, 28, 22, 19, 14],
+        borderRadius: 4,
+        backgroundColor: [a(C.blue,.8), a(C.indigo,.8), a(C.purple,.8), a(C.green,.75), a(C.teal,.8)]
+      }]
+    },
+    options: { ...base, scales: { x: { ...noXG }, y: { ...gY, ticks: { ...gY.ticks, stepSize: 5 } } } }
+  });
+
+  new Chart(document.getElementById('c1_reps'), {
+    type: 'bar',
+    data: {
+      labels: ['Sarah Chen', 'Priya Patel', 'Mike Torres', 'James Wilson'],
+      datasets: [
+        { type: 'bar',  data: [32, 28, 24, 16], borderRadius: 4,
+          backgroundColor: [a(C.green,.8), a(C.green,.7), a(C.blue,.7), a(C.amber,.7)] },
+        { type: 'line', data: [15, 15, 15, 15], borderColor: a(C.red,.65),
+          borderDash: [4,4], pointRadius: 0, fill: false, tension: 0 },
+      ]
+    },
+    options: { ...base, plugins: { legend: { display: false } }, scales: { x: { ...noXG }, y: { ...gY } } }
+  });
+
+  new Chart(document.getElementById('c1_calls'), {
+    type: 'bar',
+    data: {
+      labels: ['Sarah Chen', 'Priya Patel', 'Mike Torres', 'James Wilson'],
+      datasets: [
+        { type: 'bar',  data: [8, 7, 5, 3], borderRadius: 4,
+          backgroundColor: [a(C.green,.85), a(C.green,.7), a(C.amber,.8), a(C.red,.75)] },
+        { type: 'line', data: [6, 6, 6, 6], borderColor: a(C.green,.5),
+          borderDash: [4,4], pointRadius: 0, fill: false, tension: 0 },
+      ]
+    },
+    options: { ...base, plugins: { legend: { display: false } }, scales: { x: { ...noXG }, y: { ...gY } } }
+  });
+}
+
+/* ══ TAB 2 ══ */
+function initTab2() {
+  new Chart(document.getElementById('c2_time'), {
+    type: 'bar',
+    data: {
+      labels: ['Qualifying', 'Validating', 'Progressing', 'Focus', 'Negotiating'],
+      datasets: [{
+        data: [3, 8, 12, 18, 6], borderRadius: 4,
+        backgroundColor: [a(C.blue,.7), a(C.indigo,.7), a(C.purple,.7), a(C.amber,.85), a(C.teal,.7)]
+      }]
+    },
+    options: {
+      ...base, indexAxis: 'y',
+      scales: {
+        x: { ...gX, ticks: { ...gX.ticks, callback: v => v + 'd' } },
+        y: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+      }
+    }
+  });
+
+  new Chart(document.getElementById('c2_reps'), {
+    type: 'bar',
+    data: {
+      labels: ['Sarah Chen', 'Priya Patel', 'Mike Torres', 'James Wilson'],
+      datasets: [
+        { type: 'bar',  data: [52, 38, 31, 18], borderRadius: 4,
+          backgroundColor: [a(C.green,.9), a(C.green,.7), a(C.amber,.8), a(C.red,.75)] },
+        { type: 'line', data: [40, 40, 40, 40], borderColor: a(C.green,.5),
+          borderDash: [4,4], pointRadius: 0, fill: false, tension: 0 },
+      ]
+    },
+    options: {
+      ...base, plugins: { legend: { display: false } },
+      scales: { x: { ...noXG }, y: { ...gY, max: 70, ticks: { ...gY.ticks, callback: v => v + '%' } } }
+    }
+  });
+
+  new Chart(document.getElementById('c2_trend'), {
+    type: 'bar',
+    data: {
+      labels: ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'],
+      datasets: [
+        { label: 'Won',  data: [7, 9, 8, 11, 10, 12], backgroundColor: a(C.green,.75), borderRadius: 4 },
+        { label: 'Lost', data: [5, 6,  4,  7,  5,  5], backgroundColor: a(C.red,.65),  borderRadius: 4 },
+      ]
+    },
+    options: {
+      ...base,
+      plugins: { legend: { display: true, labels: { color: '#94a3b8', boxWidth: 12, padding: 12 } } },
+      scales: { x: { ...noXG }, y: { ...gY } }
+    }
+  });
+
+  new Chart(document.getElementById('c2_lost'), {
+    type: 'bar',
+    data: {
+      labels: ['Missing Feature', 'Competitor Win', 'Pricing', 'No Budget', 'Ghosted', 'Not a Fit'],
+      datasets: [{
+        data: [38, 26, 19, 11, 4, 2], borderRadius: 4,
+        backgroundColor: [a(C.red,.9), a(C.purple,.8), a(C.amber,.8), a(C.blue,.7), a(C.red,.5), a(C.teal,.6)]
+      }]
+    },
+    options: {
+      ...base,
+      scales: { x: { ...noXG }, y: { ...gY, ticks: { ...gY.ticks, callback: v => v + '%' } } }
+    }
+  });
+
+  new Chart(document.getElementById('c2_ghost'), {
+    type: 'line',
+    data: {
+      labels: ['Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'],
+      datasets: [{
+        data: [8, 10, 9, 11, 12, 14], borderColor: C.amber, backgroundColor: a(C.amber, .1),
+        fill: true, tension: .4, pointBackgroundColor: C.amber, pointRadius: 4
+      }]
+    },
+    options: {
+      ...base,
+      scales: { x: { ...gX }, y: { ...gY, min: 0, max: 20, ticks: { ...gY.ticks, callback: v => v + '%' } } }
+    }
+  });
+}
+
+/* ══ TAB 3 ══ */
+function initTab3() {
+  new Chart(document.getElementById('c3_improv'), {
+    type: 'bar',
+    data: {
+      labels: ['Excel / CSV Export', 'SSO / SAML', 'Column Masking', 'Row-level Security', 'Warehouse Connectors', 'Audit Logs'],
+      datasets: [{
+        data: [18, 14, 11, 9, 7, 6], borderRadius: 4,
+        backgroundColor: [a(C.red,.9), a(C.red,.8), a(C.amber,.8), a(C.amber,.65), a(C.blue,.7), a(C.blue,.55)]
+      }]
+    },
+    options: {
+      ...base, indexAxis: 'y',
+      scales: { x: { ...gX }, y: { grid: { display: false }, ticks: { color: '#94a3b8' } } }
+    }
+  });
+}
+
+/* ══ TAB 4 ══ */
+function initTab4() {
+  new Chart(document.getElementById('c4_mrr'), {
+    type: 'line',
+    data: {
+      labels: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar'],
+      datasets: [
+        { label: 'Total MRR ($K)',   data: [124,131,138,145,150,157,162,168,172,178,183,187],
+          borderColor: C.green,  backgroundColor: a(C.green,.08), fill: true, tension: .4, pointRadius: 3, pointBackgroundColor: C.green },
+        { label: 'New MRR ($K)',     data: [12,14,11,13,10,12,9,11,8,12,10,11],
+          borderColor: C.blue,   backgroundColor: 'transparent', tension: .4, pointRadius: 3, pointBackgroundColor: C.blue },
+        { label: 'Churned MRR ($K)', data: [3,2,4,3,5,2,4,3,4,2,5,4],
+          borderColor: C.red,    backgroundColor: 'transparent', tension: .4, pointRadius: 3, borderDash: [4,4], pointBackgroundColor: C.red },
+      ]
+    },
+    options: {
+      ...base,
+      plugins: { legend: { display: true, labels: { color: '#94a3b8', boxWidth: 12, padding: 16 } } },
+      scales: { x: { ...gX }, y: { ...gY, ticks: { ...gY.ticks, callback: v => '$' + v + 'K' } } }
+    }
+  });
+
+  new Chart(document.getElementById('c4_churn'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Feature Gap', 'Pricing', 'Competitor', 'No Usage', 'Payment Failed', 'Unknown'],
+      datasets: [{
+        data: [32, 24, 18, 14, 8, 4],
+        borderColor: '#161b27', borderWidth: 2, cutout: '55%',
+        backgroundColor: [a(C.red,.85), a(C.amber,.8), a(C.purple,.8), a(C.blue,.7), a(C.teal,.7), a('#94a3b8',.4)]
+      }]
+    },
+    options: {
+      ...base, cutout: '55%',
+      plugins: {
+        legend: { display: true, position: 'right', labels: { color: '#94a3b8', boxWidth: 10, padding: 8, font: { size: 11 } } }
+      }
+    }
+  });
+}
+</script>
+
+</body>
+</html>

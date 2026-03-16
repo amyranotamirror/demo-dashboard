@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Dashboard v3 · Holistics</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg-page:   #0d1117;
+      --bg-nav:    #0a0e14;
+      --bg-card:   #161b27;
+      --bg-card2:  #1a2030;
+      --bg-card3:  #1e2535;
+      --border:    rgba(255,255,255,0.07);
+      --border2:   rgba(255,255,255,0.12);
+      --green:     #00c47a;
+      --green-dim: rgba(0,196,122,0.12);
+      --blue:      #3b82f6;
+      --indigo:    #6366f1;
+      --purple:    #8b5cf6;
+      --amber:     #f59e0b;
+      --red:       #ef4444;
+      --teal:      #06b6d4;
+      --violet:    #a855f7;
+      --t1:        #e2e8f0;
+      --t2:        #94a3b8;
+      --t3:        #475569;
+      --r:         8px;
+      --sh:        0 4px 24px rgba(0,0,0,.5);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg-page);
+      color: var(--t1);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    /* ── NAVBAR ── */
+    .navbar {
+      background: var(--bg-nav); border-bottom: 1px solid var(--border);
+      padding: 0 24px; display: flex; align-items: center; height: 52px; gap: 16px;
+      position: sticky; top: 0; z-index: 300;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; color: #fff; text-decoration: none; }
+    .logo-mark { width: 26px; height: 26px; background: var(--green); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 900; color: #000; }
+    .nav-sep { color: var(--t3); font-size: 20px; font-weight: 300; }
+    .nav-title { color: var(--t2); font-size: 13px; }
+    .nav-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+    .nbadge { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 99px; background: var(--green-dim); color: var(--green); border: 1px solid rgba(0,196,122,.25); }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      background: var(--bg-nav); border-bottom: 1px solid var(--border2);
+      padding: 8px 24px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      position: sticky; top: 52px; z-index: 200;
+    }
+    .f-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--t3); flex-shrink: 0; }
+    .f-select { background: var(--bg-card2); border: 1px solid var(--border2); color: var(--t1); font-size: 12px; font-weight: 500; padding: 5px 10px; border-radius: 6px; cursor: pointer; outline: none; transition: border-color .15s; }
+    .f-select:focus, .f-select:hover { border-color: var(--green); }
+    .f-sep { width: 1px; height: 20px; background: var(--border2); flex-shrink: 0; }
+    .f-scope { font-size: 11px; color: var(--t3); }
+    .f-reset { margin-left: auto; font-size: 11px; color: var(--t3); cursor: pointer; padding: 4px 10px; border-radius: 5px; border: 1px solid var(--border); transition: all .15s; }
+    .f-reset:hover { color: var(--t2); border-color: var(--border2); }
+    .view-toggle { display: flex; gap: 3px; }
+    .vt-btn { padding: 4px 12px; border-radius: 6px; border: 1px solid var(--border2); background: none; color: var(--t2); font-size: 12px; font-weight: 500; cursor: pointer; transition: all .15s; }
+    .vt-btn.active { background: var(--green-dim); color: var(--green); border-color: rgba(0,196,122,.3); }
+
+    /* ── TAB BAR ── */
+    .tabs-bar {
+      background: var(--bg-nav); border-bottom: 1px solid var(--border);
+      padding: 0 24px; display: flex; overflow-x: auto;
+      position: sticky; top: 92px; z-index: 100;
+    }
+    .tabs-bar::-webkit-scrollbar { display: none; }
+    .tab-btn { padding: 0 20px; height: 46px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--t2); cursor: pointer; font-size: 13px; font-weight: 500; white-space: nowrap; transition: color .15s, border-color .15s; display: flex; align-items: center; gap: 6px; }
+    .tab-btn:hover { color: var(--t1); }
+    .tab-btn.active { color: #fff; border-bottom-color: var(--green); }
+    .tab-count { font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 99px; }
+    .tc-r { background: rgba(239,68,68,.2); color: #f87171; }
+    .tc-g { background: rgba(0,196,122,.15); color: #34d399; }
+    .tc-a { background: rgba(245,158,11,.2); color: #fbbf24; }
+
+    /* ── LAYOUT ── */
+    .tab-pane { display: none; padding: 20px 24px 48px; max-width: 1440px; margin: 0 auto; }
+    .tab-pane.active { display: block; }
+    .grid { display: grid; gap: 16px; }
+    .g4 { grid-template-columns: repeat(4, 1fr); }
+    .g3 { grid-template-columns: repeat(3, 1fr); }
+    .g2 { grid-template-columns: 1fr 1fr; }
+    .g21 { grid-template-columns: 2fr 1fr; }
+    .g12 { grid-template-columns: 1fr 2fr; }
+    .mt { margin-top: 16px; }
+    @media (max-width: 1100px) { .g4, .g3 { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 700px)  { .g4, .g3, .g2, .g21, .g12 { grid-template-columns: 1fr; } }
+
+    /* ── BASE CARD ── */
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r); padding: 18px 20px; box-shadow: var(--sh); }
+    .card-hd { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; gap: 8px; }
+    .card-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--t2); }
+    .card-sub { font-size: 11px; color: var(--t3); margin-top: 2px; }
+
+    /* ── CHIPS & PILLS ── */
+    .chip { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 99px; white-space: nowrap; flex-shrink: 0; }
+    .chip-r  { background: rgba(239,68,68,.15);  color: #f87171; }
+    .chip-g  { background: rgba(0,196,122,.12);  color: #34d399; }
+    .chip-a  { background: rgba(245,158,11,.15); color: #fbbf24; }
+    .chip-b  { background: rgba(59,130,246,.15); color: #60a5fa; }
+    .chip-gr { background: rgba(255,255,255,.07); color: var(--t2); }
+    .pill { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 11px; font-weight: 600; }
+    .p-g  { background: rgba(0,196,122,.12);  color: #34d399; }
+    .p-r  { background: rgba(239,68,68,.15);  color: #f87171; }
+    .p-a  { background: rgba(245,158,11,.15); color: #fbbf24; }
+    .p-b  { background: rgba(59,130,246,.15); color: #60a5fa; }
+    .p-gr { background: rgba(255,255,255,.07); color: var(--t2); }
+
+    /* ── KPI ── */
+    .kpi-lbl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--t2); margin-bottom: 10px; }
+    .kpi-val { font-size: 30px; font-weight: 700; color: #fff; line-height: 1; margin-bottom: 7px; }
+    .kpi-val.danger { color: #f87171; }
+    .kpi-val.warn   { color: #fbbf24; }
+    .kpi-val.ok     { color: #34d399; }
+    .kpi-sub { font-size: 12px; color: var(--t2); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .delta { font-size: 12px; font-weight: 600; }
+    .up { color: #34d399; } .dn { color: #f87171; }
+    .bar-track { margin-top: 10px; height: 4px; border-radius: 2px; background: rgba(255,255,255,.07); overflow: hidden; }
+    .bar-fill  { height: 100%; border-radius: 2px; background: var(--green); }
+    .bar-label { font-size: 11px; color: var(--t3); margin-top: 5px; }
+
+    /* ── STAGE BADGES ── */
+    .sb { display: inline-flex; align-items: center; padding: 2px 9px; border-radius: 99px; font-size: 11px; font-weight: 600; border: 1px solid transparent; white-space: nowrap; }
+    .s-q { background: rgba(59,130,246,.12);  color: #60a5fa;  border-color: rgba(59,130,246,.2); }
+    .s-v { background: rgba(99,102,241,.12);  color: #818cf8;  border-color: rgba(99,102,241,.2); }
+    .s-p { background: rgba(139,92,246,.12);  color: #a78bfa;  border-color: rgba(139,92,246,.2); }
+    .s-f { background: rgba(0,196,122,.12);   color: #34d399;  border-color: rgba(0,196,122,.2); }
+    .s-n { background: rgba(6,182,212,.12);   color: #22d3ee;  border-color: rgba(6,182,212,.2); }
+
+    /* ── TABLE ── */
+    .dt { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .dt th { text-align: left; padding: 7px 12px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--t3); border-bottom: 1px solid var(--border); }
+    .dt td { padding: 9px 12px; border-bottom: 1px solid rgba(255,255,255,.04); vertical-align: middle; }
+    .dt tr:last-child td { border-bottom: none; }
+    .dt tr.cl { cursor: pointer; }
+    .dt tr.cl:hover td { background: rgba(255,255,255,.025); }
+
+    /* ── NOTICES ── */
+    .notice { padding: 9px 13px; border-radius: 6px; font-size: 12px; line-height: 1.55; }
+    .nr { background: rgba(239,68,68,.08);  border: 1px solid rgba(239,68,68,.2);  color: #f87171; }
+    .na { background: rgba(245,158,11,.08); border: 1px solid rgba(245,158,11,.2); color: #fbbf24; }
+    .ng { background: rgba(0,196,122,.07);  border: 1px solid rgba(0,196,122,.2);  color: #34d399; }
+    .nb { background: rgba(59,130,246,.08); border: 1px solid rgba(59,130,246,.2); color: #60a5fa; }
+
+    /* ── CHART WRAP ── */
+    .ch { position: relative; }
+
+    /* ══════════════════════════════════════════ */
+    /*  REP CAPACITY CARD                         */
+    /* ══════════════════════════════════════════ */
+    .rep-card { display: flex; flex-direction: column; gap: 0; }
+    .rep-hd { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .rep-avatar { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: #000; flex-shrink: 0; }
+    .rep-name  { font-size: 14px; font-weight: 700; color: var(--t1); }
+    .rep-role  { font-size: 11px; color: var(--t3); }
+    .rep-status { margin-left: auto; }
+
+    .rep-stats { display: flex; gap: 0; margin-bottom: 12px; }
+    .rs { flex: 1; text-align: center; padding: 8px 4px; border-right: 1px solid var(--border); }
+    .rs:last-child { border-right: none; }
+    .rs-val { font-size: 18px; font-weight: 700; color: var(--t1); line-height: 1; margin-bottom: 3px; }
+    .rs-lbl { font-size: 10px; color: var(--t3); text-transform: uppercase; letter-spacing: .04em; }
+
+    /* mini stage distribution bar */
+    .stage-dist { display: flex; height: 5px; border-radius: 3px; overflow: hidden; gap: 2px; margin-bottom: 6px; }
+    .stage-dist > span { height: 100%; border-radius: 1px; display: block; }
+    .sd-lbl { display: flex; gap: 10px; flex-wrap: wrap; }
+    .sdl { font-size: 10px; color: var(--t3); display: flex; align-items: center; gap: 3px; }
+    .sdl-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+    .rep-next { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .rep-next-lbl { font-size: 11px; color: var(--t3); }
+    .rep-next-val { font-size: 12px; color: var(--t1); font-weight: 500; }
+
+    /* calls progress bar */
+    .calls-bar { margin-top: 10px; }
+    .calls-bar-hd { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 11px; }
+    .cb-track { height: 5px; background: rgba(255,255,255,.07); border-radius: 3px; overflow: hidden; }
+    .cb-fill  { height: 100%; border-radius: 3px; }
+
+    /* ══════════════════════════════════════════ */
+    /*  ACTIVITY TIMELINE                         */
+    /* ══════════════════════════════════════════ */
+    .timeline { }
+    .tl-day { margin-bottom: 16px; }
+    .tl-day-hd { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--t3); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .tl-day-hd::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .tl-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 12px; border-radius: 6px; margin-bottom: 4px; border: 1px solid var(--border); background: rgba(255,255,255,.015); }
+    .tl-item.upcoming { border-color: rgba(0,196,122,.15); background: rgba(0,196,122,.04); }
+    .tl-dot { width: 7px; height: 7px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+    .tl-co   { font-weight: 600; font-size: 13px; color: var(--t1); min-width: 140px; }
+    .tl-type { font-size: 12px; color: var(--t2); }
+    .tl-owner { font-size: 11px; color: var(--t3); margin-left: auto; white-space: nowrap; }
+    .tl-time { font-size: 11px; color: var(--t3); min-width: 60px; }
+
+    /* ══════════════════════════════════════════ */
+    /*  ACTION SECTIONS (Win Deals / Keep Cust.)  */
+    /* ══════════════════════════════════════════ */
+    .act-sec {
+      display: flex; align-items: center; gap: 10px;
+      margin: 24px 0 12px; padding-bottom: 10px;
+      border-bottom: 2px solid var(--border2);
+    }
+    .act-sec-icon { font-size: 16px; }
+    .act-sec-title { font-size: 14px; font-weight: 700; color: var(--t1); }
+    .act-sec-desc  { font-size: 12px; color: var(--t3); }
+    .act-sec-badge { margin-left: auto; font-size: 12px; font-weight: 600; padding: 3px 12px; border-radius: 99px; white-space: nowrap; }
+    .asb-r { background: rgba(239,68,68,.12); color: #f87171; border: 1px solid rgba(239,68,68,.2); }
+    .asb-a { background: rgba(245,158,11,.12); color: #fbbf24; border: 1px solid rgba(245,158,11,.2); }
+    .asb-g { background: rgba(0,196,122,.10); color: #34d399; border: 1px solid rgba(0,196,122,.2); }
+    .asb-b { background: rgba(59,130,246,.12); color: #60a5fa; border: 1px solid rgba(59,130,246,.2); }
+
+    /* Action Card — main action item component */
+    .acard {
+      border-left: 3px solid var(--border2);
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      border-radius: 0 var(--r) var(--r) 0;
+      padding: 14px 16px;
+      margin-bottom: 8px;
+      transition: background .1s;
+    }
+    .acard:hover { background: var(--bg-card3); }
+    .acard.ac-r { border-left-color: #ef4444; }
+    .acard.ac-a { border-left-color: #f59e0b; }
+    .acard.ac-g { border-left-color: #00c47a; }
+    .acard.ac-b { border-left-color: #3b82f6; }
+
+    .ac-hd { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 7px; }
+    .ac-co { font-size: 14px; font-weight: 700; color: var(--t1); }
+    .ac-val { font-size: 13px; font-weight: 600; color: var(--t2); margin-left: auto; white-space: nowrap; }
+    .ac-owner { font-size: 12px; color: var(--t3); white-space: nowrap; }
+    .ac-body { display: flex; flex-direction: column; gap: 4px; }
+    .ac-what { font-size: 13px; color: var(--t1); line-height: 1.4; }
+    .ac-next { font-size: 12px; color: var(--t2); line-height: 1.4; }
+    .ac-next strong { color: var(--green); }
+    .ac-next.urgent strong { color: #f87171; }
+
+    /* Blocker card — product gap with deals at risk */
+    .blocker-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-top: 3px solid #f59e0b;
+      border-radius: var(--r);
+      padding: 14px 16px;
+      margin-bottom: 8px;
+    }
+    .bl-hd { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .bl-name { font-size: 14px; font-weight: 700; color: var(--t1); }
+    .bl-theme { font-size: 11px; color: var(--t3); }
+    .bl-at-risk { margin-left: auto; font-size: 13px; font-weight: 700; color: #f87171; }
+    .bl-meta { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+    .bl-m { font-size: 12px; color: var(--t2); }
+    .bl-deals { margin-top: 6px; }
+    .bl-deal { display: inline-flex; align-items: center; gap: 5px; padding: 2px 8px; background: rgba(255,255,255,.05); border: 1px solid var(--border); border-radius: 4px; font-size: 11px; color: var(--t2); margin-right: 6px; margin-bottom: 4px; }
+    .bl-action { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); font-size: 12px; }
+
+    /* Issue card */
+    .issue-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 12px 16px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .iss-pri { width: 6px; border-radius: 3px; align-self: stretch; flex-shrink: 0; min-height: 40px; }
+    .iss-pri-r { background: #ef4444; }
+    .iss-pri-a { background: #f59e0b; }
+    .iss-pri-b { background: #3b82f6; }
+    .iss-body { flex: 1; }
+    .iss-co  { font-size: 13px; font-weight: 600; color: var(--t1); }
+    .iss-txt { font-size: 12px; color: var(--t2); margin-top: 2px; font-style: italic; line-height: 1.4; }
+    .iss-meta { font-size: 11px; color: var(--t3); margin-top: 4px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .iss-age { font-size: 11px; color: var(--t3); white-space: nowrap; margin-top: 2px; }
+
+    /* Renewal row */
+    .ren-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+    .ren-item:last-child { border-bottom: none; }
+    .ren-co   { font-weight: 600; font-size: 13px; color: var(--t1); min-width: 130px; }
+    .ren-mrr  { font-size: 13px; font-weight: 600; color: var(--t1); }
+    .ren-date { font-size: 12px; color: var(--t2); min-width: 65px; }
+    .ren-action { margin-left: auto; font-size: 12px; font-weight: 600; }
+    .ra-urgent { color: #f87171; }
+    .ra-action { color: var(--green); }
+    .ra-ok     { color: var(--t3); }
+
+    /* Funnel (Performance tab) */
+    .fn-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .fn-lbl  { width: 110px; font-size: 12px; color: var(--t2); flex-shrink: 0; text-align: right; }
+    .fn-track { flex: 1; height: 28px; background: rgba(255,255,255,.05); border-radius: 4px; overflow: hidden; }
+    .fn-fill  { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 10px; font-size: 12px; font-weight: 700; color: #fff; }
+    .fn-pct  { width: 40px; text-align: right; font-size: 12px; font-weight: 600; color: var(--t2); }
+    .fn-drop { width: 46px; text-align: right; font-size: 11px; }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════ NAVBAR ════════════════ -->
+<nav class="navbar">
+  <a class="logo" href="#">
+    <div class="logo-mark">H</div>Holistics
+  </a>
+  <span class="nav-sep">/</span>
+  <span class="nav-title">Sales</span>
+  <div class="nav-right">
+    <span id="nav-period" class="chip chip-gr">Q1 2026</span>
+    <span class="nbadge">Demo</span>
+  </div>
+</nav>
+
+<!-- ════════════════ FILTER BAR ════════════════ -->
+<div class="filter-bar">
+  <span class="f-label">View</span>
+  <div class="view-toggle">
+    <button class="vt-btn active" onclick="setView('team')">Team</button>
+    <button class="vt-btn"        onclick="setView('my')">My Deals</button>
+  </div>
+  <div class="f-sep"></div>
+  <span class="f-label">Period</span>
+  <select class="f-select" id="f-period" onchange="applyFilters()">
+    <option value="q1">Q1 2026 (Jan – Mar)</option>
+    <option value="q4">Q4 2025 (Oct – Dec)</option>
+    <option value="l90">Last 90 Days</option>
+    <option value="l30">Last 30 Days</option>
+  </select>
+  <div class="f-sep"></div>
+  <span class="f-label">Owner</span>
+  <select class="f-select" id="f-owner" onchange="applyFilters()">
+    <option value="all">All Reps</option>
+    <option value="sc">Sarah Chen</option>
+    <option value="pp">Priya Patel</option>
+    <option value="mt">Mike Torres</option>
+    <option value="jw">James Wilson</option>
+  </select>
+  <div class="f-sep"></div>
+  <span class="f-label">Type</span>
+  <select class="f-select" id="f-type" onchange="applyFilters()">
+    <option value="all">All Types</option>
+    <option value="new">New Business</option>
+    <option value="renewal">Renewal</option>
+    <option value="expansion">Expansion</option>
+  </select>
+  <span class="f-scope" id="f-scope">115 open deals · 4 reps</span>
+  <button class="f-reset" onclick="resetFilters()">Reset</button>
+</div>
+
+<!-- ════════════════ TAB BAR ════════════════ -->
+<div class="tabs-bar">
+  <button class="tab-btn active" onclick="switchTab(0)">
+    Team &amp; Pipeline
+  </button>
+  <button class="tab-btn" onclick="switchTab(1)">
+    Win Deals
+    <span class="tab-count tc-r">9 actions</span>
+  </button>
+  <button class="tab-btn" onclick="switchTab(2)">
+    Keep Customers
+    <span class="tab-count tc-r">14 actions</span>
+  </button>
+  <button class="tab-btn" onclick="switchTab(3)">
+    Performance
+  </button>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!--  TAB 0 · TEAM & PIPELINE                                      -->
+<!--  Question: "How is the team loaded and working their deals?"  -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div class="tab-pane active" id="pane-0">
+
+  <!-- KPIs -->
+  <div class="grid g4">
+    <div class="card">
+      <div class="kpi-lbl">Open Pipeline</div>
+      <div class="kpi-val">$2.1M</div>
+      <div class="kpi-sub">115 active deals · <span class="delta dn">16 ghost</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:72%"></div></div>
+      <div class="bar-label">72% toward $3M quarterly target</div>
+    </div>
+    <div class="card">
+      <div class="kpi-lbl">Calls This Week</div>
+      <div class="kpi-val">23</div>
+      <div class="kpi-sub">Target: 24 total · <span class="delta up">✓ near target</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:96%;background:var(--green)"></div></div>
+      <div class="bar-label">James Wilson under-pacing (3 of 6)</div>
+    </div>
+    <div class="card">
+      <div class="kpi-lbl">Win Rate (Q1)</div>
+      <div class="kpi-val warn">34%</div>
+      <div class="kpi-sub"><span class="delta up">▲ 3pp</span> vs Q4 · Target: 40%</div>
+      <div class="bar-track"><div class="bar-fill" style="width:85%;background:var(--amber)"></div></div>
+      <div class="bar-label">6pp below target</div>
+    </div>
+    <div class="card">
+      <div class="kpi-lbl">Ghost Rate</div>
+      <div class="kpi-val danger">14%</div>
+      <div class="kpi-sub"><span class="delta dn">▲ 2pp</span> vs last month · 16 deals idle</div>
+      <div class="bar-track"><div class="bar-fill" style="width:70%;background:var(--red)"></div></div>
+      <div class="bar-label">$152K pipeline value at risk of expiring</div>
+    </div>
+  </div>
+
+  <!-- Rep Capacity Cards -->
+  <div class="sec" style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--t3);margin:20px 0 12px">Team Capacity — Open Deals &amp; Activity</div>
+  <div class="grid g4">
+
+    <!-- Sarah Chen -->
+    <div class="card rep-card">
+      <div class="rep-hd">
+        <div class="rep-avatar" style="background:#00c47a">SC</div>
+        <div>
+          <div class="rep-name">Sarah Chen</div>
+          <div class="rep-role">Account Executive</div>
+        </div>
+        <div class="rep-status"><span class="chip chip-g">On track</span></div>
+      </div>
+      <div class="rep-stats">
+        <div class="rs">
+          <div class="rs-val">32</div>
+          <div class="rs-lbl">Open deals</div>
+        </div>
+        <div class="rs">
+          <div class="rs-val">$420K</div>
+          <div class="rs-lbl">Pipeline</div>
+        </div>
+        <div class="rs">
+          <div class="rs-val" style="color:#34d399">8</div>
+          <div class="rs-lbl">Calls/wk</div>
+        </div>
+      </div>
+      <div class="stage-dist">
+        <span style="width:16%;background:#3b82f6" title="Qualifying: 5"></span>
+        <span style="width:25%;background:#6366f1" title="Validating: 8"></span>
+        <span style="width:31%;background:#8b5cf6" title="Progressing: 10"></span>
+        <span style="width:22%;background:#00c47a" title="Focus: 7"></span>
+        <span style="width:6%;background:#06b6d4"  title="Negotiating: 2"></span>
+      </div>
+      <div class="sd-lbl">
+        <span class="sdl"><span class="sdl-dot" style="background:#3b82f6"></span>5 Q</span>
+        <span class="sdl"><span class="sdl-dot" style="background:#6366f1"></span>8 V</span>
+        <span class="sdl"><span class="sdl-dot" style="background:#8b5cf6"></span>10 P</span>
+        <span class="sdl"><span class="sdl-dot" style="background:#00c47a"></span>7 F</span>
+        <span class="sdl"><span class="sdl-dot" style="background:#06b6d4"></span>2 N</span>
+      </div>
+      <div class="calls-bar">
+        <div class="calls-bar-hd">
+          <span style="font-size:11px;color:var(--t3)">Calls this week</span>
+          <span style="font-size:11px;color:#34d399;font-weight:600">8 / 6 target</span>
+        </div>
+        <div class="cb-track"><div class="cb-fill" style="width:100%;background:#00c47a"></div></div>
+      </div>
+      <div class="rep-next">
+        <span class="rep-next-lbl">Next call</span>
+        <span class="rep-next-val">HealthTrack · Today</span>
+      </div>
+    </div>
+
+    <!-- Priya Patel -->
+    <div class="card rep-card">
+      <div class="rep-hd">
+        <div class="rep-avatar" style="background:#3b82f6">PP</div>
+        <div>
+          <div class="rep-name">Priya Patel</div>
+          <div class="rep-role">Account Executive</div>
+        </div>
+        <div class="rep-status"><span class="chip chip-g">On track</span></div>
+      </div>
+      <div class="rep-stats">
+        <div class="rs">
+          <div class="rs-val">28</div>
+          <div class="rs-lbl">Open deals</div>
+        </div>
+        <div class="rs">
+          <div class="rs-val">$312K</div>
+          <div class="rs-lbl">Pipeline</div>
+        </div>
+        <div class="rs">
+          <div class="rs-val" style="color:#34d399">7</div>
+          <div class="rs-lbl">Calls/wk</div>
+        </div>
+      </div>
+      <div class="stage-dist">
+        <span style="width:21%;background:#3b82f6" title="Qualifying: 6"></span>
+        <span style="width:25%;background:#6366f1" title="Validating: 7"></span>
+        <span style="width:29%;background:#8b5cf6" title="Progressing: 8"></span>
+        <span style="width:18%;background:#00c47a" title="Focus: 5"></span>
+        <span style="width:7%;background:#06b6d4"  title="Negotiating: 2"></span>
+      </div>
+      <div class="sd-lbl">
+        <span class="sdl"><span class="sdl-dot" style="background:#3b82f6"></span>6 Q</span>
+        <span class="sdl"><span class="sdl-dot" style="background:#6366f1"></span>7 V</span>
+        <span class="sdl"><span class="sdl-dot" style="background:#8b5cf6"></span>8 P</span>
+        <span class="sdl"><span class="sdl-dot" style="background:#00c47a"></span>5 F</span>
+        <span class="sdl"><span class="sdl-dot" style="background:#06b6d4"></span>2 N</span>
+      </div>
+      <div class="calls-bar">
+        <div class="calls-bar-hd">
+          <span style="font-size:11px;color:var(--t3)">Calls this week</span>
+          <span style="font-size:11px;color:#34d399;font-weight:600">7 / 6 target</span>
+        </div>
+        <div class="cb-track"><div class="cb-fill" style="width:100%;background:#00c47a"></div></div>
+      </div>
+      <div class="rep-next">
+        <span class="rep-next-lbl">Next call</span>
+        <span class="rep-next-val">Finvantage · Mar 17</span>
+      </div>
+    </div>
+
+    <!-- Mike Torres -->
+    <div class="card rep-card">
+      <div class="rep-hd">
+        <div class="rep-avatar" style="background:#f59e0b">MT</div>
+        <div>
+          <div class="rep-name">Mike Torres</div>
+          <div class="rep-role">Account Executive</div>
+        </div>
+        <div class="rep-status"><span class="chip chip-a">Under-pacing</span></div>
+      </div>
+      <div class="rep-stats">
+        <div class="rs">
+          <div class="rs-val">24</div>
+          <div class="rs-lbl">Open deals</div>
+        </div>
+        <div class="rs">
+          <div class="rs-val">$218K</div>
+          <div class="rs-lbl">Pipeline</div>
+        </div>
+        <div class="rs">
+          <div class="rs-val" style="color:#fbbf24">5</div>
+          <div class="rs-lbl">Calls/wk</div>
+        </div>
+      </div>
+      <div class="stage-dist">
+        <span style="width:38%;background:#3b82f6" title="Qualifying: 9"></span>
+        <span style="width:25%;background:#6366f1" title="Validating: 6"></span>
+        <span style="width:21%;background:#8b5cf6" title="Progressing: 5"></span>
+        <span style="width:13%;background:#00c47a" title="Focus: 3"></span>
+        <span style="width:4%;background:#06b6d4"  title="Negotiating: 1"></span>
+      </div>
+      <div class="sd-lbl">
+        <span class="sdl"><span class="sdl-dot" style="background:#3b82f6"></span>9 Q</span>
+        <span class="sdl"><span class="sdl-dot" style="background:#6366f1"></span>6 V</span>
+        <span class="sdl"><span class="sdl-dot" style="background:#8b5cf6"></span>5 P</span>
+        <span class="sdl"><span class="sdl-dot" style="background:#00c47a"></span>3 F</span>
+        <span class="sdl"><span class="sdl-dot" style="background:#06b6d4"></span>1 N</span>
+      </div>
+      <div class="calls-bar">
+        <div class="calls-bar-hd">
+          <span style="font-size:11px;color:var(--t3)">Calls this week</span>
+          <span style="font-size:11px;color:#fbbf24;font-weight:600">5 / 6 target</span>
+        </div>
+        <div class="cb-track"><div class="cb-fill" style="width:83%;background:#f59e0b"></div></div>
+      </div>
+      <div class="rep-next">
+        <span class="rep-next-lbl">Next call</span>
+        <span class="rep-next-val">LogiMetric · Mar 18</span>
+      </div>
+    </div>
+
+    <!-- James Wilson -->
+    <div class="card rep-card">
+      <div class="rep-hd">
+        <div class="rep-avatar" style="background:#ef4444">JW</div>
+        <div>
+          <div class="rep-name">James Wilson</div>
+          <div class="rep-role">Account Executive</div>
+        </div>
+        <div class="rep-status"><span class="chip chip-r">Needs review</span></div>
+      </div>
+      <div class="rep-stats">
+        <div class="rs">
+          <div class="rs-val">16</div>
+          <div class="rs-lbl">Open deals</div>
+        </div>
+        <div class="rs">
+          <div class="rs-val">$156K</div>
+          <div class="rs-lbl">Pipeline</div>
+        </div>
+        <div class="rs">
+          <div class="rs-val" style="color:#f87171">3</div>
+          <div class="rs-lbl">Calls/wk</div>
+        </div>
+      </div>
+      <div class="stage-dist">
+        <span style="width:44%;background:#3b82f6" title="Qualifying: 7"></span>
+        <span style="width:25%;background:#6366f1" title="Validating: 4"></span>
+        <span style="width:19%;background:#8b5cf6" title="Progressing: 3"></span>
+        <span style="width:12%;background:#00c47a" title="Focus: 2"></span>
+        <span style="width:0%;background:#06b6d4"  title="Negotiating: 0"></span>
+      </div>
+      <div class="sd-lbl">
+        <span class="sdl"><span class="sdl-dot" style="background:#3b82f6"></span>7 Q</span>
+        <span class="sdl"><span class="sdl-dot" style="background:#6366f1"></span>4 V</span>
+        <span class="sdl"><span class="sdl-dot" style="background:#8b5cf6"></span>3 P</span>
+        <span class="sdl"><span class="sdl-dot" style="background:#00c47a"></span>2 F</span>
+        <span class="sdl"><span class="sdl-dot" style="background:#06b6d4"></span>0 N</span>
+      </div>
+      <div class="calls-bar">
+        <div class="calls-bar-hd">
+          <span style="font-size:11px;color:var(--t3)">Calls this week</span>
+          <span style="font-size:11px;color:#f87171;font-weight:600">3 / 6 target</span>
+        </div>
+        <div class="cb-track"><div class="cb-fill" style="width:50%;background:#ef4444"></div></div>
+      </div>
+      <div class="rep-next" style="border-top-color:rgba(239,68,68,.2)">
+        <span class="rep-next-lbl">⚠ 2 ghost deals</span>
+        <span class="rep-next-val" style="color:#f87171">Review needed</span>
+      </div>
+    </div>
+
+  </div><!-- /rep cards -->
+
+  <!-- Stage distribution + Activity timeline -->
+  <div class="grid g21 mt">
+
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Activity — Past 7 Days + Upcoming 7 Days</div>
+          <div class="card-sub">All prospect calls · Mar 9 – Mar 22 · past = completed · future = scheduled</div>
+        </div>
+      </div>
+      <div class="timeline">
+
+        <div class="tl-day">
+          <div class="tl-day-hd" style="color:#34d399">Upcoming · Today Mar 16</div>
+          <div class="tl-item upcoming">
+            <div class="tl-dot" style="background:#00c47a"></div>
+            <div class="tl-co">HealthTrack</div>
+            <div class="tl-type">Evaluation <span class="sb s-n">Negotiating</span></div>
+            <div class="tl-time">10:00 am</div>
+            <div class="tl-owner">Sarah Chen</div>
+          </div>
+        </div>
+
+        <div class="tl-day">
+          <div class="tl-day-hd" style="color:#34d399">Mar 17 – Mar 22</div>
+          <div class="tl-item upcoming">
+            <div class="tl-dot" style="background:#00c47a"></div>
+            <div class="tl-co">Finvantage</div>
+            <div class="tl-type">Demo <span class="sb s-p">Progressing</span></div>
+            <div class="tl-time">Mar 17</div>
+            <div class="tl-owner">Priya Patel</div>
+          </div>
+          <div class="tl-item upcoming">
+            <div class="tl-dot" style="background:#00c47a"></div>
+            <div class="tl-co">DataBridge Co</div>
+            <div class="tl-type">Negotiation <span class="sb s-f">Focus</span></div>
+            <div class="tl-time">Mar 18</div>
+            <div class="tl-owner">Sarah Chen</div>
+          </div>
+          <div class="tl-item upcoming">
+            <div class="tl-dot" style="background:#00c47a"></div>
+            <div class="tl-co">LogiMetric</div>
+            <div class="tl-type">Evaluation <span class="sb s-p">Progressing</span></div>
+            <div class="tl-time">Mar 18</div>
+            <div class="tl-owner">Mike Torres</div>
+          </div>
+          <div class="tl-item upcoming">
+            <div class="tl-dot" style="background:#00c47a"></div>
+            <div class="tl-co">RetailEdge</div>
+            <div class="tl-type">Discovery <span class="sb s-q">Qualifying</span></div>
+            <div class="tl-time">Mar 19</div>
+            <div class="tl-owner">James Wilson</div>
+          </div>
+          <div class="tl-item upcoming">
+            <div class="tl-dot" style="background:#00c47a"></div>
+            <div class="tl-co">CloudSync</div>
+            <div class="tl-type">Demo <span class="sb s-f">Focus</span></div>
+            <div class="tl-time">Mar 20</div>
+            <div class="tl-owner">Sarah Chen</div>
+          </div>
+          <div class="tl-item upcoming">
+            <div class="tl-dot" style="background:#00c47a"></div>
+            <div class="tl-co">Meridian Labs</div>
+            <div class="tl-type">Discovery <span class="sb s-q">Qualifying</span></div>
+            <div class="tl-time">Mar 21</div>
+            <div class="tl-owner">James Wilson</div>
+          </div>
+        </div>
+
+        <div class="tl-day">
+          <div class="tl-day-hd">Past · Mar 9 – Mar 15</div>
+          <div class="tl-item">
+            <div class="tl-dot" style="background:#94a3b8"></div>
+            <div class="tl-co">NexGen Analytics</div>
+            <div class="tl-type">Evaluation <span class="sb s-f">Focus</span></div>
+            <div class="tl-time">Mar 15</div>
+            <div class="tl-owner">Mike Torres</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="background:#94a3b8"></div>
+            <div class="tl-co">Solarwave</div>
+            <div class="tl-type">Discovery <span class="sb s-v">Validating</span></div>
+            <div class="tl-time">Mar 14</div>
+            <div class="tl-owner">Priya Patel</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="background:#94a3b8"></div>
+            <div class="tl-co">DataBridge Co</div>
+            <div class="tl-type">Evaluation <span class="sb s-f">Focus</span></div>
+            <div class="tl-time">Mar 13</div>
+            <div class="tl-owner">Sarah Chen</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="background:#94a3b8"></div>
+            <div class="tl-co">HealthTrack</div>
+            <div class="tl-type">Demo <span class="sb s-n">Negotiating</span></div>
+            <div class="tl-time">Mar 11</div>
+            <div class="tl-owner">Sarah Chen</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="background:#94a3b8"></div>
+            <div class="tl-co">Finvantage</div>
+            <div class="tl-type">Discovery <span class="sb s-p">Progressing</span></div>
+            <div class="tl-time">Mar 10</div>
+            <div class="tl-owner">Priya Patel</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Open Deals by Stage</div>
+          <div class="card-sub">115 active deals · Q = Qualifying, V = Validating, etc.</div>
+        </div>
+      </div>
+      <div class="ch" style="height:220px"><canvas id="c0_stages"></canvas></div>
+      <div style="margin-top:14px">
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <span style="font-size:11px;color:var(--t2)"><span style="color:#60a5fa">●</span> Qualifying: 32</span>
+          <span style="font-size:11px;color:var(--t2)"><span style="color:#818cf8">●</span> Validating: 28</span>
+          <span style="font-size:11px;color:var(--t2)"><span style="color:#a78bfa">●</span> Progressing: 22</span>
+          <span style="font-size:11px;color:var(--t2)"><span style="color:#34d399">●</span> Focus: 19</span>
+          <span style="font-size:11px;color:var(--t2)"><span style="color:#22d3ee">●</span> Negotiating: 14</span>
+        </div>
+        <div class="notice na" style="margin-top:12px">
+          ⚠ 9 deals in Qualifying with James Wilson — top-heavy pipeline. High risk of ghost if not progressed this week.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div><!-- /tab-0 -->
+
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!--  TAB 1 · WIN DEALS                                            -->
+<!--  Question: "What does each prospect need for us to win?"      -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div class="tab-pane" id="pane-1">
+
+  <div class="notice nb" style="margin-bottom:4px">
+    <strong>This tab is for prospects only</strong> — companies that haven't signed yet. Goal: move each deal to a win. Three buckets: deals ready to close now, deals that need rescue, and deals blocked by product gaps.
+  </div>
+
+  <!-- ── SECTION: Close This Week ── -->
+  <div class="act-sec">
+    <span class="act-sec-icon">🎯</span>
+    <div>
+      <div class="act-sec-title">Close This Week</div>
+      <div class="act-sec-desc">Deals in Focus or Negotiating — what's the next action to push them over the line?</div>
+    </div>
+    <span class="act-sec-badge asb-g">2 deals · $40.8K</span>
+  </div>
+
+  <div class="acard ac-g">
+    <div class="ac-hd">
+      <span class="ac-co">HealthTrack</span>
+      <span class="sb s-n">Negotiating</span>
+      <span class="pill p-p">Expansion</span>
+      <span class="ac-val">$36,000</span>
+      <span class="ac-owner">Sarah Chen</span>
+    </div>
+    <div class="ac-body">
+      <div class="ac-what">Evaluation call scheduled today. Champion aligned, budget approved, contract in review.</div>
+      <div class="ac-next"><strong>Action:</strong> Run today's evaluation call → push for contract signature this week. SSO/SAML is acknowledged as Q2 roadmap — champion has accepted this timeline.</div>
+    </div>
+  </div>
+
+  <div class="acard ac-g">
+    <div class="ac-hd">
+      <span class="ac-co">CloudSync</span>
+      <span class="sb s-f">Focus</span>
+      <span class="pill p-b">New Business</span>
+      <span class="ac-val">$4,800</span>
+      <span class="ac-owner">Sarah Chen</span>
+    </div>
+    <div class="ac-body">
+      <div class="ac-what">Evaluation complete, contract review in progress. 5 days in Focus stage — no blockers reported.</div>
+      <div class="ac-next"><strong>Action:</strong> Demo call scheduled Mar 20. Follow up with procurement contact on contract timeline before the call.</div>
+    </div>
+  </div>
+
+  <!-- ── SECTION: Rescue Needed ── -->
+  <div class="act-sec">
+    <span class="act-sec-icon">🚨</span>
+    <div>
+      <div class="act-sec-title">Rescue Needed</div>
+      <div class="act-sec-desc">Ghost deals (45+ days idle) and deals stuck in the same stage for 14+ days</div>
+    </div>
+    <span class="act-sec-badge asb-r">7 deals · $59.4K</span>
+  </div>
+
+  <div class="acard ac-r">
+    <div class="ac-hd">
+      <span class="ac-co">Innovatech Solutions</span>
+      <span class="sb s-q">Qualifying</span>
+      <span class="pill p-b">New Business</span>
+      <span class="ac-val">$18,000</span>
+      <span class="ac-owner">James Wilson</span>
+    </div>
+    <div class="ac-body">
+      <div class="ac-what">Ghost — 58 days no activity. Last contact was the discovery call on Jan 10. No follow-up ever scheduled.</div>
+      <div class="ac-next urgent"><strong>Action:</strong> Attempt re-engagement by Mar 20. If no response, mark as lost and clean the pipeline. Inflating reported pipeline value.</div>
+    </div>
+  </div>
+
+  <div class="acard ac-a">
+    <div class="ac-hd">
+      <span class="ac-co">DataBridge Co</span>
+      <span class="sb s-f">Focus</span>
+      <span class="pill p-b">New Business</span>
+      <span class="ac-val">$9,600</span>
+      <span class="ac-owner">Sarah Chen</span>
+    </div>
+    <div class="ac-body">
+      <div class="ac-what">Stuck 22 days in Focus. Negotiation call is scheduled Mar 18. Two blocking issues: SSO/SAML (planned Q2) and Excel Export (open).</div>
+      <div class="ac-next"><strong>Action:</strong> On Mar 18 call — share SSO/SAML Q2 roadmap date. Confirm if Excel Export workaround (CSV download) unblocks them in the short term.</div>
+    </div>
+  </div>
+
+  <div class="acard ac-a">
+    <div class="ac-hd">
+      <span class="ac-co">Vortex Analytics</span>
+      <span class="sb s-v">Validating</span>
+      <span class="pill p-b">New Business</span>
+      <span class="ac-val">$4,800</span>
+      <span class="ac-owner">Mike Torres</span>
+    </div>
+    <div class="ac-body">
+      <div class="ac-what">Ghost — 51 days no activity. Was in Validating after one discovery call. No demo was scheduled.</div>
+      <div class="ac-next"><strong>Action:</strong> Send re-engagement email today. Offer to run a 30-min focused demo on their specific use case. If no reply in 5 days, close as lost.</div>
+    </div>
+  </div>
+
+  <div class="acard ac-a">
+    <div class="ac-hd">
+      <span class="ac-co">NexGen Analytics</span>
+      <span class="sb s-f">Focus</span>
+      <span class="pill p-b">New Business</span>
+      <span class="ac-val">$9,600</span>
+      <span class="ac-owner">Mike Torres</span>
+    </div>
+    <div class="ac-body">
+      <div class="ac-what">Stuck 14 days in Focus. No call scheduled since last evaluation. Row-level Security is a blocking requirement. Metabase mentioned twice.</div>
+      <div class="ac-next"><strong>Action:</strong> Schedule a technical call with a DA or PM who can walk through current data permission capabilities and show a workaround for row-level security.</div>
+    </div>
+  </div>
+
+  <div class="acard ac-a">
+    <div class="ac-hd">
+      <span class="ac-co">LogiMetric</span>
+      <span class="sb s-p">Progressing</span>
+      <span class="pill p-b">New Business</span>
+      <span class="ac-val">$2,400</span>
+      <span class="ac-owner">Mike Torres</span>
+    </div>
+    <div class="ac-body">
+      <div class="ac-what">Stuck 19 days in Progressing. No demo scheduled yet. Excel Export is a deal blocker.</div>
+      <div class="ac-next"><strong>Action:</strong> Book the product demo (call Mar 18 already scheduled). Open question: is Excel Export truly blocking or just a preference? Qualify clearly on the call.</div>
+    </div>
+  </div>
+
+  <div class="acard ac-a">
+    <div class="ac-hd">
+      <span class="ac-co">PixelFlow Media</span>
+      <span class="sb s-q">Qualifying</span>
+      <span class="pill p-b">New Business</span>
+      <span class="ac-val">$2,400</span>
+      <span class="ac-owner">James Wilson</span>
+    </div>
+    <div class="ac-body">
+      <div class="ac-what">Ghost — 47 days no activity since discovery call in late January.</div>
+      <div class="ac-next"><strong>Action:</strong> Re-engagement email. Personalize with a recent product update (e.g., Column Masking shipped) that's relevant to their use case.</div>
+    </div>
+  </div>
+
+  <div class="acard ac-a">
+    <div class="ac-hd">
+      <span class="ac-co">CloudMosaic</span>
+      <span class="sb s-p">Progressing</span>
+      <span class="pill p-b">New Business</span>
+      <span class="ac-val">$9,600</span>
+      <span class="ac-owner">Priya Patel</span>
+    </div>
+    <div class="ac-body">
+      <div class="ac-what">Ghost — 46 days no activity. Was in Progressing after initial demo. No evaluation scheduled.</div>
+      <div class="ac-next"><strong>Action:</strong> Direct follow-up call. Ask if priorities have shifted or if a specific feature gap is holding them back from scheduling an evaluation.</div>
+    </div>
+  </div>
+
+  <!-- ── SECTION: Product Blockers ── -->
+  <div class="act-sec">
+    <span class="act-sec-icon">🔧</span>
+    <div>
+      <div class="act-sec-title">Product Gaps Blocking Active Deals</div>
+      <div class="act-sec-desc">Features prospects need that aren't built yet — escalate each one to PM with deal context</div>
+    </div>
+    <span class="act-sec-badge asb-a">$130K at risk</span>
+  </div>
+
+  <div class="blocker-card">
+    <div class="bl-hd">
+      <div>
+        <div class="bl-name">SSO / SAML</div>
+        <div class="bl-theme">Theme: Administration</div>
+      </div>
+      <div style="margin-left:auto;text-align:right">
+        <div class="bl-at-risk">$71,400 at risk</div>
+        <div style="font-size:11px;color:var(--t2)">4 active deals · 9 lost deals cited this</div>
+      </div>
+      <span class="pill p-a" style="margin-left:12px">Planned Q2</span>
+    </div>
+    <div class="bl-meta">
+      <span class="bl-m">14 total signals across all time</span>
+      <span class="bl-m">· 4 deals blocked right now:</span>
+    </div>
+    <div class="bl-deals">
+      <span class="bl-deal">DataBridge Co ($9.6K)</span>
+      <span class="bl-deal">HealthTrack ($36K)</span>
+      <span class="bl-deal">NexGen Analytics ($9.6K)</span>
+      <span class="bl-deal">Meridian Labs ($2.4K)</span>
+    </div>
+    <div class="bl-action">
+      <span style="color:var(--green);font-weight:600">Action for manager:</span>
+      <span style="color:var(--t2)"> Get a firm Q2 date from Engineering. Share this with all 4 account owners so they can set expectations with champions. This alone could save 2–3 deals this quarter.</span>
+    </div>
+  </div>
+
+  <div class="blocker-card">
+    <div class="bl-hd">
+      <div>
+        <div class="bl-name">Excel / CSV Export</div>
+        <div class="bl-theme">Theme: Integrations</div>
+      </div>
+      <div style="margin-left:auto;text-align:right">
+        <div class="bl-at-risk">$30,000 at risk</div>
+        <div style="font-size:11px;color:var(--t2)">3 active deals · 7 lost deals cited this</div>
+      </div>
+      <span class="pill p-gr" style="margin-left:12px">Open — no ETA</span>
+    </div>
+    <div class="bl-meta">
+      <span class="bl-m">18 total signals · highest signal volume of any improvement</span>
+    </div>
+    <div class="bl-deals">
+      <span class="bl-deal">DataBridge Co ($9.6K)</span>
+      <span class="bl-deal">Finvantage ($18K)</span>
+      <span class="bl-deal">LogiMetric ($2.4K)</span>
+    </div>
+    <div class="bl-action">
+      <span style="color:#f59e0b;font-weight:600">Action for manager:</span>
+      <span style="color:var(--t2)"> Escalate to PM. 18 signals and 7 lost deals is strong evidence. In the meantime, reps should qualify whether CSV download is an acceptable workaround — it often unblocks mid-market deals.</span>
+    </div>
+  </div>
+
+  <div class="blocker-card" style="border-top-color:var(--border2)">
+    <div class="bl-hd">
+      <div>
+        <div class="bl-name">Row-level Security</div>
+        <div class="bl-theme">Theme: Data Governance</div>
+      </div>
+      <div style="margin-left:auto;text-align:right">
+        <div class="bl-at-risk" style="color:#fbbf24">$19,200 at risk</div>
+        <div style="font-size:11px;color:var(--t2)">2 active deals · 5 lost deals cited this</div>
+      </div>
+      <span class="pill p-gr" style="margin-left:12px">Open — no ETA</span>
+    </div>
+    <div class="bl-deals">
+      <span class="bl-deal">NexGen Analytics ($9.6K)</span>
+      <span class="bl-deal">RetailStack ($9.6K)</span>
+    </div>
+    <div class="bl-action">
+      <span style="color:#f59e0b;font-weight:600">Action for AE:</span>
+      <span style="color:var(--t2)"> These are both Enterprise+ deals. Bring in a DA on the technical call to walk through the current attribute-based filtering approach as a workaround.</span>
+    </div>
+  </div>
+
+</div><!-- /tab-1 -->
+
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!--  TAB 2 · KEEP CUSTOMERS                                       -->
+<!--  Question: "What do existing customers need from us?"         -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div class="tab-pane" id="pane-2">
+
+  <div class="notice nb" style="margin-bottom:4px">
+    <strong>This tab is for paying customers only.</strong> Goal: maintain relationship health, resolve open issues, and follow through on commitments. Three buckets: accounts going dark, open issues to resolve, and product promises to follow up on.
+  </div>
+
+  <!-- ── SECTION: Re-engage ── -->
+  <div class="act-sec">
+    <span class="act-sec-icon">📵</span>
+    <div>
+      <div class="act-sec-title">Re-engage Now</div>
+      <div class="act-sec-desc">Customers with no contact in 30+ days — silence from a customer is a churn signal</div>
+    </div>
+    <span class="act-sec-badge asb-r">4 accounts · $7.5K MRR at risk</span>
+  </div>
+
+  <div class="acard ac-r">
+    <div class="ac-hd">
+      <span class="ac-co">TrustLayer</span>
+      <span class="pill p-r">Dark · 94 days</span>
+      <span class="pill p-p">Business Plan</span>
+      <span class="ac-val">$4,800/mo</span>
+      <span class="ac-owner">Lisa Nguyen</span>
+    </div>
+    <div class="ac-body">
+      <div class="ac-what">No contact in 94 days. 3 open issues including a critical bug (dashboard not loading after warehouse refresh, open for 12 days). Renewal not yet discussed.</div>
+      <div class="ac-next urgent"><strong>Action:</strong> Book a call TODAY. This is the highest-risk account. Lead with "we saw your bug report and want to resolve it immediately." Do not let this slip another week.</div>
+    </div>
+  </div>
+
+  <div class="acard ac-r">
+    <div class="ac-hd">
+      <span class="ac-co">Nexus Data</span>
+      <span class="pill p-r">Dark · 67 days</span>
+      <span class="pill p-b">Starter Plan</span>
+      <span class="ac-val">$799/mo</span>
+      <span class="ac-owner">Alex Kim</span>
+    </div>
+    <div class="ac-body">
+      <div class="ac-what">No contact 67 days. 2 open how-to questions. Renewal due April 18 — 33 days from now. At risk of silent churn.</div>
+      <div class="ac-next urgent"><strong>Action:</strong> Reach out this week. Renewal is in 33 days and they haven't heard from us since January. Send a personal check-in email with answers to their open questions.</div>
+    </div>
+  </div>
+
+  <div class="acard ac-a">
+    <div class="ac-hd">
+      <span class="ac-co">RetailStack</span>
+      <span class="pill p-a">62 days no contact</span>
+      <span class="pill p-b">Growth Plan</span>
+      <span class="ac-val">$1,599/mo</span>
+      <span class="ac-owner">Lisa Nguyen</span>
+    </div>
+    <div class="ac-body">
+      <div class="ac-what">No contact 62 days. 2 open issues. Renewal due May 2 — 47 days away.</div>
+      <div class="ac-next"><strong>Action:</strong> Book a renewal discussion call for the first week of April. Go in with product updates relevant to their use case — Row-level Security is on roadmap, they raised it previously.</div>
+    </div>
+  </div>
+
+  <div class="acard ac-a">
+    <div class="ac-hd">
+      <span class="ac-co">CloudBase Inc</span>
+      <span class="pill p-a">38 days no contact</span>
+      <span class="pill p-b">Growth Plan</span>
+      <span class="ac-val">$239/mo</span>
+      <span class="ac-owner">Alex Kim</span>
+    </div>
+    <div class="ac-body">
+      <div class="ac-what">Overdue check-in. 1 open billing question that hasn't been resolved in 9 days.</div>
+      <div class="ac-next"><strong>Action:</strong> Resolve the billing question by email first. Then schedule a check-in call for the week of Mar 24.</div>
+    </div>
+  </div>
+
+  <!-- ── SECTION: Resolve Issues ── -->
+  <div class="act-sec">
+    <span class="act-sec-icon">🐛</span>
+    <div>
+      <div class="act-sec-title">Resolve Open Issues</div>
+      <div class="act-sec-desc">Bugs, concerns, and how-to questions customers are waiting on — unresolved issues erode trust</div>
+    </div>
+    <span class="act-sec-badge asb-r">8 open · 2 critical</span>
+  </div>
+
+  <div class="issue-card">
+    <div class="iss-pri iss-pri-r"></div>
+    <div class="iss-body">
+      <div class="iss-co">TrustLayer — Bug Report <span class="pill p-r">Critical</span></div>
+      <div class="iss-txt">"Dashboard not loading after warehouse refresh. Blocking our Monday reporting workflow."</div>
+      <div class="iss-meta">
+        <span>Source: ticket</span>
+        <span>CS rep: Lisa Nguyen</span>
+        <span style="color:#f87171;font-weight:600">12 days old — no response yet</span>
+      </div>
+    </div>
+    <div class="iss-age">
+      <div style="font-size:12px;font-weight:700;color:#f87171">12d</div>
+      <div style="font-size:10px;color:var(--t3)">open</div>
+    </div>
+  </div>
+
+  <div class="issue-card">
+    <div class="iss-pri iss-pri-a"></div>
+    <div class="iss-body">
+      <div class="iss-co">TrustLayer — Concern <span class="pill p-a">High</span></div>
+      <div class="iss-txt">"We're evaluating alternatives since we haven't heard back about our roadmap questions."</div>
+      <div class="iss-meta">
+        <span>Source: email</span>
+        <span>CS rep: Lisa Nguyen</span>
+        <span>22 days old</span>
+      </div>
+    </div>
+    <div class="iss-age">
+      <div style="font-size:12px;font-weight:700;color:#fbbf24">22d</div>
+      <div style="font-size:10px;color:var(--t3)">open</div>
+    </div>
+  </div>
+
+  <div class="issue-card">
+    <div class="iss-pri iss-pri-a"></div>
+    <div class="iss-body">
+      <div class="iss-co">DataBridge Co — Feature Request <span class="pill p-a">High</span></div>
+      <div class="iss-txt">"We still really need Excel export for the finance team. Any update on the roadmap?"</div>
+      <div class="iss-meta">
+        <span>Source: call</span>
+        <span>CS rep: Alex Kim</span>
+        <span>8 days old</span>
+      </div>
+    </div>
+    <div class="iss-age">
+      <div style="font-size:12px;font-weight:700;color:#fbbf24">8d</div>
+      <div style="font-size:10px;color:var(--t3)">open</div>
+    </div>
+  </div>
+
+  <div class="issue-card">
+    <div class="iss-pri iss-pri-a"></div>
+    <div class="iss-body">
+      <div class="iss-co">DataBridge Co — Bug Report <span class="pill p-a">High</span></div>
+      <div class="iss-txt">"Slow dashboard load times after we added two more data sources."</div>
+      <div class="iss-meta">
+        <span>Source: ticket</span>
+        <span>CS rep: Alex Kim</span>
+        <span>5 days old</span>
+      </div>
+    </div>
+    <div class="iss-age">
+      <div style="font-size:12px;font-weight:700;color:#fbbf24">5d</div>
+      <div style="font-size:10px;color:var(--t3)">open</div>
+    </div>
+  </div>
+
+  <div class="issue-card">
+    <div class="iss-pri iss-pri-b"></div>
+    <div class="iss-body">
+      <div class="iss-co">Finvantage — How-to Question <span class="pill p-b">Medium</span></div>
+      <div class="iss-txt">"How do we configure row-level security for different regional teams?"</div>
+      <div class="iss-meta">
+        <span>Source: call</span>
+        <span>CS rep: Lisa Nguyen</span>
+        <span>5 days old</span>
+      </div>
+    </div>
+    <div class="iss-age">
+      <div style="font-size:12px;font-weight:700;color:#60a5fa">5d</div>
+      <div style="font-size:10px;color:var(--t3)">open</div>
+    </div>
+  </div>
+
+  <div class="issue-card">
+    <div class="iss-pri iss-pri-b"></div>
+    <div class="iss-body">
+      <div class="iss-co">Nexus Data — How-to Question <span class="pill p-b">Medium</span></div>
+      <div class="iss-txt">"Can we set up automated email delivery for weekly reports?"</div>
+      <div class="iss-meta">
+        <span>Source: ticket</span>
+        <span>CS rep: Alex Kim</span>
+        <span>15 days old</span>
+      </div>
+    </div>
+    <div class="iss-age">
+      <div style="font-size:12px;font-weight:700;color:#60a5fa">15d</div>
+      <div style="font-size:10px;color:var(--t3)">open</div>
+    </div>
+  </div>
+
+  <div class="issue-card">
+    <div class="iss-pri iss-pri-b"></div>
+    <div class="iss-body">
+      <div class="iss-co">CloudBase Inc — Billing Question <span class="pill p-b">Medium</span></div>
+      <div class="iss-txt">"We were charged for a user seat that we removed last month."</div>
+      <div class="iss-meta">
+        <span>Source: email</span>
+        <span>CS rep: Alex Kim</span>
+        <span>9 days old</span>
+      </div>
+    </div>
+    <div class="iss-age">
+      <div style="font-size:12px;font-weight:700;color:#60a5fa">9d</div>
+      <div style="font-size:10px;color:var(--t3)">open</div>
+    </div>
+  </div>
+
+  <!-- ── SECTION: Follow Through ── -->
+  <div class="act-sec">
+    <span class="act-sec-icon">✅</span>
+    <div>
+      <div class="act-sec-title">Follow Through — Promises &amp; Renewals</div>
+      <div class="act-sec-desc">Shipped features to communicate + upcoming renewals that need preparation. These are opportunities, not problems.</div>
+    </div>
+    <span class="act-sec-badge asb-g">1 shipped feature · 7 renewals in 60 days</span>
+  </div>
+
+  <div class="acard ac-g">
+    <div class="ac-hd">
+      <span class="ac-co">Column Masking — SHIPPED 36 days ago</span>
+      <span class="pill p-g">9 customers asked for this</span>
+    </div>
+    <div class="ac-body">
+      <div class="ac-what">This feature was requested by 9 paying customers during sales or CS calls. None of them have been notified it shipped.</div>
+      <div class="ac-next"><strong>Action:</strong> Send a personal follow-up email to each of the 9 customers this week. Frame it as "the feature you asked for is live — here's how to set it up." This is a direct retention signal and expansion opportunity.</div>
+    </div>
+    <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+      <span class="bl-deal">DataBridge Co</span>
+      <span class="bl-deal">Finvantage</span>
+      <span class="bl-deal">TrustLayer</span>
+      <span class="bl-deal">Solarwave</span>
+      <span class="bl-deal">LogiMetric</span>
+      <span class="bl-deal">HealthTrack</span>
+      <span class="bl-deal">Meridian Labs</span>
+      <span class="bl-deal">CloudBase Inc</span>
+      <span class="bl-deal">Nexus Data</span>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:8px">
+    <div class="card-hd">
+      <div>
+        <div class="card-title">Upcoming Renewals</div>
+        <div class="card-sub">Next 60 days · 7 renewals · $18,400 MRR</div>
+      </div>
+    </div>
+    <div class="ren-item">
+      <div class="ren-co">DataBridge Co</div>
+      <span class="pill p-b">Growth</span>
+      <div class="ren-date">Mar 25</div>
+      <div class="ren-mrr">$299/mo</div>
+      <span class="pill p-a">At-Risk</span>
+      <div class="ren-action ra-urgent">⚠ Book renewal call now — 9 days away</div>
+    </div>
+    <div class="ren-item">
+      <div class="ren-co">HealthTrack</div>
+      <span class="pill p-p">Enterprise</span>
+      <div class="ren-date">Apr 1</div>
+      <div class="ren-mrr">$1,999/mo</div>
+      <span class="pill p-g">Healthy</span>
+      <div class="ren-action ra-ok">Auto-renew likely — confirm in Apr 1 QBR</div>
+    </div>
+    <div class="ren-item">
+      <div class="ren-co">LogiMetric</div>
+      <span class="pill p-b">Starter</span>
+      <div class="ren-date">Apr 5</div>
+      <div class="ren-mrr">$99/mo</div>
+      <span class="pill p-g">Healthy</span>
+      <div class="ren-action ra-ok">Auto-renew likely</div>
+    </div>
+    <div class="ren-item">
+      <div class="ren-co">Solarwave</div>
+      <span class="pill p-b">Growth</span>
+      <div class="ren-date">Apr 12</div>
+      <div class="ren-mrr">$299/mo</div>
+      <span class="pill p-a">At-Risk</span>
+      <div class="ren-action ra-action">Check in before end of March</div>
+    </div>
+    <div class="ren-item">
+      <div class="ren-co">Nexus Data</div>
+      <span class="pill p-b">Starter</span>
+      <div class="ren-date">Apr 18</div>
+      <div class="ren-mrr">$799/mo</div>
+      <span class="pill p-r">Dark</span>
+      <div class="ren-action ra-urgent">Re-engage ASAP — renewal at risk</div>
+    </div>
+    <div class="ren-item">
+      <div class="ren-co">Finvantage</div>
+      <span class="pill p-b">Business</span>
+      <div class="ren-date">Apr 25</div>
+      <div class="ren-mrr">$799/mo</div>
+      <span class="pill p-g">Healthy</span>
+      <div class="ren-action ra-ok">Expansion opp — prepare upgrade proposal</div>
+    </div>
+    <div class="ren-item">
+      <div class="ren-co">RetailStack</div>
+      <span class="pill p-b">Growth</span>
+      <div class="ren-date">May 2</div>
+      <div class="ren-mrr">$1,599/mo</div>
+      <span class="pill p-a">At-Risk</span>
+      <div class="ren-action ra-action">Book call week of Apr 7</div>
+    </div>
+  </div>
+
+</div><!-- /tab-2 -->
+
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!--  TAB 3 · PERFORMANCE                                          -->
+<!--  Question: "How well are we converting, and why?"             -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<div class="tab-pane" id="pane-3">
+
+  <div class="grid g4">
+    <div class="card">
+      <div class="kpi-lbl">Win Rate</div>
+      <div class="kpi-val warn">34%</div>
+      <div class="kpi-sub"><span class="delta up">▲ 3pp</span> vs Q4 · Target: 40%</div>
+    </div>
+    <div class="card">
+      <div class="kpi-lbl">Avg Cycle — Won</div>
+      <div class="kpi-val">47d</div>
+      <div class="kpi-sub"><span class="delta up">▼ 4d</span> faster than Q4</div>
+    </div>
+    <div class="card">
+      <div class="kpi-lbl">Avg Cycle — Lost</div>
+      <div class="kpi-val danger">62d</div>
+      <div class="kpi-sub">15d wasted per lost deal on avg</div>
+    </div>
+    <div class="card">
+      <div class="kpi-lbl">Closed This Quarter</div>
+      <div class="kpi-val">38</div>
+      <div class="kpi-sub"><span style="color:#34d399">24 won ($842K)</span> · <span style="color:#f87171">14 lost</span></div>
+    </div>
+  </div>
+
+  <div class="grid g2 mt">
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Stage Conversion Funnel</div>
+          <div class="card-sub">% of deals that reached each stage · Q1 2026 · 140 total</div>
+        </div>
+      </div>
+      <div style="margin-top:8px">
+        <div class="fn-row">
+          <span class="fn-lbl">Qualifying</span>
+          <div class="fn-track"><div class="fn-fill" style="width:100%;background:#3b82f6">140</div></div>
+          <span class="fn-pct">100%</span>
+          <span class="fn-drop" style="color:var(--t3)">—</span>
+        </div>
+        <div class="fn-row">
+          <span class="fn-lbl">Validating</span>
+          <div class="fn-track"><div class="fn-fill" style="width:79%;background:#6366f1">111</div></div>
+          <span class="fn-pct">79%</span>
+          <span class="fn-drop" style="color:#fbbf24">−21%</span>
+        </div>
+        <div class="fn-row">
+          <span class="fn-lbl">Progressing</span>
+          <div class="fn-track"><div class="fn-fill" style="width:61%;background:#8b5cf6">86</div></div>
+          <span class="fn-pct">61%</span>
+          <span class="fn-drop" style="color:#fbbf24">−18%</span>
+        </div>
+        <div class="fn-row">
+          <span class="fn-lbl">Focus</span>
+          <div class="fn-track"><div class="fn-fill" style="width:46%;background:#a855f7">64</div></div>
+          <span class="fn-pct">46%</span>
+          <span class="fn-drop" style="color:#fbbf24">−15%</span>
+        </div>
+        <div class="fn-row">
+          <span class="fn-lbl">Negotiating</span>
+          <div class="fn-track"><div class="fn-fill" style="width:38%;background:#22d3ee">53</div></div>
+          <span class="fn-pct">38%</span>
+          <span class="fn-drop" style="color:#fbbf24">−8%</span>
+        </div>
+        <div class="fn-row">
+          <span class="fn-lbl">Won</span>
+          <div class="fn-track"><div class="fn-fill" style="width:34%;background:#00c47a">48</div></div>
+          <span class="fn-pct">34%</span>
+          <span class="fn-drop" style="color:#f87171">−4%</span>
+        </div>
+      </div>
+      <div class="notice na" style="margin-top:12px">
+        Qualifying → Validating is the biggest single leak (−21pp). Deals are being created but not immediately followed up. Consider a 48h follow-up rule after first contact.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Win Rate by Rep</div>
+          <div class="card-sub">Q1 2026 · dashed = 40% target</div>
+        </div>
+      </div>
+      <div class="ch" style="height:220px"><canvas id="c3_reps"></canvas></div>
+    </div>
+  </div>
+
+  <div class="grid g2 mt">
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Lost Reason Breakdown</div>
+          <div class="card-sub">63 lost deals this quarter</div>
+        </div>
+      </div>
+      <div class="ch" style="height:220px"><canvas id="c3_lost"></canvas></div>
+      <div class="notice nr" style="margin-top:10px">
+        ⚠ "Missing Feature" at 38% — near the 40% escalation threshold. This is a product issue, not a sales issue. Escalate to PM with deal data from the Signals tab.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Monthly Win / Loss Trend</div>
+          <div class="card-sub">Oct 2025 – Mar 2026</div>
+        </div>
+      </div>
+      <div class="ch" style="height:220px"><canvas id="c3_trend"></canvas></div>
+    </div>
+  </div>
+
+  <div class="grid g2 mt">
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Avg Days per Stage</div>
+          <div class="card-sub">Won deals only · where time is being spent</div>
+        </div>
+      </div>
+      <div class="ch" style="height:200px"><canvas id="c3_time"></canvas></div>
+      <div class="notice nb" style="margin-top:10px">
+        Focus stage takes longest (18d avg). This is where feature-gap negotiations happen — tied to SSO/SAML and Excel Export blockers.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hd">
+        <div>
+          <div class="card-title">Ghost Rate Trend</div>
+          <div class="card-sub">% of open deals with 45+ days no activity · monthly</div>
+        </div>
+      </div>
+      <div class="ch" style="height:200px"><canvas id="c3_ghost"></canvas></div>
+      <div class="notice na" style="margin-top:10px">
+        Ghost rate climbing from 8% → 14% over 6 months. Indicates growing number of deals entered but not being actively worked.
+      </div>
+    </div>
+  </div>
+
+</div><!-- /tab-3 -->
+
+
+<!-- ════════════════════════════════ SCRIPTS ════════════════════════════════ -->
+<script>
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.borderColor = 'rgba(255,255,255,0.07)';
+Chart.defaults.font.family = "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif";
+Chart.defaults.font.size = 12;
+
+const C = { green:'#00c47a', blue:'#3b82f6', indigo:'#6366f1', purple:'#8b5cf6', amber:'#f59e0b', red:'#ef4444', teal:'#06b6d4', violet:'#a855f7' };
+function a(hex, alpha) {
+  const r=parseInt(hex.slice(1,3),16), g=parseInt(hex.slice(3,5),16), b=parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+const base = { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } } };
+const gX = { grid:{ color:'rgba(255,255,255,.06)' }, ticks:{ color:'#94a3b8' } };
+const gY = { grid:{ color:'rgba(255,255,255,.06)' }, ticks:{ color:'#94a3b8' } };
+const noXG = { grid:{ display:false }, ticks:{ color:'#94a3b8' } };
+
+/* ── Tabs ── */
+function switchTab(idx) {
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i===idx));
+  document.querySelectorAll('.tab-pane').forEach((p,i) => p.classList.toggle('active', i===idx));
+  const inits = [null, null, null, initTab3];
+  if (!window['_t'+idx] && inits[idx]) { inits[idx](); window['_t'+idx]=true; }
+}
+
+/* ── Filters ── */
+const PERIODS = { q1:'Q1 2026', q4:'Q4 2025', l90:'Last 90 Days', l30:'Last 30 Days' };
+const SCOPES  = { all:'115 open deals · 4 reps', sc:'32 open deals · Sarah Chen', pp:'28 open deals · Priya Patel', mt:'24 open deals · Mike Torres', jw:'16 open deals · James Wilson' };
+
+function applyFilters() {
+  const p = document.getElementById('f-period').value;
+  const o = document.getElementById('f-owner').value;
+  document.getElementById('nav-period').textContent = PERIODS[p] || 'Q1 2026';
+  document.getElementById('f-scope').textContent = SCOPES[o] || SCOPES.all;
+  document.querySelectorAll('.vt-btn').forEach((b,i) => b.classList.toggle('active', (i===0 && o==='all') || (i===1 && o!=='all')));
+}
+function resetFilters() {
+  ['f-period','f-owner','f-type'].forEach(id => { const el=document.getElementById(id); if(el){ if(id==='f-period') el.value='q1'; else el.value='all'; } });
+  applyFilters();
+}
+function setView(v) {
+  document.getElementById('f-owner').value = v==='my' ? 'sc' : 'all';
+  applyFilters();
+}
+
+/* ══ TAB 0 charts — init immediately ══ */
+(function() {
+  new Chart(document.getElementById('c0_stages'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Qualifying','Validating','Progressing','Focus','Negotiating'],
+      datasets: [{
+        data: [32,28,22,19,14],
+        borderColor: '#161b27', borderWidth: 3,
+        backgroundColor: [a(C.blue,.8), a(C.indigo,.8), a(C.purple,.8), a(C.green,.75), a(C.teal,.8)]
+      }]
+    },
+    options: {
+      ...base, cutout: '60%',
+      plugins: { legend:{ display:false } }
+    }
+  });
+})();
+window['_t0'] = true;
+
+/* ══ TAB 3 charts ══ */
+function initTab3() {
+  new Chart(document.getElementById('c3_reps'), {
+    type: 'bar',
+    data: {
+      labels: ['Sarah Chen','Priya Patel','Mike Torres','James Wilson'],
+      datasets: [
+        { type:'bar',  data:[52,38,31,18], borderRadius:4,
+          backgroundColor:[a(C.green,.9), a(C.green,.7), a(C.amber,.8), a(C.red,.75)] },
+        { type:'line', data:[40,40,40,40], borderColor:a(C.green,.5),
+          borderDash:[4,4], pointRadius:0, fill:false, tension:0 },
+      ]
+    },
+    options: {
+      ...base, plugins:{ legend:{ display:false } },
+      scales: { x:{ ...noXG }, y:{ ...gY, max:70, ticks:{ ...gY.ticks, callback:v=>v+'%' } } }
+    }
+  });
+
+  new Chart(document.getElementById('c3_lost'), {
+    type: 'bar',
+    data: {
+      labels: ['Missing Feature','Competitor Win','Pricing','No Budget','Ghosted','Not a Fit'],
+      datasets: [{ data:[38,26,19,11,4,2], borderRadius:4,
+        backgroundColor:[a(C.red,.9),a(C.purple,.8),a(C.amber,.8),a(C.blue,.7),a(C.red,.5),a(C.teal,.6)] }]
+    },
+    options: {
+      ...base,
+      scales: { x:{ ...noXG }, y:{ ...gY, ticks:{ ...gY.ticks, callback:v=>v+'%' } } }
+    }
+  });
+
+  new Chart(document.getElementById('c3_trend'), {
+    type: 'bar',
+    data: {
+      labels: ['Oct','Nov','Dec','Jan','Feb','Mar'],
+      datasets: [
+        { label:'Won',  data:[7,9,8,11,10,12], backgroundColor:a(C.green,.75), borderRadius:4 },
+        { label:'Lost', data:[5,6,4,7,5,5],   backgroundColor:a(C.red,.65),   borderRadius:4 },
+      ]
+    },
+    options: {
+      ...base,
+      plugins: { legend:{ display:true, labels:{ color:'#94a3b8', boxWidth:12, padding:12 } } },
+      scales: { x:{ ...noXG }, y:{ ...gY } }
+    }
+  });
+
+  new Chart(document.getElementById('c3_time'), {
+    type: 'bar',
+    data: {
+      labels: ['Qualifying','Validating','Progressing','Focus','Negotiating'],
+      datasets: [{ data:[3,8,12,18,6], borderRadius:4,
+        backgroundColor:[a(C.blue,.7),a(C.indigo,.7),a(C.purple,.7),a(C.amber,.85),a(C.teal,.7)] }]
+    },
+    options: {
+      ...base, indexAxis:'y',
+      scales: {
+        x:{ ...gX, ticks:{ ...gX.ticks, callback:v=>v+'d' } },
+        y:{ grid:{ display:false }, ticks:{ color:'#94a3b8' } }
+      }
+    }
+  });
+
+  new Chart(document.getElementById('c3_ghost'), {
+    type: 'line',
+    data: {
+      labels: ['Oct','Nov','Dec','Jan','Feb','Mar'],
+      datasets: [{ data:[8,10,9,11,12,14], borderColor:C.amber, backgroundColor:a(C.amber,.1),
+        fill:true, tension:.4, pointBackgroundColor:C.amber, pointRadius:4 }]
+    },
+    options: {
+      ...base,
+      scales: { x:{ ...gX }, y:{ ...gY, min:0, max:20, ticks:{ ...gY.ticks, callback:v=>v+'%' } } }
+    }
+  });
+}
+</script>
+
+</body>
+</html>

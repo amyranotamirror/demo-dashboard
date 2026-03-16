@@ -103,6 +103,29 @@ custom-chart/<slug>/
 
 ---
 
+## Themes
+
+Pre-built theme previews live in `themes/<slug>/`. Each includes an HTML prototype and AML code ready to paste into Holistics.
+
+| Theme | Style | Files |
+|---|---|---|
+| `holistics` | Navy + green brand | `holistics-brand-v1.html`, `.aml` |
+| `discord` | Blurple + dark 3-tier | `discord-v1.html` |
+| `anthropic` | Warm coral + cream | `anthropic-v1.html` |
+| `figma` | Purple-blue + lime | `figma-v1.html` |
+| `netflix` | Red + cinematic black | `netflix-v1.html` |
+| `tft-dark` | Gold + hextech cyan, dark luxury | `tft-dark-v1.html` |
+
+All presets are available as one-click starting points in `themes/theme-builder.html`.
+
+---
+
+## Credits
+
+- **TFT Dark theme** — palette, visual style, and design decisions referenced from the Teamfight Tactics analytics work by [@hungdofyi](https://github.com/hungdofyi).
+
+---
+
 ## Repo structure
 
 ```

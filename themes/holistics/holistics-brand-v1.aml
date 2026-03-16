@@ -1,0 +1,119 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Holistics Brand Theme — v1
+// Dark navy + brand green palette.
+// Source: design.holistics.dev brand tokens (brand.json)
+// Apply:  Dashboard my_dashboard { theme: holistics_brand }
+// ─────────────────────────────────────────────────────────────────────────────
+
+const holistics_navy_deepest = "#03152C"   // page background — code-block dark
+const holistics_navy_900     = "#05264C"   // canvas surface — primary brand navy
+const holistics_navy_800     = "#0D3A6B"   // block surface — lighter than canvas
+const holistics_green_600    = "#259B6C"   // brand primary accent
+const holistics_green_400    = "#52C396"   // labels, KPI values, table headers
+const holistics_green_300    = "#7AD1AE"   // positive deltas, highlights
+const holistics_blue_600     = "#1B7CE4"   // brand secondary
+const holistics_blue_400     = "#5EA3ED"   // muted text, axis ticks
+const holistics_blue_300     = "#8DBEF2"   // secondary text
+const holistics_text_primary = "#E8F2FD"   // blue.50 — white with slight blue tint
+const holistics_border_block = "rgba(94,163,237,0.14)"
+const holistics_border_canvas = "rgba(37,155,108,0.20)"
+const holistics_font         = "Inter"
+
+PageTheme holistics_brand {
+  background {
+    bg_color: holistics_navy_deepest
+  }
+
+  canvas {
+    background {
+      bg_color: holistics_navy_900
+    }
+    border {
+      border_width: 1
+      border_radius: 14
+      border_color: holistics_border_canvas
+      border_style: "solid"
+    }
+    shadow: "lg"
+    opacity: 1
+  }
+
+  block {
+    label {
+      font_family: holistics_font
+      font_size: 10
+      font_color: holistics_green_400
+      font_weight: "bold"
+      font_style: "normal"
+    }
+    text {
+      font_family: holistics_font
+      font_size: 12
+      font_color: holistics_text_primary
+      font_weight: "normal"
+      font_style: "normal"
+    }
+    border {
+      border_width: 1
+      border_radius: 11
+      border_color: holistics_border_block
+      border_style: "solid"
+    }
+    background {
+      bg_color: holistics_navy_800
+    }
+    padding: 16
+    shadow: "md"
+    opacity: 1
+  }
+
+  viz {
+    table {
+      general {
+        bg_color:      holistics_navy_800
+        hover_color:   "rgba(37,155,108,0.10)"
+        banding_color: "rgba(0,0,0,0.18)"
+        font_size:     12
+        font_color:    holistics_text_primary
+        font_family:   holistics_font
+        border_color:  "rgba(94,163,237,0.12)"
+        border_width:  1
+        grid_color:    "rgba(94,163,237,0.10)"
+      }
+      header {
+        bg_color:    holistics_navy_900
+        font_size:   10
+        font_color:  holistics_green_400
+        font_weight: "bold"
+      }
+    }
+  }
+
+  custom_css: @css
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    /* ── KPI values: brand green ─────────────────────────────────── */
+    .h-kpi-metric-kpi   { color: #52C396 !important; font-weight: 700 !important; }
+    .h-kpi-metric-label { color: #8DBEF2 !important; font-size: 10px !important; text-transform: uppercase !important; letter-spacing: 0.06em !important; }
+    .h-kpi-metric-diff.positive { color: #7AD1AE !important; }
+    .h-kpi-metric-diff.negative { color: #FF6B6B !important; }
+
+    /* ── Canvas: green top glow edge ─────────────────────────────── */
+    .dac-canvas { border-top: 1px solid rgba(37,155,108,0.22) !important; }
+
+    /* ── Block labels: uppercase, spaced ─────────────────────────── */
+    .dac-viz-block-label {
+      text-transform: uppercase !important;
+      letter-spacing: 0.06em !important;
+      font-size: 10px !important;
+    }
+
+    /* ── Filter blocks: green focus ring ─────────────────────────── */
+    .dac-ic-block-label {
+      color: #5EA3ED !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.06em !important;
+      font-size: 10px !important;
+    }
+  ;;
+}
