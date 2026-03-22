@@ -279,14 +279,15 @@ Rules for the MD file:
 CustomChart {
   fields {
     field <name> {
-      type: "dimension"   // or "measure"
+      type: "dimension"   // Use "dimension" for all raw values (strings, numbers, booleans, dates)
+                          // Use "measure" only for pre-aggregated metrics from a Holistics data model
       label: "<Display Label>"
-      data_type: "string" // optional: "string" | "number" | "date"
+      data_type: "string" // optional: "string" | "number" | "boolean" | "date"
     }
   }
   options {
     option <name> {
-      type: "color"       // "boolean" | "color" | "string" | "number"
+      type: "color-picker"  // "toggle" | "color-picker" | "input" | "number-input" | "radio" | "select"
       label: "<Label>"
       default_value: '#3b60d2'
     }
@@ -303,6 +304,32 @@ CustomChart {
 | `@{values}` | The query result rows as a JSON array |
 | `@{fields.<name>.name}` | Column name of that field (no extra quotes needed) |
 | `@{options.<name>.value}` | User-configured option value |
+
+### How to reference fields — use only these confirmed patterns
+
+| Context | Correct pattern | Example result |
+|---|---|---|
+| Encoding `"field"` property | `"field": @{fields.x.name}` | `"field": "x_axis"` |
+| `"fold"` / `"joinaggregate"` / `"regression"` `"field"` | `"field": @{fields.x.name}` | `"field": "x_axis"` |
+| Boolean/categorical filter | `{"filter": {"field": @{fields.x.name}, "oneOf": [true, "true", 1, "1"]}}` | field predicate, no expression string |
+| Encoding `"condition"` test | `"test": {"field": @{fields.x.name}, "oneOf": [...]}` | field predicate object, not a string |
+| Calculate expression (field value) | `datum['@{fields.x.name}']` | `datum['x_axis']` |
+| Option value in expression string | Define as a Vega param first (see below) | `_my_param` |
+
+**NEVER put `@{...}` inside expression strings.** Both `datum.@{fields.x.name}` and `datum[@{fields.x.name}]` inside `"filter"`, `"test"`, or `"calculate"` string values cause AML parse errors ("Unexpected token after expression" / "Unexpected identifier"). Use field predicates or pre-computed aliases instead.
+
+### Using option values inside calculate expressions
+
+Options cannot be injected directly into expression strings. Expose them as a Vega param first:
+
+```json
+"params": [
+  {"name": "_my_param", "value": @{options.my_option.value}}
+],
+"transform": [
+  {"calculate": "datum['@{fields.x.name}'] > _my_param", "as": "_flag"}
+]
+```
 
 ### Always use this data block
 ```json
@@ -388,7 +415,7 @@ CustomChart {
     field value    { type: "measure";   label: "Value" }
   }
   options {
-    option bar_color { type: "color"; label: "Bar Color"; default_value: '#3b60d2' }
+    option bar_color { type: "color-picker"; label: "Bar Color"; default_value: '#3b60d2' }
   }
   template: @vgl {
     "data": {"values": @{values}},
