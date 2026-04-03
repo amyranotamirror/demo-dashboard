@@ -1,0 +1,48 @@
+// Fact/Bridge: Call Attendees — junction between calls and persons.
+// Composite PK (call_id + person_id) is derived into attendee_key for Holistics.
+// "Many" side of: fct_calls (via call_id), dim_contacts (via person_id).
+// role = 'host' | 'attendee'
+
+Model fct_call_attendees {
+  type: 'table'
+  label: 'Call Attendees'
+  table_name: 'call_attendees'
+  data_source_name: 'neondb'
+  description: 'Who attended each call. host = the Holistics rep who led the call; attendee = everyone else.'
+
+  // Holistics requires a single primary_key dimension.
+  // Derived composite key since the physical table has a composite PK.
+  dimension attendee_key {
+    label: 'Attendee Key'
+    type: 'text'
+    primary_key: true
+    definition: @sql {{ #SOURCE.call_id }} || '-' || {{ #SOURCE.person_id }};;
+  }
+  dimension call_id {
+    label: 'Call ID'
+    type: 'text'
+    hidden: true
+  }
+  dimension person_id {
+    label: 'Person ID'
+    type: 'text'
+    hidden: true
+  }
+  dimension role {
+    label: 'Attendee Role'
+    type: 'text'
+    description: 'host | attendee'
+  }
+  dimension is_host {
+    label: 'Is Host'
+    type: 'truefalse'
+    definition: @sql {{ #SOURCE.role }} = 'host';;
+  }
+
+  measure count_attendees {
+    label: 'Total Attendees'
+    type: 'number'
+    definition: @sql {{ person_id }};;
+    aggregation_type: 'count'
+  }
+}

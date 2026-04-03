@@ -1,249 +1,519 @@
 id,name,type,industry,country,employee_count,website,logo_url,created_at
-ed52c341-91b8-477e-841c-3358f003dc1e,Holistics,internal,SaaS,Singapore,80,holistics.io,https://logo.clearbit.com/holistics.io,2022-03-10 01:33:40
-ebbc9cd5-2f41-4aa7-a928-9ab164e3d005,Metabase,competitor,SaaS,USA,227,metabase.com,https://logo.clearbit.com/metabase.com,2022-03-10 01:33:40
-d56fc889-6c92-43ba-826d-edf529294090,Looker,competitor,SaaS,USA,470,looker.com,https://logo.clearbit.com/looker.com,2022-03-10 01:33:40
-33d71adb-6be9-4c8f-8b41-463f0241f711,Tableau,competitor,SaaS,USA,2818,tableau.com,https://logo.clearbit.com/tableau.com,2022-03-10 01:33:40
-51adaaec-519b-4702-ba1d-3f9d4caee43f,Power BI,competitor,SaaS,USA,2742,powerbi.microsoft.com,https://logo.clearbit.com/powerbi.microsoft.com,2022-03-10 01:33:40
-54e8731c-3c94-4683-bffe-4f921f06b88b,Sigma,competitor,SaaS,USA,1365,sigmacomputing.com,https://logo.clearbit.com/sigmacomputing.com,2022-03-10 01:33:40
-8c688b18-267e-443b-bb4a-9b7f38cb00f3,Redash,competitor,SaaS,USA,2121,redash.io,https://logo.clearbit.com/redash.io,2022-03-10 01:33:40
-430b0108-9ec4-4ccd-a8dd-85ce329dabd4,Apache Superset,competitor,SaaS,USA,457,superset.apache.org,https://logo.clearbit.com/superset.apache.org,2022-03-10 01:33:40
-36ac5c2a-8a2e-4c4b-8ee8-aaf473312a9c,Mode,competitor,SaaS,USA,1282,mode.com,https://logo.clearbit.com/mode.com,2022-03-10 01:33:40
-9ea9fa2a-2af4-467e-b2ef-60300c2d8d19,Domo,competitor,SaaS,USA,431,domo.com,https://logo.clearbit.com/domo.com,2022-03-10 01:33:40
-e2751e72-a868-4f6f-bf34-320afa021a59,ThoughtSpot,competitor,SaaS,USA,688,thoughtspot.com,https://logo.clearbit.com/thoughtspot.com,2022-03-10 01:33:40
-85772bfb-d184-4695-bea5-f26312e2325e,Qlik,competitor,SaaS,USA,160,qlik.com,https://logo.clearbit.com/qlik.com,2022-03-10 01:33:40
-96925118-7e1c-4213-8526-d5301942f362,MicroStrategy,competitor,SaaS,USA,2206,microstrategy.com,https://logo.clearbit.com/microstrategy.com,2022-03-10 01:33:40
-03b38162-d7d9-4f34-8c7b-f6c6b3d4891f,Sisense,competitor,SaaS,USA,628,sisense.com,https://logo.clearbit.com/sisense.com,2022-03-10 01:33:40
-49d1afb9-c86d-48c3-a041-908eea3f6710,Grafana,competitor,SaaS,USA,1639,grafana.com,https://logo.clearbit.com/grafana.com,2022-03-10 01:33:40
-b0c21b99-f1ee-418b-a8c6-a1def912e630,Retool,competitor,SaaS,USA,328,retool.com,https://logo.clearbit.com/retool.com,2022-03-10 01:33:40
-a1f19361-0eb0-497d-83b7-95b879e9b5b8,Observable,competitor,SaaS,USA,1057,observablehq.com,https://logo.clearbit.com/observablehq.com,2022-03-10 01:33:40
-5de5feeb-45f1-4e99-ac49-e4b8a28e7dcc,Hex,competitor,SaaS,USA,425,hex.tech,https://logo.clearbit.com/hex.tech,2022-03-10 01:33:40
-999d45ee-7398-4cd6-8039-6486fbca94ec,Lightdash,competitor,SaaS,USA,2051,lightdash.com,https://logo.clearbit.com/lightdash.com,2022-03-10 01:33:40
-ac7b0296-2cd7-4dce-bce9-a4d58ef6afe3,GoodData,competitor,SaaS,USA,163,gooddata.com,https://logo.clearbit.com/gooddata.com,2022-03-10 01:33:40
-298a5c4b-7f03-4637-80e0-5e3df85b0c46,Omni,competitor,SaaS,USA,349,omni.co,https://logo.clearbit.com/omni.co,2022-03-10 01:33:40
-e739e75e-2a2c-43fe-81c5-b3b665061821,Grab,customer,Super App,Singapore,8000,grab.com,https://logo.clearbit.com/grab.com,2023-01-06 01:33:40
-c96bb386-5ca6-43d9-83b5-f471149a2500,Gojek,customer,Super App,Indonesia,6000,gojek.com,https://logo.clearbit.com/gojek.com,2022-06-01 01:33:40
-9c04e715-2924-4518-84cb-f6e81ae781a4,Shopee,customer,E-commerce,Singapore,15000,shopee.com,https://logo.clearbit.com/shopee.com,2023-07-23 01:33:40
-cd5fced3-13f6-43cf-89f8-73e02a39f54c,Tokopedia,customer,E-commerce,Indonesia,5000,tokopedia.com,https://logo.clearbit.com/tokopedia.com,2023-02-04 01:33:40
-1d3e2c5e-4039-4c63-a08f-d0696a9423b4,Traveloka,customer,Travel,Indonesia,3000,traveloka.com,https://logo.clearbit.com/traveloka.com,2022-09-05 01:33:40
-4783a54b-b4a1-4e09-bbf0-3e8f7fdbd4d2,Carousell,customer,Marketplace,Singapore,700,carousell.com,https://logo.clearbit.com/carousell.com,2023-04-28 01:33:40
-12b4f2ed-1466-42ad-8e08-1edb077d418d,Ninja Van,customer,Logistics,Singapore,4000,ninjavan.com,https://logo.clearbit.com/ninjavan.com,2022-11-24 01:33:40
-703cbbbb-6282-4278-a219-7a72f1cc6682,Xendit,customer,Fintech,Indonesia,900,xendit.co,https://logo.clearbit.com/xendit.co,2023-02-24 01:33:40
-b1204e47-645c-4594-8e23-89a87699c639,StashAway,customer,Fintech,Singapore,200,stashaway.com,https://logo.clearbit.com/stashaway.com,2022-06-15 01:33:40
-7f7579e0-1d96-4e7a-8ef2-3321c2127d2e,PropertyGuru,customer,Real Estate,Singapore,1200,propertyguru.com.sg,https://logo.clearbit.com/propertyguru.com.sg,2022-09-20 01:33:40
-72b9e403-0ea5-4989-9d21-6237a1e94045,Mekari,customer,SaaS,Indonesia,1500,mekari.com,https://logo.clearbit.com/mekari.com,2022-05-25 01:33:40
-d7aa65dc-bc40-4e8e-9401-dd077b5094d5,ShopBack,customer,E-commerce,Singapore,600,shopback.com,https://logo.clearbit.com/shopback.com,2023-09-12 01:33:40
-ad59dbc2-d414-45b9-8368-35937435f8be,Kredivo,customer,Fintech,Indonesia,400,kredivo.com,https://logo.clearbit.com/kredivo.com,2023-04-26 01:33:40
-a87c772b-087d-4f2c-b123-05df9b0d68fb,VNG Corporation,customer,Technology,Vietnam,4500,vng.com.vn,https://logo.clearbit.com/vng.com.vn,2022-08-01 01:33:40
-c58707dd-8596-4a54-b2b6-a96405b8ccbc,Bukalapak,customer,E-commerce,Indonesia,3000,bukalapak.com,https://logo.clearbit.com/bukalapak.com,2022-05-11 01:33:40
-60def4d7-a92e-4943-96a8-e563c8ef5abb,Pomelo Fashion,customer,Retail,Thailand,300,pomelofashion.com,https://logo.clearbit.com/pomelofashion.com,2023-02-28 01:33:40
-7a7c719f-2682-4ece-8b37-e1347c657a1f,2C2P,customer,Fintech,Singapore,250,2c2p.com,https://logo.clearbit.com/2c2p.com,2022-05-26 01:33:40
-74c838fc-3911-4e59-b0e8-7ede5f03599a,Carsome,customer,Automotive,Malaysia,1000,carsome.com,https://logo.clearbit.com/carsome.com,2022-03-10 01:33:40
-5f8e2576-c80f-47d5-8e13-21101c9b2a6e,Funding Societies,customer,Fintech,Singapore,350,fundingsocieties.com,https://logo.clearbit.com/fundingsocieties.com,2023-07-06 01:33:40
-78a5dd78-c41b-4644-ab6e-e1aee1f1a8d7,Anchanto,customer,SaaS,Singapore,150,anchanto.com,https://logo.clearbit.com/anchanto.com,2023-07-05 01:33:40
-3af3362b-9786-49e0-9a1e-7d81bb0ab7fb,SIRCLO,customer,E-commerce SaaS,Indonesia,400,sirclo.com,https://logo.clearbit.com/sirclo.com,2023-06-23 01:33:40
-b237d6f6-7a03-446f-aaac-e681084fc83c,Coda Payments,customer,Fintech,Singapore,300,codapayments.com,https://logo.clearbit.com/codapayments.com,2023-06-03 01:33:40
-3c4dafae-2b02-46f0-b732-572bdb1c4a0c,iPrice Group,customer,E-commerce,Malaysia,200,iprice.asia,https://logo.clearbit.com/iprice.asia,2023-06-30 01:33:40
-dc044c4f-ebc5-42c7-9235-024c96c6100a,Akulaku,customer,Fintech,Indonesia,2000,akulaku.com,https://logo.clearbit.com/akulaku.com,2022-08-14 01:33:40
-ab8f65d5-12c7-4f37-9387-550aa68e4f21,Omise,customer,Fintech,Thailand,250,omise.co,https://logo.clearbit.com/omise.co,2023-05-15 01:33:40
-33eaa375-b9a6-443b-ab08-fc34cc41971a,Doctor Anywhere,customer,Healthcare,Singapore,400,doctoranywhere.com,https://logo.clearbit.com/doctoranywhere.com,2023-04-13 01:33:40
-c99571cb-96ec-443a-af64-184a404dfb99,Advance Intelligence,customer,AI / Fintech,Singapore,600,advance.ai,https://logo.clearbit.com/advance.ai,2022-12-08 01:33:40
-36fc29c7-838f-41c6-ad2b-267439761c81,Kumu,customer,Media,Philippines,100,kumu.ph,https://logo.clearbit.com/kumu.ph,2023-09-12 01:33:40
-545370c8-83af-4b21-babb-064a48591cb8,GoTo Financial,customer,Fintech,Indonesia,1200,gotofinancial.com,https://logo.clearbit.com/gotofinancial.com,2023-02-12 01:33:40
-9376d1ea-2600-40cc-99fb-35300bcdea39,Lazada,customer,E-commerce,Singapore,8000,lazada.com,https://logo.clearbit.com/lazada.com,2022-05-22 01:33:40
-7da3ae35-1e83-48f0-8630-a17180b5ea79,TechFlow Singapore,customer,SaaS,Singapore,150,techflowsg.com,https://logo.clearbit.com/techflowsg.com,2023-11-07 01:33:40
-b7b4bc02-3f4b-4df4-ae4c-b4fddbddbf5d,DataMint Vietnam,customer,Fintech,Vietnam,80,datamintvn.com,https://logo.clearbit.com/datamintvn.com,2025-06-08 01:33:40
-2ffe5941-748e-4970-a913-f9e30e7d516b,CartMax Indonesia,customer,E-commerce,Indonesia,500,cartmaxid.com,https://logo.clearbit.com/cartmaxid.com,2023-03-27 01:33:40
-a5a64411-25a0-4070-aa61-15d827974c42,FinEdge Malaysia,customer,Fintech,Malaysia,200,finedgemy.com,https://logo.clearbit.com/finedgemy.com,2025-07-19 01:33:40
-da1df2ca-d326-4b37-8385-ff22a6d64d10,LogiTrack Thailand,customer,Logistics,Thailand,350,logitrackth.com,https://logo.clearbit.com/logitrackth.com,2024-03-28 01:33:40
-00907667-7625-40f3-bf44-59f2290cb639,MediCore Philippines,customer,Healthcare,Philippines,600,medicorekph.com,https://logo.clearbit.com/medicorekph.com,2023-10-28 01:33:40
-99827d34-ee7b-4fdc-8edf-70ce1e11d5c7,EduSpark Australia,customer,Education,Australia,120,edusparkau.com,https://logo.clearbit.com/edusparkau.com,2024-08-14 01:33:40
-860703b3-63c1-4846-92a6-40e0986abdeb,RetailOne Japan,customer,Retail,Japan,800,retailonejp.com,https://logo.clearbit.com/retailonejp.com,2024-11-19 01:33:40
-6b87f226-e633-4f6f-b029-77ad9a99f8d8,CloudByte India,customer,SaaS,India,250,cloudbytein.com,https://logo.clearbit.com/cloudbytein.com,2023-03-26 01:33:40
-14dc0617-4327-4ebd-94a6-2b135362a054,SupplyLink Germany,customer,Manufacturing,Germany,450,supplylinkde.com,https://logo.clearbit.com/supplylinkde.com,2023-07-07 01:33:40
-1abec931-02ad-45c4-8f3e-85349b04b19c,PulseMedia UK,customer,Media,UK,180,pulsemediauk.com,https://logo.clearbit.com/pulsemediauk.com,2024-08-10 01:33:40
-75907a9f-ce64-4f41-9f80-6a987ab34397,StackHive USA,customer,SaaS,USA,90,stackhiveus.com,https://logo.clearbit.com/stackhiveus.com,2024-05-04 01:33:40
-40184e52-1dd6-40a9-b704-35b0db128b89,NovaCare Canada,customer,Healthcare,Canada,300,novacareca.com,https://logo.clearbit.com/novacareca.com,2025-06-03 01:33:40
-b62bc3f2-bec5-4a2e-91dd-b76b6ed8b4e7,UrbanProp Singapore,customer,Real Estate,Singapore,100,urbanpropsg.com,https://logo.clearbit.com/urbanpropsg.com,2023-10-29 01:33:40
-4cfdfb43-307e-48c5-9cbe-60046bb8deae,ShipFast Vietnam,customer,Logistics,Vietnam,220,shipfastvn.com,https://logo.clearbit.com/shipfastvn.com,2025-06-15 01:33:40
-45d69cb3-4a43-49d4-bff0-ed3388c9fca8,Paydeck Indonesia,customer,Fintech,Indonesia,130,paydeckid.com,https://logo.clearbit.com/paydeckid.com,2025-04-03 01:33:40
-8442fa88-ca38-4931-9ddf-7f1387bf0a10,GreenBuild Australia,customer,Manufacturing,Australia,280,greenbuildau.com,https://logo.clearbit.com/greenbuildau.com,2024-06-25 01:33:40
-0dc27ac9-db4b-4974-891b-fc7ef6b303a7,TalentOS Malaysia,customer,SaaS,Malaysia,70,talentosmy.com,https://logo.clearbit.com/talentosmy.com,2024-09-05 01:33:40
-5cf4b301-61c4-46e8-baa7-317a3d766e46,QuickCart Thailand,customer,E-commerce,Thailand,400,quickcartth.com,https://logo.clearbit.com/quickcartth.com,2024-03-31 01:33:40
-bc4469a5-90b6-4634-9dea-858bd6281208,BrightLearn Philippines,customer,Education,Philippines,90,brightlearnph.com,https://logo.clearbit.com/brightlearnph.com,2023-09-15 01:33:40
-776942a0-a7db-41f3-9d83-a404cb9f5836,AutoFlow Germany,customer,Manufacturing,Germany,700,autoflowde.com,https://logo.clearbit.com/autoflowde.com,2024-07-14 01:33:40
-e59666f9-c867-4d57-99b2-00eb837dfd98,Nexara India,customer,SaaS,India,160,nexaraindia.com,https://logo.clearbit.com/nexaraindia.com,2024-04-13 01:33:40
-32a27c5c-7904-4ecf-99b5-d826f9c6376b,HealthBridge USA,customer,Healthcare,USA,500,healthbridgeus.com,https://logo.clearbit.com/healthbridgeus.com,2025-06-02 01:33:40
-350b3adf-2c2e-4e8b-8d9a-57f5bcd13fe9,MerchHub UK,customer,Retail,UK,350,merchhubuk.com,https://logo.clearbit.com/merchhubuk.com,2023-08-02 01:33:40
-fa935132-3e3f-4eec-a817-adee0082e762,CoreBank Canada,customer,Fintech,Canada,1200,corebankca.com,https://logo.clearbit.com/corebankca.com,2024-02-23 01:33:40
-4401fea5-eeae-40c4-bd0f-4a403b27d45f,PropTree Japan,customer,Real Estate,Japan,140,proptreejp.com,https://logo.clearbit.com/proptreejp.com,2024-12-23 01:33:40
-0ac9ee30-e659-4fa9-b31c-47a742d3cf6b,SkyFreight Singapore,customer,Logistics,Singapore,200,skyfreightsg.com,https://logo.clearbit.com/skyfreightsg.com,2023-04-12 01:33:40
-169a7cb4-f480-4aed-8514-3fab427fd0af,DataRoot Vietnam,customer,SaaS,Vietnam,50,dataroovn.com,https://logo.clearbit.com/dataroovn.com,2024-01-31 01:33:40
-0b46baf5-22b9-4f5d-ac39-8613c306bcdd,FlowRetail Indonesia,customer,Retail,Indonesia,600,flowretailid.com,https://logo.clearbit.com/flowretailid.com,2024-11-21 01:33:40
-6299f443-f74b-4357-b8cf-8e00c3d5a5ab,BankCraft Germany,customer,Fintech,Germany,900,bankcraft.de,https://logo.clearbit.com/bankcraft.de,2023-12-28 01:33:40
-b3044129-a930-4c22-990c-0e9f04f70927,ClimaTech Australia,customer,SaaS,Australia,85,climatechau.com,https://logo.clearbit.com/climatechau.com,2025-05-09 01:33:40
-29ef7454-792b-4dfa-92d8-3e1e5d108c92,MediaVault France,customer,Media,France,230,mediavaultfr.com,https://logo.clearbit.com/mediavaultfr.com,2024-08-04 01:33:40
-d43ad944-5023-45f9-bd1a-4ed6137064e0,InfraBuild India,customer,Manufacturing,India,1500,infrabuildindia.com,https://logo.clearbit.com/infrabuildindia.com,2024-07-30 01:33:40
-13dc4530-53f5-4a37-886c-3f20ecb175a4,ShopWave Thailand,customer,E-commerce,Thailand,280,shopwaveth.com,https://logo.clearbit.com/shopwaveth.com,2023-12-20 01:33:40
-3684865f-e05b-452c-a990-253f738268bf,PharmaLab Switzerland,customer,Healthcare,Switzerland,400,pharmalabch.com,https://logo.clearbit.com/pharmalabch.com,2024-05-20 01:33:40
-4cdb2b9b-7903-4f67-8a61-4a94ec2c7b7f,CodeCraft USA,customer,SaaS,USA,45,codecraftus.com,https://logo.clearbit.com/codecraftus.com,2024-03-06 01:33:40
-76c766cc-16bc-44d0-8248-0f472b219ba2,PayRoute Singapore,customer,Fintech,Singapore,190,payroutesg.com,https://logo.clearbit.com/payroutesg.com,2023-03-16 01:33:40
-c9ec0d6f-a845-41a7-a975-ca55f0da710a,FreshGrocer Malaysia,customer,Retail,Malaysia,750,freshgrocermy.com,https://logo.clearbit.com/freshgrocermy.com,2024-09-19 01:33:40
-6ec2c760-eaf3-4825-96fb-ed3c1476dc5c,EnergyLink Philippines,customer,Manufacturing,Philippines,550,energylinkph.com,https://logo.clearbit.com/energylinkph.com,2024-04-14 01:33:40
-2cb54a7b-5292-4804-a333-583c45809bbf,Branchify Vietnam,customer,SaaS,Vietnam,35,branchifyvn.com,https://logo.clearbit.com/branchifyvn.com,2023-09-30 01:33:40
-5e297faa-7180-43a1-8373-f2412c6ae0b3,TruckPath Indonesia,customer,Logistics,Indonesia,320,truckpathid.com,https://logo.clearbit.com/truckpathid.com,2023-07-02 01:33:40
-f77c76f5-66dd-4b56-8432-2df89a1f09bb,DentaCare India,customer,Healthcare,India,180,dentacareindia.com,https://logo.clearbit.com/dentacareindia.com,2024-07-19 01:33:40
-d1a966ad-0c56-4678-bba6-a4a78a152c8c,TalentBridge Canada,customer,SaaS,Canada,110,talentbridgeca.com,https://logo.clearbit.com/talentbridgeca.com,2023-10-12 01:33:40
-c1c1bb23-c89f-42f7-bf5a-37b1ec11ff16,SparkAnalytics Singapore,customer,SaaS,Singapore,65,sparkanalyticssg.com,https://logo.clearbit.com/sparkanalyticssg.com,2023-06-08 01:33:40
-61b34ce7-1510-4dad-96cf-837972244e4a,NexLogic Thailand,customer,Logistics,Thailand,270,nexlogicth.com,https://logo.clearbit.com/nexlogicth.com,2025-07-20 01:33:40
-01d3aff1-4dd1-4ab8-ba83-3e2b4b75f891,FinPulse Korea,customer,Fintech,South Korea,320,finpulsekr.com,https://logo.clearbit.com/finpulsekr.com,2025-03-26 01:33:40
-22cf1c51-1417-491b-9712-2a5c5bc65e06,CloudMesh Singapore,customer,SaaS,Singapore,120,cloudmeshsg.com,https://logo.clearbit.com/cloudmeshsg.com,2025-05-23 01:33:40
-06d399c3-c739-44a2-b6d8-4de6cd741e61,RetailSense Indonesia,customer,Retail,Indonesia,450,retailsenseid.com,https://logo.clearbit.com/retailsenseid.com,2024-01-04 01:33:40
-a7a422d0-b750-4072-a973-d4c4bbab4deb,ByteForce India,customer,SaaS,India,200,byteforceindia.com,https://logo.clearbit.com/byteforceindia.com,2025-06-10 01:33:40
-5a027e97-8a4b-4427-9524-e828d37632e0,MedTech Vietnam,customer,Healthcare,Vietnam,150,medtechvn.com,https://logo.clearbit.com/medtechvn.com,2023-10-13 01:33:40
-f9a60950-4d6f-4594-95bc-ebc76a5af061,AgriData Australia,customer,Agriculture,Australia,80,agridataau.com,https://logo.clearbit.com/agridataau.com,2023-12-01 01:33:40
-c42ba9d7-8267-4db1-bae3-281e1ab08e34,ClearPay Philippines,customer,Fintech,Philippines,300,clearpayphi.com,https://logo.clearbit.com/clearpayphi.com,2023-07-13 01:33:40
-43e0fef6-70f3-4ad4-9e1c-530d43b60448,WareLink Malaysia,customer,Logistics,Malaysia,500,warelinkmy.com,https://logo.clearbit.com/warelinkmy.com,2024-07-25 01:33:40
-92575159-9256-4e72-8829-c53d361bdd92,TaskFlow Singapore,customer,SaaS,Singapore,90,taskflowsg.com,https://logo.clearbit.com/taskflowsg.com,2024-10-12 01:33:40
-b7586c5e-8c05-468e-9757-49adf53238b8,Buildify Japan,customer,Manufacturing,Japan,600,buildifyjp.com,https://logo.clearbit.com/buildifyjp.com,2025-01-20 01:33:40
-c4b9e7b5-d678-465d-b40b-d539e1e5a33d,HealthNode Thailand,customer,Healthcare,Thailand,220,healthnodeth.com,https://logo.clearbit.com/healthnodeth.com,2024-08-08 01:33:40
-380e4272-6d6f-40b5-a69c-6d64cb64b8d1,DataHarbor UK,customer,SaaS,UK,130,dataharboruk.com,https://logo.clearbit.com/dataharboruk.com,2023-05-21 01:33:40
-fbf70bf7-b808-4164-af24-8460500fa040,PriceEngine Vietnam,customer,E-commerce,Vietnam,180,priceenginevn.com,https://logo.clearbit.com/priceenginevn.com,2023-11-16 01:33:40
-14eb250c-d1d0-486a-8a29-42b73e5334d6,TechGrove Indonesia,customer,SaaS,Indonesia,75,techgroveid.com,https://logo.clearbit.com/techgroveid.com,2024-11-18 01:33:40
-8fc680b5-dda6-4499-a2bf-cafb65ab12b7,MicroSend Germany,customer,Fintech,Germany,400,microsendde.com,https://logo.clearbit.com/microsendde.com,2025-08-19 01:33:40
-e1f037e9-628a-448a-a330-ddfbd4ff88ee,OmniCare Singapore,customer,Healthcare,Singapore,350,omnicaresg.com,https://logo.clearbit.com/omnicaresg.com,2023-03-07 01:33:40
-475ec420-f5f6-4c43-9c72-fc27517f05dc,LogiSense Philippines,customer,Logistics,Philippines,280,logisenseph.com,https://logo.clearbit.com/logisenseph.com,2024-11-12 01:33:40
-72d37943-8fa7-45ed-b1f8-54f5aeae3261,SwiftStack India,customer,SaaS,India,170,swiftstackindia.com,https://logo.clearbit.com/swiftstackindia.com,2024-07-18 01:33:40
-81bd8af7-f78e-4a7b-929e-e50732ab2319,FundLink Malaysia,customer,Fintech,Malaysia,90,fundlinkmy.com,https://logo.clearbit.com/fundlinkmy.com,2023-10-03 01:33:40
-f1d1895b-29e1-49d7-bf90-aa90d4f41722,CityRetail Thailand,customer,Retail,Thailand,420,cityretailth.com,https://logo.clearbit.com/cityretailth.com,2024-03-29 01:33:40
-71fd912e-2b49-437e-84db-ae5227e0b76d,QuotaSync USA,customer,SaaS,USA,55,quotasyncus.com,https://logo.clearbit.com/quotasyncus.com,2024-11-04 01:33:40
-03f44929-64c8-4aa3-ac3e-61b64e595bf4,FieldOps Australia,customer,SaaS,Australia,95,fieldopsau.com,https://logo.clearbit.com/fieldopsau.com,2024-07-31 01:33:40
-544fe23f-663f-4bb3-a3c8-fea14915cb6b,DataLayer Japan,customer,SaaS,Japan,110,datalayerjp.com,https://logo.clearbit.com/datalayerjp.com,2023-09-03 01:33:40
-95e0634b-9918-44f0-b015-e351f9040527,GreenRoute Vietnam,customer,Logistics,Vietnam,260,greenroutevn.com,https://logo.clearbit.com/greenroutevn.com,2025-05-18 01:33:40
-1f2de95b-b620-4423-b64d-4ee3963bff12,PayNow Indonesia,customer,Fintech,Indonesia,150,paynowid.com,https://logo.clearbit.com/paynowid.com,2025-03-16 01:33:40
-9def31a6-5eef-4832-b9a0-89fcaffcde81,BiometrX Singapore,customer,Healthcare,Singapore,480,biometrxsg.com,https://logo.clearbit.com/biometrxsg.com,2025-01-04 01:33:40
-dd5c35aa-08e8-4205-89cf-c286566178e4,MerchTrack UK,customer,Retail,UK,310,merchtrakuk.com,https://logo.clearbit.com/merchtrakuk.com,2024-04-17 01:33:40
-e0670d88-b1dd-4265-bfee-6d7eb7629a9b,HorizonAI Canada,customer,SaaS,Canada,200,horizonaica.com,https://logo.clearbit.com/horizonaica.com,2023-08-26 01:33:40
-f741b48d-6feb-4611-8fbf-f1dd9420e6b0,InsightHub Germany,customer,SaaS,Germany,140,insighthubde.com,https://logo.clearbit.com/insighthubde.com,2025-04-18 01:33:40
-1fc12956-834a-44b2-b916-48f2eb26cb78,CloudRoute India,customer,Logistics,India,700,cloudrouteindia.com,https://logo.clearbit.com/cloudrouteindia.com,2025-07-08 01:33:40
-458730ad-f19b-4fdb-b0a8-ffe498f04deb,Paylater Thailand,customer,Fintech,Thailand,195,paylaterth.com,https://logo.clearbit.com/paylaterth.com,2024-03-02 01:33:40
-72f826f4-73b7-434f-bf24-8858e16313fb,BrandCore Philippines,customer,Retail,Philippines,380,brandcoreph.com,https://logo.clearbit.com/brandcoreph.com,2024-03-20 01:33:40
-d4030e64-ac70-4850-a86b-bf2df214c6f7,AnalyticLeaf Singapore,customer,SaaS,Singapore,45,analyticleafsg.com,https://logo.clearbit.com/analyticleafsg.com,2024-01-21 01:33:40
-1ac12830-fd00-4d6a-a3be-fac7a13fba61,AutoMile Malaysia,customer,Automotive,Malaysia,520,automilemy.com,https://logo.clearbit.com/automilemy.com,2025-08-14 01:33:40
-5b2aeb2c-fa2b-470f-b310-1fb07776c6f4,FastPharma Switzerland,customer,Healthcare,Switzerland,340,fastpharmach.com,https://logo.clearbit.com/fastpharmach.com,2023-09-11 01:33:40
-57f58c52-f612-4302-8bb1-b2dd6fb09efb,NowShip Singapore,customer,Logistics,Singapore,260,nowshipsg.com,https://logo.clearbit.com/nowshipsg.com,2025-08-20 01:33:40
-4d740b75-3bdf-4405-a17f-1c44d951a870,DataGems Indonesia,customer,SaaS,Indonesia,60,datagemsid.com,https://logo.clearbit.com/datagemsid.com,2025-03-23 01:33:40
-d7d2acac-a09b-4a05-9067-746185690ac8,WealthTrack Vietnam,customer,Fintech,Vietnam,130,wealthtrackvn.com,https://logo.clearbit.com/wealthtrackvn.com,2025-01-21 01:33:40
-b092eda1-55dd-4432-998d-431afa59464a,TechSeed Japan,customer,SaaS,Japan,80,techseedjp.com,https://logo.clearbit.com/techseedjp.com,2025-05-15 01:33:40
-6c15ab62-91f5-4e9d-bdc2-57ff7ef295e8,FleetPro Australia,customer,Logistics,Australia,410,fleetproau.com,https://logo.clearbit.com/fleetproau.com,2025-07-28 01:33:40
-e4279b69-3edf-4567-a315-ce94d06f11ed,MediSafe Malaysia,customer,Healthcare,Malaysia,290,medisafemy.com,https://logo.clearbit.com/medisafemy.com,2024-07-22 01:33:40
-75d90df6-3442-4e4f-8896-edd7e3f8c0d1,ShopSense Korea,customer,E-commerce,South Korea,550,shopensekr.com,https://logo.clearbit.com/shopensekr.com,2024-01-05 01:33:40
-621cbc6b-eb0b-4cda-baa5-c1ce34c77d1d,PlanBase India,customer,SaaS,India,100,planbaseindia.com,https://logo.clearbit.com/planbaseindia.com,2024-04-09 01:33:40
-2c930408-57bc-43d1-a33e-8490342cf141,EcoManufact Germany,customer,Manufacturing,Germany,800,ecomanufactde.com,https://logo.clearbit.com/ecomanufactde.com,2025-06-29 01:33:40
-d97e51f2-cf3e-466b-bf17-1cb3cca01ab8,FastFunnel USA,customer,SaaS,USA,35,fastfunnelus.com,https://logo.clearbit.com/fastfunnelus.com,2023-10-25 01:33:40
-6a19aaa1-08e9-4edd-86cb-230681041e94,MigraLogic Philippines,customer,Logistics,Philippines,320,migralogicph.com,https://logo.clearbit.com/migralogicph.com,2024-05-03 01:33:40
-43ac7a7f-8ab0-41e1-bbe2-4f5821c44616,UrbanPay Indonesia,customer,Fintech,Indonesia,220,urbanpayid.com,https://logo.clearbit.com/urbanpayid.com,2023-07-05 01:33:40
-5cb2afc4-9871-4c34-92de-94d70c858930,ViewPoint Singapore,customer,SaaS,Singapore,70,viewpointsg.com,https://logo.clearbit.com/viewpointsg.com,2024-02-13 01:33:40
-555452d9-932d-4e66-93cf-05602932e704,MapPath Vietnam,customer,Logistics,Vietnam,180,mappathvn.com,https://logo.clearbit.com/mappathvn.com,2023-08-22 01:33:40
-aa95badb-a850-4d83-8594-b5e6dae66a92,FormLab Australia,customer,SaaS,Australia,55,formlabau.com,https://logo.clearbit.com/formlabau.com,2023-06-30 01:33:40
-7bfa77ff-c685-4a38-82f2-73c3a45fea07,FreightLine Thailand,customer,Logistics,Thailand,470,freightlineth.com,https://logo.clearbit.com/freightlineth.com,2024-04-22 01:33:40
-e22df13e-ec9e-432a-a880-46b1a22c6733,PivotStack UK,customer,SaaS,UK,88,pivotstackuk.com,https://logo.clearbit.com/pivotstackuk.com,2025-01-25 01:33:40
-d5ce3454-46ae-457b-ac64-2d2522381f67,MegaMart India,customer,Retail,India,1800,megamartindia.com,https://logo.clearbit.com/megamartindia.com,2023-06-06 01:33:40
-bb751f57-61a0-486c-b141-402d2cec471c,BioCore Canada,customer,Healthcare,Canada,430,biocoreca.com,https://logo.clearbit.com/biocoreca.com,2023-07-07 01:33:40
-23d71086-02aa-4a8a-bced-619d685706b6,SnapLoan Malaysia,customer,Fintech,Malaysia,160,snaploanmy.com,https://logo.clearbit.com/snaploanmy.com,2024-07-24 01:33:40
-4055b5d7-0164-4bfc-b9c0-46006d9d314e,ClearPath Japan,prospect,Logistics,Japan,380,clearpathpj.com,https://logo.clearbit.com/clearpathpj.com,2023-08-31 01:33:40
-9e2f44e4-2668-41b6-acf2-0b4ac5238d5a,SalesMesh Singapore,prospect,SaaS,Singapore,48,salesmeshsg.com,https://logo.clearbit.com/salesmeshsg.com,2023-06-09 01:33:40
-311f1f95-4b91-4037-a5c6-37c9568da5b5,TradeNest Indonesia,prospect,E-commerce,Indonesia,650,tradanestid.com,https://logo.clearbit.com/tradanestid.com,2023-11-25 01:33:40
-a4f5d401-c2aa-4b94-9852-3ccc08032fce,HiveData Vietnam,prospect,SaaS,Vietnam,42,hivedatavn.com,https://logo.clearbit.com/hivedatavn.com,2024-10-16 01:33:40
-b4c4b93e-dde3-4fd3-87cd-2d844cbaa086,ValueEdge Korea,prospect,SaaS,South Korea,230,valueedgekr.com,https://logo.clearbit.com/valueedgekr.com,2024-05-09 01:33:40
-269077da-09e9-4748-8b9a-4146f5aa4e75,SmartDock Germany,prospect,Manufacturing,Germany,560,smartdockde.com,https://logo.clearbit.com/smartdockde.com,2025-01-28 01:33:40
-4f3861e9-9d1b-443b-9ccf-18e4514df7dd,PulseCheck Australia,prospect,Healthcare,Australia,195,pulsecheckau.com,https://logo.clearbit.com/pulsecheckau.com,2023-04-24 01:33:40
-02fb82de-a243-4be3-8f93-4709b2c3a493,ClearVision Philippines,prospect,SaaS,Philippines,75,clearvisionph.com,https://logo.clearbit.com/clearvisionph.com,2023-10-23 01:33:40
-1bf58883-eefb-4ac8-8c23-faafcec24ce0,MicroPay Thailand,prospect,Fintech,Thailand,140,micropayth.com,https://logo.clearbit.com/micropayth.com,2023-12-24 01:33:40
-b3d400ea-ea71-4b7e-b906-3426210588bd,HarborSafe Singapore,prospect,Logistics,Singapore,300,harborsafesg.com,https://logo.clearbit.com/harborsafesg.com,2024-12-27 01:33:40
-9ebafdd9-f8d8-48fa-bd4b-89013a20ad65,GrowthLab India,prospect,SaaS,India,65,growthlabindia.com,https://logo.clearbit.com/growthlabindia.com,2023-04-08 01:33:40
-29bc4bf3-f118-4dfe-9344-b2b5640d5302,DataBridge Malaysia,prospect,SaaS,Malaysia,90,databridgemy.com,https://logo.clearbit.com/databridgemy.com,2024-08-20 01:33:40
-e085e41a-a47e-4c35-90f2-92818176d5b5,BuildFast Vietnam,prospect,Manufacturing,Vietnam,820,buildfastvn.com,https://logo.clearbit.com/buildfastvn.com,2024-12-11 01:33:40
-20017c22-7adf-4e6f-a61c-c31ca4b940a1,RouteSync Indonesia,prospect,Logistics,Indonesia,420,routesyncid.com,https://logo.clearbit.com/routesyncid.com,2024-06-03 01:33:40
-501ee6be-9b20-4726-98bf-fd5030a71bd0,ChainBank Germany,prospect,Fintech,Germany,670,chainbankde.com,https://logo.clearbit.com/chainbankde.com,2023-12-24 01:33:40
-a73b6e75-25fa-4934-805a-1a11d371c886,NetCure Australia,prospect,Healthcare,Australia,145,netcureau.com,https://logo.clearbit.com/netcureau.com,2024-04-13 01:33:40
-0dec01b8-1fd3-41a7-b548-e47a75a4bf8b,PixelStack USA,prospect,SaaS,USA,50,pixelstackus.com,https://logo.clearbit.com/pixelstackus.com,2023-12-16 01:33:40
-88338a35-3da6-45f1-94e2-9d9b60ae4a08,EduLink Philippines,prospect,Education,Philippines,200,edulinkph.com,https://logo.clearbit.com/edulinkph.com,2025-07-09 01:33:40
-cf9d7392-d457-4b3f-983a-f92edaa9f83d,ByteStream Singapore,prospect,SaaS,Singapore,55,bytestreamsg.com,https://logo.clearbit.com/bytestreamsg.com,2024-02-15 01:33:40
-befde204-fd5c-4573-9bf6-103b2d215f67,TrackMed Thailand,prospect,Healthcare,Thailand,310,trackmedth.com,https://logo.clearbit.com/trackmedth.com,2025-07-29 01:33:40
-e6f4c57b-9bef-4122-b45b-b2c0b0f69542,SkyStore Japan,prospect,E-commerce,Japan,920,skystorejp.com,https://logo.clearbit.com/skystorejp.com,2024-09-11 01:33:40
-f50a5d0c-9c50-41e3-bf05-c44f9297e06e,BlueShift India,prospect,SaaS,India,130,blueshiftindia.com,https://logo.clearbit.com/blueshiftindia.com,2024-04-25 01:33:40
-9daadbf3-22cf-4604-a4ba-879aae626803,WorkFront Canada,prospect,SaaS,Canada,175,workfrontca.com,https://logo.clearbit.com/workfrontca.com,2023-08-21 01:33:40
-2306dd32-a1ed-4afe-a4c5-8996be0bf894,OmniPay Malaysia,prospect,Fintech,Malaysia,240,omnipaymy.com,https://logo.clearbit.com/omnipaymy.com,2023-07-09 01:33:40
-4e6b5142-1bc9-418c-840b-15b8ac75a1de,Traxify Vietnam,prospect,Logistics,Vietnam,190,traxifyvn.com,https://logo.clearbit.com/traxifyvn.com,2024-12-10 01:33:40
-95909e34-75f5-4b81-8d70-617a6e650d8b,OptiMart Indonesia,prospect,Retail,Indonesia,730,optimartid.com,https://logo.clearbit.com/optimartid.com,2024-10-06 01:33:40
-9ef550a3-4b73-47c0-bfed-059e0c278e18,HealthSync Korea,prospect,Healthcare,South Korea,280,healthsynckr.com,https://logo.clearbit.com/healthsynckr.com,2025-04-06 01:33:40
-81fb9f3a-be14-432d-83b6-af4c37a260b9,SwiftBuild Germany,prospect,Manufacturing,Germany,1100,swiftbuildde.com,https://logo.clearbit.com/swiftbuildde.com,2024-09-23 01:33:40
-18697881-999d-420b-a81c-0cf62d73ca9b,IncuLearn Australia,prospect,Education,Australia,100,incularnau.com,https://logo.clearbit.com/incularnau.com,2024-08-19 01:33:40
-0c78d92b-c459-4dd2-9151-f378dfb961d4,CartSense Philippines,prospect,E-commerce,Philippines,380,cartsenseph.com,https://logo.clearbit.com/cartsenseph.com,2024-12-27 01:33:40
-169c9680-21d9-4fee-ad94-e1ba0524897e,CreditFlow Singapore,prospect,Fintech,Singapore,210,creditflowsg.com,https://logo.clearbit.com/creditflowsg.com,2025-02-12 01:33:40
-a6a21dc9-6d81-47aa-b808-a3dab32005d0,GridTech Vietnam,prospect,Manufacturing,Vietnam,640,gridtechvn.com,https://logo.clearbit.com/gridtechvn.com,2023-08-25 01:33:40
-f8ebbc17-846a-46bc-be73-3124ca19c850,NovaDash India,prospect,SaaS,India,78,novadashindia.com,https://logo.clearbit.com/novadashindia.com,2024-07-20 01:33:40
-43788dcb-57c1-40a6-a767-2c44cb9326f9,FastLearn UK,prospect,Education,UK,160,fastlearnuk.com,https://logo.clearbit.com/fastlearnuk.com,2023-04-14 01:33:40
-9218d8f8-be03-49f3-84cf-e4a590ebb633,MileStone Thailand,prospect,Logistics,Thailand,540,milestoneth.com,https://logo.clearbit.com/milestoneth.com,2024-12-19 01:33:40
-bb6d1fd8-dc0a-46a1-8c24-af1527c6e293,ClosedLoop Malaysia,prospect,SaaS,Malaysia,85,closedloopmy.com,https://logo.clearbit.com/closedloopmy.com,2025-02-01 01:33:40
-674e32aa-d3d9-4337-ab65-adae56fa6cfd,CartWave Indonesia,prospect,E-commerce,Indonesia,820,cartwaveid.com,https://logo.clearbit.com/cartwaveid.com,2023-05-22 01:33:40
-f1cb5e04-b19e-4534-82ce-d57678a97dca,PureCloud Japan,prospect,SaaS,Japan,155,purecloudjp.com,https://logo.clearbit.com/purecloudjp.com,2023-12-16 01:33:40
-98c0dc38-0ea0-4d67-a96c-4ab9fede4ac2,AssuredPay Germany,prospect,Fintech,Germany,480,assuredpayde.com,https://logo.clearbit.com/assuredpayde.com,2023-10-26 01:33:40
-c2eda4f1-3878-4234-ae31-3f7ae975f8aa,NanoHealth Philippines,prospect,Healthcare,Philippines,210,nanohealthph.com,https://logo.clearbit.com/nanohealthph.com,2025-03-08 01:33:40
-4989bd7b-c673-44c0-9f9d-69cc2c47646e,Sentry Logistics Korea,prospect,Logistics,South Korea,740,sentrylgkr.com,https://logo.clearbit.com/sentrylgkr.com,2024-05-29 01:33:40
-46f28df0-ae61-4b92-8a75-d6de5141c279,EduBase Singapore,prospect,Education,Singapore,130,edubasesg.com,https://logo.clearbit.com/edubasesg.com,2025-07-25 01:33:40
-67bd1c50-74f3-46ea-8f73-cccc4a733a41,MediStream Vietnam,prospect,Healthcare,Vietnam,175,medistreamvn.com,https://logo.clearbit.com/medistreamvn.com,2023-05-30 01:33:40
-a21f5ba8-b546-49e8-8e9c-84c0fa230184,TrueRetail Malaysia,prospect,Retail,Malaysia,870,trueretailmy.com,https://logo.clearbit.com/trueretailmy.com,2023-07-21 01:33:40
-ee53764d-84be-460f-955e-fd58a05ab8e0,SalesFuel India,prospect,SaaS,India,92,salesfuelindia.com,https://logo.clearbit.com/salesfuelindia.com,2025-07-30 01:33:40
-d04f6440-cf06-4f4a-ae57-63a933a8e101,SkyPay Australia,prospect,Fintech,Australia,165,skypayau.com,https://logo.clearbit.com/skypayau.com,2025-06-13 01:33:40
-f58887ac-8429-44e7-ac98-7e5c5e6064a2,CoreMark USA,prospect,SaaS,USA,60,coremarkus.com,https://logo.clearbit.com/coremarkus.com,2023-10-28 01:33:40
-f6618e43-d274-4d7a-9b61-db80b909ba43,TrueFreight Indonesia,prospect,Logistics,Indonesia,490,truefreightid.com,https://logo.clearbit.com/truefreightid.com,2023-12-01 01:33:40
-9173e8a5-1593-4f94-bb19-d9be028ba622,ClearMed Thailand,prospect,Healthcare,Thailand,230,clearmedth.com,https://logo.clearbit.com/clearmedth.com,2025-01-31 01:33:40
-dec46bd7-5bd6-40ce-aa3d-8acbb2b4d287,FlowMetrics Singapore,prospect,SaaS,Singapore,43,flowmetricssg.com,https://logo.clearbit.com/flowmetricssg.com,2024-06-05 01:33:40
-8b4ccc91-4a35-4df2-a5d6-af9d12c8f53f,PrimeStack Vietnam,prospect,SaaS,Vietnam,58,primestackvn.com,https://logo.clearbit.com/primestackvn.com,2024-09-24 01:33:40
-04c4c67c-003a-4ae2-988e-9a229d521bf5,GigPay Philippines,prospect,Fintech,Philippines,190,gigpayph.com,https://logo.clearbit.com/gigpayph.com,2025-07-02 01:33:40
-225009fc-d510-4727-9f3c-99efc7219545,BuySmart Korea,prospect,E-commerce,South Korea,640,buysmatkr.com,https://logo.clearbit.com/buysmatkr.com,2024-04-27 01:33:40
-d575738e-1783-4586-8b97-9205c1b67dac,EasyDeploy Germany,prospect,SaaS,Germany,115,easydeployde.com,https://logo.clearbit.com/easydeployde.com,2025-06-18 01:33:40
-6dacceb9-d7b3-4b5a-a7f4-bcf5420cda30,VitalCare Canada,prospect,Healthcare,Canada,360,vitalcareca.com,https://logo.clearbit.com/vitalcareca.com,2024-05-01 01:33:40
-5d0fe125-2d0c-4263-bca4-a24498831897,MultiRetail Japan,prospect,Retail,Japan,1100,multiretailjp.com,https://logo.clearbit.com/multiretailjp.com,2025-07-09 01:33:40
-a337ae13-c6d0-4e99-b0cd-916be5906881,CostPilot India,prospect,Fintech,India,110,costpilotindia.com,https://logo.clearbit.com/costpilotindia.com,2023-05-05 01:33:40
-df0eef36-78a9-470f-adcb-935464afb11f,ScaleBase Australia,prospect,SaaS,Australia,72,scalebaseau.com,https://logo.clearbit.com/scalebaseau.com,2024-03-08 01:33:40
-31d273c2-4cb3-44f5-b132-82f9ef25feff,SyncLogic Malaysia,prospect,Logistics,Malaysia,400,synclogicmy.com,https://logo.clearbit.com/synclogicmy.com,2024-05-30 01:33:40
-892888b6-95a5-43c4-b3b9-ff4fdeff36c3,PulseCore Indonesia,prospect,SaaS,Indonesia,67,pulsecoreid.com,https://logo.clearbit.com/pulsecoreid.com,2023-05-31 01:33:40
-a0821ca3-577c-4505-b0f3-3e6f8b9531f2,FlexPay Thailand,prospect,Fintech,Thailand,175,flexpayth.com,https://logo.clearbit.com/flexpayth.com,2024-01-29 01:33:40
-8a667cec-1b3e-4ba5-bb64-e7082609c87c,DataMesh UK,prospect,SaaS,UK,100,datameshuk.com,https://logo.clearbit.com/datameshuk.com,2023-09-09 01:33:40
-38a05a16-808e-49df-9c85-e005d20de26e,TechVault Singapore,prospect,SaaS,Singapore,82,techvaultsg.com,https://logo.clearbit.com/techvaultsg.com,2025-07-11 01:33:40
-39f83689-814d-4024-9915-0f5bf9a1fc92,OptiHealth Vietnam,prospect,Healthcare,Vietnam,205,optihealthvn.com,https://logo.clearbit.com/optihealthvn.com,2023-03-29 01:33:40
-500ec845-eb73-48da-9000-5ed82d24f242,EcoFreight Germany,prospect,Logistics,Germany,620,ecofreightde.com,https://logo.clearbit.com/ecofreightde.com,2023-03-28 01:33:40
-64c3a506-cf6f-4f1f-ae70-dc1e609ee323,MarketPulse Philippines,prospect,SaaS,Philippines,53,marketpulseph.com,https://logo.clearbit.com/marketpulseph.com,2024-03-01 01:33:40
-4816ba02-3758-4241-80f7-758ac3a46513,TrueStack India,prospect,SaaS,India,88,truestackindia.com,https://logo.clearbit.com/truestackindia.com,2023-07-12 01:33:40
-5bca499f-e337-4e77-96d7-0ae079a3c7b9,BuyNow Malaysia,prospect,E-commerce,Malaysia,700,buynowmy.com,https://logo.clearbit.com/buynowmy.com,2025-04-18 01:33:40
-d201552b-fa4d-4a3f-85c6-49351974e452,SafeTrack Korea,prospect,Logistics,South Korea,510,safetrackkr.com,https://logo.clearbit.com/safetrackkr.com,2025-04-28 01:33:40
-930f4d68-9e9e-4dee-93d8-6ededd86a395,DataFront Japan,prospect,SaaS,Japan,95,datafrontjp.com,https://logo.clearbit.com/datafrontjp.com,2024-05-25 01:33:40
-2a07c23b-5093-439d-83f5-52f2c423ba0f,NextPay Indonesia,prospect,Fintech,Indonesia,310,nextpayid.com,https://logo.clearbit.com/nextpayid.com,2024-02-21 01:33:40
-78dda5a4-feec-459f-8d17-9667666fc30e,GrowthSeed Australia,prospect,SaaS,Australia,48,growthseedau.com,https://logo.clearbit.com/growthseedau.com,2024-03-23 01:33:40
-dd2caea8-35c2-4e99-9b94-c365e70d278f,PharmaCore Canada,prospect,Healthcare,Canada,510,pharmacoreca.com,https://logo.clearbit.com/pharmacoreca.com,2024-02-04 01:33:40
-885405aa-4a5c-43d1-a65a-6dff4f33e932,OptiFreight Thailand,prospect,Logistics,Thailand,380,optifreightth.com,https://logo.clearbit.com/optifreightth.com,2025-02-01 01:33:40
-d8a68bdd-d4da-469a-9152-416069255bfe,FinView Singapore,prospect,Fintech,Singapore,145,finviewsg.com,https://logo.clearbit.com/finviewsg.com,2024-12-18 01:33:40
-60ee4f6d-0366-4db0-9ac3-d6473cd49cd7,TrueEdge Vietnam,prospect,SaaS,Vietnam,37,trueedgevn.com,https://logo.clearbit.com/trueedgevn.com,2023-10-23 01:33:40
-24808cee-28ab-4a6e-b509-d4441c5359bb,MegaShift Germany,prospect,Manufacturing,Germany,1400,megashiftde.com,https://logo.clearbit.com/megashiftde.com,2023-11-01 01:33:40
-cc04af00-e2ee-4e1a-8c1a-dfff6721dbc2,ClearRetail Philippines,prospect,Retail,Philippines,600,clearretailph.com,https://logo.clearbit.com/clearretailph.com,2023-11-01 01:33:40
-62fff7c8-a257-4f6d-b134-6e89c6d723fd,PeakLogic India,prospect,Logistics,India,850,peaklogicindia.com,https://logo.clearbit.com/peaklogicindia.com,2023-12-08 01:33:40
-3449c3a0-59a0-4074-99cf-5e9d61aa7b4c,DataForge Malaysia,prospect,SaaS,Malaysia,62,dataforgemy.com,https://logo.clearbit.com/dataforgemy.com,2024-03-30 01:33:40
-783ed494-a30b-425f-8085-7a6d4ca27730,BluePath Korea,prospect,Logistics,South Korea,460,bluepathkr.com,https://logo.clearbit.com/bluepathkr.com,2025-02-04 01:33:40
-41f8c9ef-e883-4a5a-8269-5c3f4686697a,SwiftHealth Australia,prospect,Healthcare,Australia,270,swifthealthau.com,https://logo.clearbit.com/swifthealthau.com,2025-02-24 01:33:40
-905fb8e9-2a14-4d3a-a211-05ce2eb0f6f5,CodeTree Japan,prospect,SaaS,Japan,73,codetreejp.com,https://logo.clearbit.com/codetreejp.com,2023-09-26 01:33:40
-82dd06c4-cc70-4f90-b36e-f6bed504677f,RapidPay Indonesia,prospect,Fintech,Indonesia,280,rapidpayid.com,https://logo.clearbit.com/rapidpayid.com,2025-05-06 01:33:40
-1cb14541-424f-4223-96a2-d3db02c8b090,EduPilot Thailand,prospect,Education,Thailand,115,edupilotth.com,https://logo.clearbit.com/edupilotth.com,2024-11-22 01:33:40
-68ed7dac-70e9-4351-b4c9-28bcbd9247d2,InsightCore Singapore,prospect,SaaS,Singapore,57,insightcoresg.com,https://logo.clearbit.com/insightcoresg.com,2023-07-27 01:33:40
-3c0aed7a-0cf0-46d2-8240-58adf2175810,TechReach Vietnam,prospect,SaaS,Vietnam,80,techreachvn.com,https://logo.clearbit.com/techreachvn.com,2025-01-13 01:33:40
-4055aba6-83d3-4d9c-9636-209a0b20b88e,PrimePay Germany,prospect,Fintech,Germany,330,primepayde.com,https://logo.clearbit.com/primepayde.com,2025-02-28 01:33:40
-0166aa2d-9b04-419e-adcf-d9e431a48e1f,ClearTech Philippines,prospect,SaaS,Philippines,68,cleartechph.com,https://logo.clearbit.com/cleartechph.com,2025-01-24 01:33:40
-acc55615-f7a3-4cba-b8e7-893479d493dc,DataPilot India,prospect,SaaS,India,105,datapilotindia.com,https://logo.clearbit.com/datapilotindia.com,2023-03-08 01:33:40
-210fe619-4130-4819-b020-79e43e64181a,MileFreight Malaysia,prospect,Logistics,Malaysia,490,milefreightmy.com,https://logo.clearbit.com/milefreightmy.com,2024-11-08 01:33:40
-a8a137e8-92b0-42bd-a7ff-30692ce0be2b,SwiftLearn Korea,prospect,Education,South Korea,185,swiftlearnkr.com,https://logo.clearbit.com/swiftlearnkr.com,2024-08-31 01:33:40
-c6935a1c-0359-45ff-a1cc-8f6c380969c0,BrightPath Japan,prospect,SaaS,Japan,62,brightpathjp.com,https://logo.clearbit.com/brightpathjp.com,2024-02-13 01:33:40
-8a5eb890-4da3-415f-9c3c-f17e37a3d453,TechField Indonesia,prospect,SaaS,Indonesia,94,techfieldid.com,https://logo.clearbit.com/techfieldid.com,2024-07-12 01:33:40
-6baa0c61-cee8-490a-9c73-5db7daa8a2f6,ClearPath Australia,prospect,Logistics,Australia,430,clearpathau.com,https://logo.clearbit.com/clearpathau.com,2023-10-16 01:33:40
-639e7af3-02ee-4d4d-b244-270cc102a4c7,SafeBank Thailand,prospect,Fintech,Thailand,260,safebankth.com,https://logo.clearbit.com/safebankth.com,2024-10-08 01:33:40
-e1113ff7-037f-4087-84ff-552df77fd9e8,MetricBlast UK,prospect,SaaS,UK,47,metricblastuk.com,https://logo.clearbit.com/metricblastuk.com,2023-08-21 01:33:40
+e936eb13-82b3-4987-acfc-bea70b95a46e,Holistics,internal,SaaS,Singapore,80,holistics.io,https://logo.clearbit.com/holistics.io,2018-04-03 03:54:14
+68a579c4-3b5a-4f78-be58-4984d5999d5c,Metabase,competitor,SaaS,USA,2602,metabase.com,https://logo.clearbit.com/metabase.com,2018-04-03 03:54:14
+9745041b-6857-4f2b-9e22-764a38b4bfc3,Looker,competitor,SaaS,USA,192,looker.com,https://logo.clearbit.com/looker.com,2018-04-03 03:54:14
+02c77398-2c10-471a-bdab-e6c1c8ad346c,Tableau,competitor,SaaS,USA,1639,tableau.com,https://logo.clearbit.com/tableau.com,2018-04-03 03:54:14
+961e2a02-5322-4079-a143-a5e3afbc8175,Power BI,competitor,SaaS,USA,1764,powerbi.microsoft.com,https://logo.clearbit.com/powerbi.microsoft.com,2018-04-03 03:54:14
+4eb86916-4563-4a33-8be8-36601e544118,Sigma,competitor,SaaS,USA,237,sigmacomputing.com,https://logo.clearbit.com/sigmacomputing.com,2018-04-03 03:54:14
+eb8c5cc4-5752-4a2c-94a5-41ce5aeac19b,Redash,competitor,SaaS,USA,2951,redash.io,https://logo.clearbit.com/redash.io,2018-04-03 03:54:14
+0d27d551-c653-4836-9714-fd89fef01191,Apache Superset,competitor,SaaS,USA,626,superset.apache.org,https://logo.clearbit.com/superset.apache.org,2018-04-03 03:54:14
+0135545a-d613-428f-a6da-4a6977402896,Mode,competitor,SaaS,USA,751,mode.com,https://logo.clearbit.com/mode.com,2018-04-03 03:54:14
+744b1bf3-92d8-4d32-b711-8dea6e0217c2,Domo,competitor,SaaS,USA,554,domo.com,https://logo.clearbit.com/domo.com,2018-04-03 03:54:14
+5f6f46b0-ddd6-401b-9a39-fb1f2fc993fe,ThoughtSpot,competitor,SaaS,USA,2796,thoughtspot.com,https://logo.clearbit.com/thoughtspot.com,2018-04-03 03:54:14
+3b0e7d02-a4b9-4f65-809a-11e92d021dcd,Qlik,competitor,SaaS,USA,2690,qlik.com,https://logo.clearbit.com/qlik.com,2018-04-03 03:54:14
+8a47967c-4c40-4b5b-addc-9287595c8e8d,MicroStrategy,competitor,SaaS,USA,2917,microstrategy.com,https://logo.clearbit.com/microstrategy.com,2018-04-03 03:54:14
+c4828db7-a74a-4ce3-8b88-613209128233,Sisense,competitor,SaaS,USA,159,sisense.com,https://logo.clearbit.com/sisense.com,2018-04-03 03:54:14
+fa681a6a-cd74-458c-abbc-11cef0870b4e,Grafana,competitor,SaaS,USA,2932,grafana.com,https://logo.clearbit.com/grafana.com,2018-04-03 03:54:14
+004ca597-fa8a-4821-8159-ae017417fb26,Retool,competitor,SaaS,USA,2896,retool.com,https://logo.clearbit.com/retool.com,2018-04-03 03:54:14
+e33a1bde-92c4-43aa-81e2-35f2af4b7cde,Observable,competitor,SaaS,USA,2571,observablehq.com,https://logo.clearbit.com/observablehq.com,2018-04-03 03:54:14
+a3d7125f-e082-47f4-8923-200fb094e544,Hex,competitor,SaaS,USA,1122,hex.tech,https://logo.clearbit.com/hex.tech,2018-04-03 03:54:14
+fc0176f9-3ecc-42ae-af0e-fb177cf35b3c,Lightdash,competitor,SaaS,USA,2134,lightdash.com,https://logo.clearbit.com/lightdash.com,2018-04-03 03:54:14
+162d50cb-3604-4955-adf3-340b43bf7313,GoodData,competitor,SaaS,USA,2040,gooddata.com,https://logo.clearbit.com/gooddata.com,2018-04-03 03:54:14
+53a54354-90dd-4263-a82c-f9dd1a033728,Omni,competitor,SaaS,USA,578,omni.co,https://logo.clearbit.com/omni.co,2018-04-03 03:54:14
+42c1f1c3-f29f-41be-b8f6-bdb9fe9e0438,Grab,customer,Super App,Singapore,8000,grab.com,https://logo.clearbit.com/grab.com,2021-12-19 03:54:14
+28c7f5ae-4524-41ea-81bb-7095fdb1c200,Gojek,customer,Super App,Indonesia,6000,gojek.com,https://logo.clearbit.com/gojek.com,2018-06-21 03:54:14
+65b8ef17-69c6-42a8-95e9-32a54f1dfa16,Shopee,customer,E-commerce,Singapore,15000,shopee.com,https://logo.clearbit.com/shopee.com,2018-07-21 03:54:14
+de3aa434-0488-469b-93b9-969d8acd9c58,Tokopedia,customer,E-commerce,Indonesia,5000,tokopedia.com,https://logo.clearbit.com/tokopedia.com,2020-01-01 03:54:14
+ddd7c8fd-8564-4c0f-b543-512faa12bdd1,Traveloka,customer,Travel,Indonesia,3000,traveloka.com,https://logo.clearbit.com/traveloka.com,2020-03-14 03:54:14
+f96523ef-727d-4c38-af22-14023b7432f3,Carousell,customer,Marketplace,Singapore,700,carousell.com,https://logo.clearbit.com/carousell.com,2019-07-25 03:54:14
+64c6184b-9e77-45f3-adcf-3c32d2c973d3,Ninja Van,customer,Logistics,Singapore,4000,ninjavan.com,https://logo.clearbit.com/ninjavan.com,2018-08-02 03:54:14
+fbb86341-fd96-4072-88fe-b850b59a8ab1,Xendit,customer,Fintech,Indonesia,900,xendit.co,https://logo.clearbit.com/xendit.co,2020-05-21 03:54:14
+54bc519a-c88a-4a35-927e-ddd4b1c4d413,StashAway,customer,Fintech,Singapore,200,stashaway.com,https://logo.clearbit.com/stashaway.com,2020-01-22 03:54:14
+3045fc88-057e-4113-9398-656b0ec8b0ec,PropertyGuru,customer,Real Estate,Singapore,1200,propertyguru.com.sg,https://logo.clearbit.com/propertyguru.com.sg,2021-02-18 03:54:14
+aa418c50-1339-4016-a220-9dc826e834a9,Mekari,customer,SaaS,Indonesia,1500,mekari.com,https://logo.clearbit.com/mekari.com,2018-10-05 03:54:14
+22a9996f-d9b3-4997-b821-c18c1f75d182,ShopBack,customer,E-commerce,Singapore,600,shopback.com,https://logo.clearbit.com/shopback.com,2022-11-26 03:54:14
+41ebfc02-1163-49f2-9f27-2ebcbab64a55,Kredivo,customer,Fintech,Indonesia,400,kredivo.com,https://logo.clearbit.com/kredivo.com,2021-11-05 03:54:14
+32bef0e6-5d0c-49e2-a697-710443b48ef5,VNG Corporation,customer,Technology,Vietnam,4500,vng.com.vn,https://logo.clearbit.com/vng.com.vn,2021-04-10 03:54:14
+982123c6-ffbd-493a-8833-fa4de7ec6ff0,Bukalapak,customer,E-commerce,Indonesia,3000,bukalapak.com,https://logo.clearbit.com/bukalapak.com,2021-08-14 03:54:14
+946015a0-cb71-4155-8654-99059da6a590,Pomelo Fashion,customer,Retail,Thailand,300,pomelofashion.com,https://logo.clearbit.com/pomelofashion.com,2022-05-25 03:54:14
+5262baff-9d7f-4dd7-a259-1f1f1a395e56,2C2P,customer,Fintech,Singapore,250,2c2p.com,https://logo.clearbit.com/2c2p.com,2019-04-20 03:54:14
+f001dd65-9bc8-4877-9eec-b274b5873eb4,Carsome,customer,Automotive,Malaysia,1000,carsome.com,https://logo.clearbit.com/carsome.com,2019-08-02 03:54:14
+1647ec2d-0a25-421f-ba28-de5563d3b69c,Funding Societies,customer,Fintech,Singapore,350,fundingsocieties.com,https://logo.clearbit.com/fundingsocieties.com,2020-12-21 03:54:14
+449f6928-ce69-4321-9edc-b1a6094d331d,Anchanto,customer,SaaS,Singapore,150,anchanto.com,https://logo.clearbit.com/anchanto.com,2019-03-03 03:54:14
+c0816851-8bec-40e8-8873-64741230d69b,SIRCLO,customer,E-commerce SaaS,Indonesia,400,sirclo.com,https://logo.clearbit.com/sirclo.com,2023-09-15 03:54:14
+51223909-5f68-49f2-b026-ddbcd3bea5f8,Coda Payments,customer,Fintech,Singapore,300,codapayments.com,https://logo.clearbit.com/codapayments.com,2023-03-05 03:54:14
+8d735c40-2c3f-4c39-9136-847c4db13039,iPrice Group,customer,E-commerce,Malaysia,200,iprice.asia,https://logo.clearbit.com/iprice.asia,2021-12-05 03:54:14
+dcc8bf17-5bde-4055-9583-7e766c213c6f,Akulaku,customer,Fintech,Indonesia,2000,akulaku.com,https://logo.clearbit.com/akulaku.com,2020-07-17 03:54:14
+fb8a94d2-b81a-4f67-b574-1375a42c22bc,Omise,customer,Fintech,Thailand,250,omise.co,https://logo.clearbit.com/omise.co,2020-12-12 03:54:14
+aa792034-44b0-44aa-ae48-a75f0170fcc4,Doctor Anywhere,customer,Healthcare,Singapore,400,doctoranywhere.com,https://logo.clearbit.com/doctoranywhere.com,2020-02-22 03:54:14
+1339d80b-bb18-41b8-83a3-48addc5e037a,Advance Intelligence,customer,AI / Fintech,Singapore,600,advance.ai,https://logo.clearbit.com/advance.ai,2021-09-23 03:54:14
+18d79819-8196-404b-a8d5-64e6188b2f87,Kumu,customer,Media,Philippines,100,kumu.ph,https://logo.clearbit.com/kumu.ph,2019-09-12 03:54:14
+485ff1dc-d28e-4853-bdca-44ccf0c3b99d,GoTo Financial,customer,Fintech,Indonesia,1200,gotofinancial.com,https://logo.clearbit.com/gotofinancial.com,2021-08-05 03:54:14
+a03746a4-18cf-4fa8-8a94-63232151c6a2,Lazada,customer,E-commerce,Singapore,8000,lazada.com,https://logo.clearbit.com/lazada.com,2020-01-08 03:54:14
+4b0a7de5-da92-4024-92fc-888ed0b11c91,TechFlow Singapore,customer,SaaS,Singapore,150,techflowsg.com,https://logo.clearbit.com/techflowsg.com,2024-08-08 03:54:14
+d5105536-109a-42db-9be2-20202e4f408d,DataMint Vietnam,customer,Fintech,Vietnam,80,datamintvn.com,https://logo.clearbit.com/datamintvn.com,2021-02-24 03:54:14
+84f792e1-364e-4b38-a9a7-1a916d7f29e7,CartMax Indonesia,customer,E-commerce,Indonesia,500,cartmaxid.com,https://logo.clearbit.com/cartmaxid.com,2021-04-15 03:54:14
+15fe2fc9-f4a0-41bb-8617-f904d510b2d1,FinEdge Malaysia,customer,Fintech,Malaysia,200,finedgemy.com,https://logo.clearbit.com/finedgemy.com,2021-10-11 03:54:14
+1e6727ff-f8c1-4070-a33a-de9e6a25617e,LogiTrack Thailand,customer,Logistics,Thailand,350,logitrackth.com,https://logo.clearbit.com/logitrackth.com,2024-06-19 03:54:14
+ce6635a0-1565-42ae-a4bc-971b4ab98668,MediCore Philippines,customer,Healthcare,Philippines,600,medicorekph.com,https://logo.clearbit.com/medicorekph.com,2020-07-13 03:54:14
+f0ff3be9-f241-41bd-a71e-df98149e8136,EduSpark Australia,customer,Education,Australia,120,edusparkau.com,https://logo.clearbit.com/edusparkau.com,2025-08-19 03:54:14
+a1445e12-05df-48e4-8478-4944d19ccfba,RetailOne Japan,customer,Retail,Japan,800,retailonejp.com,https://logo.clearbit.com/retailonejp.com,2023-07-27 03:54:14
+30b0da3e-59d3-4d6a-a30b-1b082f0e8670,CloudByte India,customer,SaaS,India,250,cloudbytein.com,https://logo.clearbit.com/cloudbytein.com,2021-01-19 03:54:14
+857ed9e4-2c84-433b-949b-848a043a7ff7,SupplyLink Germany,customer,Manufacturing,Germany,450,supplylinkde.com,https://logo.clearbit.com/supplylinkde.com,2023-08-16 03:54:14
+63e84e07-ce4b-44ad-9fac-282f41ac7698,PulseMedia UK,customer,Media,UK,180,pulsemediauk.com,https://logo.clearbit.com/pulsemediauk.com,2023-05-28 03:54:14
+6318d835-4c33-411c-97d2-6925a726465b,StackHive USA,customer,SaaS,USA,90,stackhiveus.com,https://logo.clearbit.com/stackhiveus.com,2025-04-30 03:54:14
+26add75d-82a1-44f6-a1ed-0f8970a6a47c,NovaCare Canada,customer,Healthcare,Canada,300,novacareca.com,https://logo.clearbit.com/novacareca.com,2023-02-01 03:54:14
+81f73b77-a70f-450b-a0d3-2faec97e9fe2,UrbanProp Singapore,customer,Real Estate,Singapore,100,urbanpropsg.com,https://logo.clearbit.com/urbanpropsg.com,2021-09-30 03:54:14
+48c96482-5642-4fff-bbc7-15cd04569ac1,ShipFast Vietnam,customer,Logistics,Vietnam,220,shipfastvn.com,https://logo.clearbit.com/shipfastvn.com,2023-06-13 03:54:14
+8500aed9-0dbe-400f-8d5d-fda3e1bd6908,Paydeck Indonesia,customer,Fintech,Indonesia,130,paydeckid.com,https://logo.clearbit.com/paydeckid.com,2020-05-31 03:54:14
+c8a88a87-faa6-49b5-8144-a900190cb32f,GreenBuild Australia,customer,Manufacturing,Australia,280,greenbuildau.com,https://logo.clearbit.com/greenbuildau.com,2022-09-03 03:54:14
+2025c60d-ffe0-490a-ad28-a6757e1d03ad,TalentOS Malaysia,customer,SaaS,Malaysia,70,talentosmy.com,https://logo.clearbit.com/talentosmy.com,2022-04-23 03:54:14
+8d141193-4315-4aa5-a3e2-e38942bdf8cb,QuickCart Thailand,customer,E-commerce,Thailand,400,quickcartth.com,https://logo.clearbit.com/quickcartth.com,2024-01-18 03:54:14
+8efdcc9a-cd54-4c46-bce5-573e070a3098,BrightLearn Philippines,customer,Education,Philippines,90,brightlearnph.com,https://logo.clearbit.com/brightlearnph.com,2022-12-13 03:54:14
+380894da-d663-4bc0-a227-5734483414cb,AutoFlow Germany,customer,Manufacturing,Germany,700,autoflowde.com,https://logo.clearbit.com/autoflowde.com,2025-08-01 03:54:14
+d1dc61f2-1975-457e-95cd-4ba2f8b22b40,Nexara India,customer,SaaS,India,160,nexaraindia.com,https://logo.clearbit.com/nexaraindia.com,2025-04-13 03:54:14
+f5c6b12f-f6ad-4360-bd04-ca7b8c395220,HealthBridge USA,customer,Healthcare,USA,500,healthbridgeus.com,https://logo.clearbit.com/healthbridgeus.com,2021-02-20 03:54:14
+f1778303-5c98-496b-95ee-071ce86ab325,MerchHub UK,customer,Retail,UK,350,merchhubuk.com,https://logo.clearbit.com/merchhubuk.com,2022-12-12 03:54:14
+5156a30f-a20e-4747-baed-d096a0504694,CoreBank Canada,customer,Fintech,Canada,1200,corebankca.com,https://logo.clearbit.com/corebankca.com,2020-09-08 03:54:14
+eed775df-1b09-4678-995e-0399e2563c37,PropTree Japan,customer,Real Estate,Japan,140,proptreejp.com,https://logo.clearbit.com/proptreejp.com,2023-10-06 03:54:14
+dc3063e2-ffed-40ca-8a06-3c3467f0fad4,SkyFreight Singapore,customer,Logistics,Singapore,200,skyfreightsg.com,https://logo.clearbit.com/skyfreightsg.com,2021-05-29 03:54:14
+d553e29d-bf2f-4a0a-9912-30c00b884d4f,DataRoot Vietnam,customer,SaaS,Vietnam,50,dataroovn.com,https://logo.clearbit.com/dataroovn.com,2025-06-24 03:54:14
+18da72ca-af56-43f4-9a45-6ac9ed2b31a4,FlowRetail Indonesia,customer,Retail,Indonesia,600,flowretailid.com,https://logo.clearbit.com/flowretailid.com,2025-03-31 03:54:14
+0b066f76-85f5-4652-bc39-3de7393f40fa,BankCraft Germany,customer,Fintech,Germany,900,bankcraft.de,https://logo.clearbit.com/bankcraft.de,2024-11-14 03:54:14
+4f7654a7-8005-46a8-b1d1-74d4148e3a2c,ClimaTech Australia,customer,SaaS,Australia,85,climatechau.com,https://logo.clearbit.com/climatechau.com,2020-07-02 03:54:14
+4563f697-2953-4224-955f-7296dc131a8e,MediaVault France,customer,Media,France,230,mediavaultfr.com,https://logo.clearbit.com/mediavaultfr.com,2023-02-15 03:54:14
+0c9d8bc2-7a86-430e-af3d-87ce71e353cc,InfraBuild India,customer,Manufacturing,India,1500,infrabuildindia.com,https://logo.clearbit.com/infrabuildindia.com,2023-06-21 03:54:14
+b7fa75bd-8c13-4539-aa9e-584712117d82,ShopWave Thailand,customer,E-commerce,Thailand,280,shopwaveth.com,https://logo.clearbit.com/shopwaveth.com,2023-03-14 03:54:14
+24711eac-9ff4-4e0d-b886-80c5f497e535,PharmaLab Switzerland,customer,Healthcare,Switzerland,400,pharmalabch.com,https://logo.clearbit.com/pharmalabch.com,2022-11-19 03:54:14
+67165d49-28f6-4cd0-97ce-dad1c8507a5b,CodeCraft USA,customer,SaaS,USA,45,codecraftus.com,https://logo.clearbit.com/codecraftus.com,2023-03-01 03:54:14
+c2b1c375-6d54-46a5-9d96-24c9d9125a36,PayRoute Singapore,customer,Fintech,Singapore,190,payroutesg.com,https://logo.clearbit.com/payroutesg.com,2021-12-22 03:54:14
+cae6c27d-619b-4cff-b85b-46b43bcf3c90,FreshGrocer Malaysia,customer,Retail,Malaysia,750,freshgrocermy.com,https://logo.clearbit.com/freshgrocermy.com,2024-08-30 03:54:14
+ff9337c7-d877-495e-9cb4-7cc7884ba16c,EnergyLink Philippines,customer,Manufacturing,Philippines,550,energylinkph.com,https://logo.clearbit.com/energylinkph.com,2022-12-17 03:54:14
+ec4fa3e4-0b81-49b8-a0c0-3f1edbde1cf2,Branchify Vietnam,prospect,SaaS,Vietnam,35,branchifyvn.com,https://logo.clearbit.com/branchifyvn.com,2021-05-13 03:54:14
+d057c909-fd92-4c2e-8829-84b1aa8fea2a,TruckPath Indonesia,customer,Logistics,Indonesia,320,truckpathid.com,https://logo.clearbit.com/truckpathid.com,2021-11-27 03:54:14
+98ed807a-da82-41c1-b7c9-bba3532392a3,DentaCare India,customer,Healthcare,India,180,dentacareindia.com,https://logo.clearbit.com/dentacareindia.com,2021-06-23 03:54:14
+d14ace62-3109-4c83-a828-787e32a9c96b,TalentBridge Canada,customer,SaaS,Canada,110,talentbridgeca.com,https://logo.clearbit.com/talentbridgeca.com,2022-08-07 03:54:14
+4c356121-8236-4ffb-b7aa-88c5fa843cac,SparkAnalytics Singapore,customer,SaaS,Singapore,65,sparkanalyticssg.com,https://logo.clearbit.com/sparkanalyticssg.com,2025-01-22 03:54:14
+364eda06-4077-4a31-b329-52e9a5f95824,NexLogic Thailand,customer,Logistics,Thailand,270,nexlogicth.com,https://logo.clearbit.com/nexlogicth.com,2023-03-29 03:54:14
+ec116d19-f6f3-4dd6-b5dc-c51fecbca5b2,FinPulse Korea,customer,Fintech,South Korea,320,finpulsekr.com,https://logo.clearbit.com/finpulsekr.com,2021-03-15 03:54:14
+aec4fb45-a71c-463b-8cc5-624396acead3,CloudMesh Singapore,customer,SaaS,Singapore,120,cloudmeshsg.com,https://logo.clearbit.com/cloudmeshsg.com,2023-08-10 03:54:14
+2b2c2d48-ab36-47ae-b932-9c2d807ca974,RetailSense Indonesia,customer,Retail,Indonesia,450,retailsenseid.com,https://logo.clearbit.com/retailsenseid.com,2022-08-16 03:54:14
+62a3c89a-0477-4d96-908c-0c61d6d78631,ByteForce India,customer,SaaS,India,200,byteforceindia.com,https://logo.clearbit.com/byteforceindia.com,2024-09-19 03:54:14
+24b6a188-4b7a-4f0b-98f3-9bdbed4d9f27,MedTech Vietnam,customer,Healthcare,Vietnam,150,medtechvn.com,https://logo.clearbit.com/medtechvn.com,2024-04-27 03:54:14
+7f9f04fa-fd03-4405-b8d8-c2e6706f6317,AgriData Australia,customer,Agriculture,Australia,80,agridataau.com,https://logo.clearbit.com/agridataau.com,2024-03-01 03:54:14
+39307521-9adc-4311-9883-da8f412ec95c,ClearPay Philippines,customer,Fintech,Philippines,300,clearpayphi.com,https://logo.clearbit.com/clearpayphi.com,2021-07-14 03:54:14
+213e86d5-abf8-42f2-8130-6cfadcfd49fe,WareLink Malaysia,customer,Logistics,Malaysia,500,warelinkmy.com,https://logo.clearbit.com/warelinkmy.com,2024-12-20 03:54:14
+bad918ee-20a4-4b74-af6d-2d2aa7ddebd9,TaskFlow Singapore,customer,SaaS,Singapore,90,taskflowsg.com,https://logo.clearbit.com/taskflowsg.com,2024-11-12 03:54:14
+6ae24aea-0595-4069-a4d4-caefbd575c3a,Buildify Japan,customer,Manufacturing,Japan,600,buildifyjp.com,https://logo.clearbit.com/buildifyjp.com,2024-12-31 03:54:14
+7bbc3c37-d88e-4543-8b38-1b28c695b3b2,HealthNode Thailand,customer,Healthcare,Thailand,220,healthnodeth.com,https://logo.clearbit.com/healthnodeth.com,2021-09-26 03:54:14
+7d6d8554-63ef-4413-b26c-4521d6f7f8b0,DataHarbor UK,customer,SaaS,UK,130,dataharboruk.com,https://logo.clearbit.com/dataharboruk.com,2021-01-23 03:54:14
+9b6505c3-56ba-4bc9-978f-8c15be39f421,PriceEngine Vietnam,customer,E-commerce,Vietnam,180,priceenginevn.com,https://logo.clearbit.com/priceenginevn.com,2025-03-07 03:54:14
+437eff88-1d33-4d92-9b1a-61723f95020d,TechGrove Indonesia,customer,SaaS,Indonesia,75,techgroveid.com,https://logo.clearbit.com/techgroveid.com,2021-02-18 03:54:14
+f763bc8b-0183-4798-9156-6e7695ced43f,MicroSend Germany,prospect,Fintech,Germany,400,microsendde.com,https://logo.clearbit.com/microsendde.com,2021-07-30 03:54:14
+213aac67-39ac-4708-a540-4ecd8feb0ab2,OmniCare Singapore,customer,Healthcare,Singapore,350,omnicaresg.com,https://logo.clearbit.com/omnicaresg.com,2024-09-07 03:54:14
+3eae7597-86a7-4c7a-a978-fe27afba4ef6,LogiSense Philippines,customer,Logistics,Philippines,280,logisenseph.com,https://logo.clearbit.com/logisenseph.com,2021-01-08 03:54:14
+f73b6aa2-f7d0-4507-9eca-b6c696549074,SwiftStack India,customer,SaaS,India,170,swiftstackindia.com,https://logo.clearbit.com/swiftstackindia.com,2024-11-09 03:54:14
+1f5d5321-50a4-41b2-8d97-097405860ebe,FundLink Malaysia,customer,Fintech,Malaysia,90,fundlinkmy.com,https://logo.clearbit.com/fundlinkmy.com,2025-06-02 03:54:14
+32f96bb9-fd6b-4a50-b684-c3f29436ea51,CityRetail Thailand,customer,Retail,Thailand,420,cityretailth.com,https://logo.clearbit.com/cityretailth.com,2024-08-14 03:54:14
+cc625cef-7fc6-44fa-9a64-12ae7a5c2ffe,QuotaSync USA,customer,SaaS,USA,55,quotasyncus.com,https://logo.clearbit.com/quotasyncus.com,2022-04-02 03:54:14
+d6877249-bc93-44dc-8618-50c498cd8147,FieldOps Australia,customer,SaaS,Australia,95,fieldopsau.com,https://logo.clearbit.com/fieldopsau.com,2024-12-25 03:54:14
+c2a58232-efa4-486a-a30d-45bbbd101b21,DataLayer Japan,customer,SaaS,Japan,110,datalayerjp.com,https://logo.clearbit.com/datalayerjp.com,2023-03-30 03:54:14
+781e07e6-26ee-4470-b37a-6747aaa4215a,GreenRoute Vietnam,customer,Logistics,Vietnam,260,greenroutevn.com,https://logo.clearbit.com/greenroutevn.com,2023-12-10 03:54:14
+5786f3bb-3f05-44c4-9559-66c553787d31,PayNow Indonesia,customer,Fintech,Indonesia,150,paynowid.com,https://logo.clearbit.com/paynowid.com,2024-08-24 03:54:14
+6e9bd7de-5b76-46a6-932e-4b9c721da605,BiometrX Singapore,customer,Healthcare,Singapore,480,biometrxsg.com,https://logo.clearbit.com/biometrxsg.com,2023-05-27 03:54:14
+d13d14bb-76c2-4ad4-a6e7-09a58af181e3,MerchTrack UK,customer,Retail,UK,310,merchtrakuk.com,https://logo.clearbit.com/merchtrakuk.com,2022-03-06 03:54:14
+b8157713-4843-4aee-8f4f-e172ca847263,HorizonAI Canada,customer,SaaS,Canada,200,horizonaica.com,https://logo.clearbit.com/horizonaica.com,2024-03-15 03:54:14
+58d7d5b3-a22f-4342-93ae-b36914b26859,InsightHub Germany,customer,SaaS,Germany,140,insighthubde.com,https://logo.clearbit.com/insighthubde.com,2020-11-26 03:54:14
+0cb18a39-4cab-4929-b322-a4b2afc20fc5,CloudRoute India,customer,Logistics,India,700,cloudrouteindia.com,https://logo.clearbit.com/cloudrouteindia.com,2022-05-21 03:54:14
+409e7924-c2f8-4dba-ae50-537c4782bbed,Paylater Thailand,customer,Fintech,Thailand,195,paylaterth.com,https://logo.clearbit.com/paylaterth.com,2022-03-28 03:54:14
+7ba5b62e-39f9-477c-8eed-8e5e525605eb,BrandCore Philippines,customer,Retail,Philippines,380,brandcoreph.com,https://logo.clearbit.com/brandcoreph.com,2021-03-18 03:54:14
+948f8bba-cc03-4c38-bba4-52b60b7443fe,AnalyticLeaf Singapore,customer,SaaS,Singapore,45,analyticleafsg.com,https://logo.clearbit.com/analyticleafsg.com,2022-08-05 03:54:14
+6fb8a866-1b2a-46eb-a6c1-7ec49f227c4c,AutoMile Malaysia,customer,Automotive,Malaysia,520,automilemy.com,https://logo.clearbit.com/automilemy.com,2024-01-07 03:54:14
+31e36514-90e1-4829-acda-e55d18569e56,FastPharma Switzerland,customer,Healthcare,Switzerland,340,fastpharmach.com,https://logo.clearbit.com/fastpharmach.com,2024-11-17 03:54:14
+5bdf83c6-b123-4b46-9f8a-8af73050ffd9,NowShip Singapore,customer,Logistics,Singapore,260,nowshipsg.com,https://logo.clearbit.com/nowshipsg.com,2021-08-26 03:54:14
+e99c0c21-4d84-466f-b1e4-635bd4f00c4a,DataGems Indonesia,customer,SaaS,Indonesia,60,datagemsid.com,https://logo.clearbit.com/datagemsid.com,2023-04-11 03:54:14
+64025ca6-344c-4cd0-9264-59bd940e021a,WealthTrack Vietnam,customer,Fintech,Vietnam,130,wealthtrackvn.com,https://logo.clearbit.com/wealthtrackvn.com,2022-03-16 03:54:14
+d6e5053c-1378-4eaf-a453-94c05b742191,TechSeed Japan,customer,SaaS,Japan,80,techseedjp.com,https://logo.clearbit.com/techseedjp.com,2024-03-07 03:54:14
+717a85ed-b353-4015-b9cb-ca417f5c209c,FleetPro Australia,customer,Logistics,Australia,410,fleetproau.com,https://logo.clearbit.com/fleetproau.com,2024-09-25 03:54:14
+f8f6921c-2308-4ff9-acc0-7451302556d2,MediSafe Malaysia,customer,Healthcare,Malaysia,290,medisafemy.com,https://logo.clearbit.com/medisafemy.com,2023-03-22 03:54:14
+b4c816e3-4865-4c3d-9ccf-171cbe884e87,ShopSense Korea,customer,E-commerce,South Korea,550,shopensekr.com,https://logo.clearbit.com/shopensekr.com,2022-01-15 03:54:14
+f82d48e4-6b12-4d69-b482-815565a18f3d,PlanBase India,customer,SaaS,India,100,planbaseindia.com,https://logo.clearbit.com/planbaseindia.com,2021-06-26 03:54:14
+f98e7f3a-e32d-4256-a95e-4e61b6807ea6,EcoManufact Germany,customer,Manufacturing,Germany,800,ecomanufactde.com,https://logo.clearbit.com/ecomanufactde.com,2023-03-24 03:54:14
+6a0c1e40-e00b-4bab-8c25-dfd1d2865fad,FastFunnel USA,customer,SaaS,USA,35,fastfunnelus.com,https://logo.clearbit.com/fastfunnelus.com,2024-09-19 03:54:14
+8cf60731-b5c4-41e6-a2d3-ed4a773aaa70,MigraLogic Philippines,customer,Logistics,Philippines,320,migralogicph.com,https://logo.clearbit.com/migralogicph.com,2023-08-01 03:54:14
+87b0f030-1512-43b5-b99e-f071bf47a46d,UrbanPay Indonesia,customer,Fintech,Indonesia,220,urbanpayid.com,https://logo.clearbit.com/urbanpayid.com,2024-05-06 03:54:14
+e123d3dd-6aeb-4857-88c8-22f444d93776,ViewPoint Singapore,customer,SaaS,Singapore,70,viewpointsg.com,https://logo.clearbit.com/viewpointsg.com,2021-10-07 03:54:14
+0a5b952c-25dc-4d96-84ec-a95b5d91e74c,MapPath Vietnam,customer,Logistics,Vietnam,180,mappathvn.com,https://logo.clearbit.com/mappathvn.com,2020-03-29 03:54:14
+693671cd-b21e-4ff4-a186-bf23dc681ce6,FormLab Australia,customer,SaaS,Australia,55,formlabau.com,https://logo.clearbit.com/formlabau.com,2025-06-10 03:54:14
+937a6608-9f98-4203-9328-d3d5c20bae6c,FreightLine Thailand,customer,Logistics,Thailand,470,freightlineth.com,https://logo.clearbit.com/freightlineth.com,2025-01-26 03:54:14
+f0bcaee6-019d-45e1-8882-714bd586bc91,PivotStack UK,customer,SaaS,UK,88,pivotstackuk.com,https://logo.clearbit.com/pivotstackuk.com,2022-04-02 03:54:14
+8111d955-f15d-479d-ab7f-b52126dac994,MegaMart India,customer,Retail,India,1800,megamartindia.com,https://logo.clearbit.com/megamartindia.com,2025-03-10 03:54:14
+30c65582-dfc5-4367-95be-900101226f3e,BioCore Canada,customer,Healthcare,Canada,430,biocoreca.com,https://logo.clearbit.com/biocoreca.com,2022-10-10 03:54:14
+9bc66f80-1464-467c-af88-8f2c2fca614a,SnapLoan Malaysia,customer,Fintech,Malaysia,160,snaploanmy.com,https://logo.clearbit.com/snaploanmy.com,2022-01-13 03:54:14
+265a1d96-3416-46a3-a9b5-66cfccc78672,ClearPath Japan,customer,Logistics,Japan,380,clearpathpj.com,https://logo.clearbit.com/clearpathpj.com,2020-09-29 03:54:14
+80f0e091-f8ab-481a-8863-e53f34f1ef70,SalesMesh Singapore,customer,SaaS,Singapore,48,salesmeshsg.com,https://logo.clearbit.com/salesmeshsg.com,2022-10-12 03:54:14
+ba7513e7-6cf6-419e-9cc7-c9ebf0bde3d6,TradeNest Indonesia,customer,E-commerce,Indonesia,650,tradanestid.com,https://logo.clearbit.com/tradanestid.com,2021-01-19 03:54:14
+6e424ef4-0cfb-40eb-ba32-edc3880d9040,HiveData Vietnam,customer,SaaS,Vietnam,42,hivedatavn.com,https://logo.clearbit.com/hivedatavn.com,2022-05-05 03:54:14
+7f7d44d3-b9e0-4a39-a168-21e50284f3aa,ValueEdge Korea,customer,SaaS,South Korea,230,valueedgekr.com,https://logo.clearbit.com/valueedgekr.com,2023-05-14 03:54:14
+0848b991-2ca3-4033-94ae-2ae6c73d1fc6,SmartDock Germany,customer,Manufacturing,Germany,560,smartdockde.com,https://logo.clearbit.com/smartdockde.com,2020-11-10 03:54:14
+6efc2cb6-cecc-452d-80d2-55f8e911bc2e,PulseCheck Australia,customer,Healthcare,Australia,195,pulsecheckau.com,https://logo.clearbit.com/pulsecheckau.com,2025-06-28 03:54:14
+cf3c8d25-8f68-47c8-bb04-cef89c54baa1,ClearVision Philippines,customer,SaaS,Philippines,75,clearvisionph.com,https://logo.clearbit.com/clearvisionph.com,2021-10-20 03:54:14
+d18e70b4-5c1c-46b9-9f38-23127798e6c0,MicroPay Thailand,customer,Fintech,Thailand,140,micropayth.com,https://logo.clearbit.com/micropayth.com,2024-08-23 03:54:14
+73477dab-2150-46e4-8cc7-a8ef9fc3d789,HarborSafe Singapore,customer,Logistics,Singapore,300,harborsafesg.com,https://logo.clearbit.com/harborsafesg.com,2025-06-24 03:54:14
+34fc7c5b-b364-4461-b262-dc4717757e5a,GrowthLab India,customer,SaaS,India,65,growthlabindia.com,https://logo.clearbit.com/growthlabindia.com,2023-08-19 03:54:14
+9c9354f5-b29f-42b5-a357-581341f3a808,DataBridge Malaysia,customer,SaaS,Malaysia,90,databridgemy.com,https://logo.clearbit.com/databridgemy.com,2024-12-18 03:54:14
+8de6e9af-16af-4c93-8234-424d0642e2d1,BuildFast Vietnam,customer,Manufacturing,Vietnam,820,buildfastvn.com,https://logo.clearbit.com/buildfastvn.com,2022-06-28 03:54:14
+d2348e11-1711-425d-89ba-75c7a69b577d,RouteSync Indonesia,customer,Logistics,Indonesia,420,routesyncid.com,https://logo.clearbit.com/routesyncid.com,2024-10-28 03:54:14
+4075bbe2-33d6-4b6b-9ce8-af743cc24404,ChainBank Germany,customer,Fintech,Germany,670,chainbankde.com,https://logo.clearbit.com/chainbankde.com,2021-03-30 03:54:14
+ee539f68-1fa7-4fe9-a95f-fdbbf846e227,NetCure Australia,customer,Healthcare,Australia,145,netcureau.com,https://logo.clearbit.com/netcureau.com,2025-03-31 03:54:14
+ae4ab6e4-44d3-442c-bc63-6dedbd5142b2,PixelStack USA,customer,SaaS,USA,50,pixelstackus.com,https://logo.clearbit.com/pixelstackus.com,2023-01-17 03:54:14
+dfd9c286-f9d2-46ec-8a09-71443f0f88eb,EduLink Philippines,customer,Education,Philippines,200,edulinkph.com,https://logo.clearbit.com/edulinkph.com,2023-07-04 03:54:14
+0dcb8bef-acde-4478-becb-4ec882e84d9f,ByteStream Singapore,customer,SaaS,Singapore,55,bytestreamsg.com,https://logo.clearbit.com/bytestreamsg.com,2021-11-24 03:54:14
+8a14b9cb-8aea-4e21-8f21-72b87c69711b,TrackMed Thailand,customer,Healthcare,Thailand,310,trackmedth.com,https://logo.clearbit.com/trackmedth.com,2024-02-09 03:54:14
+8ca452c2-6a07-45af-a23e-71a69a79e7c9,SkyStore Japan,customer,E-commerce,Japan,920,skystorejp.com,https://logo.clearbit.com/skystorejp.com,2021-04-23 03:54:14
+71cc2c23-a72f-4e3e-ab6c-d8be9e4ffb72,BlueShift India,customer,SaaS,India,130,blueshiftindia.com,https://logo.clearbit.com/blueshiftindia.com,2024-06-30 03:54:14
+de0cb9c8-c58b-4a4e-8634-54f609889ba5,WorkFront Canada,customer,SaaS,Canada,175,workfrontca.com,https://logo.clearbit.com/workfrontca.com,2021-03-03 03:54:14
+24155890-4622-4a00-9a43-88de9e5d38bc,OmniPay Malaysia,customer,Fintech,Malaysia,240,omnipaymy.com,https://logo.clearbit.com/omnipaymy.com,2023-08-22 03:54:14
+3027c583-80f5-4aab-b7ca-cd0fb987154d,Traxify Vietnam,customer,Logistics,Vietnam,190,traxifyvn.com,https://logo.clearbit.com/traxifyvn.com,2021-09-08 03:54:14
+acd7bbb6-41f3-459d-82d9-688896896cc0,OptiMart Indonesia,customer,Retail,Indonesia,730,optimartid.com,https://logo.clearbit.com/optimartid.com,2024-02-09 03:54:14
+cd21054e-2a69-467e-aef6-1f98c0223337,HealthSync Korea,customer,Healthcare,South Korea,280,healthsynckr.com,https://logo.clearbit.com/healthsynckr.com,2022-06-16 03:54:14
+5f945cfb-cf00-45eb-b02f-c2e0e038cfeb,SwiftBuild Germany,customer,Manufacturing,Germany,1100,swiftbuildde.com,https://logo.clearbit.com/swiftbuildde.com,2023-12-14 03:54:14
+f2091d18-a744-4874-8d20-1bb9c398a2d2,IncuLearn Australia,customer,Education,Australia,100,incularnau.com,https://logo.clearbit.com/incularnau.com,2021-02-24 03:54:14
+ddc08648-0c96-4e8f-af5b-40b7754d4b32,CartSense Philippines,customer,E-commerce,Philippines,380,cartsenseph.com,https://logo.clearbit.com/cartsenseph.com,2024-04-01 03:54:14
+2d3bf235-3f13-401d-b501-46861ba33e40,CreditFlow Singapore,customer,Fintech,Singapore,210,creditflowsg.com,https://logo.clearbit.com/creditflowsg.com,2023-02-28 03:54:14
+5d4c9622-8f80-4843-ba6e-ff1c101f6781,GridTech Vietnam,customer,Manufacturing,Vietnam,640,gridtechvn.com,https://logo.clearbit.com/gridtechvn.com,2021-12-19 03:54:14
+7252a78e-7d00-4859-b4d7-68c744ffe285,NovaDash India,customer,SaaS,India,78,novadashindia.com,https://logo.clearbit.com/novadashindia.com,2022-04-18 03:54:14
+01a39f20-0dd8-43f4-887a-42ad2317b4cb,FastLearn UK,customer,Education,UK,160,fastlearnuk.com,https://logo.clearbit.com/fastlearnuk.com,2023-12-14 03:54:14
+a37add8f-9537-4978-9065-180d6590814a,MileStone Thailand,customer,Logistics,Thailand,540,milestoneth.com,https://logo.clearbit.com/milestoneth.com,2025-07-15 03:54:14
+0ccb2114-216a-4c04-9b8a-3d5f09f5fff2,ClosedLoop Malaysia,customer,SaaS,Malaysia,85,closedloopmy.com,https://logo.clearbit.com/closedloopmy.com,2021-04-30 03:54:14
+6d86f13b-8783-4f6f-84b8-c5713dee7eea,CartWave Indonesia,customer,E-commerce,Indonesia,820,cartwaveid.com,https://logo.clearbit.com/cartwaveid.com,2020-11-01 03:54:14
+b3d0ceae-5bdf-4411-ac1a-61caad4d855e,PureCloud Japan,customer,SaaS,Japan,155,purecloudjp.com,https://logo.clearbit.com/purecloudjp.com,2023-11-21 03:54:14
+92ae82e9-027e-49c2-b7e7-c3377f0e4b20,AssuredPay Germany,customer,Fintech,Germany,480,assuredpayde.com,https://logo.clearbit.com/assuredpayde.com,2020-09-27 03:54:14
+abc84802-5075-4fa5-aad7-3aaef15888cf,NanoHealth Philippines,customer,Healthcare,Philippines,210,nanohealthph.com,https://logo.clearbit.com/nanohealthph.com,2023-07-05 03:54:14
+552b385d-16c3-45dc-8018-d330e0d3ca04,Sentry Logistics Korea,customer,Logistics,South Korea,740,sentrylgkr.com,https://logo.clearbit.com/sentrylgkr.com,2021-07-29 03:54:14
+683f6a54-a59f-4d1b-8965-fd861ee06516,EduBase Singapore,customer,Education,Singapore,130,edubasesg.com,https://logo.clearbit.com/edubasesg.com,2020-06-07 03:54:14
+0ba37f0e-97e6-4a17-97a5-f89b6e1cd6f5,MediStream Vietnam,customer,Healthcare,Vietnam,175,medistreamvn.com,https://logo.clearbit.com/medistreamvn.com,2023-10-11 03:54:14
+503913a4-1e5a-4c3d-89ff-e8d4e155b752,TrueRetail Malaysia,customer,Retail,Malaysia,870,trueretailmy.com,https://logo.clearbit.com/trueretailmy.com,2021-12-21 03:54:14
+e12a0a39-a78b-4ad2-b28c-c127133a67d3,SalesFuel India,customer,SaaS,India,92,salesfuelindia.com,https://logo.clearbit.com/salesfuelindia.com,2021-01-28 03:54:14
+680bbab3-c68e-460b-9a2f-21850049d930,SkyPay Australia,customer,Fintech,Australia,165,skypayau.com,https://logo.clearbit.com/skypayau.com,2023-01-08 03:54:14
+0d3c78ae-b569-4656-b25a-692334887da0,CoreMark USA,customer,SaaS,USA,60,coremarkus.com,https://logo.clearbit.com/coremarkus.com,2022-07-26 03:54:14
+ce4e7abc-bc5f-4971-b9f0-b313fbf81ed3,TrueFreight Indonesia,customer,Logistics,Indonesia,490,truefreightid.com,https://logo.clearbit.com/truefreightid.com,2022-02-20 03:54:14
+a01d35bf-6353-4a81-aa9a-a209e52de563,ClearMed Thailand,customer,Healthcare,Thailand,230,clearmedth.com,https://logo.clearbit.com/clearmedth.com,2023-12-06 03:54:14
+15cbadad-f212-4d59-9c63-6884dd479755,FlowMetrics Singapore,customer,SaaS,Singapore,43,flowmetricssg.com,https://logo.clearbit.com/flowmetricssg.com,2025-06-26 03:54:14
+3319183f-e316-45f5-91d5-60fa4b4dedcc,PrimeStack Vietnam,customer,SaaS,Vietnam,58,primestackvn.com,https://logo.clearbit.com/primestackvn.com,2025-02-26 03:54:14
+16788641-2982-4d86-883d-9a8e5139fb4f,GigPay Philippines,customer,Fintech,Philippines,190,gigpayph.com,https://logo.clearbit.com/gigpayph.com,2024-04-06 03:54:14
+6ae3f357-a4b0-4534-b09e-a62be97beba7,BuySmart Korea,customer,E-commerce,South Korea,640,buysmatkr.com,https://logo.clearbit.com/buysmatkr.com,2022-03-28 03:54:14
+b12b3a0b-a0a9-4de6-9ca6-82189f91d759,EasyDeploy Germany,customer,SaaS,Germany,115,easydeployde.com,https://logo.clearbit.com/easydeployde.com,2023-04-08 03:54:14
+aa4e95e9-7e7e-4ae8-a0eb-f95dc1146a81,VitalCare Canada,customer,Healthcare,Canada,360,vitalcareca.com,https://logo.clearbit.com/vitalcareca.com,2020-12-27 03:54:14
+f9545d9e-239a-4263-b12c-af17122fd588,MultiRetail Japan,customer,Retail,Japan,1100,multiretailjp.com,https://logo.clearbit.com/multiretailjp.com,2021-07-26 03:54:14
+267d178a-c07b-4261-b089-633ccd3ead08,CostPilot India,customer,Fintech,India,110,costpilotindia.com,https://logo.clearbit.com/costpilotindia.com,2021-05-05 03:54:14
+683ef562-1bbf-422c-9170-5ffc6e653070,ScaleBase Australia,customer,SaaS,Australia,72,scalebaseau.com,https://logo.clearbit.com/scalebaseau.com,2021-03-17 03:54:14
+de107a28-2171-4393-ad19-f15c3a71ca72,SyncLogic Malaysia,customer,Logistics,Malaysia,400,synclogicmy.com,https://logo.clearbit.com/synclogicmy.com,2023-09-02 03:54:14
+c447c052-b552-4430-a603-7ece6d38d773,PulseCore Indonesia,prospect,SaaS,Indonesia,67,pulsecoreid.com,https://logo.clearbit.com/pulsecoreid.com,2024-12-25 03:54:14
+c0de8844-82ec-488b-bc0d-919aa51b8128,FlexPay Thailand,customer,Fintech,Thailand,175,flexpayth.com,https://logo.clearbit.com/flexpayth.com,2021-08-30 03:54:14
+b2c39037-6873-4655-a460-9c31f111d2a0,DataMesh UK,customer,SaaS,UK,100,datameshuk.com,https://logo.clearbit.com/datameshuk.com,2021-06-15 03:54:14
+c3000093-f9b7-438e-9aa6-d22bb1ae14d7,TechVault Singapore,customer,SaaS,Singapore,82,techvaultsg.com,https://logo.clearbit.com/techvaultsg.com,2025-07-09 03:54:14
+a0354972-7ad2-4c55-b8c1-f58fa43a5891,OptiHealth Vietnam,customer,Healthcare,Vietnam,205,optihealthvn.com,https://logo.clearbit.com/optihealthvn.com,2020-10-09 03:54:14
+7704a42e-ca98-4041-8075-7b6560a0a5fa,EcoFreight Germany,customer,Logistics,Germany,620,ecofreightde.com,https://logo.clearbit.com/ecofreightde.com,2024-11-02 03:54:14
+a2110e9a-5cf2-45aa-b27e-951779b8fcec,MarketPulse Philippines,customer,SaaS,Philippines,53,marketpulseph.com,https://logo.clearbit.com/marketpulseph.com,2020-12-18 03:54:14
+6a71c8a3-8f79-4046-9401-8d23bf5bc0e4,TrueStack India,customer,SaaS,India,88,truestackindia.com,https://logo.clearbit.com/truestackindia.com,2025-05-25 03:54:14
+4e5da1e9-fb7d-454a-af62-6095772d840a,BuyNow Malaysia,customer,E-commerce,Malaysia,700,buynowmy.com,https://logo.clearbit.com/buynowmy.com,2023-11-25 03:54:14
+c72999d7-7248-4b22-bea8-25688f72fff1,SafeTrack Korea,customer,Logistics,South Korea,510,safetrackkr.com,https://logo.clearbit.com/safetrackkr.com,2022-12-02 03:54:14
+e49db615-24db-42a1-9175-e8ebd3084f9d,DataFront Japan,customer,SaaS,Japan,95,datafrontjp.com,https://logo.clearbit.com/datafrontjp.com,2023-10-19 03:54:14
+81a4b120-22ed-46bc-aaa5-4b35d99f8403,NextPay Indonesia,customer,Fintech,Indonesia,310,nextpayid.com,https://logo.clearbit.com/nextpayid.com,2021-12-12 03:54:14
+297bb0a3-49ce-4ba6-b1c0-a6d2d10129ed,GrowthSeed Australia,customer,SaaS,Australia,48,growthseedau.com,https://logo.clearbit.com/growthseedau.com,2021-06-25 03:54:14
+97732e95-461d-40cc-af2f-5760ef14c1fe,PharmaCore Canada,customer,Healthcare,Canada,510,pharmacoreca.com,https://logo.clearbit.com/pharmacoreca.com,2023-10-30 03:54:14
+a54accb0-16e5-4a06-b18e-ea6cbe3692d1,OptiFreight Thailand,customer,Logistics,Thailand,380,optifreightth.com,https://logo.clearbit.com/optifreightth.com,2022-07-28 03:54:14
+b1fd9784-2306-4728-a230-881092aba8a1,FinView Singapore,customer,Fintech,Singapore,145,finviewsg.com,https://logo.clearbit.com/finviewsg.com,2023-09-18 03:54:14
+4367bf68-f4b6-4747-8e9e-52c93cff4535,TrueEdge Vietnam,customer,SaaS,Vietnam,37,trueedgevn.com,https://logo.clearbit.com/trueedgevn.com,2020-07-26 03:54:14
+3fb2be08-4024-4d9a-b103-9111d01de65e,MegaShift Germany,customer,Manufacturing,Germany,1400,megashiftde.com,https://logo.clearbit.com/megashiftde.com,2024-02-12 03:54:14
+419020f8-fadd-4606-a7ea-d5b1d9af037e,ClearRetail Philippines,customer,Retail,Philippines,600,clearretailph.com,https://logo.clearbit.com/clearretailph.com,2024-09-27 03:54:14
+bafcd4fa-eb2a-4f1f-ac99-08d0a1d382a4,PeakLogic India,customer,Logistics,India,850,peaklogicindia.com,https://logo.clearbit.com/peaklogicindia.com,2021-11-10 03:54:14
+79e33392-d943-4062-9b72-71c5f95a73c0,DataForge Malaysia,customer,SaaS,Malaysia,62,dataforgemy.com,https://logo.clearbit.com/dataforgemy.com,2023-11-05 03:54:14
+86f6eece-759e-4169-8223-feed66f546fc,BluePath Korea,customer,Logistics,South Korea,460,bluepathkr.com,https://logo.clearbit.com/bluepathkr.com,2023-12-20 03:54:14
+20c9af26-8eb7-46de-afb0-05f394361fb0,SwiftHealth Australia,customer,Healthcare,Australia,270,swifthealthau.com,https://logo.clearbit.com/swifthealthau.com,2020-11-16 03:54:14
+824df619-a27e-455c-a6e2-c7608a45b238,CodeTree Japan,customer,SaaS,Japan,73,codetreejp.com,https://logo.clearbit.com/codetreejp.com,2024-02-12 03:54:14
+1bf435a2-5bd6-4780-9a20-15fa3388e48b,RapidPay Indonesia,customer,Fintech,Indonesia,280,rapidpayid.com,https://logo.clearbit.com/rapidpayid.com,2025-06-20 03:54:14
+677e9b5f-d459-4cfe-ae6f-f5cc22c6be7e,EduPilot Thailand,customer,Education,Thailand,115,edupilotth.com,https://logo.clearbit.com/edupilotth.com,2025-09-05 03:54:14
+6bb023da-afdd-4de9-b5b7-2169df6391b7,InsightCore Singapore,customer,SaaS,Singapore,57,insightcoresg.com,https://logo.clearbit.com/insightcoresg.com,2025-03-10 03:54:14
+5b3d87c3-8acf-489f-a173-e68a3f45f8dc,TechReach Vietnam,customer,SaaS,Vietnam,80,techreachvn.com,https://logo.clearbit.com/techreachvn.com,2022-04-27 03:54:14
+aa2100bc-be45-4848-a263-8b95b8793320,PrimePay Germany,customer,Fintech,Germany,330,primepayde.com,https://logo.clearbit.com/primepayde.com,2022-12-09 03:54:14
+0ba66fa0-2b93-4c30-b3e0-d87449319fda,ClearTech Philippines,customer,SaaS,Philippines,68,cleartechph.com,https://logo.clearbit.com/cleartechph.com,2024-06-01 03:54:14
+387f015f-42e8-44e1-ba23-59d341fae69b,DataPilot India,customer,SaaS,India,105,datapilotindia.com,https://logo.clearbit.com/datapilotindia.com,2021-08-15 03:54:14
+35809dab-0c64-4e74-a688-85f38815c749,MileFreight Malaysia,customer,Logistics,Malaysia,490,milefreightmy.com,https://logo.clearbit.com/milefreightmy.com,2021-01-19 03:54:14
+680fff2d-6cd1-45ad-b309-5658469e9fb9,SwiftLearn Korea,customer,Education,South Korea,185,swiftlearnkr.com,https://logo.clearbit.com/swiftlearnkr.com,2024-03-02 03:54:14
+def2ebc9-b619-4410-a9b1-becc2fa0e3b8,BrightPath Japan,customer,SaaS,Japan,62,brightpathjp.com,https://logo.clearbit.com/brightpathjp.com,2024-07-22 03:54:14
+2557cd21-90c8-4a36-a35e-04cb6f492da0,TechField Indonesia,customer,SaaS,Indonesia,94,techfieldid.com,https://logo.clearbit.com/techfieldid.com,2024-05-16 03:54:14
+e1e21387-273c-4ecb-bfc1-b235ab543749,ClearPath Australia,customer,Logistics,Australia,430,clearpathau.com,https://logo.clearbit.com/clearpathau.com,2023-10-17 03:54:14
+b9d3fb83-9e95-4330-8026-96799ae135a1,SafeBank Thailand,customer,Fintech,Thailand,260,safebankth.com,https://logo.clearbit.com/safebankth.com,2021-08-20 03:54:14
+fb141379-e0ba-4cb8-9199-58df27836f8a,MetricBlast UK,customer,SaaS,UK,47,metricblastuk.com,https://logo.clearbit.com/metricblastuk.com,2024-11-29 03:54:14
+0fff2199-ca55-4937-98ba-dba845f898ed,RiftData Canada,customer,SaaS,Philippines,1996,riftdatacanada.com,https://logo.clearbit.com/riftdatacanada.com,2025-07-06 03:54:14
+d903ca24-d0f5-4cf1-ae5a-62aa82655105,IonLabs Malaysia,customer,Education,UK,587,ionlabsmalaysia.com,https://logo.clearbit.com/ionlabsmalaysia.com,2023-02-26 03:54:14
+c288858e-4f5b-480f-a7bf-24b5b861ddf7,EchoBase Malaysia,customer,E-commerce,Indonesia,166,echobasemalaysia.com,https://logo.clearbit.com/echobasemalaysia.com,2023-02-01 03:54:14
+b3ce5480-7a18-4e51-bd0d-413c6aa4ad5d,RiftMed Malaysia,customer,Fintech,Canada,173,riftmedmalaysia.com,https://logo.clearbit.com/riftmedmalaysia.com,2021-11-09 03:54:14
+44377c7a-1214-448b-808a-5c8271047b53,KiteMed Japan,customer,SaaS,Malaysia,1555,kitemedjapan.com,https://logo.clearbit.com/kitemedjapan.com,2024-07-17 03:54:14
+1d44aea6-25e2-4fa7-b010-81059f538ede,WaveShip Singapore,customer,Retail,Malaysia,981,waveshipsingapore.com,https://logo.clearbit.com/waveshipsingapore.com,2020-08-07 03:54:14
+cd401fd3-61db-4d7e-92a6-ebb51bfe5b7d,WaveBuild Canada,customer,Fintech,Thailand,781,wavebuildcanada.com,https://logo.clearbit.com/wavebuildcanada.com,2020-04-05 03:54:14
+04e5e43a-a1e4-47c4-88f5-929403a46e70,BloxLabs Thailand,customer,SaaS,France,825,bloxlabsthailand.com,https://logo.clearbit.com/bloxlabsthailand.com,2023-04-07 03:54:14
+2986acd8-797b-4bf6-8aca-94f1b2140342,BoltMed Singapore,customer,SaaS,Philippines,400,boltmedsingapore.com,https://logo.clearbit.com/boltmedsingapore.com,2021-12-15 03:54:14
+6e3fd6fa-bef5-45b4-807a-94d448bebf1b,ZetaMart Thailand,customer,Manufacturing,Australia,215,zetamartthailand.com,https://logo.clearbit.com/zetamartthailand.com,2024-11-26 03:54:14
+5caddd3d-13b0-49d3-88ec-7a513d44aebf,BloxFlow Japan,customer,E-commerce,Netherlands,58,bloxflowjapan.com,https://logo.clearbit.com/bloxflowjapan.com,2020-07-03 03:54:14
+c64d1cb6-04eb-4cf3-ae91-fade0f31e50b,DeltaBuild Vietnam,customer,E-commerce,South Korea,439,deltabuildvietnam.com,https://logo.clearbit.com/deltabuildvietnam.com,2024-02-16 03:54:14
+e8b4ce61-0bd2-4a9f-9983-fbf89444968f,FluxBase Vietnam,customer,SaaS,Vietnam,572,fluxbasevietnam.com,https://logo.clearbit.com/fluxbasevietnam.com,2020-05-07 03:54:14
+48bdcb25-6504-4064-a57f-b237a864d8f9,RiftTrack Philippines,customer,Logistics,Australia,1110,rifttrackphilippines.com,https://logo.clearbit.com/rifttrackphilippines.com,2023-06-17 03:54:14
+1eb562c4-8632-42f1-9e64-8434972b3433,EchoFin Malaysia,customer,Education,France,1168,echofinmalaysia.com,https://logo.clearbit.com/echofinmalaysia.com,2021-07-05 03:54:14
+321b3ffe-8a23-4a58-ad3a-f077d981c350,WaveBuild Philippines,customer,Fintech,India,305,wavebuildphilippines.com,https://logo.clearbit.com/wavebuildphilippines.com,2023-03-10 03:54:14
+a5ee48fb-bf56-4452-8c91-1c7b7e1dfac8,SageTech USA,customer,SaaS,Indonesia,419,sagetechusa.com,https://logo.clearbit.com/sagetechusa.com,2023-06-26 03:54:14
+e93a8c12-9c8b-45fe-a20f-f96fcc31bf0e,JadeStack Indonesia,customer,Retail,Thailand,1490,jadestackindonesia.com,https://logo.clearbit.com/jadestackindonesia.com,2021-08-27 03:54:14
+23ebd4b9-4153-4a8a-92d1-8f72b5ddf2a0,ZetaCloud Philippines,customer,E-commerce,Brazil,113,zetacloudphilippines.com,https://logo.clearbit.com/zetacloudphilippines.com,2023-11-18 03:54:14
+9f81dab6-1a18-4d20-afd3-67744fe0f2e1,DeltaTrack UK,customer,Retail,Indonesia,1825,deltatrackuk.com,https://logo.clearbit.com/deltatrackuk.com,2025-06-20 03:54:14
+3c65743c-9a80-471a-beb6-03c83db17870,WavePulse South,customer,Healthcare,Canada,116,wavepulsesouth.com,https://logo.clearbit.com/wavepulsesouth.com,2024-01-19 03:54:14
+b8f0b06e-0a97-4081-a9ee-d4eb26d00bc8,QuilLink Philippines,prospect,SaaS,Vietnam,159,quillinkphilippines.com,https://logo.clearbit.com/quillinkphilippines.com,2023-03-22 03:54:14
+0f99dddb-aa2f-4bd8-bb83-07265706ae51,ApexBuild Brazil,customer,Healthcare,Germany,618,apexbuildbrazil.com,https://logo.clearbit.com/apexbuildbrazil.com,2023-05-23 03:54:14
+9847c7b1-0545-4fde-b652-b1d8c6fc0e6b,SageTrack Vietnam,customer,SaaS,Switzerland,1879,sagetrackvietnam.com,https://logo.clearbit.com/sagetrackvietnam.com,2021-09-12 03:54:14
+a9286ef1-59ec-4e26-9ac0-f808098170f9,TideShip Vietnam,customer,Manufacturing,Thailand,1613,tideshipvietnam.com,https://logo.clearbit.com/tideshipvietnam.com,2024-08-07 03:54:14
+7da09c5c-c6e1-40d8-9503-43a34eb554aa,PeakTech South,customer,SaaS,Vietnam,1750,peaktechsouth.com,https://logo.clearbit.com/peaktechsouth.com,2021-01-06 03:54:14
+58464fbb-4cae-40c0-ae2a-2039ec5f4e89,SageSync Thailand,customer,Fintech,Switzerland,1947,sagesyncthailand.com,https://logo.clearbit.com/sagesyncthailand.com,2020-05-17 03:54:14
+8d582ebe-d2a6-4cb1-b922-02fe5ad14b0f,HaloNet USA,customer,SaaS,Germany,577,halonetusa.com,https://logo.clearbit.com/halonetusa.com,2025-03-01 03:54:14
+6ed1a60a-e5ef-4b43-afd3-4f47c9b21771,NovaWare Malaysia,customer,E-commerce,Indonesia,431,novawaremalaysia.com,https://logo.clearbit.com/novawaremalaysia.com,2021-11-19 03:54:14
+d003f340-da52-4a3c-8c9d-1e81d51f5336,VoltCare UK,customer,Logistics,India,1334,voltcareuk.com,https://logo.clearbit.com/voltcareuk.com,2020-05-13 03:54:14
+27f04b21-fde2-4745-a00d-2013f07fa3ed,BloxMart Malaysia,customer,Fintech,Malaysia,196,bloxmartmalaysia.com,https://logo.clearbit.com/bloxmartmalaysia.com,2024-10-25 03:54:14
+d406fd55-bba1-4349-84a2-dbc4b6ad3389,QuilCore Brazil,customer,Fintech,Switzerland,807,quilcorebrazil.com,https://logo.clearbit.com/quilcorebrazil.com,2024-03-19 03:54:14
+896733ec-3c18-43d8-a44a-42126ad9373c,XenoMed Indonesia,customer,Healthcare,Vietnam,1712,xenomedindonesia.com,https://logo.clearbit.com/xenomedindonesia.com,2024-05-23 03:54:14
+2a5bb2e0-68e5-4845-8946-4933df0c0590,ApexView Australia,customer,Fintech,South Korea,1651,apexviewaustralia.com,https://logo.clearbit.com/apexviewaustralia.com,2025-01-22 03:54:14
+3ecf99f0-9930-4793-a562-a71e795538a5,VoltLink Malaysia,customer,Logistics,Malaysia,498,voltlinkmalaysia.com,https://logo.clearbit.com/voltlinkmalaysia.com,2025-01-18 03:54:14
+a5d88d26-2e76-45f7-b910-7fd4ebf378ad,OpalCare Singapore,customer,E-commerce,South Korea,381,opalcaresingapore.com,https://logo.clearbit.com/opalcaresingapore.com,2021-02-06 03:54:14
+f13a7e19-0916-45c2-b8d6-8d60c9ff74c4,BoltPath UK,customer,Manufacturing,Philippines,1110,boltpathuk.com,https://logo.clearbit.com/boltpathuk.com,2024-12-05 03:54:14
+3233b240-4510-4f50-97ed-384f1c29c9b8,VoltHub Brazil,customer,SaaS,UK,1508,volthubbrazil.com,https://logo.clearbit.com/volthubbrazil.com,2025-08-17 03:54:14
+f905e1df-0191-4c4e-9e3c-8101b52635cf,TideSys Australia,customer,Fintech,Indonesia,1751,tidesysaustralia.com,https://logo.clearbit.com/tidesysaustralia.com,2025-07-07 03:54:14
+bbd7c38e-8b84-4b51-9632-64d7ef214be9,SageAI Singapore,customer,E-commerce,Philippines,80,sageaisingapore.com,https://logo.clearbit.com/sageaisingapore.com,2024-11-12 03:54:14
+27f52139-5076-4d90-a11a-1a9f22a45af9,TidePro Vietnam,customer,E-commerce,Vietnam,532,tideprovietnam.com,https://logo.clearbit.com/tideprovietnam.com,2021-05-06 03:54:14
+b3ec8028-5a27-4d1d-b415-9fb4f21d487e,TidePro India,customer,Manufacturing,Philippines,1341,tideproindia.com,https://logo.clearbit.com/tideproindia.com,2021-08-10 03:54:14
+ede4dbe6-1ef0-49d2-baa9-3cee4d11369e,JadeCare Indonesia,prospect,Retail,Vietnam,382,jadecareindonesia.com,https://logo.clearbit.com/jadecareindonesia.com,2024-12-09 03:54:14
+375ed5a9-65b9-4290-a43a-b93a92bed538,EchoPath Thailand,customer,Logistics,Switzerland,706,echopaththailand.com,https://logo.clearbit.com/echopaththailand.com,2024-08-09 03:54:14
+d63dec25-2a73-409b-8a6b-31207b6d21b0,JadeData Malaysia,customer,E-commerce,Vietnam,959,jadedatamalaysia.com,https://logo.clearbit.com/jadedatamalaysia.com,2021-09-05 03:54:14
+f09fcaf6-2822-4683-89af-475bda53a272,IonBase South,customer,SaaS,Philippines,1253,ionbasesouth.com,https://logo.clearbit.com/ionbasesouth.com,2021-07-18 03:54:14
+f5b133bb-d8a8-4da4-a9ed-0eaead898205,WaveLabs Canada,customer,E-commerce,Indonesia,693,wavelabscanada.com,https://logo.clearbit.com/wavelabscanada.com,2021-05-13 03:54:14
+8b287972-d034-4d56-9fcd-274a6399cbef,GridDev Malaysia,customer,SaaS,USA,1263,griddevmalaysia.com,https://logo.clearbit.com/griddevmalaysia.com,2023-07-27 03:54:14
+7b04fd9c-c54b-41a9-9d7b-692af7797feb,TideFin Philippines,customer,Education,Thailand,1097,tidefinphilippines.com,https://logo.clearbit.com/tidefinphilippines.com,2022-08-21 03:54:14
+79470081-1bae-4702-ae7b-da40522f0df1,QuilPulse Indonesia,customer,Healthcare,Malaysia,968,quilpulseindonesia.com,https://logo.clearbit.com/quilpulseindonesia.com,2024-09-13 03:54:14
+46beff20-c779-4556-b6ad-428b14519108,IonOps Vietnam,customer,Fintech,Vietnam,1570,ionopsvietnam.com,https://logo.clearbit.com/ionopsvietnam.com,2021-03-08 03:54:14
+fe1578aa-7d4b-454f-ab3d-88e3dfae149e,ZetaLabs Thailand,customer,Fintech,Canada,1529,zetalabsthailand.com,https://logo.clearbit.com/zetalabsthailand.com,2022-07-02 03:54:14
+972e1791-3fd1-4e4d-8248-f3dd35661b76,NovaOps Japan,customer,Healthcare,Malaysia,1470,novaopsjapan.com,https://logo.clearbit.com/novaopsjapan.com,2023-12-15 03:54:14
+90ab6057-4ec6-45a5-bb23-f70798e37917,WaveStack Vietnam,customer,SaaS,Brazil,1780,wavestackvietnam.com,https://logo.clearbit.com/wavestackvietnam.com,2021-12-22 03:54:14
+0f191939-1538-4fd5-9ce1-97e7eb1ff809,XenoShip Philippines,customer,Fintech,Vietnam,962,xenoshipphilippines.com,https://logo.clearbit.com/xenoshipphilippines.com,2021-09-21 03:54:14
+b050fbef-13e6-476d-8e7c-e6ce2e1e0fa6,MintData Malaysia,customer,Fintech,India,946,mintdatamalaysia.com,https://logo.clearbit.com/mintdatamalaysia.com,2025-04-23 03:54:14
+5a437b8c-54e3-407c-bfb2-fa9fdd2bef64,EchoSync USA,customer,Healthcare,Singapore,1362,echosyncusa.com,https://logo.clearbit.com/echosyncusa.com,2025-05-08 03:54:14
+6ce50d34-df98-45f9-b633-9053a9689aa8,IonFlow Indonesia,customer,Healthcare,France,1698,ionflowindonesia.com,https://logo.clearbit.com/ionflowindonesia.com,2023-07-02 03:54:14
+e4e9d33e-d35a-422f-a6ea-6c2aaff46d46,JadeView Indonesia,customer,Education,Indonesia,1636,jadeviewindonesia.com,https://logo.clearbit.com/jadeviewindonesia.com,2023-10-16 03:54:14
+b7f73727-d89a-4e1e-941a-e00986b55ad1,BloxStack Philippines,customer,E-commerce,Indonesia,382,bloxstackphilippines.com,https://logo.clearbit.com/bloxstackphilippines.com,2023-08-14 03:54:14
+f65e1391-f106-4d3f-9d7b-2a46d58130c6,GridHub Philippines,customer,Fintech,Indonesia,1643,gridhubphilippines.com,https://logo.clearbit.com/gridhubphilippines.com,2022-08-07 03:54:14
+36b940f7-f11b-4436-8d5c-55901c589036,BoltView Philippines,customer,E-commerce,UK,1328,boltviewphilippines.com,https://logo.clearbit.com/boltviewphilippines.com,2020-08-13 03:54:14
+ecdd29fe-b0b2-4843-990d-07c802ba8b0b,DeltaSys Indonesia,customer,E-commerce,Indonesia,458,deltasysindonesia.com,https://logo.clearbit.com/deltasysindonesia.com,2023-06-24 03:54:14
+739c2ecb-6139-49ea-9cd7-d2385bcbb028,AuraLabs Malaysia,customer,Education,Singapore,1317,auralabsmalaysia.com,https://logo.clearbit.com/auralabsmalaysia.com,2025-06-30 03:54:14
+6728bda1-052a-4ef8-bb60-8083211f65c3,DeltaShip Indonesia,customer,Healthcare,Germany,423,deltashipindonesia.com,https://logo.clearbit.com/deltashipindonesia.com,2023-04-05 03:54:14
+e20789c0-abef-40b5-abfb-ec65466315fd,KiteOps India,customer,Education,Philippines,85,kiteopsindia.com,https://logo.clearbit.com/kiteopsindia.com,2025-01-08 03:54:14
+0b1b3c5d-1f8a-48c2-af4d-7f3f95256a73,PeakPath Indonesia,customer,Healthcare,Switzerland,1985,peakpathindonesia.com,https://logo.clearbit.com/peakpathindonesia.com,2021-04-05 03:54:14
+2eac9380-efbb-4e97-98f0-c586b271dd44,YaraCare Malaysia,customer,Healthcare,Singapore,1475,yaracaremalaysia.com,https://logo.clearbit.com/yaracaremalaysia.com,2022-08-05 03:54:14
+3e7f3f0c-e984-4841-bc0f-0b7b3025a965,FluxTech Germany,customer,Logistics,Singapore,1021,fluxtechgermany.com,https://logo.clearbit.com/fluxtechgermany.com,2024-03-08 03:54:14
+772531a4-4939-4e4d-b7b7-5491a55acc46,DeltaPath Vietnam,customer,SaaS,Philippines,979,deltapathvietnam.com,https://logo.clearbit.com/deltapathvietnam.com,2023-02-27 03:54:14
+4e0e1b70-0bbb-4beb-a166-04e1528b252f,CoreHub Malaysia,customer,Healthcare,USA,1438,corehubmalaysia.com,https://logo.clearbit.com/corehubmalaysia.com,2024-08-24 03:54:14
+068cfc14-a8e3-427e-b025-3cc139e3eb33,GridShip Japan,customer,E-commerce,Indonesia,571,gridshipjapan.com,https://logo.clearbit.com/gridshipjapan.com,2024-10-06 03:54:14
+e906d499-030a-42cd-9270-36ea38e6ea76,KiteMart Philippines,customer,Logistics,Netherlands,1176,kitemartphilippines.com,https://logo.clearbit.com/kitemartphilippines.com,2025-04-19 03:54:14
+524173f1-ca1d-4f91-b260-a02d0ca10157,JadeLink India,prospect,Fintech,South Korea,1512,jadelinkindia.com,https://logo.clearbit.com/jadelinkindia.com,2022-07-03 03:54:14
+47201f98-8e07-4bfe-bfcc-d3b2d7f509a0,EchoSys Philippines,prospect,Fintech,Philippines,455,echosysphilippines.com,https://logo.clearbit.com/echosysphilippines.com,2024-10-25 03:54:14
+d9502aba-0f68-4b34-98c2-17d0c2d482c0,HaloCare Philippines,prospect,Fintech,Vietnam,1567,halocarephilippines.com,https://logo.clearbit.com/halocarephilippines.com,2022-10-07 03:54:14
+2c863cb2-204e-4a45-a908-7d032820a353,ApexPro Philippines,prospect,SaaS,Canada,1339,apexprophilippines.com,https://logo.clearbit.com/apexprophilippines.com,2021-06-22 03:54:14
+70807def-8d78-4793-b440-d1d181ac7322,KiteMart Thailand,prospect,SaaS,Netherlands,826,kitemartthailand.com,https://logo.clearbit.com/kitemartthailand.com,2022-06-28 03:54:14
+879701dc-fbca-41c3-abe9-bba548f4f5b8,IonEdu Brazil,prospect,SaaS,Singapore,1337,ionedubrazil.com,https://logo.clearbit.com/ionedubrazil.com,2025-08-01 03:54:14
+edcbe9f4-6d55-4d5b-92c1-94c1ce1bb275,ZetaCloud Indonesia,prospect,SaaS,Thailand,1952,zetacloudindonesia.com,https://logo.clearbit.com/zetacloudindonesia.com,2023-04-06 03:54:14
+2b8fe402-a52c-4bcf-892d-efe656631e6d,CoreMed Japan,prospect,Retail,Thailand,1787,coremedjapan.com,https://logo.clearbit.com/coremedjapan.com,2022-01-06 03:54:14
+4ad8a827-ba1d-40e5-8cbb-27a4414b9bde,DashEdu Canada,prospect,SaaS,Japan,256,dasheducanada.com,https://logo.clearbit.com/dasheducanada.com,2025-02-13 03:54:14
+0de2e0fb-e40e-4478-b091-228872701f07,VoltDev Malaysia,prospect,SaaS,Australia,1871,voltdevmalaysia.com,https://logo.clearbit.com/voltdevmalaysia.com,2020-08-03 03:54:14
+eed86d5c-6ab1-41bd-891c-670af0bf6348,PeakBase Japan,prospect,Fintech,Australia,1115,peakbasejapan.com,https://logo.clearbit.com/peakbasejapan.com,2022-09-17 03:54:14
+a47ae794-cdd5-4342-96e5-a37be2a2052d,DashHub Vietnam,prospect,SaaS,India,1416,dashhubvietnam.com,https://logo.clearbit.com/dashhubvietnam.com,2021-04-21 03:54:14
+921c152b-5ee8-4501-8d22-d58d67328fae,SageTrack Malaysia,prospect,Manufacturing,Philippines,1962,sagetrackmalaysia.com,https://logo.clearbit.com/sagetrackmalaysia.com,2020-06-01 03:54:14
+f369c681-b650-492c-afe1-a8676f333ec2,DeltaStack South,prospect,Retail,Malaysia,961,deltastacksouth.com,https://logo.clearbit.com/deltastacksouth.com,2021-05-26 03:54:14
+184a784a-8cd9-4f79-a457-30f815107d6a,QuilSys Brazil,prospect,SaaS,Singapore,1772,quilsysbrazil.com,https://logo.clearbit.com/quilsysbrazil.com,2020-03-29 03:54:14
+d2dd6044-7a87-4e2f-b185-ff2f80e95e84,OpalPro Brazil,prospect,Fintech,Thailand,1139,opalprobrazil.com,https://logo.clearbit.com/opalprobrazil.com,2021-01-06 03:54:14
+c1990c86-7c9e-4bd9-8eee-8e2a8a4050fb,JadePath Germany,prospect,Education,Indonesia,1426,jadepathgermany.com,https://logo.clearbit.com/jadepathgermany.com,2020-05-29 03:54:14
+f689c2a1-804e-4df6-921d-810eebe573b1,JadeFin Australia,prospect,SaaS,Singapore,1635,jadefinaustralia.com,https://logo.clearbit.com/jadefinaustralia.com,2021-07-10 03:54:14
+ee0a5f1c-bb43-4199-9f77-9d459b0dda0f,GridLink France,prospect,Logistics,Japan,1844,gridlinkfrance.com,https://logo.clearbit.com/gridlinkfrance.com,2024-11-10 03:54:14
+8dcc065b-572d-475b-a7c9-d7d68273bd64,CrestSys Singapore,prospect,Fintech,Thailand,818,crestsyssingapore.com,https://logo.clearbit.com/crestsyssingapore.com,2022-12-21 03:54:14
+030ba321-e8c3-45bf-8206-38932e825126,EdgeEdu Canada,prospect,SaaS,USA,702,edgeeducanada.com,https://logo.clearbit.com/edgeeducanada.com,2024-08-22 03:54:14
+6cf91cc3-1f42-4610-9879-8df5214312d1,KiteHub India,prospect,Manufacturing,Canada,959,kitehubindia.com,https://logo.clearbit.com/kitehubindia.com,2023-09-14 03:54:14
+3516a416-b09c-4bd2-86a8-b66e403a0274,VoltMed Indonesia,prospect,Fintech,Switzerland,1722,voltmedindonesia.com,https://logo.clearbit.com/voltmedindonesia.com,2025-09-01 03:54:14
+8cc5af2b-ee2a-4a68-b436-ff614365a464,NovaFlow Germany,prospect,Retail,Germany,1782,novaflowgermany.com,https://logo.clearbit.com/novaflowgermany.com,2024-01-19 03:54:14
+d2b8ec05-0967-4697-8f03-eabae7e60660,DashTrack Canada,prospect,E-commerce,Malaysia,565,dashtrackcanada.com,https://logo.clearbit.com/dashtrackcanada.com,2021-07-06 03:54:14
+667bbeb3-7bac-4801-9941-d66208f2b120,MintData Australia,prospect,E-commerce,Vietnam,1700,mintdataaustralia.com,https://logo.clearbit.com/mintdataaustralia.com,2025-04-06 03:54:14
+161eb503-ae3c-481c-a840-512798e10d0f,KiteFlow Thailand,prospect,Fintech,Malaysia,714,kiteflowthailand.com,https://logo.clearbit.com/kiteflowthailand.com,2022-01-09 03:54:14
+f4c764a9-cebd-474c-9bd3-aa1ab68f9cd7,NovaPro Singapore,prospect,SaaS,Malaysia,687,novaprosingapore.com,https://logo.clearbit.com/novaprosingapore.com,2022-08-30 03:54:14
+715d083d-339e-410a-be0f-adb68b9b8ef0,BloxDev Vietnam,prospect,Healthcare,Indonesia,1600,bloxdevvietnam.com,https://logo.clearbit.com/bloxdevvietnam.com,2021-01-04 03:54:14
+c76b6892-0f35-42f3-879f-7397bd24569e,DeltaCloud Malaysia,prospect,Logistics,Singapore,1797,deltacloudmalaysia.com,https://logo.clearbit.com/deltacloudmalaysia.com,2021-09-10 03:54:14
+3e484374-4f33-4068-bc86-cb4b72836915,EdgeWare Philippines,prospect,SaaS,Singapore,1670,edgewarephilippines.com,https://logo.clearbit.com/edgewarephilippines.com,2020-06-20 03:54:14
+df3d2e5a-c67c-4bb1-8113-7bcf9a35f165,GridTech Switzerland,prospect,Manufacturing,Philippines,1975,gridtechswitzerland.com,https://logo.clearbit.com/gridtechswitzerland.com,2021-10-18 03:54:14
+1a31667f-40ef-4225-8687-bcf0a015ea73,CrestFlow Thailand,prospect,Logistics,Singapore,1647,crestflowthailand.com,https://logo.clearbit.com/crestflowthailand.com,2022-11-03 03:54:14
+082287d8-b713-406b-a243-ffe2d509d03f,ApexWare Malaysia,prospect,E-commerce,Australia,901,apexwaremalaysia.com,https://logo.clearbit.com/apexwaremalaysia.com,2022-02-01 03:54:14
+ef71f10a-644b-4558-88a7-5ea531624c4d,YaraCloud India,prospect,Manufacturing,Philippines,402,yaracloudindia.com,https://logo.clearbit.com/yaracloudindia.com,2021-03-19 03:54:14
+eccff523-0582-47ed-bbf3-5ba34f2b4a56,DeltaData Malaysia,prospect,Education,Indonesia,191,deltadatamalaysia.com,https://logo.clearbit.com/deltadatamalaysia.com,2022-01-28 03:54:14
+c9e1c630-0a37-4e49-ac11-fee2f860b560,FluxPro Brazil,prospect,Fintech,Vietnam,611,fluxprobrazil.com,https://logo.clearbit.com/fluxprobrazil.com,2022-12-05 03:54:14
+897bcda7-fa6f-41ac-a120-864fbfb59d14,XenoData UK,prospect,Fintech,Vietnam,612,xenodatauk.com,https://logo.clearbit.com/xenodatauk.com,2020-08-28 03:54:14
+71882762-6046-4eb7-a69a-702bef0f149b,IonCloud Brazil,prospect,SaaS,France,1753,ioncloudbrazil.com,https://logo.clearbit.com/ioncloudbrazil.com,2024-09-17 03:54:14
+a3382dde-189f-4e20-ac0a-6da997c1d9b5,OpalMart Vietnam,prospect,Retail,India,1667,opalmartvietnam.com,https://logo.clearbit.com/opalmartvietnam.com,2024-06-15 03:54:14
+a723103a-6afe-45d4-9f1b-87ff8c911c65,YaraLink Vietnam,prospect,E-commerce,Singapore,1890,yaralinkvietnam.com,https://logo.clearbit.com/yaralinkvietnam.com,2021-06-18 03:54:14
+906c5561-168c-4df4-abe0-3014f818b49f,IonTech Australia,prospect,Logistics,Brazil,1570,iontechaustralia.com,https://logo.clearbit.com/iontechaustralia.com,2021-05-22 03:54:14
+75c93ae7-462c-49d0-8247-96b3ed7de9c3,CrestShip Indonesia,prospect,Healthcare,UK,1298,crestshipindonesia.com,https://logo.clearbit.com/crestshipindonesia.com,2023-04-15 03:54:14
+0404dbce-050d-4c21-90ee-2a63284eb796,JadeView Switzerland,prospect,SaaS,Malaysia,1547,jadeviewswitzerland.com,https://logo.clearbit.com/jadeviewswitzerland.com,2020-09-27 03:54:14
+f41158b0-f41e-4284-83fd-d36ea46ad0a3,VoltSys Vietnam,prospect,SaaS,Australia,283,voltsysvietnam.com,https://logo.clearbit.com/voltsysvietnam.com,2021-10-09 03:54:14
+7af8ba25-c876-419e-b40f-19f39c75455b,VoltPulse Netherlands,prospect,SaaS,Australia,1111,voltpulsenetherlands.com,https://logo.clearbit.com/voltpulsenetherlands.com,2025-08-28 03:54:14
+b8a2e308-5947-476c-b672-a168f24d861e,OpalMed UK,prospect,Healthcare,Brazil,1900,opalmeduk.com,https://logo.clearbit.com/opalmeduk.com,2022-04-18 03:54:14
+21ab38f0-8d79-4113-804b-57ee68e75b61,OpalPulse Canada,prospect,Manufacturing,Germany,100,opalpulsecanada.com,https://logo.clearbit.com/opalpulsecanada.com,2024-06-04 03:54:14
+bf98fe8e-9175-498b-a1f9-b9a3c83bc11a,TidePulse Brazil,prospect,SaaS,Singapore,589,tidepulsebrazil.com,https://logo.clearbit.com/tidepulsebrazil.com,2020-10-05 03:54:14
+52bf9d00-db28-4cd2-a852-8adb78414c21,WaveCare UK,prospect,Fintech,Indonesia,1572,wavecareuk.com,https://logo.clearbit.com/wavecareuk.com,2024-02-26 03:54:14
+1e77ea95-137d-434d-83cd-4b309846fbd5,SagePath Singapore,prospect,SaaS,Philippines,669,sagepathsingapore.com,https://logo.clearbit.com/sagepathsingapore.com,2021-07-24 03:54:14
+2e710a12-49ac-4a79-bc09-12f633818ba5,IonMart Japan,prospect,Logistics,Malaysia,1923,ionmartjapan.com,https://logo.clearbit.com/ionmartjapan.com,2024-02-06 03:54:14
+2fd5dbae-f095-4c42-8f69-28ac67de8be2,IonTrack Vietnam,prospect,E-commerce,Malaysia,771,iontrackvietnam.com,https://logo.clearbit.com/iontrackvietnam.com,2022-10-08 03:54:14
+c10a5c25-d7c3-4dd9-8f7a-0f76f4032996,KiteView Australia,prospect,Manufacturing,Singapore,1229,kiteviewaustralia.com,https://logo.clearbit.com/kiteviewaustralia.com,2021-04-19 03:54:14
+7e1723a9-4a71-40f7-a205-06ae8f56e0d0,IonCloud UK,prospect,Fintech,Thailand,285,ionclouduk.com,https://logo.clearbit.com/ionclouduk.com,2024-02-02 03:54:14
+12bd0ac1-a4f4-4f30-86b8-79a37cbf1a8d,VoltAI Vietnam,prospect,Retail,UK,1227,voltaivietnam.com,https://logo.clearbit.com/voltaivietnam.com,2023-11-12 03:54:14
+3f93a41c-4511-4c7f-ae32-3b8d51fcdc41,HaloPay Philippines,prospect,Education,Switzerland,1230,halopayphilippines.com,https://logo.clearbit.com/halopayphilippines.com,2025-04-23 03:54:14
+ced4d183-ab7b-4bd5-99f3-a2a86c4c98f0,IonPro Japan,prospect,SaaS,Thailand,459,ionprojapan.com,https://logo.clearbit.com/ionprojapan.com,2024-11-25 03:54:14
+552839a9-89ef-4943-9da8-0d76529c89b7,ZetaShip Japan,prospect,Healthcare,France,1655,zetashipjapan.com,https://logo.clearbit.com/zetashipjapan.com,2020-10-18 03:54:14
+7335f814-8338-4a5a-b3a6-b4e460f58d16,DeltaBase Indonesia,prospect,SaaS,Vietnam,112,deltabaseindonesia.com,https://logo.clearbit.com/deltabaseindonesia.com,2021-07-10 03:54:14
+4d8b2a12-d6b4-434b-9af1-ebf335ffee34,XenoCare USA,prospect,SaaS,USA,485,xenocareusa.com,https://logo.clearbit.com/xenocareusa.com,2020-12-04 03:54:14
+75dd6072-7e0c-4169-a5af-7ba60978077a,QuilFlow Japan,prospect,SaaS,Philippines,1953,quilflowjapan.com,https://logo.clearbit.com/quilflowjapan.com,2020-12-27 03:54:14
+d15073bc-0875-4a65-b808-74e692075519,CoreMed India,prospect,E-commerce,Thailand,1342,coremedindia.com,https://logo.clearbit.com/coremedindia.com,2020-10-13 03:54:14
+e56c2e23-d57b-498f-8095-fc29fec14533,ZetaData Germany,prospect,Fintech,UK,1107,zetadatagermany.com,https://logo.clearbit.com/zetadatagermany.com,2023-10-29 03:54:14
+327e3beb-e7d2-4740-99d5-c97883290233,ApexEdu Indonesia,prospect,Retail,Malaysia,818,apexeduindonesia.com,https://logo.clearbit.com/apexeduindonesia.com,2023-07-22 03:54:14
+35b44298-3706-4787-bcf0-a97eff8cd194,ApexBuild Malaysia,prospect,Healthcare,Singapore,1845,apexbuildmalaysia.com,https://logo.clearbit.com/apexbuildmalaysia.com,2021-07-26 03:54:14
+6f488eae-c30f-458b-959a-287fd6e46f4d,GridStack Thailand,prospect,Fintech,Singapore,448,gridstackthailand.com,https://logo.clearbit.com/gridstackthailand.com,2025-05-07 03:54:14
+8d093e86-66bc-416d-8d9d-abe4dd2b7e19,MintLabs South,prospect,SaaS,Indonesia,1694,mintlabssouth.com,https://logo.clearbit.com/mintlabssouth.com,2022-11-25 03:54:14
+0ddee434-864c-4853-a5a0-290f3c0011d3,KiteTech South,prospect,E-commerce,Brazil,562,kitetechsouth.com,https://logo.clearbit.com/kitetechsouth.com,2021-09-23 03:54:14
+6e9c0ce4-7bcf-487e-acbc-fd66fe4d1caf,SagePro Canada,prospect,Healthcare,Philippines,1261,sageprocanada.com,https://logo.clearbit.com/sageprocanada.com,2023-11-25 03:54:14
+0fab5808-a4fa-40f3-a16c-aa74f727b3bd,DeltaDev Switzerland,prospect,Fintech,Malaysia,1363,deltadevswitzerland.com,https://logo.clearbit.com/deltadevswitzerland.com,2022-05-18 03:54:14
+1304c131-d0a1-4b30-ae7b-bdae118fd77f,JadeNet UK,prospect,Healthcare,Japan,47,jadenetuk.com,https://logo.clearbit.com/jadenetuk.com,2022-04-19 03:54:14
+d3ba6a6e-36d3-4352-9f4c-9056a4a98d82,NovaDev South,prospect,Fintech,Indonesia,385,novadevsouth.com,https://logo.clearbit.com/novadevsouth.com,2021-01-30 03:54:14
+72bca775-5db4-4361-9ec8-7bba5c2452f2,EdgeView UK,prospect,Logistics,Germany,244,edgeviewuk.com,https://logo.clearbit.com/edgeviewuk.com,2025-08-12 03:54:14
+05896b8c-37f7-4f5a-b71a-b850cdd5f432,DashView Singapore,prospect,SaaS,Malaysia,1525,dashviewsingapore.com,https://logo.clearbit.com/dashviewsingapore.com,2024-12-16 03:54:14
+42dab857-b252-4bb8-af5f-d19bbb012755,CoreNet Vietnam,prospect,Healthcare,Australia,239,corenetvietnam.com,https://logo.clearbit.com/corenetvietnam.com,2021-06-02 03:54:14
+87d2d12f-1af5-45eb-a28b-a433e5da8e9b,JadeOps Philippines,prospect,Fintech,Singapore,314,jadeopsphilippines.com,https://logo.clearbit.com/jadeopsphilippines.com,2023-05-05 03:54:14
+ef4a99c5-83a6-4453-b355-02ef0b4d4991,IonShip Malaysia,prospect,SaaS,USA,554,ionshipmalaysia.com,https://logo.clearbit.com/ionshipmalaysia.com,2021-09-26 03:54:14
+f5ead69f-fe83-4536-8f46-90a64d8bc1d8,IonSync India,prospect,Logistics,Indonesia,231,ionsyncindia.com,https://logo.clearbit.com/ionsyncindia.com,2022-06-03 03:54:14
+2a887f81-d1e9-4139-8585-de9077558cd6,TideSync Canada,prospect,Fintech,Brazil,511,tidesynccanada.com,https://logo.clearbit.com/tidesynccanada.com,2024-01-23 03:54:14
+be430948-6e6d-4c23-94b9-a9e0e376401b,GridSync Malaysia,prospect,E-commerce,Indonesia,1693,gridsyncmalaysia.com,https://logo.clearbit.com/gridsyncmalaysia.com,2025-06-17 03:54:14
+fb445f52-499b-4b03-9acb-635e1bc9697e,PeakSys Singapore,prospect,SaaS,Indonesia,1134,peaksyssingapore.com,https://logo.clearbit.com/peaksyssingapore.com,2024-06-25 03:54:14
+84fbb4ae-d8c4-470f-b9cf-4ab80db6d514,MintCore Vietnam,prospect,Manufacturing,Indonesia,555,mintcorevietnam.com,https://logo.clearbit.com/mintcorevietnam.com,2020-04-27 03:54:14
+3c543d29-3679-4802-ae65-014ef039f116,CoreFlow Indonesia,prospect,Education,Thailand,1082,coreflowindonesia.com,https://logo.clearbit.com/coreflowindonesia.com,2022-04-05 03:54:14
+fae745cf-218c-4c53-9ad2-cca164d0606c,RiftSync Switzerland,prospect,Fintech,Malaysia,1702,riftsyncswitzerland.com,https://logo.clearbit.com/riftsyncswitzerland.com,2023-02-14 03:54:14
+ff3acd0e-3be2-4fef-9b0a-33ab7dde7960,KiteCloud Thailand,prospect,E-commerce,Indonesia,1355,kitecloudthailand.com,https://logo.clearbit.com/kitecloudthailand.com,2021-01-15 03:54:14
+41147628-90c0-4961-94fd-5b51a773ce97,BloxCore Netherlands,prospect,Fintech,Indonesia,334,bloxcorenetherlands.com,https://logo.clearbit.com/bloxcorenetherlands.com,2023-10-27 03:54:14
+9055da9f-e805-497f-9969-d2cfb8afbf3a,JadePay Malaysia,prospect,Fintech,France,1334,jadepaymalaysia.com,https://logo.clearbit.com/jadepaymalaysia.com,2022-04-02 03:54:14
+969fabe3-3e2a-4d3a-9edc-9300e26b0b1c,QuilSys Malaysia,prospect,SaaS,Singapore,233,quilsysmalaysia.com,https://logo.clearbit.com/quilsysmalaysia.com,2023-07-30 03:54:14
+19b0f6cf-8f28-4d71-8d64-98d286fbd813,WaveAI Singapore,prospect,Retail,Indonesia,1848,waveaisingapore.com,https://logo.clearbit.com/waveaisingapore.com,2022-08-31 03:54:14
+542c4ebc-d46f-4604-b058-461ea960422c,ApexShip Singapore,prospect,Fintech,Philippines,1661,apexshipsingapore.com,https://logo.clearbit.com/apexshipsingapore.com,2025-06-17 03:54:14
+aba24cde-40b0-4a3c-a4a0-bd06ff798dac,ApexTrack Philippines,prospect,Healthcare,South Korea,82,apextrackphilippines.com,https://logo.clearbit.com/apextrackphilippines.com,2023-06-26 03:54:14
+06074377-fe8d-4463-89e8-48683a24efd6,IonLink Vietnam,prospect,SaaS,Vietnam,1192,ionlinkvietnam.com,https://logo.clearbit.com/ionlinkvietnam.com,2024-02-20 03:54:14
+a3484696-5411-422c-84e8-63ca3c416465,BoltSync Thailand,prospect,Fintech,Singapore,542,boltsyncthailand.com,https://logo.clearbit.com/boltsyncthailand.com,2023-09-03 03:54:14
+e0ee2a8e-c1bd-4f84-a123-836b9d5fe001,ZetaShip India,prospect,SaaS,Australia,334,zetashipindia.com,https://logo.clearbit.com/zetashipindia.com,2025-08-20 03:54:14
+f3be596c-5cbd-4711-bed5-431a9be040d2,PeakPath Philippines,prospect,Education,USA,1831,peakpathphilippines.com,https://logo.clearbit.com/peakpathphilippines.com,2025-07-01 03:54:14
+ea5d3b44-3185-4e12-9877-72119b09de20,EdgeMart Indonesia,prospect,Education,Malaysia,121,edgemartindonesia.com,https://logo.clearbit.com/edgemartindonesia.com,2022-02-13 03:54:14
+ff56b5c5-fa1f-478e-b280-51cbe0df0599,GridShip Singapore,prospect,SaaS,India,1718,gridshipsingapore.com,https://logo.clearbit.com/gridshipsingapore.com,2024-12-03 03:54:14
+5dda0f90-b1ab-4764-bc0b-75ffbbcdd82f,XenoOps Germany,prospect,Healthcare,Philippines,980,xenoopsgermany.com,https://logo.clearbit.com/xenoopsgermany.com,2023-09-29 03:54:14
+bf4cb59c-35b8-4910-b493-98f380ff7b5c,ZetaBase Singapore,prospect,Healthcare,Germany,876,zetabasesingapore.com,https://logo.clearbit.com/zetabasesingapore.com,2020-10-18 03:54:14
+f393079a-5785-4eb8-ad7a-453a0168e1d4,DashView India,prospect,Fintech,Brazil,1592,dashviewindia.com,https://logo.clearbit.com/dashviewindia.com,2021-10-29 03:54:14
+624e236f-65fe-4b18-8ed1-bd99c8631dae,RiftData Thailand,prospect,SaaS,Germany,881,riftdatathailand.com,https://logo.clearbit.com/riftdatathailand.com,2021-05-14 03:54:14
+40c1268c-e4bb-48fd-aa44-1d76a6cd9681,CorePro France,prospect,E-commerce,Malaysia,181,coreprofrance.com,https://logo.clearbit.com/coreprofrance.com,2021-03-13 03:54:14
+0d50f634-2a91-4419-beea-d0af4cc6dd76,ZetaMart Germany,prospect,Fintech,Switzerland,1106,zetamartgermany.com,https://logo.clearbit.com/zetamartgermany.com,2021-06-11 03:54:14
+016b379c-999e-46d2-9d0f-d038d97481d9,EdgeStack Germany,prospect,Manufacturing,Vietnam,1298,edgestackgermany.com,https://logo.clearbit.com/edgestackgermany.com,2022-12-09 03:54:14
+33997f5e-6202-4d63-9de2-3b6c0fd1f3bc,PeakShip Switzerland,prospect,Logistics,Vietnam,1490,peakshipswitzerland.com,https://logo.clearbit.com/peakshipswitzerland.com,2021-03-12 03:54:14
+619f4220-0c0a-44d1-a254-3243493b0d26,NovaLabs India,prospect,Fintech,Thailand,1950,novalabsindia.com,https://logo.clearbit.com/novalabsindia.com,2023-04-13 03:54:14
+271b24cd-fe61-493a-82b7-fa9d0b3a48dc,HaloLink South,prospect,Retail,Thailand,1656,halolinksouth.com,https://logo.clearbit.com/halolinksouth.com,2020-04-10 03:54:14
+74a3a668-fa02-48b8-9d14-06979b55e20d,ZetaShip Switzerland,prospect,Fintech,Netherlands,169,zetashipswitzerland.com,https://logo.clearbit.com/zetashipswitzerland.com,2022-06-08 03:54:14
+a242ad92-8e16-43f5-be73-79932dc8bb9c,CoreShip Australia,prospect,Logistics,Thailand,1957,coreshipaustralia.com,https://logo.clearbit.com/coreshipaustralia.com,2021-11-03 03:54:14
+dd55d750-993e-4004-b6ee-a89dda41434b,IonWare South,prospect,Logistics,Singapore,1390,ionwaresouth.com,https://logo.clearbit.com/ionwaresouth.com,2023-05-28 03:54:14
+53ec2d1b-e47c-4fd0-be91-3c7e08c0b7fb,FluxCloud Thailand,prospect,Manufacturing,Thailand,397,fluxcloudthailand.com,https://logo.clearbit.com/fluxcloudthailand.com,2023-07-20 03:54:14
+80b7056e-4f99-478e-926c-083d5d13749c,NovaLabs Japan,prospect,E-commerce,Netherlands,653,novalabsjapan.com,https://logo.clearbit.com/novalabsjapan.com,2025-03-19 03:54:14
+51862987-07c3-4b61-9b4e-19c7e6481a75,ApexMart Japan,prospect,Retail,Brazil,41,apexmartjapan.com,https://logo.clearbit.com/apexmartjapan.com,2025-02-23 03:54:14
+5b7912fd-14a2-45ff-ab36-87558049b615,CrestTrack Vietnam,prospect,Retail,Vietnam,870,cresttrackvietnam.com,https://logo.clearbit.com/cresttrackvietnam.com,2022-12-01 03:54:14
+2b69388e-7954-4f6f-afd2-f6891d33bb15,HaloFlow Thailand,prospect,Retail,Thailand,1042,haloflowthailand.com,https://logo.clearbit.com/haloflowthailand.com,2021-07-08 03:54:14
+965dc69e-1af9-44d4-8704-8e1dc1bb18cc,NovaView Indonesia,prospect,E-commerce,India,871,novaviewindonesia.com,https://logo.clearbit.com/novaviewindonesia.com,2023-05-24 03:54:14
+a721019e-2b9c-4ecc-819b-f80ee47a5263,XenoCore India,prospect,Education,Japan,1910,xenocoreindia.com,https://logo.clearbit.com/xenocoreindia.com,2024-10-30 03:54:14
+68a57b10-a557-4ea4-8ba5-5a184ade4f9d,HaloSys Germany,prospect,Fintech,Vietnam,1507,halosysgermany.com,https://logo.clearbit.com/halosysgermany.com,2021-01-06 03:54:14
+55ac8ab3-5c12-4384-9acd-3e3508fb01d1,VoltPath Vietnam,prospect,Fintech,Philippines,1128,voltpathvietnam.com,https://logo.clearbit.com/voltpathvietnam.com,2023-05-25 03:54:14
+93846e36-2109-47f5-bcd4-66df50268d07,AuraCloud Malaysia,prospect,Logistics,Philippines,178,auracloudmalaysia.com,https://logo.clearbit.com/auracloudmalaysia.com,2025-04-15 03:54:14
+13eb86c8-c157-488c-86e1-a4ac8fef266d,CrestCloud Canada,prospect,Fintech,Singapore,236,crestcloudcanada.com,https://logo.clearbit.com/crestcloudcanada.com,2022-05-25 03:54:14
+79aa248d-e8a0-4b00-9344-dd2dd1a09bf6,WaveLabs Indonesia,prospect,Logistics,Germany,1599,wavelabsindonesia.com,https://logo.clearbit.com/wavelabsindonesia.com,2020-05-08 03:54:14
+e47c50b4-501e-40f9-9b80-4d89eb793eab,EdgeBuild Australia,prospect,Logistics,Canada,1232,edgebuildaustralia.com,https://logo.clearbit.com/edgebuildaustralia.com,2023-11-08 03:54:14
+bae42bc0-1bc2-4ecc-8518-dcaf7767278a,ZetaView Philippines,prospect,Fintech,Netherlands,374,zetaviewphilippines.com,https://logo.clearbit.com/zetaviewphilippines.com,2023-09-28 03:54:14
+0b68a766-3a64-466e-8e90-8219ab2fe212,MintCloud Vietnam,prospect,Education,South Korea,1401,mintcloudvietnam.com,https://logo.clearbit.com/mintcloudvietnam.com,2024-10-09 03:54:14
+f0d23c42-4354-4731-9df2-976708627d15,IonDev Malaysia,prospect,Retail,Indonesia,1586,iondevmalaysia.com,https://logo.clearbit.com/iondevmalaysia.com,2020-12-21 03:54:14
+049b9509-9f2f-45e6-995f-b0f868418d3a,FluxLink Brazil,prospect,E-commerce,India,679,fluxlinkbrazil.com,https://logo.clearbit.com/fluxlinkbrazil.com,2021-09-30 03:54:14
+882d3381-86d3-4b6f-823d-36a1f5b10c00,MintLabs Malaysia,prospect,Fintech,Thailand,393,mintlabsmalaysia.com,https://logo.clearbit.com/mintlabsmalaysia.com,2025-03-03 03:54:14
+a99edf44-b375-4470-af06-d76b49d7df42,JadePulse Indonesia,prospect,SaaS,Singapore,77,jadepulseindonesia.com,https://logo.clearbit.com/jadepulseindonesia.com,2025-04-15 03:54:14
+64ff42d4-0252-4a41-a946-46c44269521a,BoltPulse Singapore,prospect,E-commerce,Indonesia,1498,boltpulsesingapore.com,https://logo.clearbit.com/boltpulsesingapore.com,2023-07-01 03:54:14
+efa8942e-1e8a-44c8-8ac4-a7f9ab5bcfde,CrestBuild Thailand,prospect,SaaS,Germany,1766,crestbuildthailand.com,https://logo.clearbit.com/crestbuildthailand.com,2021-08-25 03:54:14
+8c0a834c-3035-4a2b-9ea4-e42553b2fd69,DashMed Vietnam,prospect,Fintech,Vietnam,1584,dashmedvietnam.com,https://logo.clearbit.com/dashmedvietnam.com,2025-07-21 03:54:14
+68fb6331-bf2d-46b5-93ea-cd412f81c6fe,ZetaFin Australia,prospect,Fintech,Germany,1148,zetafinaustralia.com,https://logo.clearbit.com/zetafinaustralia.com,2022-04-18 03:54:14
+f33f94f3-4efc-4239-9d8a-c19dc18dce12,BloxBase Philippines,prospect,SaaS,Thailand,632,bloxbasephilippines.com,https://logo.clearbit.com/bloxbasephilippines.com,2020-03-24 03:54:14
+a2151c7e-ddcd-4c6c-8127-db5f050ee1f4,LumePulse France,prospect,E-commerce,France,1758,lumepulsefrance.com,https://logo.clearbit.com/lumepulsefrance.com,2022-05-31 03:54:14
+f598f363-e868-4646-8eac-6216969c76b7,NovaBase Malaysia,prospect,Logistics,Australia,1300,novabasemalaysia.com,https://logo.clearbit.com/novabasemalaysia.com,2020-08-12 03:54:14
+b3291d5a-a515-45d2-bdfb-c378091e0815,XenoBuild Philippines,prospect,Logistics,Thailand,53,xenobuildphilippines.com,https://logo.clearbit.com/xenobuildphilippines.com,2023-07-17 03:54:14
+4177cb2b-6ad5-42c5-b388-0054e5b5f966,DeltaCloud Philippines,prospect,Fintech,Vietnam,1779,deltacloudphilippines.com,https://logo.clearbit.com/deltacloudphilippines.com,2022-08-29 03:54:14
+8885fb63-a603-47ce-a9cc-91f3fceb162f,HaloCare Vietnam,prospect,Healthcare,Thailand,1171,halocarevietnam.com,https://logo.clearbit.com/halocarevietnam.com,2023-08-06 03:54:14
+0adeddc1-6d40-4ef4-8946-f45097108470,PeakMart Philippines,prospect,Fintech,Japan,1140,peakmartphilippines.com,https://logo.clearbit.com/peakmartphilippines.com,2024-01-25 03:54:14
+2571b751-f749-4322-ab11-3d19b907aed7,TideDev India,prospect,E-commerce,Australia,1522,tidedevindia.com,https://logo.clearbit.com/tidedevindia.com,2025-05-30 03:54:14
+bae25e8e-0d51-4abd-8448-1fca678a0a3e,LumeOps UK,prospect,Retail,Australia,1374,lumeopsuk.com,https://logo.clearbit.com/lumeopsuk.com,2022-10-03 03:54:14
+e5225d03-4f39-47a5-8752-66379d2bae5f,DashFin Philippines,prospect,Retail,Indonesia,1301,dashfinphilippines.com,https://logo.clearbit.com/dashfinphilippines.com,2021-09-28 03:54:14
+e5265b3d-7054-429a-80bd-a42916ec0506,IonMart Netherlands,prospect,E-commerce,Philippines,1828,ionmartnetherlands.com,https://logo.clearbit.com/ionmartnetherlands.com,2022-02-05 03:54:14
+8af5a784-2ed3-45ca-a6ae-89310878591c,OpalAI Vietnam,prospect,SaaS,Switzerland,243,opalaivietnam.com,https://logo.clearbit.com/opalaivietnam.com,2020-11-06 03:54:14
+a208304a-a9dc-4000-8c42-599e581aed0e,JadeCloud Vietnam,prospect,SaaS,Singapore,1744,jadecloudvietnam.com,https://logo.clearbit.com/jadecloudvietnam.com,2023-09-06 03:54:14
+7fbd1cd3-b3dd-4708-9343-32e00beb8a3d,CoreView Malaysia,prospect,Logistics,South Korea,529,coreviewmalaysia.com,https://logo.clearbit.com/coreviewmalaysia.com,2024-09-18 03:54:14
+a59fbe8d-0fff-4fa5-ac01-06b97f9373ae,WavePay Indonesia,prospect,Logistics,Philippines,1352,wavepayindonesia.com,https://logo.clearbit.com/wavepayindonesia.com,2021-12-07 03:54:14
+b30b9439-4573-4b7f-8e83-27203aada1c9,OpalPath Philippines,prospect,Healthcare,Malaysia,444,opalpathphilippines.com,https://logo.clearbit.com/opalpathphilippines.com,2024-06-20 03:54:14
+642a4ee9-51f6-4218-b06b-ae4243c4d9dd,GridFlow Philippines,prospect,Education,Germany,1923,gridflowphilippines.com,https://logo.clearbit.com/gridflowphilippines.com,2022-08-08 03:54:14
+6a8934df-62ac-4603-842e-da18977b5a19,RiftBase Indonesia,prospect,SaaS,France,1115,riftbaseindonesia.com,https://logo.clearbit.com/riftbaseindonesia.com,2021-07-21 03:54:14
+573139f2-630d-4e2f-b521-5bb47cb11245,KiteTrack Germany,prospect,Logistics,Germany,122,kitetrackgermany.com,https://logo.clearbit.com/kitetrackgermany.com,2020-12-20 03:54:14
+4bca51e1-5f02-4c61-8d5b-b46b95a6c11c,MintData Thailand,prospect,Manufacturing,Japan,381,mintdatathailand.com,https://logo.clearbit.com/mintdatathailand.com,2023-09-15 03:54:14
+a3ad6f13-0168-479d-a4e9-6b1dff788225,YaraTech USA,prospect,E-commerce,Malaysia,284,yaratechusa.com,https://logo.clearbit.com/yaratechusa.com,2024-01-17 03:54:14
+e9758da8-5567-4f3c-a536-57e7c0c0da94,LumeMed Indonesia,prospect,SaaS,Malaysia,1046,lumemedindonesia.com,https://logo.clearbit.com/lumemedindonesia.com,2022-11-10 03:54:14
+7f575b0d-7512-4af3-8a50-07f709d9174f,LumePath Brazil,prospect,E-commerce,Malaysia,1534,lumepathbrazil.com,https://logo.clearbit.com/lumepathbrazil.com,2023-08-13 03:54:14
+2481bd5b-6212-49d0-a1eb-88fcc951613a,AuraPath Malaysia,prospect,Fintech,Japan,1618,aurapathmalaysia.com,https://logo.clearbit.com/aurapathmalaysia.com,2024-03-23 03:54:14
+22076f8d-4a27-4f9e-a96d-5bb5dbcb1746,OpalTrack South,prospect,E-commerce,Thailand,1504,opaltracksouth.com,https://logo.clearbit.com/opaltracksouth.com,2020-06-11 03:54:14
+7debe49a-794b-4b5b-a676-549dd574963f,NovaDev Philippines,prospect,E-commerce,Vietnam,1360,novadevphilippines.com,https://logo.clearbit.com/novadevphilippines.com,2023-08-20 03:54:14
+62e999dd-cf4c-4d27-9b49-bba5b70071c7,BloxLink Japan,prospect,Logistics,Brazil,1382,bloxlinkjapan.com,https://logo.clearbit.com/bloxlinkjapan.com,2021-11-06 03:54:14
+250c0fa9-9ba1-4980-aba0-90ba879cc960,SageStack France,prospect,Fintech,Thailand,1445,sagestackfrance.com,https://logo.clearbit.com/sagestackfrance.com,2023-05-19 03:54:14
+01451e1d-6628-407d-bef3-0f0d9891e67b,PeakMed Thailand,prospect,E-commerce,Indonesia,1531,peakmedthailand.com,https://logo.clearbit.com/peakmedthailand.com,2021-07-04 03:54:14
+2372f213-8d63-4d57-9929-a384be36b8f9,LumePulse Switzerland,prospect,Manufacturing,Germany,938,lumepulseswitzerland.com,https://logo.clearbit.com/lumepulseswitzerland.com,2023-05-07 03:54:14
+0f3da447-1ce7-4024-a3d6-fe9a27c50e33,IonData France,prospect,Retail,Singapore,297,iondatafrance.com,https://logo.clearbit.com/iondatafrance.com,2020-05-19 03:54:14
+2fdc7d10-f9f3-402b-850f-a49dec01d788,CrestSys South,prospect,Logistics,Vietnam,132,crestsyssouth.com,https://logo.clearbit.com/crestsyssouth.com,2023-07-07 03:54:14
+f9222bb8-8219-4de7-8e6b-2281d6c4627c,LumeCore Indonesia,prospect,Healthcare,Singapore,772,lumecoreindonesia.com,https://logo.clearbit.com/lumecoreindonesia.com,2023-03-02 03:54:14
+74a29890-b493-4ddf-a4b2-458a79d7c336,MintOps Indonesia,prospect,Retail,Vietnam,1335,mintopsindonesia.com,https://logo.clearbit.com/mintopsindonesia.com,2024-03-26 03:54:14
+d7a9e6fd-d4f5-4f89-84ee-420e10adfbe7,CrestPulse USA,prospect,Education,Philippines,1071,crestpulseusa.com,https://logo.clearbit.com/crestpulseusa.com,2024-07-01 03:54:14
+a83176d6-36fc-4da6-944d-18eb68c968f1,EdgeAI Germany,prospect,Logistics,Netherlands,735,edgeaigermany.com,https://logo.clearbit.com/edgeaigermany.com,2022-12-19 03:54:14
+3005239f-96ff-4996-90e9-0747eac5811e,TidePulse Vietnam,prospect,Education,Singapore,1238,tidepulsevietnam.com,https://logo.clearbit.com/tidepulsevietnam.com,2024-02-24 03:54:14
+5cdbfeb6-ec28-4b44-b035-9351c59dff20,FluxTech Malaysia,prospect,Manufacturing,Indonesia,1512,fluxtechmalaysia.com,https://logo.clearbit.com/fluxtechmalaysia.com,2022-02-28 03:54:14
+12f53dfa-927e-4ad4-ba7a-60ea60481600,AuraDev Indonesia,prospect,SaaS,Vietnam,1663,auradevindonesia.com,https://logo.clearbit.com/auradevindonesia.com,2020-09-23 03:54:14
+07177f58-ccab-47cf-9ace-0b6808a9d932,EchoOps Singapore,prospect,SaaS,Malaysia,1972,echoopssingapore.com,https://logo.clearbit.com/echoopssingapore.com,2023-08-29 03:54:14
+f35bd7dd-44a3-4cfc-a4a6-5ee111efc2b9,WaveWare India,prospect,E-commerce,Philippines,1242,wavewareindia.com,https://logo.clearbit.com/wavewareindia.com,2022-08-09 03:54:14
+ac6f2186-abbf-4828-9158-6d54f8a83f6b,HaloBuild Switzerland,prospect,SaaS,Thailand,732,halobuildswitzerland.com,https://logo.clearbit.com/halobuildswitzerland.com,2024-12-25 03:54:14
+358ce8ce-5895-4e13-af56-7ba0da2b6f5c,LumeCore Singapore,prospect,Fintech,Vietnam,973,lumecoresingapore.com,https://logo.clearbit.com/lumecoresingapore.com,2024-09-16 03:54:14
+4562dc07-08a4-4c72-882f-6aacddee60ab,LumePro Philippines,prospect,Healthcare,Thailand,820,lumeprophilippines.com,https://logo.clearbit.com/lumeprophilippines.com,2023-05-12 03:54:14
+e98016b1-42cd-4ebb-9e30-5cdad14af4cb,NovaAI Netherlands,prospect,SaaS,Vietnam,1675,novaainetherlands.com,https://logo.clearbit.com/novaainetherlands.com,2024-08-16 03:54:14
+18208018-80a9-42ad-a6d7-ce33461f0713,WaveBuild Singapore,prospect,E-commerce,France,233,wavebuildsingapore.com,https://logo.clearbit.com/wavebuildsingapore.com,2023-07-01 03:54:14
+d909d57b-cd0e-470c-9332-38c8f99f1454,TideEdu USA,prospect,Fintech,Thailand,1367,tideeduusa.com,https://logo.clearbit.com/tideeduusa.com,2025-07-03 03:54:14
+0dea38c3-0567-4823-88f6-7fd4ab4650d8,XenoFlow Singapore,prospect,E-commerce,Thailand,1516,xenoflowsingapore.com,https://logo.clearbit.com/xenoflowsingapore.com,2022-03-08 03:54:14
+9a79d930-b121-4757-a152-81abfc74448f,XenoStack Malaysia,prospect,Logistics,Thailand,153,xenostackmalaysia.com,https://logo.clearbit.com/xenostackmalaysia.com,2024-02-05 03:54:14
+505068e1-4781-4d95-89fd-aba818f5257c,VoltPulse Singapore,prospect,Fintech,Japan,1560,voltpulsesingapore.com,https://logo.clearbit.com/voltpulsesingapore.com,2021-08-24 03:54:14
+c251548a-926b-4ab3-93a3-cbb1aa58facd,CoreBuild Malaysia,prospect,Healthcare,India,589,corebuildmalaysia.com,https://logo.clearbit.com/corebuildmalaysia.com,2025-03-30 03:54:14
+a03052dc-4995-4023-9bbd-adad917000be,NovaFlow Indonesia,prospect,E-commerce,Netherlands,705,novaflowindonesia.com,https://logo.clearbit.com/novaflowindonesia.com,2025-04-02 03:54:14
+a0210b68-4d79-4e1b-b4af-4a5a536810f6,TideCare Vietnam,prospect,Retail,Canada,617,tidecarevietnam.com,https://logo.clearbit.com/tidecarevietnam.com,2021-08-05 03:54:14
+0c3ab6fa-8e2f-4f90-9788-6f6feba4c6e4,KiteNet Singapore,prospect,Education,Philippines,588,kitenetsingapore.com,https://logo.clearbit.com/kitenetsingapore.com,2022-08-12 03:54:14
+e5cc7585-bdc5-4cdf-a910-ec09b286241d,OpalLabs Philippines,prospect,E-commerce,Singapore,442,opallabsphilippines.com,https://logo.clearbit.com/opallabsphilippines.com,2023-09-11 03:54:14
+bd6a781e-bd3c-47bd-a7e7-08675001e8f2,ApexData France,prospect,SaaS,Switzerland,958,apexdatafrance.com,https://logo.clearbit.com/apexdatafrance.com,2025-07-01 03:54:14
+c6636754-b4c9-4104-92ec-100bb542c0bc,VoltFin Netherlands,prospect,E-commerce,Malaysia,806,voltfinnetherlands.com,https://logo.clearbit.com/voltfinnetherlands.com,2024-12-01 03:54:14
+4f07749f-8d87-43aa-a17e-2d42b727dd6b,NovaMart Vietnam,prospect,Fintech,Thailand,702,novamartvietnam.com,https://logo.clearbit.com/novamartvietnam.com,2022-02-22 03:54:14
+88d526ba-2272-4449-a14b-de6674eab288,ZetaWare Singapore,prospect,Healthcare,Philippines,136,zetawaresingapore.com,https://logo.clearbit.com/zetawaresingapore.com,2023-10-07 03:54:14
+48baae72-a0fc-44cd-af0f-810ed1c45bde,EdgeBuild UK,prospect,SaaS,Indonesia,1132,edgebuilduk.com,https://logo.clearbit.com/edgebuilduk.com,2023-09-22 03:54:14
+c805f557-fb63-49ee-af25-073eaedcbaf6,PeakLink Japan,prospect,Fintech,Malaysia,1044,peaklinkjapan.com,https://logo.clearbit.com/peaklinkjapan.com,2023-07-07 03:54:14
+78e11960-ac91-4be5-b044-fec0111f2813,WaveFlow Thailand,prospect,Fintech,Canada,1556,waveflowthailand.com,https://logo.clearbit.com/waveflowthailand.com,2025-06-13 03:54:14
+cbc46b6f-09ab-4452-b95f-5cdb8550aee6,OpalCloud India,prospect,Fintech,South Korea,1011,opalcloudindia.com,https://logo.clearbit.com/opalcloudindia.com,2022-07-20 03:54:14

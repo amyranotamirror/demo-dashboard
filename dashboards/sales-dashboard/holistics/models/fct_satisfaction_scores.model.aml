@@ -1,0 +1,43 @@
+// Fact: Satisfaction Scores — periodic CSAT per customer (~1 per month).
+// "Many" side of: dim_companies (via company_id).
+// Score range: 1.0–5.0
+
+Model fct_satisfaction_scores {
+  type: 'table'
+  label: 'Satisfaction Scores'
+  table_name: 'satisfaction_scores'
+  data_source_name: 'neondb'
+
+  dimension id {
+    label: 'Score ID'
+    type: 'text'
+    primary_key: true
+    definition: @sql {{ #SOURCE.id }};;
+  }
+  dimension company_id {
+    label: 'Company ID'
+    type: 'text'
+    hidden: true
+  }
+  dimension score {
+    label: 'Score (1–5)'
+    type: 'number'
+  }
+  dimension recorded_at {
+    label: 'Recorded At'
+    type: 'date'
+  }
+
+  measure avg_score {
+    label: 'Avg Satisfaction Score'
+    type: 'number'
+    definition: @sql avg({{ #SOURCE.score }});;
+    aggregation_type: 'custom'
+  }
+  measure count_scores {
+    label: 'Score Observations'
+    type: 'number'
+    definition: @sql {{ id }};;
+    aggregation_type: 'count'
+  }
+}

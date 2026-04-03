@@ -47,63 +47,79 @@ deal.created_at = shift('2025-10-01');
 
 | Table | Rows | Notes |
 |---|---|---|
-| `companies` | ~320 | 1 internal + 20 competitors + ~300 prospects/customers (active + churned over 4 years) |
-| `persons` | ~750 | ~20 internal (with turnover) + 2–4 contacts per prospect/customer company |
-| `calls` | ~2,400 | ~3–4 per pre-sale deal + ~6 per subscription over lifetime |
-| `call_attendees` | ~6,000 | 2–6 attendees per call; every call has exactly one host |
-| `raw_inputs` | ~4,500 | variable per call: 1 for quick check-ins, 5–15 for demos/evals, 20–50 for first meetings |
-| `deals` | ~700 | breakdown below |
-| `deal_stage_history` | ~1,800 | avg 3–4 stage rows per in_progress / won / lost deal |
-| `subscriptions` | ~380 | one per won deal (new + renewal + upgrade + downgrade) |
-| `themes` | 5 | seed exactly — see values below |
-| `use_cases` | 15 | 2–4 per theme — seed exactly |
-| `features` | 30 | 1–3 per use case — seed exactly |
-| `improvements` | 60 | product team's open customer problems |
+| `companies` | ~540 | 1 internal + 20 competitors + ~520 prospects/customers (active + churned over 8 years) |
+| `persons` | ~1,600 | ~25 internal (with turnover) + ~3 contacts per prospect/customer company |
+| `calls` | ~5,500 | ~10 per won customer + ~3-4 per lost deal + post-sale calls |
+| `call_attendees` | ~16,500 | ~3 attendees per call; every call has exactly one host |
+| `raw_inputs` | ~55,000 | variable per call: 1 for quick check-ins, 5–15 for demos/evals, 20–50 for first meetings |
+| `deals` | ~1,800 | breakdown below |
+| `deal_stage_history` | ~5,400 | avg 3 stage rows per deal |
+| `subscriptions` | ~750 | one per won deal (new + renewal + upgrade + downgrade) |
+| `satisfaction_scores` | ~3,000 | ~1 per active customer per month |
+| `themes` | 100 | generated programmatically from 20 domains × 5 sub-areas |
+| `use_cases` | 500 | ~5 per theme |
+| `features` | 1,000 | ~2 per use case |
+| `improvements` | 4,000 | ~4 per feature |
 
 ---
 
-## Deal distribution (~700 total over 4 years)
+## Deal distribution (~1,800 total over 8 years)
 
 | deal_type | status | Count | Notes |
 |---|---|---|---|
-| `new` | `won` | 130 | Each has a subscription |
-| `new` | `lost` | 160 | Mix of all lost_reasons |
-| `new` | `ghost` | 40 | No activity in 45+ days; ~30% have `follow_up_at` set |
-| `new` | `in_progress` | 25 | Spread across all 5 stages; at least 5 active at any given month |
-| `upgrade` | `won` | 55 | Linked to a previous `new` or `renewal` deal |
-| `upgrade` | `lost` | 20 | |
-| `upgrade` | `in_progress` | 10 | |
-| `downgrade` | `won` | 30 | Linked to a previous deal; customer moved to lower plan |
-| `renewal` | `won` | 130 | Has a subscription; linked to previous deal |
-| `renewal` | `churned` | 50 | |
-| `renewal` | `in_progress` | 30 | Upcoming renewals within next 60 days |
-| `renewal` | `lost` | 20 | Tried to renew, prospect declined |
+| `new` | `won` | 300 | Each has a subscription |
+| `new` | `lost` | 350 | Mix of all lost_reasons |
+| `new` | `ghost` | 60 | No activity in 45+ days; ~30% have `follow_up_at` set |
+| `new` | `in_progress` | 40 | Spread across all 5 stages |
+| `upgrade` | `won` | 120 | Linked to a previous deal |
+| `upgrade` | `lost` | 30 | |
+| `upgrade` | `in_progress` | 20 | |
+| `downgrade` | `won` | 60 | Linked to a previous deal; customer moved to lower plan |
+| `downgrade` | `lost` | 10 | |
+| `downgrade` | `in_progress` | 10 | |
+| `renewal` | `won` | 280 | Has a subscription; linked to previous deal |
+| `renewal` | `churned` | 100 | |
+| `renewal` | `in_progress` | 50 | Upcoming renewals within next 60 days |
+| `renewal` | `lost` | 50 | Tried to renew, prospect declined |
 
 **Weekly event density target:**
-At least 1–2 deal events per week across the 4-year history. An "event" = a deal created, stage changed, won, lost, ghosted, or a ghost reactivated.
+At least 2–4 deal events per week across the 8-year history.
 
-**Ghost-then-return pattern (seed explicitly — ~15 deals):**
-A deal goes `ghost` → rep sets `follow_up_at` → on that date the deal moves back to `in_progress` at the same or earlier stage. Some of these then close (won or lost), others ghost again.
+**Ghost-then-return pattern (seed explicitly — ~25 deals):**
+A deal goes `ghost` → rep sets `follow_up_at` → on that date the deal moves back to `in_progress` at the same or earlier stage.
 
-**Deal cohort — spread across 4 years:**
+**Deal cohort — spread across 8 years:**
 
 | Cohort | created_at range | Typical outcome |
 |---|---|---|
-| Oldest | 46–48 months ago | won with full renewal chain, or lost early |
-| Early growth | 36–46 months ago | won → renewed 1–2x, or churned |
-| Mid | 18–36 months ago | won (some churned), lost, upgrade/downgrade chain |
-| Recent closed | 6–18 months ago | won (active subscription) or lost |
-| Active pipeline | 1–6 months ago | in_progress at various stages |
+| Oldest (Y1-Y2) | 72–96 months ago | won with full renewal chain, many churned by now |
+| Early growth (Y3-Y4) | 48–72 months ago | won → renewed 1–3x, or churned. v2.0/v2.5 customers |
+| Mid (Y4-Y6) | 24–48 months ago | won (some churned), lost, upgrade/downgrade chain. v2.7/v3.0 customers |
+| Recent closed (Y7) | 6–24 months ago | won (active subscription, v3.0/v4.0) or lost |
+| Active pipeline (Y8) | 1–6 months ago | in_progress at various stages |
 | New/fresh | 0–4 weeks ago | qualifying or validating |
+
+**Version distribution for subscriptions** — assign `product_version` based on `started_at`:
+
+| started_at era | Available versions | Weights |
+|---|---|---|
+| Y1-Y2 (96-72 months ago) | v2.0 | 100% |
+| Y3 (72-60 months ago) | v2.0, v2.5 | 30/70 |
+| Y4 (60-48 months ago) | v2.5, v2.7 | 40/60 |
+| Y5 (48-36 months ago) | v2.7, v3.0 | 30/70 |
+| Y6-Y6.5 (36-18 months ago) | v3.0 | 100% |
+| Y7-Y8 (18-0 months ago) | v3.0, v4.0 | 30/70 |
+
+Customers KEEP their version on renewal (don't auto-upgrade). Early version customers (v2.0) have 3× churn rate of v4.0 customers.
 
 ---
 
-## Call distribution (~2,400 total)
+## Call distribution (~5,500 total)
 
 | phase | count | guidance |
 |---|---|---|
-| `pre_sale` | ~1,500 | ~3–4 calls per deal (in_progress + won + lost); mix of discovery, demo, evaluation, negotiation |
-| `post_sale` | ~900 | ~6 calls per subscription over its lifetime; mix of onboarding, check_in, renewal |
+| `pre_sale` | ~3,500 | Won customers: follow the full checklist (discovery → demo → evaluation → negotiation = 4 calls). Lost deals: 3–4 calls. Ghost/in_progress: 1–3 calls |
+| `post_sale` | ~2,000 | ~6 calls per subscription: 1 onboarding + 5 check-in/renewal calls over lifetime. Total ~10 calls per won customer (4 pre-sale + 6 post-sale) |
 
 **Attendee count per call:** 2–6 people. Every call has exactly one `host` (internal rep). Remaining attendees are a mix of internal and external persons. Bias toward smaller calls (2–3 people) for check-ins; larger (4–6) for discovery, demo, and negotiation calls.
 
@@ -149,7 +165,7 @@ Scope: analytics vendors broadly (BI, embedded analytics, data apps, self-servic
 | GoodData | gooddata.com | `competitor` |
 | Omni | omni.co | `competitor` |
 
-**Prospects / Customers (~300 rows) — use real company names:**
+**Prospects / Customers (~520 rows) — use real company names:**
 
 Use real companies that plausibly use analytics tools (data-driven teams in SEA, APAC, and global tech). Populate `website` and `logo_url` using `https://logo.clearbit.com/{domain}`.
 
@@ -195,9 +211,11 @@ Seed at least the following real companies. Generate the remaining rows using th
 - A churned customer who re-engages gets a new `new` deal while still typed as `customer`
 
 **Active customer count over time:**
-Model the fluctuation across 4 years:
-- Year 1 (months 1–12): ramp from ~20 to ~80 active customers
-- Year 2 (months 13–24): grow from ~80 to ~150
+Model the fluctuation across 8 years:
+- Year 1–2 (months 1–24): ramp from ~10 to ~80 active customers (v2.0 era, high early churn)
+- Year 3–4 (months 25–48): grow from ~80 to ~160 (v2.5/v2.7 era)
+- Year 5–6 (months 49–72): grow from ~160 to ~250 (v3.0 era, churn stabilizes)
+- Year 7–8 (months 73–96): ~250–300 active, healthy churn/new balance (v4.0 appears)
 - Year 3 (months 25–36): peak ~200, some churn starts
 - Year 4 (months 37–48): ~200–220 active, healthy churn/new balance
 
@@ -392,29 +410,18 @@ For `downgrade` deals: value must be lower than predecessor.
 
 ---
 
-## Product taxonomy — seed exactly
+## Product taxonomy — generated programmatically at scale
 
-Seed these rows exactly so the Market Signals tab tells a coherent story. Do not randomize names.
+The product taxonomy is generated programmatically to achieve realistic scale. Key story items (SSO/SAML blocker, Column masking shipped, Excel export request) are seeded as named items at the top; the rest are generated.
 
-**Themes (5):**
-`Collaboration` · `Data Governance` · `Reporting Speed` · `Integrations` · `Administration`
+**Themes (100):** 20 domain areas × 5 sub-themes each. Domains:
+`Data Modeling` · `Visualization` · `Charts` · `Security` · `Collaboration` · `Performance` · `Integrations` · `Administration` · `AI/ML` · `Embedding` · `Export/Delivery` · `Mobile` · `Alerting` · `Scheduling` · `Git/Version Control` · `Developer Experience` · `Data Quality` · `Semantic Layer` · `Self-Service` · `Multi-tenancy`
 
-**Use Cases (sample — define 2–4 per theme):**
+**Use Cases (500):** ~5 per theme, generated with descriptive names.
 
-| Theme | Use Case |
-|---|---|
-| Collaboration | External sharing |
-| Collaboration | Team workspaces |
-| Data Governance | Column-level access control |
-| Data Governance | Row-level security |
-| Reporting Speed | Query caching |
-| Reporting Speed | Pre-aggregation |
-| Integrations | Warehouse connectors |
-| Integrations | Reverse ETL / export |
-| Administration | SSO / SAML |
-| Administration | Audit logs |
+**Features (1,000):** ~2 per use case. Status distribution: shipped 50%, in_development 20%, planned 25%, deprecated 5%.
 
-**Features and Improvements:** create 1–3 features per use case, then attach improvements to features. Give ~30% of improvements `is_blocking = true` and ~20% a `status` of `shipped` (to populate the "Promise tracker" and "Shipped → follow up" widgets).
+**Improvements (4,000):** ~4 per feature. Status: open 30%, planned 25%, shipped 20%, workaround 10%, deferred 10%, wont_do 5%. Priority: critical 10%, high 25%, medium 40%, low 25%. is_blocking: 15% true.
 
 ---
 
@@ -431,4 +438,5 @@ Seed these rows exactly so the Market Signals tab tells a coherent story. Do not
 | `improvements` | `created_at` can be any time after the earliest linked raw input; `updated_at >= created_at` |
 | `persons.left_at` | Must be after `persons.created_at`; replacement employee's `created_at` within 30 days after |
 | `deals.follow_up_at` | Must be in the future relative to when the deal went ghost or paused; for historical ghost-then-return deals, `follow_up_at` must be before the reactivation date |
-| Overall time window | All data spans exactly 4 years back from today. Use `daysAgo(1460)` as the oldest anchor. |
+| `satisfaction_scores` | `recorded_at` should be monthly; scores trend from 4.2 → 3.8 over the most recent 6 months |
+| Overall time window | All data spans exactly 8 years back from today. Use `daysAgo(2920)` as the oldest anchor. |

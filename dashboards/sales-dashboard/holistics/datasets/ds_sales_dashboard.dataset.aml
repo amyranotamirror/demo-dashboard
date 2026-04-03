@@ -1,0 +1,276 @@
+// Dataset: Sales Dashboard (single dataset)
+// Audience: Sales reps, sales managers, CS reps, product team
+//
+// Pattern: Galaxy — multiple fact tables sharing dim_companies as the central dimension.
+//
+// Path ambiguity handled structurally (no with_relationships() needed):
+//   1. companies table is split into dim_companies + dim_competitors (two separate models/views)
+//      → raw_inputs.company_id   → dim_companies   (customer the signal is FROM)
+//      → raw_inputs.competitor_id → dim_competitors (competitor mentioned IN the signal)
+//   2. persons table is split into dim_reps + dim_contacts (two separate query models)
+//   3. Direct FK paths only — transitive paths explicitly omitted:
+//      - fct_calls.company_id       (not via fct_deals)
+//      - fct_subscriptions.company_id (not via fct_deals)
+//      - fct_raw_inputs.company_id  (not via fct_calls)
+
+Dataset ds_sales_dashboard {
+  label: 'Sales Dashboard'
+  data_source_name: 'neondb'
+  description: 'Single dataset for all sales, CS, and market signal metrics. Covers pipeline, team performance, customer health, and product signals.'
+
+  models: [
+    // Dimensions
+    dim_companies,
+    dim_reps,
+    dim_contacts,
+    dim_competitors,
+    dim_improvements,
+    dim_product_taxonomy,
+    // Facts
+    fct_deals,
+    fct_deal_stage_history,
+    fct_calls,
+    fct_call_attendees,
+    fct_raw_inputs,
+    fct_subscriptions,
+    fct_satisfaction_scores
+  ]
+
+  relationships: [
+    // fct_deals → dimensions
+    relationship(fct_deals.company_id > dim_companies.id, true),
+    relationship(fct_deals.owner_id > dim_reps.id, true),
+
+    // fct_deal_stage_history → fct_deals
+    relationship(fct_deal_stage_history.deal_id > fct_deals.id, true),
+
+    // fct_calls → company (direct only — omit transitive via fct_deals)
+    relationship(fct_calls.company_id > dim_companies.id, true),
+    relationship(fct_calls.deal_id > fct_deals.id, true),
+
+    // fct_call_attendees → calls + contacts
+    relationship(fct_call_attendees.call_id > fct_calls.id, true),
+    relationship(fct_call_attendees.person_id > dim_contacts.id, true),
+
+    // fct_subscriptions → company (direct only — omit transitive via fct_deals)
+    relationship(fct_subscriptions.company_id > dim_companies.id, true),
+    relationship(fct_subscriptions.deal_id > fct_deals.id, true),
+
+    // fct_raw_inputs → company (direct only — omit transitive via fct_calls)
+    relationship(fct_raw_inputs.company_id > dim_companies.id, true),
+    relationship(fct_raw_inputs.call_id > fct_calls.id, true),
+    relationship(fct_raw_inputs.improvement_id > dim_improvements.id, true),
+    // Role-playing: competitor_id → dim_competitors (different model from dim_companies)
+    relationship(fct_raw_inputs.competitor_id > dim_competitors.id, true),
+
+    // fct_satisfaction_scores → company
+    relationship(fct_satisfaction_scores.company_id > dim_companies.id, true),
+
+    // dim_improvements → product taxonomy
+    relationship(dim_improvements.feature_id > dim_product_taxonomy.id, true)
+  ]
+
+  // -------------------------------------------------------
+  // FILL — Pipeline health
+  // -------------------------------------------------------
+
+  metric active_pipeline_value {
+    label: 'Active Pipeline Value (USD)'
+    type: 'number'
+    definition: @aql sum(fct_deals, fct_deals.deal_value_usd) | where(fct_deals.status == 'in_progress');;
+  }
+  metric active_deal_count {
+    label: 'Active Deals'
+    type: 'number'
+    definition: @aql count(fct_deals.id) | where(fct_deals.status == 'in_progress');;
+  }
+  metric ghost_deal_count {
+    label: 'Ghost Deals'
+    type: 'number'
+    definition: @aql count(fct_deals.id) | where(fct_deals.status == 'ghost');;
+  }
+  metric ghost_rate {
+    label: 'Ghost Rate (%)'
+    type: 'number'
+    description: 'Ghost / (Active + Ghost). Flag if > 20%.'
+    definition: @aql safe_divide(ghost_deal_count * 100.0, active_deal_count + ghost_deal_count);;
+  }
+  metric new_pipeline_value {
+    label: 'New Pipeline Value (USD)'
+    type: 'number'
+    definition: @aql sum(fct_deals, fct_deals.deal_value_usd);;
+  }
+
+  // -------------------------------------------------------
+  // CONVERT — Win/loss efficiency
+  // -------------------------------------------------------
+
+  metric won_deals {
+    label: 'Won Deals'
+    type: 'number'
+    definition: @aql count(fct_deals.id) | where(fct_deals.status == 'won');;
+  }
+  metric lost_deals {
+    label: 'Lost Deals'
+    type: 'number'
+    definition: @aql count(fct_deals.id) | where(fct_deals.status == 'lost');;
+  }
+  metric win_rate {
+    label: 'Win Rate (%)'
+    type: 'number'
+    definition: @aql safe_divide(won_deals * 100.0, won_deals + lost_deals);;
+  }
+  metric won_revenue {
+    label: 'Won Revenue (USD)'
+    type: 'number'
+    definition: @aql sum(fct_deals, fct_deals.deal_value_usd) | where(fct_deals.status == 'won');;
+  }
+  metric avg_deal_value {
+    label: 'Avg Deal Value (USD)'
+    type: 'number'
+    definition: @aql safe_divide(won_revenue, won_deals);;
+  }
+  metric avg_sales_cycle_won {
+    label: 'Avg Sales Cycle — Won (Days)'
+    type: 'number'
+    definition: @aql avg(fct_deals, fct_deals.days_to_close) | where(fct_deals.status == 'won');;
+  }
+  metric avg_sales_cycle_lost {
+    label: 'Avg Sales Cycle — Lost (Days)'
+    type: 'number'
+    definition: @aql avg(fct_deals, fct_deals.days_to_close) | where(fct_deals.status == 'lost');;
+  }
+  metric avg_time_in_stage {
+    label: 'Avg Time in Stage (Days)'
+    type: 'number'
+    description: 'Use with fct_deal_stage_history.stage dimension.'
+    definition: @aql avg(fct_deal_stage_history, fct_deal_stage_history.days_in_stage);;
+  }
+  metric stage_entries {
+    label: 'Stage Entries'
+    type: 'number'
+    description: 'Distinct deals that entered a stage. Use with stage dimension for funnel.'
+    definition: @aql count_distinct(fct_deal_stage_history.deal_id);;
+  }
+
+  // -------------------------------------------------------
+  // TEAM — Rep performance
+  // -------------------------------------------------------
+
+  metric total_calls {
+    label: 'Total Calls'
+    type: 'number'
+    definition: @aql count(fct_calls.id);;
+  }
+  metric calls_per_week {
+    label: 'Calls per Week'
+    type: 'number'
+    description: 'Use with dim_reps to get per-rep breakdown.'
+    definition: @aql
+      fct_calls
+      | group(fct_calls.call_date | week())
+      | select(weekly: count(fct_calls.id))
+      | avg(weekly);;
+  }
+  metric rep_win_rate {
+    label: 'Rep Win Rate (%)'
+    type: 'number'
+    description: 'Use with dim_reps.name as dimension.'
+    definition: @aql safe_divide(won_deals * 100.0, won_deals + lost_deals);;
+  }
+
+  // -------------------------------------------------------
+  // RETAIN — Customer health
+  // -------------------------------------------------------
+
+  metric active_mrr {
+    label: 'Active MRR (USD)'
+    type: 'number'
+    definition: @aql sum(fct_subscriptions, fct_subscriptions.mrr_usd) | where(fct_subscriptions.is_active == true);;
+  }
+  metric active_customer_count {
+    label: 'Active Customers'
+    type: 'number'
+    definition: @aql count_distinct(fct_subscriptions.company_id) | where(fct_subscriptions.is_active == true);;
+  }
+  metric avg_mrr_per_customer {
+    label: 'Avg MRR per Customer (USD)'
+    type: 'number'
+    definition: @aql safe_divide(active_mrr, active_customer_count);;
+  }
+  metric churned_mrr {
+    label: 'Churned MRR (USD)'
+    type: 'number'
+    definition: @aql sum(fct_subscriptions, fct_subscriptions.mrr_usd) | where(fct_subscriptions.is_active == false);;
+  }
+  metric mrr_churn_rate {
+    label: 'MRR Churn Rate (%)'
+    type: 'number'
+    definition: @aql safe_divide(churned_mrr * 100.0, active_mrr + churned_mrr);;
+  }
+  metric avg_satisfaction_score {
+    label: 'Avg Satisfaction Score'
+    type: 'number'
+    description: 'CSAT 1.0–5.0. Flag if < 3.5.'
+    definition: @aql avg(fct_satisfaction_scores, fct_satisfaction_scores.score);;
+  }
+  metric post_sale_calls {
+    label: 'Post-Sale Calls'
+    type: 'number'
+    definition: @aql count(fct_calls.id) | where(fct_calls.phase == 'post_sale');;
+  }
+  metric open_issues {
+    label: 'Open Issues'
+    type: 'number'
+    description: 'Unresolved raw inputs per company. Use with dim_companies for the at-risk table.'
+    definition: @aql count(fct_raw_inputs.id) | where(fct_raw_inputs.is_open == true);;
+  }
+
+  // -------------------------------------------------------
+  // MARKET SIGNALS — Product intelligence
+  // -------------------------------------------------------
+
+  metric competitor_mentions {
+    label: 'Competitor Mentions'
+    type: 'number'
+    description: 'Use with dim_competitors.name for breakdown.'
+    definition: @aql count(fct_raw_inputs.id) | where(fct_raw_inputs.is_competitor_mention == true);;
+  }
+  metric blocking_improvements {
+    label: 'Blocking Improvements'
+    type: 'number'
+    definition: @aql count(dim_improvements.id) | where(dim_improvements.is_blocking == true);;
+  }
+  metric companies_affected {
+    label: 'Companies Affected'
+    type: 'number'
+    description: 'Distinct companies with signals. Use with improvement dimension for priority.'
+    definition: @aql count_distinct(fct_raw_inputs.company_id);;
+  }
+
+  // -------------------------------------------------------
+  // Dataset-level dimensions (cross-model)
+  // -------------------------------------------------------
+
+  // Acquisition cohort — source on one-side (dim_companies), must use dimensionalize
+  dimension acquisition_cohort {
+    model: dim_companies
+    type: 'date'
+    label: 'Acquisition Cohort'
+    description: 'Month of first subscription.'
+    definition: @aql min(fct_subscriptions.started_at | month()) | dimensionalize(dim_companies.id);;
+  }
+
+  // Days since last post-sale call — source on one-side, must use dimensionalize
+  dimension days_since_last_call {
+    model: dim_companies
+    type: 'number'
+    label: 'Days Since Last Post-Sale Call'
+    description: 'Null = no post-sale calls ever. Flag > 90 days as at-risk.'
+    definition: @aql
+      date_diff('day',
+        max(fct_calls.call_date) | where(fct_calls.phase == 'post_sale'),
+        @today
+      ) | dimensionalize(dim_companies.id);;
+  }
+}

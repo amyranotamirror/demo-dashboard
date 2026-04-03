@@ -1,0 +1,99 @@
+// Dimension: Companies (prospects, customers, internal)
+// Points to v_customers view — competitors are in dim_competitors.
+// "One" side of: deals, calls, subscriptions, raw_inputs, satisfaction_scores.
+
+Model dim_companies {
+  type: 'table'
+  label: 'Companies'
+  table_name: 'v_customers'
+  data_source_name: 'neondb'
+  description: 'Prospects, active customers, and the internal Holistics company. Competitors live in dim_competitors.'
+
+  dimension id {
+    label: 'Company ID'
+    type: 'text'
+    primary_key: true
+    definition: @sql {{ #SOURCE.id }};;
+  }
+  dimension name {
+    label: 'Company Name'
+    type: 'text'
+  }
+  dimension type {
+    label: 'Company Type'
+    type: 'text'
+    description: 'internal | prospect | customer'
+  }
+  dimension industry {
+    label: 'Industry'
+    type: 'text'
+  }
+  dimension country {
+    label: 'Country'
+    type: 'text'
+  }
+  dimension employee_count {
+    label: 'Employee Count'
+    type: 'number'
+  }
+  dimension company_size {
+    label: 'Company Size Segment'
+    type: 'text'
+    definition: @sql
+      case
+        when {{ #SOURCE.employee_count }} < 50   then 'SMB'
+        when {{ #SOURCE.employee_count }} < 500  then 'Mid-Market'
+        when {{ #SOURCE.employee_count }} is null then 'Unknown'
+        else 'Enterprise'
+      end;;
+  }
+  dimension website {
+    label: 'Website'
+    type: 'text'
+  }
+  dimension logo_url {
+    label: 'Logo URL'
+    type: 'text'
+    hidden: true
+  }
+  dimension created_at {
+    label: 'Created At'
+    type: 'datetime'
+  }
+
+  dimension latitude {
+    label: 'Latitude'
+    type: 'number'
+    definition: @sql
+      case {{ #SOURCE.country }}
+        when 'Singapore'   then 1.3521
+        when 'Indonesia'   then -0.7893
+        when 'India'       then 20.5937
+        when 'Vietnam'     then 14.0583
+        when 'Thailand'    then 15.8700
+        when 'Philippines' then 12.8797
+        when 'Australia'   then -25.2744
+        when 'Germany'     then 51.1657
+        when 'South Korea' then 35.9078
+        else null
+      end;;
+  }
+
+  dimension longitude {
+    label: 'Longitude'
+    type: 'number'
+    definition: @sql
+      case {{ #SOURCE.country }}
+        when 'Singapore'   then 103.8198
+        when 'Indonesia'   then 113.9213
+        when 'India'       then 78.9629
+        when 'Vietnam'     then 108.2772
+        when 'Thailand'    then 100.9925
+        when 'Philippines' then 121.7740
+        when 'Australia'   then 133.7751
+        when 'Germany'     then 10.4515
+        when 'South Korea' then 127.7669
+        else null
+      end;;
+  }
+}

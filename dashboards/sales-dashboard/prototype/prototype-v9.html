@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Dashboard v9 · Holistics</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg:      #0d1117;
+      --bg-nav:  #0a0e14;
+      --bg-card: #161b27;
+      --bg-card2:#1a2030;
+      --bg-card3:#111620;
+      --border:  rgba(255,255,255,.07);
+      --border2: rgba(255,255,255,.12);
+      --green:   #00c47a;
+      --blue:    #3b82f6;
+      --indigo:  #6366f1;
+      --purple:  #8b5cf6;
+      --amber:   #f59e0b;
+      --red:     #ef4444;
+      --teal:    #06b6d4;
+      --t1:      #e2e8f0;
+      --t2:      #94a3b8;
+      --t3:      #475569;
+      --r:       8px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--t1);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;line-height:1.5}
+
+    /* NAV */
+    .navbar{background:var(--bg-nav);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;height:52px;gap:16px;position:sticky;top:0;z-index:300}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;color:#fff}
+    .logo-mark{width:26px;height:26px;background:var(--green);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#000}
+    .nav-sep{color:var(--t3);font-size:20px}
+    .nav-title{color:var(--t2);font-size:13px}
+    .nav-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+    .nbadge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px;background:rgba(0,196,122,.12);color:var(--green);border:1px solid rgba(0,196,122,.25)}
+
+    /* FILTER */
+    .filter-bar{background:var(--bg-nav);border-bottom:1px solid var(--border2);padding:8px 24px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:sticky;top:52px;z-index:200}
+    .f-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3)}
+    .f-select{background:var(--bg-card2);border:1px solid var(--border2);color:var(--t1);font-size:12px;font-weight:500;padding:5px 10px;border-radius:6px;cursor:pointer;outline:none}
+    .f-select:hover{border-color:var(--green)}
+    .f-sep{width:1px;height:20px;background:var(--border2);flex-shrink:0}
+    .f-note{font-size:11px;color:var(--t3);margin-left:auto}
+
+    /* TABS */
+    .tabs-bar{background:var(--bg-nav);border-bottom:1px solid var(--border);padding:0 24px;display:flex;position:sticky;top:92px;z-index:100}
+    .tab-btn{padding:0 22px;height:46px;background:none;border:none;border-bottom:2px solid transparent;color:var(--t2);cursor:pointer;font-size:13px;font-weight:500;white-space:nowrap;transition:color .15s,border-color .15s;display:flex;align-items:center;gap:7px}
+    .tab-btn:hover{color:var(--t1)}
+    .tab-btn.active{color:#fff;border-bottom-color:var(--green)}
+    .tc{font-size:10px;font-weight:700;padding:1px 6px;border-radius:99px}
+    .tc-r{background:rgba(239,68,68,.2);color:#f87171}
+    .tc-a{background:rgba(245,158,11,.2);color:#fbbf24}
+
+    /* LAYOUT */
+    .tab-pane{display:none;padding:28px 24px 72px;max-width:1440px;margin:0 auto}
+    .tab-pane.active{display:block}
+    .grid{display:grid;gap:16px}
+    .g2{grid-template-columns:1fr 1fr}
+    .g3{grid-template-columns:1fr 1fr 1fr}
+    .g4{grid-template-columns:1fr 1fr 1fr 1fr}
+    .g13{grid-template-columns:1fr 3fr}
+    .g12{grid-template-columns:1fr 2fr}
+    .g21{grid-template-columns:2fr 1fr}
+
+    /* CARD */
+    .card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:20px}
+    .card-sm{padding:14px 16px}
+    .card-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);margin-bottom:10px}
+
+    /* SECTION GROUP */
+    .sg{margin-bottom:32px}
+    .sg-label{font-size:11px;font-weight:600;color:var(--t3);letter-spacing:.04em;text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+
+    /* KPI */
+    .kpi-val{font-size:28px;font-weight:700;letter-spacing:-.02em;color:#fff;line-height:1.15}
+    .kpi-val.lg{font-size:36px}
+    .kpi-sub{font-size:12px;color:var(--t2);margin-top:4px}
+    .kpi-delta{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:2px 7px;border-radius:4px;margin-top:6px}
+    .kpi-delta.up{background:rgba(0,196,122,.12);color:var(--green)}
+    .kpi-delta.dn{background:rgba(239,68,68,.12);color:var(--red)}
+    .kpi-delta.warn{background:rgba(245,158,11,.12);color:var(--amber)}
+    .kpi-target{font-size:11px;color:var(--t3);margin-top:5px}
+
+    /* STATUS STRIP */
+    .ss{border-radius:var(--r);padding:12px 18px;font-size:13px;font-weight:500;margin-bottom:24px;display:flex;align-items:center;gap:10px}
+    .ss.green{background:rgba(0,196,122,.1);border:1px solid rgba(0,196,122,.25);color:#a7f3d0}
+    .ss.amber{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:#fde68a}
+    .ss.red{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:#fca5a5}
+    .ss-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+    .ss-dot.green{background:var(--green)}
+    .ss-dot.amber{background:var(--amber)}
+    .ss-dot.red{background:var(--red)}
+
+    /* CHART */
+    .chart-wrap canvas{max-height:240px}
+    .chart-wrap.tall canvas{max-height:300px}
+    .chart-wrap.short canvas{max-height:160px}
+
+    /* TABLE */
+    .tbl{width:100%;border-collapse:collapse;font-size:13px}
+    .tbl th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);padding:0 10px 10px;text-align:left;border-bottom:1px solid var(--border2)}
+    .tbl th.r{text-align:right}
+    .tbl td{padding:9px 10px;border-bottom:1px solid var(--border);color:var(--t2);vertical-align:middle}
+    .tbl td.r{text-align:right}
+    .tbl td.num{font-variant-numeric:tabular-nums}
+    .tbl tr:last-child td{border-bottom:none}
+    .tbl tr:hover td{background:rgba(255,255,255,.025)}
+    .tbl td strong{color:var(--t1);font-weight:600}
+    .tbl tr.clickable{cursor:pointer}
+    .tbl tr.clickable:hover td{background:rgba(59,130,246,.07)}
+
+    /* PILLS */
+    .pill{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;white-space:nowrap}
+    .pill::before{content:'';width:6px;height:6px;border-radius:50%}
+    .pill-closeable{background:rgba(0,196,122,.15);color:#6ee7b7}.pill-closeable::before{background:var(--green)}
+    .pill-attention{background:rgba(245,158,11,.15);color:#fde68a}.pill-attention::before{background:var(--amber)}
+    .pill-ghost{background:rgba(239,68,68,.15);color:#fca5a5}.pill-ghost::before{background:var(--red)}
+    .pill-healthy{background:rgba(148,163,184,.1);color:var(--t2)}.pill-healthy::before{background:var(--t3)}
+    .pill-critical{background:rgba(239,68,68,.15);color:#fca5a5}.pill-critical::before{background:var(--red)}
+    .pill-watch{background:rgba(245,158,11,.15);color:#fde68a}.pill-watch::before{background:var(--amber)}
+    .pill-ok{background:rgba(0,196,122,.12);color:#6ee7b7}.pill-ok::before{background:var(--green)}
+
+    /* COLORS */
+    .c-red{color:#f87171;font-weight:600}
+    .c-amber{color:#fbbf24;font-weight:600}
+    .c-green{color:#34d399;font-weight:600}
+    .c-blue{color:#60a5fa}
+    .c-dim{color:var(--t3);font-size:12px}
+
+    /* NOTICE */
+    .notice{font-size:12px;color:var(--t3);background:var(--bg-card2);border:1px solid var(--border);border-radius:6px;padding:10px 14px;margin-top:12px;line-height:1.6}
+    .notice strong{color:var(--t2)}
+
+    .next-step{font-size:11px;color:var(--blue);font-style:italic}
+
+    /* ══════════════════════════════════════════
+       DEAL CARDS
+    ══════════════════════════════════════════ */
+    .deal-scroll{display:flex;gap:14px;overflow-x:auto;padding-bottom:10px;scrollbar-width:thin;scrollbar-color:var(--border2) transparent}
+    .deal-scroll::-webkit-scrollbar{height:4px}
+    .deal-scroll::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px}
+
+    .dc{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;min-width:210px;max-width:210px;flex-shrink:0;cursor:pointer;transition:border-color .15s,background .15s}
+    .dc:hover{border-color:var(--border2);background:var(--bg-card2)}
+    .dc.signal-ghost{border-top:2px solid var(--red)}
+    .dc.signal-attention{border-top:2px solid var(--amber)}
+    .dc.signal-closeable{border-top:2px solid var(--green)}
+
+    .dc-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+    .dc-logo{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+    .dc-name{font-size:13px;font-weight:600;color:var(--t1);line-height:1.2}
+    .dc-owner{font-size:11px;color:var(--t3)}
+
+    /* stage dots — single line, no labels */
+    .dc-stages{display:flex;align-items:center;gap:0;margin-bottom:8px}
+    .dc-dot{width:7px;height:7px;border-radius:50%;border:1.5px solid var(--t3);background:transparent;flex-shrink:0;transition:all .2s}
+    .dc-dot.done{background:var(--t3);border-color:var(--t3)}
+    .dc-dot.current{width:9px;height:9px;background:var(--green);border-color:var(--green);box-shadow:0 0 5px rgba(0,196,122,.45)}
+    .dc-line{flex:1;height:1.5px;background:var(--t3)}
+    .dc-line.next{background:var(--border2)}
+    .dc-stage-name{font-size:11px;color:var(--t2);margin-bottom:8px;font-weight:500}
+
+    .dc-meta{display:flex;gap:8px;font-size:11px;color:var(--t3);margin-bottom:7px;flex-wrap:wrap}
+    .dc-meta .val{color:var(--t2);font-weight:600}
+    .dc-blockers{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:7px}
+    .dc-blocker{font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;background:rgba(239,68,68,.12);color:#fca5a5;border:1px solid rgba(239,68,68,.2)}
+    .dc-nextstep{font-size:11px;color:var(--blue);font-style:italic;line-height:1.4}
+
+    /* ══════════════════════════════════════════
+       DEAL DRAWER — Notion-style
+    ══════════════════════════════════════════ */
+    .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:900}
+    .overlay.open{display:block}
+    .drawer{position:fixed;top:0;right:-540px;width:540px;height:100vh;background:var(--bg-card3);border-left:1px solid var(--border2);z-index:1000;overflow-y:auto;transition:right .25s cubic-bezier(.4,0,.2,1)}
+    .drawer.open{right:0}
+
+    .dr-header{padding:20px 24px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:14px}
+    .dr-logo{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#fff;flex-shrink:0}
+    .dr-title{font-size:17px;font-weight:700;color:#fff}
+    .dr-stage{font-size:12px;color:var(--t2);margin-top:2px}
+    .dr-close{margin-left:auto;width:28px;height:28px;border-radius:6px;background:var(--bg-card2);border:1px solid var(--border2);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--t2);font-size:16px;flex-shrink:0}
+    .dr-close:hover{background:var(--bg-card);color:var(--t1)}
+
+    .dr-meta{padding:10px 24px;border-bottom:1px solid var(--border);display:flex;gap:20px;flex-wrap:wrap}
+    .dr-meta-item{display:flex;flex-direction:column;gap:2px}
+    .dr-meta-label{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--t3)}
+    .dr-meta-val{font-size:13px;font-weight:600;color:var(--t1)}
+
+    .dr-section{padding:14px 24px;border-bottom:1px solid var(--border)}
+    .dr-section-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);margin-bottom:12px}
+
+    /* Notion toggle */
+    .call-toggle{border-radius:6px;overflow:hidden;margin-bottom:6px}
+    .call-toggle:last-child{margin-bottom:0}
+    .call-toggle summary{list-style:none;display:flex;align-items:flex-start;gap:10px;padding:10px 12px;cursor:pointer;background:var(--bg-card2);border-radius:6px;user-select:none}
+    .call-toggle summary::-webkit-details-marker{display:none}
+    .call-toggle summary:hover{background:rgba(255,255,255,.04)}
+    .ct-chevron{color:var(--t3);font-size:12px;flex-shrink:0;transition:transform .15s;margin-top:2px}
+    .call-toggle[open] .ct-chevron{transform:rotate(90deg)}
+    .ct-left{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+    .ct-date{font-size:12px;font-weight:600;color:var(--t1)}
+    .ct-attendees{font-size:11px;color:var(--t3)}
+    .call-body{padding:10px 12px 12px 34px;background:var(--bg-card2);border-top:1px solid var(--border);border-radius:0 0 6px 6px}
+    .call-notes{font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:8px}
+    .call-next{font-size:11px;color:var(--blue);font-style:italic;background:rgba(59,130,246,.08);padding:5px 10px;border-radius:4px;display:inline-block}
+    .call-resolved{font-size:11px;color:var(--green);margin-top:6px}
+
+    .dr-contacts{padding:12px 24px;border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;gap:6px}
+    .dr-contact{font-size:12px;color:var(--t2);background:var(--bg-card2);border:1px solid var(--border);border-radius:4px;padding:3px 8px}
+    .dr-contact strong{color:var(--t1)}
+
+    /* ══════════════════════════════════════════
+       WIN/LOSS — MISSING FEATURES
+    ══════════════════════════════════════════ */
+    .team-accordion{margin-top:12px}
+    .team-toggle{border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:8px}
+    .team-toggle:last-child{margin-bottom:0}
+    .team-toggle summary{list-style:none;display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer;background:var(--bg-card2);user-select:none}
+    .team-toggle summary::-webkit-details-marker{display:none}
+    .team-toggle summary:hover{background:rgba(255,255,255,.04)}
+    .team-toggle[open] summary{border-bottom:1px solid var(--border)}
+    .tt-chevron{color:var(--t3);font-size:12px;flex-shrink:0;transition:transform .15s}
+    .team-toggle[open] .tt-chevron{transform:rotate(90deg)}
+    .tt-name{font-size:13px;font-weight:600;color:var(--t1);flex:1}
+    .tt-count{font-size:12px;color:var(--t2)}
+    .tt-mrr{font-size:11px;color:var(--t3)}
+    .team-inputs{padding:12px 14px;background:var(--bg-card3)}
+    .raw-input{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+    .raw-input:last-child{border-bottom:none}
+    .ri-text{font-size:13px;color:var(--t2);flex:1;font-style:italic;line-height:1.5}
+    .ri-meta{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}
+    .ri-count{font-size:11px;color:var(--t1);font-weight:600;white-space:nowrap}
+    .ri-mrr{font-size:10px;color:var(--t3);white-space:nowrap}
+
+    /* ══════════════════════════════════════════
+       WIN/LOSS — REP SCORECARDS
+    ══════════════════════════════════════════ */
+    .rep-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .rep-card{background:var(--bg-card2);border:1px solid var(--border);border-radius:var(--r);padding:16px}
+    .rep-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+    .rep-avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff}
+    .rep-name{font-size:13px;font-weight:600;color:var(--t1)}
+    .rep-wr{font-size:34px;font-weight:800;letter-spacing:-.03em;line-height:1;margin-bottom:6px}
+    .rep-bar-wrap{height:4px;background:var(--bg-card);border-radius:99px;margin-bottom:12px;position:relative;overflow:hidden}
+    .rep-bar{height:100%;border-radius:99px}
+    .rep-bar-target{position:absolute;top:0;width:2px;height:100%;background:rgba(255,255,255,.3)}
+    .rep-stats{display:flex;flex-direction:column;gap:5px}
+    .rep-stat{display:flex;justify-content:space-between;font-size:12px}
+    .rep-stat-label{color:var(--t3)}
+    .rep-stat-val{color:var(--t2);font-weight:600}
+    .rep-pattern{font-size:11px;color:var(--t3);margin-top:10px;padding-top:10px;border-top:1px solid var(--border);line-height:1.5}
+
+    /* ══════════════════════════════════════════
+       ACCOUNTS — SWIMLANE
+    ══════════════════════════════════════════ */
+    .swimlane{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+    .lane{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+    .lane-header{padding:12px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)}
+    .lane-header.critical{background:rgba(239,68,68,.08)}
+    .lane-header.watch{background:rgba(245,158,11,.07)}
+    .lane-header.healthy{background:rgba(0,196,122,.07)}
+    .lane-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+    .lane-header.critical .lane-title{color:#fca5a5}
+    .lane-header.watch .lane-title{color:#fde68a}
+    .lane-header.healthy .lane-title{color:#6ee7b7}
+    .lane-count{font-size:11px;color:var(--t3);margin-left:auto}
+    .lane-mrr{font-size:11px;font-weight:600}
+    .lane-header.critical .lane-mrr{color:#f87171}
+    .lane-header.watch .lane-mrr{color:#fbbf24}
+    .lane-header.healthy .lane-mrr{color:#34d399}
+
+    .ac-card{padding:14px 16px;border-bottom:1px solid var(--border)}
+    .ac-card:last-child{border-bottom:none}
+    .ac-name{font-size:13px;font-weight:600;color:var(--t1);margin-bottom:4px}
+    .ac-mrr{font-size:22px;font-weight:700;letter-spacing:-.02em;color:#fff;margin-bottom:6px}
+    .ac-signals{display:flex;flex-direction:column;gap:3px;margin-bottom:8px}
+    .ac-signal{font-size:12px;display:flex;align-items:center;gap:6px}
+    .ac-signal .dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+    .ac-action{font-size:11px;color:var(--blue);font-style:italic}
+
+    /* ══════════════════════════════════════════
+       ACCOUNTS — FEATURE DEMAND
+    ══════════════════════════════════════════ */
+    .fd-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+    .fd-row:last-child{border-bottom:none}
+    .fd-team{font-size:12px;font-weight:600;color:var(--t2);width:110px;flex-shrink:0}
+    .fd-bar-wrap{flex:1;height:8px;background:var(--bg-card2);border-radius:99px;overflow:hidden}
+    .fd-bar{height:100%;border-radius:99px}
+    .fd-count{font-size:12px;font-weight:700;color:var(--t1);width:24px;text-align:right;flex-shrink:0}
+    .fd-mrr{font-size:11px;color:var(--t3);width:56px;text-align:right;flex-shrink:0}
+    .fd-status{font-size:10px;font-weight:600;padding:2px 7px;border-radius:99px;flex-shrink:0}
+    .fd-shipped{background:rgba(0,196,122,.12);color:var(--green)}
+    .fd-inflight{background:rgba(59,130,246,.12);color:#60a5fa}
+    .fd-backlog{background:rgba(148,163,184,.1);color:var(--t3)}
+
+    /* ══════════════════════════════════════════
+       FUNNEL
+    ══════════════════════════════════════════ */
+    .funnel{display:flex;flex-direction:column;gap:6px;padding:4px 0}
+    .funnel-stage{display:flex;align-items:center;gap:10px}
+    .funnel-label{font-size:12px;color:var(--t2);width:90px;flex-shrink:0;text-align:right}
+    .funnel-bar-wrap{flex:1;height:28px;background:var(--bg-card2);border-radius:4px;overflow:hidden}
+    .funnel-bar{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:10px;font-size:12px;font-weight:600;color:#fff}
+    .funnel-conv{font-size:11px;color:var(--t3);width:42px;text-align:right;flex-shrink:0}
+
+    /* COMP TABLE */
+    .comp-table-wrap{display:none}
+    .comp-table-wrap.active{display:block}
+    .comp-selected-label{font-size:12px;color:var(--t2);margin-bottom:8px;padding:8px 12px;background:var(--bg-card2);border-radius:6px;display:flex;align-items:center;gap:8px}
+    .comp-selected-label button{margin-left:auto;background:none;border:1px solid var(--border2);color:var(--t3);font-size:11px;padding:2px 8px;border-radius:4px;cursor:pointer}
+    .comp-selected-label button:hover{color:var(--t1)}
+
+    /* ACCOUNTS INTRO */
+    .tab-intro{background:var(--bg-card2);border:1px solid var(--border);border-radius:var(--r);padding:14px 18px;margin-bottom:24px}
+    .tab-intro-text{font-size:13px;color:var(--t2);line-height:1.6}
+    .tab-intro-text strong{color:var(--t1)}
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo"><div class="logo-mark">H</div>Holistics</div>
+  <span class="nav-sep">/</span>
+  <span class="nav-title">Sales & Customer Lifecycle</span>
+  <div class="nav-right"><span class="nbadge">v9 prototype</span></div>
+</nav>
+
+<div class="filter-bar">
+  <span class="f-label">Period</span>
+  <select class="f-select"><option>Q1 2026</option><option>Q4 2025</option><option>Last 90 days</option></select>
+  <div class="f-sep"></div>
+  <span class="f-label">Rep</span>
+  <select class="f-select"><option>All reps</option><option>Sarah Chen</option><option>Marcus Webb</option><option>Priya Nair</option><option>Jordan Lee</option></select>
+  <div class="f-sep"></div>
+  <span class="f-label">Segment</span>
+  <select class="f-select"><option>All segments</option><option>SMB</option><option>Mid-Market</option><option>Enterprise</option></select>
+  <div class="f-sep"></div>
+  <span class="f-label">Deal type</span>
+  <select class="f-select"><option>All types</option><option>New</option><option>Renewal</option><option>Expansion</option></select>
+  <span class="f-note">Filters apply across all tabs</span>
+</div>
+
+<div class="tabs-bar">
+  <button class="tab-btn active" onclick="switchTab(0)">Overview</button>
+  <button class="tab-btn" onclick="switchTab(1)">Pipeline <span class="tc tc-a">4</span></button>
+  <button class="tab-btn" onclick="switchTab(2)">Win / Loss</button>
+  <button class="tab-btn" onclick="switchTab(3)">Accounts <span class="tc tc-r">3</span></button>
+</div>
+
+
+<!-- ══════════════════════════════
+     OVERVIEW
+══════════════════════════════ -->
+<div class="tab-pane active" id="tab-0">
+
+  <div class="sg">
+    <div class="grid g13" style="align-items:start">
+      <div class="card" style="display:flex;flex-direction:column;justify-content:center;height:100%">
+        <div class="card-title">Closed Revenue · Q1 2026</div>
+        <div class="kpi-val lg">$412K</div>
+        <div class="kpi-sub">vs $384K Q4 2025</div>
+        <div class="kpi-delta up">↑ 7.3% quarter-over-quarter</div>
+        <div class="kpi-target" style="margin-top:12px">Quota $520K &nbsp;·&nbsp; <span class="c-amber">79% attainment</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Weekly closed revenue — Q1 2026 vs Q4 2025</div>
+        <div class="chart-wrap"><canvas id="c0_rev"></canvas></div>
+      </div>
+    </div>
+    <div class="grid g4" style="margin-top:16px">
+      <div class="card card-sm">
+        <div class="card-title">Pipeline Coverage</div>
+        <div class="kpi-val">3.2×</div>
+        <div class="kpi-sub">$1.66M active / $520K quota</div>
+        <div class="kpi-delta up">Above 2.5× safe threshold</div>
+      </div>
+      <div class="card card-sm">
+        <div class="card-title">Win Rate (Value)</div>
+        <div class="kpi-val">35%</div>
+        <div class="kpi-sub">$412K won / $1.18M closed</div>
+        <div class="kpi-delta warn">↓ 3pp · target 40%</div>
+      </div>
+      <div class="card card-sm">
+        <div class="card-title">Win Rate (Count)</div>
+        <div class="kpi-val">34%</div>
+        <div class="kpi-sub">41 won / 121 closed</div>
+        <div class="kpi-delta warn">↓ 2pp · target 40%</div>
+      </div>
+      <div class="card card-sm">
+        <div class="card-title">NRR · Trailing 90d</div>
+        <div class="kpi-val">94%</div>
+        <div class="kpi-sub">Target: ≥100%</div>
+        <div class="kpi-delta dn">↓ 2pp — churn pressure</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sg">
+    <div class="sg-label">Funnel health — what's in play right now</div>
+    <div class="grid g2">
+      <div class="card">
+        <div class="card-title">Active deals by stage</div>
+        <div class="chart-wrap short"><canvas id="c0_stages"></canvas></div>
+        <div class="notice"><strong>Focus is bottlenecked.</strong> 23 deals averaging 19 days — above the 14d threshold where close rate halves.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Deal composition by segment</div>
+        <div class="chart-wrap short"><canvas id="c0_seg"></canvas></div>
+        <div class="notice"><strong>Mid-Market is 44% of pipeline but only 28% of won revenue.</strong> Enterprise closes slower but at 2.4× the avg deal size.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sg">
+    <div class="sg-label">How we're trending — last 6 months</div>
+    <div class="grid g2">
+      <div class="card">
+        <div class="card-title">Win rate by segment — monthly</div>
+        <div class="chart-wrap"><canvas id="c0_wintrend"></canvas></div>
+        <div class="notice"><strong>Mid-Market win rate slid 9pp in 6 months</strong> (38%→29%). SMB stable. Enterprise recovering.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">NRR rolling 90d — customer revenue health</div>
+        <div class="chart-wrap"><canvas id="c0_nrr"></canvas></div>
+        <div class="notice"><strong>Below 100% for 3 consecutive months.</strong> Churn outpacing expansion. See Accounts tab for which customers are at risk.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /overview -->
+
+
+<!-- ══════════════════════════
+     PIPELINE
+══════════════════════════ -->
+<div class="tab-pane" id="tab-1">
+
+  <div class="ss amber" style="margin-top:0">
+    <div class="ss-dot amber"></div>
+    4 deals need action today — 2 going dark, 2 blocked on product. Pipeline coverage is healthy at 3.2× but Focus stage is stalling.
+  </div>
+
+  <div class="sg">
+    <div class="grid g3">
+      <div class="card card-sm">
+        <div class="card-title">Closing this week</div>
+        <div class="kpi-val c-green">2 deals</div>
+        <div class="kpi-sub">$98K — HealthTrack + Stackline</div>
+        <div class="kpi-target">Both contracts out for signature</div>
+      </div>
+      <div class="card card-sm">
+        <div class="card-title">Needs action today</div>
+        <div class="kpi-val c-amber">4 deals</div>
+        <div class="kpi-sub">2 ghost · 2 product blockers</div>
+        <div class="kpi-target">Flagged in deal cards below ↓</div>
+      </div>
+      <div class="card card-sm">
+        <div class="card-title">Stuck >14 days</div>
+        <div class="kpi-val c-red">6 deals</div>
+        <div class="kpi-sub">$148K — all in Focus stage</div>
+        <div class="kpi-target">Focus is the bottleneck this week</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Deal cards -->
+  <div class="sg">
+    <div class="sg-label">Active deals — click to open call history &nbsp;<span class="c-dim">· Red top = ghost · Amber = attention · Green = ready to close</span></div>
+    <div class="deal-scroll">
+
+      <div class="dc signal-ghost" onclick="openDrawer('meridian')">
+        <div class="dc-header"><div class="dc-logo" style="background:#6366f1">MC</div><div><div class="dc-name">Meridian Co.</div><div class="dc-owner">Marcus · $28K</div></div></div>
+        <div class="dc-stages">
+          <div class="dc-dot done"></div><div class="dc-line"></div>
+          <div class="dc-dot done"></div><div class="dc-line"></div>
+          <div class="dc-dot current"></div><div class="dc-line next"></div>
+          <div class="dc-dot"></div><div class="dc-line next"></div><div class="dc-dot"></div>
+        </div>
+        <div class="dc-stage-name">In: <strong>Evaluation</strong></div>
+        <div class="dc-meta"><span>31d in stage</span><span class="c-red">Dark</span></div>
+        <div class="dc-nextstep">Re-engage or close out — 31d dark</div>
+      </div>
+
+      <div class="dc signal-ghost" onclick="openDrawer('vanta')">
+        <div class="dc-header"><div class="dc-logo" style="background:#8b5cf6">VL</div><div><div class="dc-name">Vanta Labs</div><div class="dc-owner">Jordan · $14.5K</div></div></div>
+        <div class="dc-stages">
+          <div class="dc-dot done"></div><div class="dc-line"></div>
+          <div class="dc-dot current"></div><div class="dc-line next"></div>
+          <div class="dc-dot"></div><div class="dc-line next"></div>
+          <div class="dc-dot"></div><div class="dc-line next"></div><div class="dc-dot"></div>
+        </div>
+        <div class="dc-stage-name">In: <strong>Focus</strong></div>
+        <div class="dc-meta"><span>22d in stage</span><span class="c-red">Dark</span></div>
+        <div class="dc-nextstep">Call scheduled — push for decision</div>
+      </div>
+
+      <div class="dc signal-attention" onclick="openDrawer('databridge')">
+        <div class="dc-header"><div class="dc-logo" style="background:#ef4444">DB</div><div><div class="dc-name">DataBridge</div><div class="dc-owner">Sarah · $42K</div></div></div>
+        <div class="dc-stages">
+          <div class="dc-dot done"></div><div class="dc-line"></div>
+          <div class="dc-dot current"></div><div class="dc-line next"></div>
+          <div class="dc-dot"></div><div class="dc-line next"></div>
+          <div class="dc-dot"></div><div class="dc-line next"></div><div class="dc-dot"></div>
+        </div>
+        <div class="dc-stage-name">In: <strong>Focus</strong></div>
+        <div class="dc-meta"><span>22d in stage</span></div>
+        <div class="dc-blockers"><span class="dc-blocker">SSO / SAML</span><span class="dc-blocker">Audit logs</span></div>
+        <div class="dc-nextstep">Resolve SSO before Mar 5 call</div>
+      </div>
+
+      <div class="dc signal-attention" onclick="openDrawer('novapay')">
+        <div class="dc-header"><div class="dc-logo" style="background:#f59e0b">NP</div><div><div class="dc-name">NovaPay</div><div class="dc-owner">Priya · $19K</div></div></div>
+        <div class="dc-stages">
+          <div class="dc-dot done"></div><div class="dc-line"></div>
+          <div class="dc-dot done"></div><div class="dc-line"></div>
+          <div class="dc-dot current"></div><div class="dc-line next"></div>
+          <div class="dc-dot"></div><div class="dc-line next"></div><div class="dc-dot"></div>
+        </div>
+        <div class="dc-stage-name">In: <strong>Evaluation</strong></div>
+        <div class="dc-meta"><span>18d in stage</span></div>
+        <div class="dc-blockers"><span class="dc-blocker">Security review docs</span></div>
+        <div class="dc-nextstep">Send security docs today</div>
+      </div>
+
+      <div class="dc signal-closeable" onclick="openDrawer('healthtrack')">
+        <div class="dc-header"><div class="dc-logo" style="background:#00c47a">HT</div><div><div class="dc-name">HealthTrack</div><div class="dc-owner">Sarah · $67K</div></div></div>
+        <div class="dc-stages">
+          <div class="dc-dot done"></div><div class="dc-line"></div>
+          <div class="dc-dot done"></div><div class="dc-line"></div>
+          <div class="dc-dot done"></div><div class="dc-line"></div>
+          <div class="dc-dot current"></div><div class="dc-line next"></div><div class="dc-dot"></div>
+        </div>
+        <div class="dc-stage-name">In: <strong>Negotiation</strong></div>
+        <div class="dc-meta"><span>8d in stage</span><span class="c-green">Legal approved</span></div>
+        <div class="dc-nextstep">Push for signature by Mar 25</div>
+      </div>
+
+      <div class="dc signal-closeable" onclick="openDrawer('stackline')">
+        <div class="dc-header"><div class="dc-logo" style="background:#06b6d4">SL</div><div><div class="dc-name">Stackline</div><div class="dc-owner">Marcus · $31K</div></div></div>
+        <div class="dc-stages">
+          <div class="dc-dot done"></div><div class="dc-line"></div>
+          <div class="dc-dot done"></div><div class="dc-line"></div>
+          <div class="dc-dot done"></div><div class="dc-line"></div>
+          <div class="dc-dot current"></div><div class="dc-line next"></div><div class="dc-dot"></div>
+        </div>
+        <div class="dc-stage-name">In: <strong>Negotiation</strong></div>
+        <div class="dc-meta"><span>5d in stage</span></div>
+        <div class="dc-nextstep">Final pricing call Mar 24</div>
+      </div>
+
+      <div class="dc" onclick="openDrawer('optima')">
+        <div class="dc-header"><div class="dc-logo" style="background:#3b82f6">OG</div><div><div class="dc-name">Optima Group</div><div class="dc-owner">Jordan · $55K</div></div></div>
+        <div class="dc-stages">
+          <div class="dc-dot done"></div><div class="dc-line"></div>
+          <div class="dc-dot done"></div><div class="dc-line"></div>
+          <div class="dc-dot current"></div><div class="dc-line next"></div>
+          <div class="dc-dot"></div><div class="dc-line next"></div><div class="dc-dot"></div>
+        </div>
+        <div class="dc-stage-name">In: <strong>Evaluation</strong></div>
+        <div class="dc-meta"><span>11d in stage</span><span class="c-green">On track</span></div>
+        <div class="dc-nextstep">POC review Mar 26</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Deals table -->
+  <div class="sg">
+    <div class="card">
+      <div class="card-title" style="margin-bottom:14px">All active deals &nbsp;<span class="c-dim">· Click row to open full deal history</span></div>
+      <table class="tbl">
+        <thead><tr>
+          <th>Signal</th><th>Company</th><th>Stage</th><th class="r">Value</th>
+          <th class="r">Days in stage</th><th>Last activity</th><th>Next step</th><th>Owner</th>
+        </tr></thead>
+        <tbody>
+          <tr class="clickable" onclick="openDrawer('meridian')"><td><span class="pill pill-ghost">Ghost</span></td><td><strong>Meridian Co.</strong></td><td>Evaluation</td><td class="r num">$28,000</td><td class="r num c-red">31d</td><td>Feb 19</td><td><span class="next-step">Re-engage or close out</span></td><td>Marcus</td></tr>
+          <tr class="clickable" onclick="openDrawer('vanta')"><td><span class="pill pill-ghost">Ghost</span></td><td><strong>Vanta Labs</strong></td><td>Focus</td><td class="r num">$14,500</td><td class="r num c-red">22d</td><td>Feb 28</td><td><span class="next-step">Call scheduled Mar 22</span></td><td>Jordan</td></tr>
+          <tr class="clickable" onclick="openDrawer('databridge')"><td><span class="pill pill-attention">Attention</span></td><td><strong>DataBridge Inc.</strong></td><td>Focus</td><td class="r num">$42,000</td><td class="r num c-amber">22d</td><td>Mar 1</td><td><span class="next-step">Resolve SSO/SAML before Mar 5</span></td><td>Sarah</td></tr>
+          <tr class="clickable" onclick="openDrawer('novapay')"><td><span class="pill pill-attention">Attention</span></td><td><strong>NovaPay</strong></td><td>Evaluation</td><td class="r num">$19,000</td><td class="r num c-amber">18d</td><td>Mar 3</td><td><span class="next-step">Send security review docs</span></td><td>Priya</td></tr>
+          <tr class="clickable" onclick="openDrawer('healthtrack')"><td><span class="pill pill-closeable">Closeable</span></td><td><strong>HealthTrack</strong></td><td>Negotiation</td><td class="r num">$67,000</td><td class="r num">8d</td><td>Mar 18</td><td><span class="next-step">Push for signature — legal approved</span></td><td>Sarah</td></tr>
+          <tr class="clickable" onclick="openDrawer('stackline')"><td><span class="pill pill-closeable">Closeable</span></td><td><strong>Stackline</strong></td><td>Negotiation</td><td class="r num">$31,000</td><td class="r num">5d</td><td>Mar 20</td><td><span class="next-step">Final pricing call Mar 24</span></td><td>Marcus</td></tr>
+          <tr class="clickable" onclick="openDrawer('optima')"><td><span class="pill pill-healthy">Healthy</span></td><td><strong>Optima Group</strong></td><td>Evaluation</td><td class="r num">$55,000</td><td class="r num">11d</td><td>Mar 19</td><td><span class="next-step">POC review Mar 26</span></td><td>Jordan</td></tr>
+        </tbody>
+      </table>
+      <div class="notice" style="margin-top:12px">Showing 7 of 67 active deals. Apply <strong>Rep</strong> filter above to narrow to one person's pipeline.</div>
+    </div>
+  </div>
+
+</div><!-- /pipeline -->
+
+
+<!-- ══════════════════════════
+     WIN / LOSS
+══════════════════════════ -->
+<div class="tab-pane" id="tab-2">
+
+  <div class="ss amber" style="margin-top:0">
+    <div class="ss-dot amber"></div>
+    Win rate 34% — 6pp below 40% target. Missing features are the top revenue loss driver. Mid-Market win rate has slid 9pp in 6 months.
+  </div>
+
+  <div class="sg">
+    <div class="grid g4">
+      <div class="card card-sm"><div class="card-title">Win Rate (Count)</div><div class="kpi-val c-amber">34%</div><div class="kpi-sub">41 won / 121 closed</div><div class="kpi-target">Target: 40%</div></div>
+      <div class="card card-sm"><div class="card-title">Win Rate (Value $)</div><div class="kpi-val c-amber">35%</div><div class="kpi-sub">$412K / $1.18M closed</div><div class="kpi-target">Winning the right-sized deals</div></div>
+      <div class="card card-sm"><div class="card-title">Avg Deal Size Won</div><div class="kpi-val">$10.1K</div><div class="kpi-sub">vs $7.4K for lost deals</div><div class="kpi-delta up">Winning the bigger deals</div></div>
+      <div class="card card-sm"><div class="card-title">Avg Cycle (Won)</div><div class="kpi-val">38d</div><div class="kpi-sub">Focus accounts for 18d</div><div class="kpi-delta warn">↑ 4d vs Q4</div></div>
+    </div>
+  </div>
+
+  <!-- Overall loss pattern -->
+  <div class="sg">
+    <div class="sg-label">Why we're losing — overall pattern then each category broken down</div>
+    <div class="card">
+      <div class="card-title">Loss reason by % of revenue lost — ranked by $ impact, not deal count</div>
+      <div class="chart-wrap short" style="margin-top:4px"><canvas id="c2_lost"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Missing features deep dive -->
+  <div class="sg">
+    <div class="card">
+      <div class="card-title" style="margin-bottom:4px">Missing features — what customers are asking for</div>
+      <div style="font-size:12px;color:var(--t3);margin-bottom:14px">These are raw customer inputs from call notes — not yet scoped as features. PM groups them into product themes. Expand each team to see what customers actually said.</div>
+      <div class="chart-wrap short"><canvas id="c2_features"></canvas></div>
+      <div class="team-accordion" style="margin-top:16px">
+        <details class="team-toggle">
+          <summary><span class="tt-chevron">›</span><span class="tt-name">Performance</span><span class="tt-count">10 raw inputs from 14 customers</span><span class="tt-mrr">$38K MRR</span></summary>
+          <div class="team-inputs">
+            <div class="raw-input"><div class="ri-text">"Queries timing out on tables with 10M+ rows — can't use it for our main analytics"</div><div class="ri-meta"><div class="ri-count">7 customers</div><div class="ri-mrr">$22K MRR</div></div></div>
+            <div class="raw-input"><div class="ri-text">"Need query result caching so dashboards load instantly for repeated views"</div><div class="ri-meta"><div class="ri-count">4 customers</div><div class="ri-mrr">$11K MRR</div></div></div>
+            <div class="raw-input"><div class="ri-text">"Dashboard loading is very slow on mobile — team can't use it on the go"</div><div class="ri-meta"><div class="ri-count">3 customers</div><div class="ri-mrr">$5K MRR</div></div></div>
+          </div>
+        </details>
+        <details class="team-toggle">
+          <summary><span class="tt-chevron">›</span><span class="tt-name">Reporting</span><span class="tt-count">9 raw inputs from 15 customers</span><span class="tt-mrr">$44K MRR</span></summary>
+          <div class="team-inputs">
+            <div class="raw-input"><div class="ri-text">"Export the full dashboard to PDF or PowerPoint — executives need it for board decks"</div><div class="ri-meta"><div class="ri-count">6 customers</div><div class="ri-mrr">$15K MRR</div></div></div>
+            <div class="raw-input"><div class="ri-text">"When I click a bar chart, I want other charts on the page to filter — cross-filter"</div><div class="ri-meta"><div class="ri-count">4 customers</div><div class="ri-mrr">$9K MRR</div></div></div>
+            <div class="raw-input"><div class="ri-text">"White-label embed — we ship this to our clients, needs to be on our domain with our branding"</div><div class="ri-meta"><div class="ri-count">2 customers</div><div class="ri-mrr">$18K MRR</div></div></div>
+            <div class="raw-input"><div class="ri-text">"Drill down from chart to transaction-level rows — need to see the underlying data"</div><div class="ri-meta"><div class="ri-count">3 customers</div><div class="ri-mrr">$7K MRR</div></div></div>
+          </div>
+        </details>
+        <details class="team-toggle">
+          <summary><span class="tt-chevron">›</span><span class="tt-name">Modeling</span><span class="tt-count">8 raw inputs from 15 customers</span><span class="tt-mrr">$40K MRR</span></summary>
+          <div class="team-inputs">
+            <div class="raw-input"><div class="ri-text">"Row-level security — different users should only see their region's data in the same dashboard"</div><div class="ri-meta"><div class="ri-count">5 customers</div><div class="ri-mrr">$14K MRR</div></div></div>
+            <div class="raw-input"><div class="ri-text">"Join 3+ data sources in a single model — we have sales + support + billing in separate DBs"</div><div class="ri-meta"><div class="ri-count">5 customers</div><div class="ri-mrr">$12K MRR</div></div></div>
+            <div class="raw-input"><div class="ri-text">"Custom fiscal year date grains — our year ends in September, standard calendar doesn't work"</div><div class="ri-meta"><div class="ri-count">3 customers</div><div class="ri-mrr">$8K MRR</div></div></div>
+            <div class="raw-input"><div class="ri-text">"Incremental model refresh — full refresh takes 40 min on our data warehouse, too slow"</div><div class="ri-meta"><div class="ri-count">2 customers</div><div class="ri-mrr">$6K MRR</div></div></div>
+          </div>
+        </details>
+        <details class="team-toggle">
+          <summary><span class="tt-chevron">›</span><span class="tt-name">AI</span><span class="tt-count">3 raw inputs from 3 customers</span><span class="tt-mrr">$7K MRR</span></summary>
+          <div class="team-inputs">
+            <div class="raw-input"><div class="ri-text">"Ask questions in plain English and get a chart — our non-technical team can't write SQL"</div><div class="ri-meta"><div class="ri-count">2 customers</div><div class="ri-mrr">$4K MRR</div></div></div>
+            <div class="raw-input"><div class="ri-text">"Smart alerts that detect when a metric is moving abnormally — don't want to miss it"</div><div class="ri-meta"><div class="ri-count">1 customer</div><div class="ri-mrr">$3K MRR</div></div></div>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- Competitive dynamics -->
+  <div class="sg">
+    <div class="card">
+      <div class="card-title" style="margin-bottom:4px">Competitive dynamics — good vs bad signals per competitor</div>
+      <div style="font-size:12px;color:var(--t3);margin-bottom:14px">Green bars = deals where we beat this competitor or came out ahead. Red bars = deals we lost when this competitor was in the room. Click a competitor to see the specific deals.</div>
+      <div class="grid g2" style="align-items:start">
+        <div>
+          <div class="chart-wrap" style="margin-bottom:14px"><canvas id="c2_comp"></canvas></div>
+        </div>
+        <div>
+          <!-- Filtered table — shown when competitor clicked -->
+          <div class="comp-table-wrap" id="comp-detail">
+            <div class="comp-selected-label" id="comp-label">
+              <span id="comp-label-text">No competitor selected</span>
+              <button onclick="clearCompFilter()">✕ Clear</button>
+            </div>
+            <table class="tbl" id="comp-tbl">
+              <thead><tr><th>Deal</th><th class="r">Value</th><th>Signal</th><th>What they said</th></tr></thead>
+              <tbody id="comp-tbl-body"></tbody>
+            </table>
+          </div>
+          <div id="comp-placeholder" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;color:var(--t3);font-size:13px;text-align:center;border:1px dashed var(--border2);border-radius:var(--r)">
+            ← Click a competitor bar<br>to see specific deals
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Funnel + time -->
+  <div class="sg">
+    <div class="sg-label">Where deals die and how long each stage takes</div>
+    <div class="grid g2">
+      <div class="card">
+        <div class="card-title">Stage conversion — drop-off at each stage</div>
+        <div class="funnel" style="margin-top:8px">
+          <div class="funnel-stage"><div class="funnel-label">Qualifying</div><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:100%;background:#3b82f6">121</div></div><div class="funnel-conv"></div></div>
+          <div class="funnel-stage"><div class="funnel-label">Focus</div><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:77%;background:#6366f1">93</div></div><div class="funnel-conv">77%</div></div>
+          <div class="funnel-stage"><div class="funnel-label">Evaluation</div><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:51%;background:#8b5cf6">62</div></div><div class="funnel-conv">67%</div></div>
+          <div class="funnel-stage"><div class="funnel-label">Negotiation</div><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:38%;background:#06b6d4">46</div></div><div class="funnel-conv">74%</div></div>
+          <div class="funnel-stage"><div class="funnel-label">Won</div><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:34%;background:#00c47a">41</div></div><div class="funnel-conv">89%</div></div>
+        </div>
+        <div class="notice" style="margin-top:12px"><strong>Biggest drop: Focus → Evaluation (33%).</strong> Product blockers are killing deals in Focus — not price, not competition.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Avg days per stage — won deals</div>
+        <div class="chart-wrap"><canvas id="c2_time"></canvas></div>
+        <div class="notice" style="margin-top:12px"><strong>Focus takes 18d avg.</strong> Deals out of Focus in <12d close at 2× rate vs those past 14d.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rep scorecards -->
+  <div class="sg">
+    <div class="sg-label">Who's winning — rep performance Q1 2026</div>
+    <div class="rep-cards">
+      <div class="rep-card">
+        <div class="rep-header"><div class="rep-avatar" style="background:#00c47a">SC</div><div class="rep-name">Sarah Chen</div></div>
+        <div class="rep-wr c-green">42%</div>
+        <div class="rep-bar-wrap"><div class="rep-bar" style="width:42%;background:var(--green)"></div><div class="rep-bar-target" style="left:40%"></div></div>
+        <div class="rep-stats">
+          <div class="rep-stat"><span class="rep-stat-label">Won</span><span class="rep-stat-val">14 deals</span></div>
+          <div class="rep-stat"><span class="rep-stat-label">$ Won</span><span class="rep-stat-val c-green">$148K</span></div>
+          <div class="rep-stat"><span class="rep-stat-label">Avg deal</span><span class="rep-stat-val">$10.6K</span></div>
+          <div class="rep-stat"><span class="rep-stat-label">Trend</span><span class="rep-stat-val c-green">↑ 4pp vs Q4</span></div>
+        </div>
+        <div class="rep-pattern">Strong on enterprise compliance deals. Top loss reason: Missing Feature (SSO/SAML).</div>
+      </div>
+      <div class="rep-card">
+        <div class="rep-header"><div class="rep-avatar" style="background:#3b82f6">PN</div><div class="rep-name">Priya Nair</div></div>
+        <div class="rep-wr" style="color:#e2e8f0">38%</div>
+        <div class="rep-bar-wrap"><div class="rep-bar" style="width:38%;background:#3b82f6"></div><div class="rep-bar-target" style="left:40%"></div></div>
+        <div class="rep-stats">
+          <div class="rep-stat"><span class="rep-stat-label">Won</span><span class="rep-stat-val">11 deals</span></div>
+          <div class="rep-stat"><span class="rep-stat-label">$ Won</span><span class="rep-stat-val">$112K</span></div>
+          <div class="rep-stat"><span class="rep-stat-label">Avg deal</span><span class="rep-stat-val">$10.2K</span></div>
+          <div class="rep-stat"><span class="rep-stat-label">Trend</span><span class="rep-stat-val c-amber">↓ 1pp vs Q4</span></div>
+        </div>
+        <div class="rep-pattern">Consistent across segments. Loses most to Okta — needs competitive prep.</div>
+      </div>
+      <div class="rep-card">
+        <div class="rep-header"><div class="rep-avatar" style="background:#f59e0b">MW</div><div class="rep-name">Marcus Webb</div></div>
+        <div class="rep-wr c-amber">30%</div>
+        <div class="rep-bar-wrap"><div class="rep-bar" style="width:30%;background:var(--amber)"></div><div class="rep-bar-target" style="left:40%"></div></div>
+        <div class="rep-stats">
+          <div class="rep-stat"><span class="rep-stat-label">Won</span><span class="rep-stat-val">9 deals</span></div>
+          <div class="rep-stat"><span class="rep-stat-label">$ Won</span><span class="rep-stat-val">$87K</span></div>
+          <div class="rep-stat"><span class="rep-stat-label">Avg deal</span><span class="rep-stat-val">$9.7K</span></div>
+          <div class="rep-stat"><span class="rep-stat-label">Trend</span><span class="rep-stat-val c-red">↓ 5pp vs Q4</span></div>
+        </div>
+        <div class="rep-pattern">Struggling Mid-Market — loses on pricing. Review deal qualification and pricing narrative.</div>
+      </div>
+      <div class="rep-card">
+        <div class="rep-header"><div class="rep-avatar" style="background:#ef4444">JL</div><div class="rep-name">Jordan Lee</div></div>
+        <div class="rep-wr c-red">26%</div>
+        <div class="rep-bar-wrap"><div class="rep-bar" style="width:26%;background:var(--red)"></div><div class="rep-bar-target" style="left:40%"></div></div>
+        <div class="rep-stats">
+          <div class="rep-stat"><span class="rep-stat-label">Won</span><span class="rep-stat-val">7 deals</span></div>
+          <div class="rep-stat"><span class="rep-stat-label">$ Won</span><span class="rep-stat-val c-amber">$65K</span></div>
+          <div class="rep-stat"><span class="rep-stat-label">Avg deal</span><span class="rep-stat-val">$9.3K</span></div>
+          <div class="rep-stat"><span class="rep-stat-label">Trend</span><span class="rep-stat-val c-red">↓ 7pp vs Q4</span></div>
+        </div>
+        <div class="rep-pattern">High ghost rate — deals going dark early. Qualification process needs review, not pipeline volume.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /win-loss -->
+
+
+<!-- ══════════════════════════
+     ACCOUNTS
+══════════════════════════ -->
+<div class="tab-pane" id="tab-3">
+
+  <div class="tab-intro">
+    <div class="tab-intro-text">
+      MRR and ARR tell you the total size of the business. <strong>NRR tells you if the business is healthy</strong> — are the customers you already have growing with you, or quietly shrinking? Below 100% means churn is winning even when you keep signing new logos.
+    </div>
+  </div>
+
+  <div class="sg">
+    <div class="grid g3">
+      <div class="card card-sm"><div class="card-title">NRR · Trailing 90d</div><div class="kpi-val c-red">94%</div><div class="kpi-sub">Target: ≥100%</div><div class="kpi-delta dn">↓ 2pp — churn outpacing expansion</div></div>
+      <div class="card card-sm"><div class="card-title">At-Risk MRR</div><div class="kpi-val c-amber">$7,500</div><div class="kpi-sub">4 accounts — Critical + Watch</div><div class="kpi-target">3 of these renew in ≤30 days</div></div>
+      <div class="card card-sm"><div class="card-title">Renewals ≤30 Days</div><div class="kpi-val">3</div><div class="kpi-sub">$4,200 total MRR at renewal</div><div class="kpi-delta warn">1 Critical · 2 Watch — not locked in</div></div>
+    </div>
+  </div>
+
+  <!-- Swimlane -->
+  <div class="sg">
+    <div class="sg-label">Account health — sorted by risk tier and MRR within tier</div>
+    <div class="swimlane">
+
+      <div class="lane">
+        <div class="lane-header critical">
+          <span class="lane-title">Critical</span>
+          <span class="lane-count">3 accounts</span>
+          <span class="lane-mrr">$5.4K MRR</span>
+        </div>
+        <div class="ac-card">
+          <div class="ac-name">TrustLayer</div>
+          <div class="ac-mrr">$2,400<span style="font-size:13px;font-weight:400;color:var(--t3)">/mo</span></div>
+          <div class="ac-signals">
+            <div class="ac-signal"><div class="dot" style="background:var(--red)"></div><span class="c-red">94 days dark</span></div>
+            <div class="ac-signal"><div class="dot" style="background:var(--red)"></div><span>Renewal in <span class="c-red">18 days</span></span></div>
+            <div class="ac-signal"><div class="dot" style="background:var(--amber)"></div><span>2 open tickets</span></div>
+          </div>
+          <div class="ac-action">Book call today — renewal at risk</div>
+        </div>
+        <div class="ac-card">
+          <div class="ac-name">Greystone Partners</div>
+          <div class="ac-mrr">$1,800<span style="font-size:13px;font-weight:400;color:var(--t3)">/mo</span></div>
+          <div class="ac-signals">
+            <div class="ac-signal"><div class="dot" style="background:var(--red)"></div><span class="c-red">71 days dark</span></div>
+            <div class="ac-signal"><div class="dot" style="background:var(--red)"></div><span>Renewal in <span class="c-red">26 days</span></span></div>
+            <div class="ac-signal"><div class="dot" style="background:var(--red)"></div><span><span class="c-red">3 open tickets</span></span></div>
+          </div>
+          <div class="ac-action">Resolve 3 tickets before renewal call</div>
+        </div>
+        <div class="ac-card">
+          <div class="ac-name">Avora Systems</div>
+          <div class="ac-mrr">$1,200<span style="font-size:13px;font-weight:400;color:var(--t3)">/mo</span></div>
+          <div class="ac-signals">
+            <div class="ac-signal"><div class="dot" style="background:var(--red)"></div><span class="c-red">62 days dark</span></div>
+            <div class="ac-signal"><div class="dot" style="background:var(--red)"></div><span>Renewal in <span class="c-red">29 days</span></span></div>
+            <div class="ac-signal"><div class="dot" style="background:var(--t3)"></div><span>1 open ticket</span></div>
+          </div>
+          <div class="ac-action">Re-engage — no reply to last 2 emails</div>
+        </div>
+      </div>
+
+      <div class="lane">
+        <div class="lane-header watch">
+          <span class="lane-title">Watch</span>
+          <span class="lane-count">2 accounts</span>
+          <span class="lane-mrr">$5.3K MRR</span>
+        </div>
+        <div class="ac-card">
+          <div class="ac-name">Celero Inc.</div>
+          <div class="ac-mrr">$3,100<span style="font-size:13px;font-weight:400;color:var(--t3)">/mo</span></div>
+          <div class="ac-signals">
+            <div class="ac-signal"><div class="dot" style="background:var(--amber)"></div><span class="c-amber">44 days dark</span></div>
+            <div class="ac-signal"><div class="dot" style="background:var(--t3)"></div><span>Renewal in 58 days</span></div>
+            <div class="ac-signal"><div class="dot" style="background:var(--t3)"></div><span>1 open ticket</span></div>
+          </div>
+          <div class="ac-action">Check in — engagement dropping</div>
+        </div>
+        <div class="ac-card">
+          <div class="ac-name">Luminate Health</div>
+          <div class="ac-mrr">$2,200<span style="font-size:13px;font-weight:400;color:var(--t3)">/mo</span></div>
+          <div class="ac-signals">
+            <div class="ac-signal"><div class="dot" style="background:var(--amber)"></div><span class="c-amber">37 days dark</span></div>
+            <div class="ac-signal"><div class="dot" style="background:var(--amber)"></div><span>Renewal in <span class="c-amber">32 days</span></span></div>
+            <div class="ac-signal"><div class="dot" style="background:var(--t3)"></div><span>No open tickets</span></div>
+          </div>
+          <div class="ac-action">Renewal call — engaged but light</div>
+        </div>
+      </div>
+
+      <div class="lane">
+        <div class="lane-header healthy">
+          <span class="lane-title">Healthy</span>
+          <span class="lane-count">2 accounts</span>
+          <span class="lane-mrr">$6.7K MRR</span>
+        </div>
+        <div class="ac-card">
+          <div class="ac-name">Pathway Co.</div>
+          <div class="ac-mrr">$4,800<span style="font-size:13px;font-weight:400;color:var(--t3)">/mo</span></div>
+          <div class="ac-signals">
+            <div class="ac-signal"><div class="dot" style="background:var(--green)"></div><span>Last contact: <span class="c-green">12 days ago</span></span></div>
+            <div class="ac-signal"><div class="dot" style="background:var(--t3)"></div><span>Renewal in 91 days</span></div>
+            <div class="ac-signal"><div class="dot" style="background:var(--green)"></div><span>0 open tickets</span></div>
+          </div>
+          <div class="ac-action" style="color:var(--green)">Expansion opportunity — new plan launched</div>
+        </div>
+        <div class="ac-card">
+          <div class="ac-name">Driftwood Labs</div>
+          <div class="ac-mrr">$1,900<span style="font-size:13px;font-weight:400;color:var(--t3)">/mo</span></div>
+          <div class="ac-signals">
+            <div class="ac-signal"><div class="dot" style="background:var(--green)"></div><span>Last contact: <span class="c-green">8 days ago</span></span></div>
+            <div class="ac-signal"><div class="dot" style="background:var(--t3)"></div><span>Renewal in 104 days</span></div>
+            <div class="ac-signal"><div class="dot" style="background:var(--green)"></div><span>0 open tickets</span></div>
+          </div>
+          <div class="ac-action" style="color:var(--t3)">No action needed</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="notice" style="margin-top:12px"><strong>Health logic:</strong> Critical = renewal ≤30d AND (dark >60d OR ≥3 tickets). Watch = dark 31–60d OR renewal 31–60d OR 1–2 tickets. Healthy = contact &lt;30d AND no imminent renewal AND 0 tickets.</div>
+  </div>
+
+  <!-- MRR diverging + net line -->
+  <div class="sg">
+    <div class="sg-label">Revenue health — manager and exec view</div>
+    <div class="grid g2">
+      <div class="card">
+        <div class="card-title">MRR movement — new & expansion above zero, contraction & churn below, net MRR as line</div>
+        <div class="chart-wrap tall"><canvas id="c3_mrr"></canvas></div>
+        <div class="notice" style="margin-top:10px">Net MRR line below zero for 2 months — churn+contraction is outpacing new+expansion. This is why NRR is sliding.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">NRR rolling 90d — is the trend recovering?</div>
+        <div class="chart-wrap"><canvas id="c3_nrr"></canvas></div>
+        <div class="notice" style="margin-top:10px">Three consecutive months below 100%. Without intervention in the Critical accounts, the trend continues downward.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Feature demand -->
+  <div class="sg">
+    <div class="card">
+      <div class="card-title" style="margin-bottom:4px">What customers are waiting for — feature demand by product team</div>
+      <div style="font-size:12px;color:var(--t3);margin-bottom:16px">Aggregated from customer calls and support tickets. Each row = all customer requests in that category. Expand Win/Loss tab → Missing Features for the raw inputs.</div>
+      <div style="display:flex;justify-content:space-between;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);padding:0 0 8px;border-bottom:1px solid var(--border);gap:12px">
+        <span style="width:110px">Team</span>
+        <span style="flex:1">Customer demand</span>
+        <span style="width:24px;text-align:right">Cust.</span>
+        <span style="width:56px;text-align:right">MRR waiting</span>
+        <span style="width:60px;text-align:right">Status</span>
+      </div>
+      <div class="fd-row">
+        <div class="fd-team">Performance</div>
+        <div class="fd-bar-wrap"><div class="fd-bar" style="width:93%;background:#ef4444"></div></div>
+        <div class="fd-count">14</div>
+        <div class="fd-mrr">$38K</div>
+        <div class="fd-status fd-backlog">Backlog</div>
+      </div>
+      <div class="fd-row">
+        <div class="fd-team">Reporting</div>
+        <div class="fd-bar-wrap"><div class="fd-bar" style="width:100%;background:#f59e0b"></div></div>
+        <div class="fd-count">15</div>
+        <div class="fd-mrr">$44K</div>
+        <div class="fd-status fd-inflight">Q2 in-flight</div>
+      </div>
+      <div class="fd-row">
+        <div class="fd-team">Modeling</div>
+        <div class="fd-bar-wrap"><div class="fd-bar" style="width:100%;background:#6366f1"></div></div>
+        <div class="fd-count">15</div>
+        <div class="fd-mrr">$40K</div>
+        <div class="fd-status fd-backlog">Backlog</div>
+      </div>
+      <div class="fd-row">
+        <div class="fd-team">AI</div>
+        <div class="fd-bar-wrap"><div class="fd-bar" style="width:20%;background:#8b5cf6"></div></div>
+        <div class="fd-count">3</div>
+        <div class="fd-mrr">$7K</div>
+        <div class="fd-status fd-backlog">Backlog</div>
+      </div>
+      <div class="fd-row">
+        <div class="fd-team">SSO / SAML</div>
+        <div class="fd-bar-wrap"><div class="fd-bar" style="width:40%;background:#00c47a"></div></div>
+        <div class="fd-count">6</div>
+        <div class="fd-mrr">$18K</div>
+        <div class="fd-status fd-shipped">Shipped Q1</div>
+      </div>
+      <div class="notice" style="margin-top:12px">Reporting ($44K MRR waiting) is in-flight for Q2. Performance ($38K MRR) is the largest unaddressed backlog. SSO/SAML shipped Q1 — 4 of 6 waiting customers still need to be notified.</div>
+    </div>
+  </div>
+
+</div><!-- /accounts -->
+
+
+<!-- DRAWER -->
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer"><div id="drawer-content"></div></div>
+
+
+<script>
+const $ = id => document.getElementById(id);
+const MONTHS = ['Oct','Nov','Dec','Jan','Feb','Mar'];
+const WEEKS  = ['W1 Jan','W2','W3','W4','W1 Feb','W2','W3','W4','W1 Mar','W2','W3'];
+const tt = { backgroundColor:'#1e2a3b', titleColor:'#e2e8f0', bodyColor:'#94a3b8', borderColor:'rgba(255,255,255,.1)', borderWidth:1 };
+const gX = { color:'rgba(255,255,255,.05)' };
+const tX = { color:'#475569', font:{size:11} };
+const tY = { color:'#475569', font:{size:11} };
+const leg = { labels:{color:'#94a3b8',font:{size:12},boxWidth:12,padding:14} };
+
+function base(ext={}) {
+  return { responsive:true, maintainAspectRatio:true,
+    plugins:{ legend:{display:false}, tooltip:tt },
+    scales:{ x:{grid:{color:'rgba(255,255,255,.04)'},ticks:tX}, y:{grid:gX,ticks:tY,beginAtZero:true} }, ...ext };
+}
+
+/* Overview */
+new Chart($('c0_rev'),{ type:'line', data:{ labels:WEEKS,
+  datasets:[
+    {label:'Q1 2026',data:[28,35,41,38,44,52,48,57,62,55,68],borderColor:'#00c47a',backgroundColor:'rgba(0,196,122,.08)',fill:true,tension:.4,pointRadius:3},
+    {label:'Q4 2025',data:[22,30,36,33,41,45,44,50,54,48,58],borderColor:'#3b82f6',fill:false,tension:.4,pointRadius:3,borderDash:[4,4]}
+  ]}, options:{...base(),plugins:{...base().plugins,legend:{display:true,...leg}}}});
+
+new Chart($('c0_stages'),{ type:'bar', data:{
+  labels:['Qualifying','Focus','Evaluation','Negotiation'],
+  datasets:[{data:[18,23,15,11],backgroundColor:['#3b82f6','#f59e0b','#8b5cf6','#06b6d4'],borderRadius:4}]
+}, options:base({indexAxis:'y'})});
+
+new Chart($('c0_seg'),{ type:'doughnut', data:{
+  labels:['SMB','Mid-Market','Enterprise'],
+  datasets:[{data:[28,44,28],backgroundColor:['#3b82f6','#6366f1','#8b5cf6'],borderWidth:0,hoverOffset:6}]
+}, options:{responsive:true,maintainAspectRatio:true,cutout:'65%',plugins:{legend:{display:true,position:'bottom',labels:{color:'#94a3b8',font:{size:12},padding:14,boxWidth:12}},tooltip:tt}}});
+
+new Chart($('c0_wintrend'),{ type:'line', data:{ labels:MONTHS,
+  datasets:[
+    {label:'SMB',data:[44,42,46,44,45,43],borderColor:'#3b82f6',tension:.4,pointRadius:3},
+    {label:'Mid-Market',data:[38,35,33,31,30,29],borderColor:'#f59e0b',tension:.4,pointRadius:3},
+    {label:'Enterprise',data:[28,30,32,29,31,33],borderColor:'#8b5cf6',tension:.4,pointRadius:3}
+  ]}, options:{...base(),plugins:{...base().plugins,legend:{display:true,...leg}}}});
+
+new Chart($('c0_nrr'),{ type:'line', data:{ labels:MONTHS,
+  datasets:[
+    {label:'NRR',data:[102,101,99,97,95,94],borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,.07)',fill:true,tension:.4,pointRadius:3},
+    {label:'Target 100%',data:[100,100,100,100,100,100],borderColor:'rgba(255,255,255,.2)',borderDash:[5,5],pointRadius:0,fill:false}
+  ]}, options:{...base({scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:tX},y:{grid:gX,ticks:tY,min:88,max:108}}}),plugins:{...base().plugins,legend:{display:true,...leg}}}});
+
+/* Win/Loss — loss reasons */
+new Chart($('c2_lost'),{ type:'bar', data:{
+  labels:['Missing Feature','Competitor Win','Pricing','Ghosted','No Decision'],
+  datasets:[{data:[38,26,18,14,4],backgroundColor:['#ef4444','#f59e0b','#6366f1','#475569','#374151'],borderRadius:4}]
+}, options:base({indexAxis:'y',scales:{x:{grid:gX,ticks:{...tX,callback:v=>v+'%'}},y:{grid:{display:false},ticks:tX}}})});
+
+/* Win/Loss — features by team */
+new Chart($('c2_features'),{ type:'bar', data:{
+  labels:['Performance','Reporting','Modeling','AI'],
+  datasets:[{data:[10,9,8,3],backgroundColor:['#ef4444','#f59e0b','#6366f1','#8b5cf6'],borderRadius:4}]
+}, options:base({indexAxis:'y',
+  scales:{x:{grid:gX,ticks:{...tX,callback:v=>v+' inputs'}},y:{grid:{display:false},ticks:tX}},
+  plugins:{...base().plugins,tooltip:{...tt,callbacks:{label:ctx=>`${ctx.raw} raw inputs from customers`}}}
+})});
+
+/* Win/Loss — time in stage */
+new Chart($('c2_time'),{ type:'bar', data:{
+  labels:['Qualifying','Focus','Evaluation','Negotiation'],
+  datasets:[{data:[5,18,9,6],backgroundColor:['#3b82f6','#ef4444','#8b5cf6','#00c47a'],borderRadius:4}]
+}, options:base({indexAxis:'y',scales:{x:{grid:gX,ticks:{...tX,callback:v=>v+'d'}},y:{grid:{display:false},ticks:tX}}})});
+
+/* Win/Loss — competitor diverging bar */
+const compData = {
+  labels:['Okta','Metabase','WorkOS','Auth0'],
+  good:[3,4,2,6],
+  bad:[-12,-7,-4,-3]
+};
+const compChart = new Chart($('c2_comp'),{ type:'bar', data:{
+  labels: compData.labels,
+  datasets:[
+    {label:'Good signals (we win vs them)',data:compData.good,backgroundColor:'rgba(0,196,122,.7)',borderRadius:4},
+    {label:'Bad signals (they beat us)',data:compData.bad,backgroundColor:'rgba(239,68,68,.7)',borderRadius:4}
+  ]
+}, options:{...base({indexAxis:'y',scales:{
+  x:{grid:gX,ticks:{...tX,callback:v=>Math.abs(v)},stacked:false},
+  y:{grid:{display:false},ticks:tX}
+}}),
+  onClick:(e,els)=>{
+    if(!els.length){clearCompFilter();return;}
+    const idx=els[0].index;
+    showCompDetail(compData.labels[idx]);
+  },
+  plugins:{...base().plugins,legend:{display:true,...leg},
+    tooltip:{...tt,callbacks:{label:ctx=>{const v=ctx.raw;return v>0?`${v} deals — we came out ahead`:`${Math.abs(v)} deals — they beat us`}}}}
+}});
+
+const compDetails = {
+  Okta:[
+    {deal:'Meridian Co.',value:'$28K',signal:'bad',note:'"Hard requirement for SSO/SAML. Okta already in their stack, covered it natively."'},
+    {deal:'Vanta Labs',value:'$14.5K',signal:'bad',note:'"Evaluating Okta and us simultaneously — they went with Okta due to familiarity."'},
+    {deal:'Prism Corp.',value:'$19K',signal:'bad',note:'"Their security team had already approved Okta. Switching cost was too high."'},
+    {deal:'HealthTrack',value:'$67K',signal:'good',note:'"We won on healthcare compliance depth — Okta weak on HIPAA audit trails."'},
+    {deal:'Clearpath',value:'$11K',signal:'good',note:'"Okta was 3× the price for their use case — we were the obvious fit."'},
+    {deal:'Stellarpath',value:'$8K',signal:'good',note:'"Early stage startup — Okta felt too enterprise-heavy for them."'}
+  ],
+  Metabase:[
+    {deal:'BlueRidge Corp.',value:'$22K',signal:'bad',note:'"Metabase $8K cheaper annually. Budget pressure was real at their stage."'},
+    {deal:'Waverly Inc.',value:'$17K',signal:'bad',note:'"Their data team already knew Metabase. Learning curve argument was strong."'},
+    {deal:'Luma AI',value:'$14K',signal:'bad',note:'"Metabase has more chart types — they needed niche viz we don\'t support yet."'},
+    {deal:'Optima Group',value:'$55K',signal:'good',note:'"Metabase couldn\'t handle their data model complexity — we were the clear winner."'},
+    {deal:'Stackline',value:'$31K',signal:'good',note:'"Metabase had no embeddable white-label — deal-breaker for their use case."'},
+    {deal:'NovaPay',value:'$19K',signal:'good',note:'"Compared us on enterprise security features — we won on SOC2 and access controls."'},
+    {deal:'Driftwood Labs',value:'$18K',signal:'good',note:'"Prior bad experience with Metabase performance on large datasets."'}
+  ],
+  WorkOS:[
+    {deal:'Cascade Tech',value:'$12K',signal:'bad',note:'"WorkOS dev experience is smoother for their engineering team."'},
+    {deal:'Finleaf',value:'$9K',signal:'bad',note:'"WorkOS had a free tier — they started there and never fully evaluated us."'},
+    {deal:'Pathway Co.',value:'$48K',signal:'good',note:'"WorkOS had no analytics layer — needed full BI, not just auth."'},
+    {deal:'Ironvine',value:'$22K',signal:'good',note:'"WorkOS couldn\'t handle their compliance reporting requirements."'}
+  ],
+  Auth0:[
+    {deal:'Synapse Labs',value:'$31K',signal:'good',note:'"Auth0 was expensive and overkill — we won easily on price and simplicity."'},
+    {deal:'Luminate Health',value:'$22K',signal:'good',note:'"Auth0 lacked the data modeling layer they needed."'},
+    {deal:'Riverdale Systems',value:'$18K',signal:'good',note:'"Switching from Auth0 — performance issues and poor customer support."'},
+    {deal:'Apex Analytics',value:'$14K',signal:'bad',note:'"Auth0 was already embedded in their product — switching cost too high."'},
+    {deal:'Brightwave',value:'$11K',signal:'bad',note:'"CTO had prior experience with Auth0 and preferred it."'},
+    {deal:'Novex',value:'$8K',signal:'bad',note:'"Auth0\'s developer community and docs were cited as better."'}
+  ]
+};
+
+function showCompDetail(name) {
+  const rows = compDetails[name] || [];
+  const tbody = $('comp-tbl-body');
+  tbody.innerHTML = rows.map(r=>{
+    const pill = r.signal==='good'
+      ? '<span class="pill pill-ok">Good signal</span>'
+      : '<span class="pill pill-ghost">Bad signal</span>';
+    return `<tr><td><strong>${r.deal}</strong></td><td class="r num">${r.value}</td><td>${pill}</td><td style="font-size:12px;color:var(--t2);font-style:italic">${r.note}</td></tr>`;
+  }).join('');
+  $('comp-label-text').textContent = `${name} — ${rows.filter(r=>r.signal==='bad').length} bad signals · ${rows.filter(r=>r.signal==='good').length} good signals`;
+  $('comp-detail').classList.add('active');
+  $('comp-placeholder').style.display='none';
+}
+function clearCompFilter() {
+  $('comp-detail').classList.remove('active');
+  $('comp-placeholder').style.display='flex';
+}
+
+/* Accounts — MRR diverging + net line */
+const mrrPos  = [[12,14,11,13,10,9],[4,3,5,4,3,4]];
+const mrrNeg  = [[-3,-2,-4,-3,-5,-4],[-6,-8,-12,-10,-13,-11]];
+const netMRR  = MONTHS.map((_,i)=>mrrPos[0][i]+mrrPos[1][i]+mrrNeg[0][i]+mrrNeg[1][i]);
+new Chart($('c3_mrr'),{ type:'bar', data:{ labels:MONTHS, datasets:[
+  {label:'New MRR',      data:mrrPos[0],  backgroundColor:'rgba(0,196,122,.75)',  stack:'s1', borderRadius:0},
+  {label:'Expansion',    data:mrrPos[1],  backgroundColor:'rgba(6,182,212,.75)',  stack:'s1', borderRadius:0},
+  {label:'Contraction',  data:mrrNeg[0],  backgroundColor:'rgba(245,158,11,.75)', stack:'s1', borderRadius:0},
+  {label:'Churn',        data:mrrNeg[1],  backgroundColor:'rgba(239,68,68,.75)',  stack:'s1', borderRadius:0},
+  {label:'Net MRR',      data:netMRR,     type:'line', borderColor:'#e2e8f0', backgroundColor:'transparent',
+   pointRadius:5,pointBackgroundColor:'#e2e8f0',fill:false,tension:.3,order:0,stack:undefined}
+]}, options:{...base({scales:{
+  x:{stacked:true,grid:{color:'rgba(255,255,255,.04)'},ticks:tX},
+  y:{stacked:true,grid:gX,ticks:{...tY,callback:v=>'$'+v+'K'}}
+}}), plugins:{...base().plugins,legend:{display:true,...leg}}}});
+
+new Chart($('c3_nrr'),{ type:'line', data:{ labels:MONTHS, datasets:[
+  {label:'NRR',data:[102,101,99,97,95,94],borderColor:'#ef4444',backgroundColor:'rgba(239,68,68,.08)',fill:true,tension:.4,pointRadius:4},
+  {label:'Target 100%',data:[100,100,100,100,100,100],borderColor:'rgba(255,255,255,.2)',borderDash:[5,5],pointRadius:0,fill:false}
+]}, options:{...base({scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:tX},y:{grid:gX,ticks:tY,min:88,max:108}}}),plugins:{...base().plugins,legend:{display:true,...leg}}}});
+
+/* Tab switch */
+function switchTab(n){
+  document.querySelectorAll('.tab-pane').forEach((p,i)=>p.classList.toggle('active',i===n));
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===n));
+}
+
+/* ── Deal drawer data ── */
+const dealData = {
+  healthtrack:{ logo:'HT', color:'#00c47a', name:'HealthTrack', stage:'Negotiation', value:'$67,000', owner:'Sarah Chen', created:'Jan 15, 2026', daysOpen:67, signal:'Closeable', signalColor:'var(--green)',
+    contacts:[{name:'Lisa Ortega',role:'VP Legal'},{name:'Jim Ramirez',role:'CFO'},{name:'DevOps Team',role:'Technical (3 people)'}],
+    calls:[
+      {date:'Mar 18, 2026',attendees:'Sarah + Lisa Ortega (VP Legal)',notes:'Contract redlines received. Legal approved standard terms. Pricing confirmed at $67K/yr. Lisa committed to signing by Mar 25. Jim has given verbal sign-off pending legal signature.',nextstep:'Push for signature — use legal approval email as momentum. Target close by Mar 25.'},
+      {date:'Mar 10, 2026',attendees:'Sarah + DevOps team (3 people)',notes:'Completed full integration review. Their DevOps team confirmed the API setup is straightforward — 2-3 hours of setup work. Security review passed their compliance checklist. No technical blockers remaining.',resolved:'Security review ✓ · Compliance checklist ✓ · API integration approved'},
+      {date:'Feb 28, 2026',attendees:'Sarah + Jim Ramirez (CFO)',notes:'Jim pushed back on list price — requested 20% discount. Held at 10% discount with annual commitment. Jim agreed in principle, contingent on legal sign-off. Note: Jim is the actual decision-maker, not just a budget approver.',nextstep:'Send revised contract with 10% annual commitment discount applied'},
+      {date:'Feb 15, 2026',attendees:'Sarah + Team Lead',notes:'POC kickoff. Team is engaged and enthusiastic. Main open question: need HIPAA compliance documentation before procurement can sign off. They have a 45-day evaluation window.',nextstep:'Send HIPAA compliance documentation package to team lead'}
+    ]
+  },
+  databridge:{ logo:'DB', color:'#ef4444', name:'DataBridge Inc.', stage:'Focus', value:'$42,000', owner:'Sarah Chen', created:'Feb 8, 2026', daysOpen:42, signal:'Attention — blocked', signalColor:'var(--amber)',
+    contacts:[{name:'David Kim',role:'CTO'},{name:'Emily Tran',role:'IT Lead'}],
+    calls:[
+      {date:'Mar 1, 2026',attendees:'Sarah + David Kim (CTO)',notes:'SSO/SAML confirmed as a hard blocker — enterprise IT policy, non-negotiable. David said they cannot proceed without it. Also mentioned audit log export would be needed for compliance. Our Q2 roadmap has SSO scheduled for late April. He\'s willing to wait but wants a firm timeline in writing.',nextstep:'Share roadmap with committed Q2 SSO date. Get written commitment from David to hold the deal open through April.'},
+      {date:'Feb 20, 2026',attendees:'Sarah + Product team (4 people)',notes:'Strong product fit — their use case maps perfectly to our core features. Team was enthusiastic. Two blockers raised: (1) SSO/SAML for enterprise rollout, (2) audit log export for compliance reporting. Both are active requests in our backlog.',nextstep:'Confirm internal timelines for SSO and audit log export'},
+      {date:'Feb 12, 2026',attendees:'Sarah + Emily Tran (IT Lead)',notes:'Initial discovery. Replacing legacy tool that requires manual CSV exports. Monthly active users: ~200. Budget approved Q1. Decision expected by end of March.',nextstep:'Schedule technical demo with full team'}
+    ]
+  },
+  meridian:{ logo:'MC', color:'#6366f1', name:'Meridian Co.', stage:'Evaluation', value:'$28,000', owner:'Marcus Webb', created:'Jan 22, 2026', daysOpen:59, signal:'Ghost — 31d dark', signalColor:'var(--red)',
+    contacts:[{name:'Sarah K.',role:'IT Lead (champion)'},{name:'CFO',role:'Budget approver (not engaged)'}],
+    calls:[
+      {date:'Feb 19, 2026',attendees:'Marcus (outreach only — no response)',notes:'Third outreach attempt. No response to email or LinkedIn. The IT lead who was championing the deal has been unresponsive since Feb 5. Okta was mentioned as a competing vendor in the last real call. Deal may be effectively lost. A competitor in their stack already covers their primary requirement.',nextstep:'One final outreach attempt. If no response by Feb 26, close as lost with reason: Missing Feature + Competitor Win.'},
+      {date:'Feb 5, 2026',attendees:'Marcus + Sarah K. (IT Lead)',notes:'Technical evaluation went well. Sarah was positive on the product. Internal CFO approval still pending. Okta was mentioned — their IT team already knows it. The SSO/SAML requirement came up as a hard requirement for any enterprise vendor.',nextstep:'Follow up on CFO approval status'},
+      {date:'Jan 30, 2026',attendees:'Marcus + Sarah K.',notes:'Discovery call. High initial interest — replacing legacy solution. Budget approved for Q2. Sarah is the champion but CFO has final sign-off. Exploring options for Q2 deployment.',nextstep:'Schedule technical deep-dive with IT team'}
+    ]
+  },
+  vanta:{ logo:'VL', color:'#8b5cf6', name:'Vanta Labs', stage:'Focus', value:'$14,500', owner:'Jordan Lee', created:'Feb 28, 2026', daysOpen:22, signal:'Ghost — 22d dark', signalColor:'var(--red)',
+    contacts:[{name:'Alex Reid',role:'Product Lead'}],
+    calls:[
+      {date:'Feb 28, 2026',attendees:'Jordan + Alex Reid (Product Lead)',notes:'Initial discovery call. Strong product-market fit on paper. Alex was engaged during the call but went quiet afterward. Two follow-up emails sent — no response. A follow-up call has been scheduled for Mar 22 as a last-attempt re-engagement.',nextstep:'Mar 22 call — confirm they\'re still interested, identify a clear next step with a defined timeline. If no engagement, close the deal.'}
+    ]
+  },
+  novapay:{ logo:'NP', color:'#f59e0b', name:'NovaPay', stage:'Evaluation', value:'$19,000', owner:'Priya Nair', created:'Feb 3, 2026', daysOpen:47, signal:'Attention — docs pending', signalColor:'var(--amber)',
+    contacts:[{name:'Raj Mehta',role:'CTO'},{name:'Security Team',role:'Final approver'}],
+    calls:[
+      {date:'Mar 3, 2026',attendees:'Priya + Raj Mehta (CTO)',notes:'Technical evaluation call — went well. Product demo landed. Raj asked for the security review documentation before they can proceed. Their security team needs to formally sign off before procurement can move. Deal is on hold until docs are sent.',nextstep:'Send security review docs today — Raj is waiting. Deal cannot progress without this.'},
+      {date:'Feb 20, 2026',attendees:'Priya + Raj + team',notes:'Deep dive into integration requirements. AWS-based stack, mostly Redshift. Integration is straightforward technically. Formal security documentation needed for procurement — SOC2 report, pen test summary, data handling policy.',nextstep:'Prepare security review package: SOC2 Type II, pen test summary, data processing agreement'}
+    ]
+  },
+  stackline:{ logo:'SL', color:'#06b6d4', name:'Stackline', stage:'Negotiation', value:'$31,000', owner:'Marcus Webb', created:'Jan 30, 2026', daysOpen:51, signal:'Closeable', signalColor:'var(--green)',
+    contacts:[{name:'Tom Birch',role:'VP Ops'},{name:'Finance Team',role:'Procurement'}],
+    calls:[
+      {date:'Mar 20, 2026',attendees:'Marcus + Tom Birch (VP Ops)',notes:'All technical questions resolved. Tom confirmed internal approval from leadership. Final pricing call scheduled Mar 24. They want 5% discount — Marcus is prepared to offer it in exchange for 2-year commitment.',nextstep:'Mar 24 pricing call — offer 5% for 2-year deal. If they push for more, offer extended onboarding support instead.'},
+      {date:'Mar 8, 2026',attendees:'Marcus + Tom + Finance',notes:'Contract terms reviewed. No major issues. Finance wants net-60 payment instead of net-30. Agreed on net-45 as a compromise. Tom is ready to sign once final pricing is confirmed.',nextstep:'Send revised contract with net-45 payment terms'}
+    ]
+  },
+  optima:{ logo:'OG', color:'#3b82f6', name:'Optima Group', stage:'Evaluation', value:'$55,000', owner:'Jordan Lee', created:'Mar 11, 2026', daysOpen:11, signal:'Healthy — on track', signalColor:'var(--green)',
+    contacts:[{name:'Diana Park',role:'VP Engineering'},{name:'IT Admin',role:'Technical evaluator'}],
+    calls:[
+      {date:'Mar 19, 2026',attendees:'Jordan + Diana Park (VP Engineering)',notes:'Kicked off POC. Diana is highly engaged. Technical integration is clean — no blockers. POC review scheduled for Mar 26. If the POC is successful they aim to sign before end of Q1 2026.',nextstep:'POC review Mar 26 — prepare results summary + commercial proposal ready to present same day.'}
+    ]
+  }
+};
+
+function openDrawer(id) {
+  const d = dealData[id]; if(!d) return;
+  const callsHtml = d.calls.map(c=>`
+    <details class="call-toggle">
+      <summary>
+        <span class="ct-chevron">›</span>
+        <div class="ct-left">
+          <span class="ct-date">${c.date}</span>
+          <span class="ct-attendees">${c.attendees}</span>
+        </div>
+      </summary>
+      <div class="call-body">
+        <div class="call-notes">${c.notes}</div>
+        ${c.nextstep?`<div class="call-next">→ Next: ${c.nextstep}</div>`:''}
+        ${c.resolved?`<div class="call-resolved">✓ ${c.resolved}</div>`:''}
+      </div>
+    </details>`).join('');
+  const contactsHtml = d.contacts.map(c=>`<div class="dr-contact"><strong>${c.name}</strong> · ${c.role}</div>`).join('');
+  $('drawer-content').innerHTML=`
+    <div class="dr-header">
+      <div class="dr-logo" style="background:${d.color}">${d.logo}</div>
+      <div style="flex:1"><div class="dr-title">${d.name}</div><div class="dr-stage">${d.stage} · <span style="color:${d.signalColor}">${d.signal}</span></div></div>
+      <button class="dr-close" onclick="closeDrawer()">✕</button>
+    </div>
+    <div class="dr-meta">
+      <div class="dr-meta-item"><div class="dr-meta-label">Value</div><div class="dr-meta-val">${d.value}</div></div>
+      <div class="dr-meta-item"><div class="dr-meta-label">Owner</div><div class="dr-meta-val">${d.owner}</div></div>
+      <div class="dr-meta-item"><div class="dr-meta-label">Created</div><div class="dr-meta-val">${d.created}</div></div>
+      <div class="dr-meta-item"><div class="dr-meta-label">Days open</div><div class="dr-meta-val">${d.daysOpen}d</div></div>
+    </div>
+    <div class="dr-contacts">${contactsHtml}</div>
+    <div class="dr-section">
+      <div class="dr-section-title">Call history — ${d.calls.length} call${d.calls.length>1?'s':''} · click to expand</div>
+      ${callsHtml}
+    </div>`;
+  $('drawer').classList.add('open');
+  $('overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeDrawer(){
+  $('drawer').classList.remove('open');
+  $('overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer()});
+</script>
+</body>
+</html>

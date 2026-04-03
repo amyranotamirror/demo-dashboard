@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grouped Border Table — v1</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Inter, system-ui, sans-serif; background: #f5f7fa; color: #1a1a2e; }
+
+    /* ── Version nav ── */
+    .version-nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; gap: 12px;
+      background: #1e1e2e; padding: 10px 24px;
+      border-bottom: 1px solid #333;
+    }
+    .nav-label { font-size: 13px; font-weight: 600; color: #a0a0c0; white-space: nowrap; }
+    .nav-links  { display: flex; gap: 6px; }
+    .nav-link {
+      padding: 4px 14px; border-radius: 6px; font-size: 12px; font-weight: 600;
+      text-decoration: none; color: #a0a0c0; background: #2a2a3e;
+      transition: background 0.15s;
+    }
+    .nav-link:hover  { background: #3a3a5e; color: #fff; }
+    .nav-link.active { background: #4f46e5; color: #fff; }
+
+    /* ── Page layout ── */
+    .page { padding: 32px; }
+    header { margin-bottom: 28px; }
+    header h1 { font-size: 20px; font-weight: 700; color: #111; }
+    header p  { margin-top: 4px; font-size: 13px; color: #888; }
+
+    .context-box {
+      background: #fff8ed; border: 1px solid #fcd34d; border-radius: 8px;
+      padding: 12px 16px; margin-bottom: 28px;
+      font-size: 13px; color: #78350f; line-height: 1.6;
+    }
+
+    .variants { display: flex; flex-direction: column; gap: 32px; }
+    .card {
+      background: #fff; border: 1px solid #e5e7eb; border-radius: 12px;
+      padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      overflow-x: auto;
+    }
+    .card > h2 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .card > p  { font-size: 13px; color: #6b7280; margin-bottom: 20px; line-height: 1.5; }
+    .tag {
+      display: inline-block; margin-bottom: 12px;
+      padding: 2px 10px; border-radius: 99px;
+      font-size: 11px; font-weight: 600;
+    }
+    .tag-rec  { background: #d1fae5; color: #065f46; }
+    .tag-alt  { background: #e0e7ff; color: #3730a3; }
+    .tag-simp { background: #f3f4f6; color: #374151; }
+
+    /* ── Shared table base ── */
+    .tbl {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 12px;
+      min-width: 860px;
+    }
+    .tbl th {
+      background: #f9fafb;
+      font-weight: 600; color: #374151;
+      padding: 8px 12px; text-align: left;
+      border-bottom: 2px solid #e5e7eb;
+      white-space: nowrap;
+    }
+    .tbl td {
+      padding: 7px 12px; color: #111;
+      background: #fff;
+      border-bottom: 1px solid #f3f4f6;
+      white-space: nowrap;
+    }
+    .tbl th.r, .tbl td.r { text-align: right; }
+
+    /* ── Conditional cell colors ── */
+    td.c-g  { background: #d1fae5 !important; color: #065f46; font-weight: 600; }
+    td.c-lg { background: #ecfdf5 !important; color: #047857; }
+    td.c-y  { background: #fef9c3 !important; color: #854d0e; }
+    td.c-r  { background: #fee2e2 !important; color: #991b1b; }
+    td.c-lr { background: #fff1f2 !important; color: #be123c; }
+
+    /* ══════════════════════════════════════════════
+       VARIANT 1 — Blue border per group
+       Classes: gr (group row), gs (group start), ge (group end)
+    ══════════════════════════════════════════════ */
+    .v1 tr.gs  td { border-top:    2px solid #2563EB; }
+    .v1 tr.ge  td { border-bottom: 2px solid #2563EB; }
+    .v1 tr.gr  td:first-child { border-left:  2px solid #2563EB; }
+    .v1 tr.gr  td:last-child  { border-right: 2px solid #2563EB; }
+    /* round the four outer corners */
+    .v1 tr.gs  td:first-child { border-top-left-radius:  3px; }
+    .v1 tr.gs  td:last-child  { border-top-right-radius: 3px; }
+    .v1 tr.ge  td:first-child { border-bottom-left-radius:  3px; }
+    .v1 tr.ge  td:last-child  { border-bottom-right-radius: 3px; }
+    /* gap spacer row between groups */
+    .v1 tr.gap td { height: 10px; background: transparent !important; border: none !important; }
+
+    /* ══════════════════════════════════════════════
+       VARIANT 2 — Colored banner header + matching border
+    ══════════════════════════════════════════════ */
+    .v2 tr.banner td {
+      padding: 5px 12px;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    /* Android = blue */
+    .v2 tr.ba    td { background: #dbeafe; color: #1e40af; }
+    .v2 tr.ga    td { background: #f8faff; }
+    .v2 tr.ga-s  td { border-top:    2px solid #3b82f6; }
+    .v2 tr.ga-e  td { border-bottom: 2px solid #3b82f6; }
+    .v2 tr.ga    td:first-child { border-left:  2px solid #3b82f6; }
+    .v2 tr.ga    td:last-child  { border-right: 2px solid #3b82f6; }
+    .v2 tr.ga-s  td:first-child { border-top-left-radius:  3px; }
+    .v2 tr.ga-s  td:last-child  { border-top-right-radius: 3px; }
+    .v2 tr.ga-e  td:first-child { border-bottom-left-radius:  3px; }
+    .v2 tr.ga-e  td:last-child  { border-bottom-right-radius: 3px; }
+    /* iOS = purple */
+    .v2 tr.bi    td { background: #ede9fe; color: #5b21b6; }
+    .v2 tr.gi    td { background: #fdfcff; }
+    .v2 tr.gi-s  td { border-top:    2px solid #7c3aed; }
+    .v2 tr.gi-e  td { border-bottom: 2px solid #7c3aed; }
+    .v2 tr.gi    td:first-child { border-left:  2px solid #7c3aed; }
+    .v2 tr.gi    td:last-child  { border-right: 2px solid #7c3aed; }
+    .v2 tr.gi-s  td:first-child { border-top-left-radius:  3px; }
+    .v2 tr.gi-s  td:last-child  { border-top-right-radius: 3px; }
+    .v2 tr.gi-e  td:first-child { border-bottom-left-radius:  3px; }
+    .v2 tr.gi-e  td:last-child  { border-bottom-right-radius: 3px; }
+    /* gap between groups */
+    .v2 tr.gap td { height: 10px; background: transparent !important; border: none !important; }
+
+    /* ══════════════════════════════════════════════
+       VARIANT 3 — Left accent stripe only
+    ══════════════════════════════════════════════ */
+    .v3 tr.ga td { background: #f8faff; }
+    .v3 tr.ga td:first-child { border-left: 4px solid #3b82f6; }
+    .v3 tr.gi td { background: #fdfcff; }
+    .v3 tr.gi td:first-child { border-left: 4px solid #7c3aed; }
+    /* group label cell */
+    .v3 tr.glabel-a td { padding: 4px 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; background: #dbeafe; color: #1d4ed8; border-left: 4px solid #3b82f6; }
+    .v3 tr.glabel-i td { padding: 4px 12px; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; background: #ede9fe; color: #6d28d9; border-left: 4px solid #7c3aed; }
+    .v3 tr.sep td { height: 8px; background: transparent !important; border: none !important; }
+  </style>
+</head>
+<body>
+
+<!-- ── Version nav ── -->
+<nav class="version-nav">
+  <span class="nav-label">Grouped Border Table</span>
+  <div class="nav-links">
+    <a href="grouped-border-table-v1.html" class="nav-link active">v1</a>
+    <!-- <a href="grouped-border-table-v2.html" class="nav-link">v2</a> -->
+  </div>
+</nav>
+
+<div class="page">
+  <header>
+    <h1>Grouped Border Table</h1>
+    <p>v1 — open in browser to compare variants</p>
+  </header>
+
+  <div class="context-box">
+    <strong>Context:</strong> A performance table where rows are grouped by a shared dimension value (e.g. OS = Android / iOS).
+    Each group is visually enclosed so readers instantly see which rows belong together — without merging cells or pivoting.
+    Conditional cell coloring highlights outliers. Requested when Holistics DataTable grouping alone isn't visually strong enough.
+  </div>
+
+  <div class="variants">
+
+    <!-- ══════════════════════════════════════════════
+         VARIANT 1 — Blue border outline (matches screenshot)
+    ══════════════════════════════════════════════ -->
+    <div class="card">
+      <h2>Variant 1 — Blue Panel Border</h2>
+      <span class="tag tag-rec">⭐ Recommended</span>
+      <p>Each group is enclosed in a 2px blue border box. The column header sits above all groups. A 10 px gap separates groups.
+         Conditional coloring highlights CPDAU and ROI outliers. Closest match to the reference screenshot.</p>
+
+      <table class="tbl v1">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>OS</th>
+            <th>Product</th>
+            <th>LL Activity</th>
+            <th>Install Week</th>
+            <th class="r">Total Cost</th>
+            <th class="r">DAU Count</th>
+            <th class="r">CPDAU</th>
+            <th class="r">D3 ROI(%)</th>
+            <th class="r">CP ReFD D3</th>
+            <th class="r">D7 ROI(%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Android group: rows 1-5 -->
+          <tr class="gr gs"><td>1</td><td>Android</td><td>WSOP</td><td>LL15</td><td>W06 08/02/2026</td><td class="r">$6,298</td><td class="r">521</td><td class="r c-y">$12.09</td><td class="r c-lr">2.62%</td><td class="r">$190.85</td><td class="r c-lr">4.31%</td></tr>
+          <tr class="gr">    <td>2</td><td>Android</td><td>WSOP</td><td>LL15</td><td>W07 15/02/2026</td><td class="r">$21,997</td><td class="r">1,892</td><td class="r">$11.63</td><td class="r c-lr">2.51%</td><td class="r">$215.66</td><td class="r c-lr">5.50%</td></tr>
+          <tr class="gr">    <td>3</td><td>Android</td><td>WSOP</td><td>LL15</td><td>W08 22/02/2026</td><td class="r">$20,710</td><td class="r">1,809</td><td class="r">$11.45</td><td class="r c-r">2.35%</td><td class="r">$197.23</td><td class="r c-r">3.77%</td></tr>
+          <tr class="gr">    <td>4</td><td>Android</td><td>WSOP</td><td>LL15</td><td>W09 01/03/2026</td><td class="r">$16,651</td><td class="r">1,597</td><td class="r">$10.43</td><td class="r c-lr">2.80%</td><td class="r">$180.99</td><td class="r c-lg">6.53%</td></tr>
+          <tr class="gr ge"><td>5</td><td>Android</td><td>WSOP</td><td>LL15</td><td>W10 08/03/2026</td><td class="r">$14,387</td><td class="r">1,737</td><td class="r c-g">$8.28</td><td class="r c-lr">2.44%</td><td class="r">$197.09</td><td class="r c-lr">4.53%</td></tr>
+          <!-- 10 px gap -->
+          <tr class="gap"><td colspan="11"></td></tr>
+          <!-- iOS group: rows 6-10 -->
+          <tr class="gr gs"><td>6</td><td>iOS</td><td>WSOP</td><td>LL15</td><td>W06 08/02/2026</td><td class="r">$4,779</td><td class="r">350</td><td class="r">$13.65</td><td class="r c-lg">5.07%</td><td class="r">$217.23</td><td class="r c-lg">7.75%</td></tr>
+          <tr class="gr">    <td>7</td><td>iOS</td><td>WSOP</td><td>LL15</td><td>W07 15/02/2026</td><td class="r">$16,702</td><td class="r">1,374</td><td class="r">$12.16</td><td class="r c-lg">6.27%</td><td class="r">$177.68</td><td class="r c-g">10.16%</td></tr>
+          <tr class="gr">    <td>8</td><td>iOS</td><td>WSOP</td><td>LL15</td><td>W08 22/02/2026</td><td class="r">$16,629</td><td class="r">1,342</td><td class="r">$12.39</td><td class="r c-g">40.36%</td><td class="r">$188.97</td><td class="r c-g">140.70%</td></tr>
+          <tr class="gr">    <td>9</td><td>iOS</td><td>WSOP</td><td>LL15</td><td>W09 01/03/2026</td><td class="r">$17,057</td><td class="r">1,302</td><td class="r">$13.10</td><td class="r c-lg">6.36%</td><td class="r">$198.33</td><td class="r c-g">10.07%</td></tr>
+          <tr class="gr ge"><td>10</td><td>iOS</td><td>WSOP</td><td>LL15</td><td>W10 08/03/2026</td><td class="r">$16,154</td><td class="r">1,417</td><td class="r">$11.40</td><td class="r c-lg">7.33%</td><td class="r">$166.09</td><td class="r c-r">3.97%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         VARIANT 2 — Colored group banner + matching border
+    ══════════════════════════════════════════════ -->
+    <div class="card">
+      <h2>Variant 2 — Colored Group Banner</h2>
+      <span class="tag tag-alt">Alternative</span>
+      <p>Each group has a colored banner row that names the group explicitly (Android = blue, iOS = purple),
+         with a matching border. Useful when there are many groups with non-obvious names,
+         or when you want the group identity to stand out more than in Variant 1.</p>
+
+      <table class="tbl v2">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>OS</th>
+            <th>Product</th>
+            <th>LL Activity</th>
+            <th>Install Week</th>
+            <th class="r">Total Cost</th>
+            <th class="r">DAU Count</th>
+            <th class="r">CPDAU</th>
+            <th class="r">D3 ROI(%)</th>
+            <th class="r">CP ReFD D3</th>
+            <th class="r">D7 ROI(%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Android group -->
+          <tr class="ga ga-s ba banner"><td colspan="11">📱 Android</td></tr>
+          <tr class="ga">    <td>1</td><td>Android</td><td>WSOP</td><td>LL15</td><td>W06 08/02/2026</td><td class="r">$6,298</td><td class="r">521</td><td class="r c-y">$12.09</td><td class="r c-lr">2.62%</td><td class="r">$190.85</td><td class="r c-lr">4.31%</td></tr>
+          <tr class="ga">    <td>2</td><td>Android</td><td>WSOP</td><td>LL15</td><td>W07 15/02/2026</td><td class="r">$21,997</td><td class="r">1,892</td><td class="r">$11.63</td><td class="r c-lr">2.51%</td><td class="r">$215.66</td><td class="r c-lr">5.50%</td></tr>
+          <tr class="ga">    <td>3</td><td>Android</td><td>WSOP</td><td>LL15</td><td>W08 22/02/2026</td><td class="r">$20,710</td><td class="r">1,809</td><td class="r">$11.45</td><td class="r c-r">2.35%</td><td class="r">$197.23</td><td class="r c-r">3.77%</td></tr>
+          <tr class="ga">    <td>4</td><td>Android</td><td>WSOP</td><td>LL15</td><td>W09 01/03/2026</td><td class="r">$16,651</td><td class="r">1,597</td><td class="r">$10.43</td><td class="r c-lr">2.80%</td><td class="r">$180.99</td><td class="r c-lg">6.53%</td></tr>
+          <tr class="ga ga-e"><td>5</td><td>Android</td><td>WSOP</td><td>LL15</td><td>W10 08/03/2026</td><td class="r">$14,387</td><td class="r">1,737</td><td class="r c-g">$8.28</td><td class="r c-lr">2.44%</td><td class="r">$197.09</td><td class="r c-lr">4.53%</td></tr>
+          <!-- Gap -->
+          <tr class="gap"><td colspan="11"></td></tr>
+          <!-- iOS group -->
+          <tr class="gi gi-s bi banner"><td colspan="11">🍎 iOS</td></tr>
+          <tr class="gi">    <td>6</td><td>iOS</td><td>WSOP</td><td>LL15</td><td>W06 08/02/2026</td><td class="r">$4,779</td><td class="r">350</td><td class="r">$13.65</td><td class="r c-lg">5.07%</td><td class="r">$217.23</td><td class="r c-lg">7.75%</td></tr>
+          <tr class="gi">    <td>7</td><td>iOS</td><td>WSOP</td><td>LL15</td><td>W07 15/02/2026</td><td class="r">$16,702</td><td class="r">1,374</td><td class="r">$12.16</td><td class="r c-lg">6.27%</td><td class="r">$177.68</td><td class="r c-g">10.16%</td></tr>
+          <tr class="gi">    <td>8</td><td>iOS</td><td>WSOP</td><td>LL15</td><td>W08 22/02/2026</td><td class="r">$16,629</td><td class="r">1,342</td><td class="r">$12.39</td><td class="r c-g">40.36%</td><td class="r">$188.97</td><td class="r c-g">140.70%</td></tr>
+          <tr class="gi">    <td>9</td><td>iOS</td><td>WSOP</td><td>LL15</td><td>W09 01/03/2026</td><td class="r">$17,057</td><td class="r">1,302</td><td class="r">$13.10</td><td class="r c-lg">6.36%</td><td class="r">$198.33</td><td class="r c-g">10.07%</td></tr>
+          <tr class="gi gi-e"><td>10</td><td>iOS</td><td>WSOP</td><td>LL15</td><td>W10 08/03/2026</td><td class="r">$16,154</td><td class="r">1,417</td><td class="r">$11.40</td><td class="r c-lg">7.33%</td><td class="r">$166.09</td><td class="r c-r">3.97%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         VARIANT 3 — Left accent stripe
+    ══════════════════════════════════════════════ -->
+    <div class="card">
+      <h2>Variant 3 — Left Accent Stripe</h2>
+      <span class="tag tag-simp">Simpler</span>
+      <p>Instead of a full border box, each group gets a thick colored left stripe and a subtle tinted background.
+         Lighter visual treatment — good when full borders feel too heavy, or when there are many groups and
+         the "boxed" look becomes cluttered.</p>
+
+      <table class="tbl v3">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>OS</th>
+            <th>Product</th>
+            <th>LL Activity</th>
+            <th>Install Week</th>
+            <th class="r">Total Cost</th>
+            <th class="r">DAU Count</th>
+            <th class="r">CPDAU</th>
+            <th class="r">D3 ROI(%)</th>
+            <th class="r">CP ReFD D3</th>
+            <th class="r">D7 ROI(%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Android group -->
+          <tr class="glabel-a"><td colspan="11">Android</td></tr>
+          <tr class="ga"><td>1</td><td>Android</td><td>WSOP</td><td>LL15</td><td>W06 08/02/2026</td><td class="r">$6,298</td><td class="r">521</td><td class="r c-y">$12.09</td><td class="r c-lr">2.62%</td><td class="r">$190.85</td><td class="r c-lr">4.31%</td></tr>
+          <tr class="ga"><td>2</td><td>Android</td><td>WSOP</td><td>LL15</td><td>W07 15/02/2026</td><td class="r">$21,997</td><td class="r">1,892</td><td class="r">$11.63</td><td class="r c-lr">2.51%</td><td class="r">$215.66</td><td class="r c-lr">5.50%</td></tr>
+          <tr class="ga"><td>3</td><td>Android</td><td>WSOP</td><td>LL15</td><td>W08 22/02/2026</td><td class="r">$20,710</td><td class="r">1,809</td><td class="r">$11.45</td><td class="r c-r">2.35%</td><td class="r">$197.23</td><td class="r c-r">3.77%</td></tr>
+          <tr class="ga"><td>4</td><td>Android</td><td>WSOP</td><td>LL15</td><td>W09 01/03/2026</td><td class="r">$16,651</td><td class="r">1,597</td><td class="r">$10.43</td><td class="r c-lr">2.80%</td><td class="r">$180.99</td><td class="r c-lg">6.53%</td></tr>
+          <tr class="ga"><td>5</td><td>Android</td><td>WSOP</td><td>LL15</td><td>W10 08/03/2026</td><td class="r">$14,387</td><td class="r">1,737</td><td class="r c-g">$8.28</td><td class="r c-lr">2.44%</td><td class="r">$197.09</td><td class="r c-lr">4.53%</td></tr>
+          <!-- Separator -->
+          <tr class="sep"><td colspan="11"></td></tr>
+          <!-- iOS group -->
+          <tr class="glabel-i"><td colspan="11">iOS</td></tr>
+          <tr class="gi"><td>6</td><td>iOS</td><td>WSOP</td><td>LL15</td><td>W06 08/02/2026</td><td class="r">$4,779</td><td class="r">350</td><td class="r">$13.65</td><td class="r c-lg">5.07%</td><td class="r">$217.23</td><td class="r c-lg">7.75%</td></tr>
+          <tr class="gi"><td>7</td><td>iOS</td><td>WSOP</td><td>LL15</td><td>W07 15/02/2026</td><td class="r">$16,702</td><td class="r">1,374</td><td class="r">$12.16</td><td class="r c-lg">6.27%</td><td class="r">$177.68</td><td class="r c-g">10.16%</td></tr>
+          <tr class="gi"><td>8</td><td>iOS</td><td>WSOP</td><td>LL15</td><td>W08 22/02/2026</td><td class="r">$16,629</td><td class="r">1,342</td><td class="r">$12.39</td><td class="r c-g">40.36%</td><td class="r">$188.97</td><td class="r c-g">140.70%</td></tr>
+          <tr class="gi"><td>9</td><td>iOS</td><td>WSOP</td><td>LL15</td><td>W09 01/03/2026</td><td class="r">$17,057</td><td class="r">1,302</td><td class="r">$13.10</td><td class="r c-lg">6.36%</td><td class="r">$198.33</td><td class="r c-g">10.07%</td></tr>
+          <tr class="gi"><td>10</td><td>iOS</td><td>WSOP</td><td>LL15</td><td>W10 08/03/2026</td><td class="r">$16,154</td><td class="r">1,417</td><td class="r">$11.40</td><td class="r c-lg">7.33%</td><td class="r">$166.09</td><td class="r c-r">3.97%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /variants -->
+</div><!-- /page -->
+
+</body>
+</html>

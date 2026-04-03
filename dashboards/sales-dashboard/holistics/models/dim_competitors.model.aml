@@ -1,0 +1,39 @@
+// Dimension: Competitors
+// Role-playing twin of dim_companies — same physical table, different semantic role.
+// Points to v_competitors view (companies WHERE type = 'competitor').
+// Joined via raw_inputs.competitor_id in the Market Signals dataset.
+
+Model dim_competitors {
+  type: 'table'
+  label: 'Competitors'
+  table_name: 'v_competitors'
+  data_source_name: 'neondb'
+  description: 'BI tools and competing products. Referenced by raw_inputs.competitor_id only — never a deal participant.'
+
+  dimension id {
+    label: 'Competitor ID'
+    type: 'text'
+    primary_key: true
+    definition: @sql {{ #SOURCE.id }};;
+  }
+  dimension name {
+    label: 'Competitor Name'
+    type: 'text'
+  }
+  dimension industry {
+    label: 'Industry'
+    type: 'text'
+  }
+  dimension country {
+    label: 'Country'
+    type: 'text'
+  }
+  dimension employee_count {
+    label: 'Employee Count'
+    type: 'number'
+  }
+  dimension website {
+    label: 'Website'
+    type: 'text'
+  }
+}

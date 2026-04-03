@@ -1,0 +1,122 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Custom Chart: Won Revenue by Month + Win Rate overlay — dual y-axis
+// ─────────────────────────────────────────────────────────────────────────────
+// Prototype reference: Tab 0 "Overview" — canvas id="revenueChart"
+// Renders:
+//   • Won revenue bars (left axis, lime)
+//   • Win rate % line (right axis, blue)
+//
+// Why CustomChart (not CombinationChart):
+//   CombinationChart in Holistics AML does not support dual y-axis.
+//   Vega-Lite resolve: independent gives us independent left/right scales.
+//
+// Field mapping (set in Holistics UI after uploading):
+//   period      → fct_deals.closed_at  (datetrunc month)
+//   won_revenue → sales_pipeline.won_revenue
+//   win_rate    → sales_pipeline.win_rate
+// ─────────────────────────────────────────────────────────────────────────────
+
+CustomChart {
+  fields {
+    field period      { type: "dimension" label: "Month"       }
+    field won_revenue { type: "measure"   label: "Won Revenue" }
+    field win_rate    { type: "measure"   label: "Win Rate %"  }
+  }
+
+  template: @vgl {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": { "values": @{values} },
+    "resolve": { "scale": { "y": "independent" } },
+
+    "layer": [
+      {
+        "description": "Won Revenue bars (left axis)",
+        "mark": {
+          "type":                 "bar",
+          "cornerRadiusTopLeft":  5,
+          "cornerRadiusTopRight": 5
+        },
+        "encoding": {
+          "x": {
+            "field": @{fields.period.name},
+            "type":  "ordinal",
+            "axis": {
+              "labelColor":    "#3A4460",
+              "labelFont":     "Space Grotesk",
+              "labelFontSize": 10,
+              "ticks":         false,
+              "domain":        false,
+              "title":         null
+            }
+          },
+          "y": {
+            "field": @{fields.won_revenue.name},
+            "type":  "quantitative",
+            "title": "Won Revenue",
+            "axis": {
+              "format":      "$,.0f",
+              "gridColor":   "rgba(28,34,56,0.8)",
+              "labelColor":  "#3A4460",
+              "labelFont":   "Space Grotesk",
+              "domainColor": "transparent",
+              "tickColor":   "transparent"
+            }
+          },
+          "color": { "value": "rgba(202,255,0,0.72)" },
+          "tooltip": [
+            { "field": @{fields.period.name},      "title": "Month"        },
+            { "field": @{fields.won_revenue.name}, "title": "Won Revenue", "format": "$,.0f" }
+          ]
+        }
+      },
+
+      {
+        "description": "Win Rate line (right axis)",
+        "mark": {
+          "type":        "line",
+          "color":       "#4F6EF5",
+          "strokeWidth": 2,
+          "interpolate": "monotone",
+          "point": {
+            "filled":      true,
+            "fill":        "#4F6EF5",
+            "size":        45,
+            "stroke":      "#161A27",
+            "strokeWidth": 2
+          }
+        },
+        "encoding": {
+          "x": { "field": @{fields.period.name}, "type": "ordinal" },
+          "y": {
+            "field": @{fields.win_rate.name},
+            "type":  "quantitative",
+            "title": "Win Rate %",
+            "axis": {
+              "format":      ".0%",
+              "labelColor":  "#4F6EF5",
+              "labelFont":   "Space Grotesk",
+              "domainColor": "transparent",
+              "tickColor":   "transparent",
+              "orient":      "right"
+            }
+          },
+          "tooltip": [
+            { "field": @{fields.period.name},   "title": "Month"     },
+            { "field": @{fields.win_rate.name}, "title": "Win Rate", "format": ".0%" }
+          ]
+        }
+      }
+    ],
+
+    "config": {
+      "view":       { "stroke": "transparent" },
+      "background": "transparent",
+      "axis":       { "gridColor": "rgba(28,34,56,0.8)" },
+      "legend": {
+        "labelColor": "#6E7C9E",
+        "titleColor": "#3A4460",
+        "labelFont":  "Space Grotesk"
+      }
+    }
+  };;
+}

@@ -1,0 +1,143 @@
+// Fact: Deals — one row per commercial engagement (new, renewal, upgrade, downgrade).
+// "Many" side of: dim_companies (via company_id), dim_reps (via owner_id).
+// "One" side of: fct_deal_stage_history, fct_subscriptions.
+
+Model fct_deals {
+  type: 'table'
+  label: 'Deals'
+  table_name: 'deals'
+  data_source_name: 'neondb'
+
+  // --- Keys ---
+  dimension id {
+    label: 'Deal ID'
+    type: 'text'
+    primary_key: true
+    definition: @sql {{ #SOURCE.id }};;
+  }
+  dimension company_id {
+    label: 'Company ID'
+    type: 'text'
+    hidden: true
+  }
+  dimension owner_id {
+    label: 'Owner (Rep) ID'
+    type: 'text'
+    hidden: true
+  }
+  dimension previous_deal_id {
+    label: 'Previous Deal ID'
+    type: 'text'
+    hidden: true
+    description: 'Self-referential FK for renewal/expansion chains'
+  }
+
+  // --- Classification ---
+  dimension deal_type {
+    label: 'Deal Type'
+    type: 'text'
+    description: 'new | renewal | upgrade | downgrade'
+  }
+  dimension status {
+    label: 'Deal Status'
+    type: 'text'
+    description: 'in_progress | won | lost | ghost | churned | renewed'
+  }
+  dimension stage {
+    label: 'Stage'
+    type: 'text'
+    description: 'qualifying | validating | progressing | focus | negotiating'
+  }
+  dimension sub_status {
+    label: 'Sub Status'
+    type: 'text'
+    description: 'promising | focus | at_risk | highlight'
+  }
+
+  // --- Financials ---
+  dimension deal_value_usd {
+    label: 'Deal Value (USD)'
+    type: 'number'
+  }
+
+  // --- Outcomes ---
+  dimension lost_reason {
+    label: 'Lost Reason'
+    type: 'text'
+    description: 'missing_feature | pricing | competitor_win | no_budget | ghosted | not_a_fit'
+  }
+  dimension win_reason {
+    label: 'Win Reason'
+    type: 'text'
+    description: 'product_fit | pricing_advantage | relationship | competitive_gap | speed_to_value | other'
+  }
+  dimension key_learning {
+    label: 'Key Learning'
+    type: 'text'
+    hidden: true
+  }
+  dimension follow_up_action {
+    label: 'Follow-Up Action'
+    type: 'text'
+    hidden: true
+  }
+
+  // --- Dates ---
+  dimension created_at {
+    label: 'Created At'
+    type: 'datetime'
+  }
+  dimension closed_at {
+    label: 'Closed At'
+    type: 'datetime'
+  }
+  dimension follow_up_at {
+    label: 'Follow-Up Date'
+    type: 'date'
+  }
+
+  // --- Derived ---
+  dimension is_open {
+    label: 'Is Open'
+    type: 'truefalse'
+    definition: @sql {{ #SOURCE.status }} = 'in_progress';;
+  }
+  dimension is_ghost {
+    label: 'Is Ghost'
+    type: 'truefalse'
+    definition: @sql {{ #SOURCE.status }} = 'ghost';;
+  }
+  dimension days_to_close {
+    label: 'Days to Close'
+    type: 'number'
+    definition: @sql
+      EXTRACT(EPOCH FROM ({{ #SOURCE.closed_at }} - {{ #SOURCE.created_at }})) / 86400;;
+  }
+
+  // --- Measures ---
+  measure count_deals {
+    label: 'Deals'
+    type: 'number'
+    definition: @sql {{ id }};;
+    aggregation_type: 'count'
+  }
+  measure total_pipeline_value {
+    label: 'Pipeline Value (USD)'
+    type: 'number'
+    definition: @sql sum({{ #SOURCE.deal_value_usd }});;
+    aggregation_type: 'custom'
+  }
+  measure avg_deal_value {
+    label: 'Avg Deal Value (USD)'
+    type: 'number'
+    definition: @sql avg({{ #SOURCE.deal_value_usd }});;
+    aggregation_type: 'custom'
+  }
+  measure avg_days_to_close {
+    label: 'Avg Days to Close'
+    type: 'number'
+    definition: @sql
+      avg(EXTRACT(EPOCH FROM ({{ #SOURCE.closed_at }} - {{ #SOURCE.created_at }})) / 86400);;
+    aggregation_type: 'custom'
+  }
+}

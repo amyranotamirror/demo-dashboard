@@ -1,0 +1,65 @@
+// Dimension: Product Taxonomy (flattened features + use_cases + themes)
+// Points to v_product_taxonomy view — pre-joins features → use_cases → themes.
+// Avoids a 4-hop snowflake chain when combining with raw_inputs via improvements.
+// PK = features.id; joined via dim_improvements.feature_id.
+
+Model dim_product_taxonomy {
+  type: 'table'
+  label: 'Product Taxonomy'
+  table_name: 'v_product_taxonomy'
+  data_source_name: 'neondb'
+  description: 'Flattened product hierarchy: Feature → Use Case → Theme. One row per feature. Join via dim_improvements.feature_id.'
+
+  dimension id {
+    label: 'Feature ID'
+    type: 'text'
+    primary_key: true
+    definition: @sql {{ #SOURCE.id }};;
+  }
+  dimension use_case_id {
+    label: 'Use Case ID'
+    type: 'text'
+    hidden: true
+  }
+  dimension feature_name {
+    label: 'Feature'
+    type: 'text'
+  }
+  dimension feature_description {
+    label: 'Feature Description'
+    type: 'text'
+    hidden: true
+  }
+  dimension feature_status {
+    label: 'Feature Status'
+    type: 'text'
+    description: 'planned | in_development | shipped | deprecated'
+  }
+  dimension feature_shipped_at {
+    label: 'Feature Shipped At'
+    type: 'date'
+  }
+  dimension use_case_name {
+    label: 'Use Case'
+    type: 'text'
+  }
+  dimension use_case_description {
+    label: 'Use Case Description'
+    type: 'text'
+    hidden: true
+  }
+  dimension theme_id {
+    label: 'Theme ID'
+    type: 'text'
+    hidden: true
+  }
+  dimension theme_name {
+    label: 'Theme'
+    type: 'text'
+  }
+  dimension theme_description {
+    label: 'Theme Description'
+    type: 'text'
+    hidden: true
+  }
+}

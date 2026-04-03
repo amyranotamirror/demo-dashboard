@@ -57,16 +57,16 @@ Outliers are rendered as large red diamonds; normal points are small blue circle
 ```aml
 CustomChart {
   fields {
-    field x_axis     { type: "measure";   label: "X Axis" }
-    field y_axis     { type: "measure";   label: "Y Axis" }
+    field x_axis     { type: "dimension"; label: "X Axis";  data_type: "number" }
+    field y_axis     { type: "dimension"; label: "Y Axis";  data_type: "number" }
     field group      { type: "dimension"; label: "Group" }
     field is_outlier { type: "dimension"; label: "Is Outlier (true/false)"; data_type: "boolean" }
   }
   options {
-    option normal_color  { type: "color";  label: "Normal Point Color";  default_value: "#4c78a8" }
-    option outlier_color { type: "color";  label: "Outlier Point Color"; default_value: "#e45c5c" }
-    option normal_size   { type: "number"; label: "Normal Point Size";   default_value: 60 }
-    option outlier_size  { type: "number"; label: "Outlier Point Size";  default_value: 250 }
+    option normal_color  { type: "color-picker";  label: "Normal Point Color";  default_value: "#4c78a8" }
+    option outlier_color { type: "color-picker";  label: "Outlier Point Color"; default_value: "#e45c5c" }
+    option normal_size   { type: "number-input";  label: "Normal Point Size";   default_value: 60 }
+    option outlier_size  { type: "number-input";  label: "Outlier Point Size";  default_value: 250 }
   }
   template: @vgl {
     "data": {"values": @{values}},
@@ -76,28 +76,28 @@ CustomChart {
       "y": {"field": @{fields.y_axis.name}, "type": "quantitative", "title": "Y"},
       "color": {
         "condition": {
-          "test": "datum[@{fields.is_outlier.name}] == true || datum[@{fields.is_outlier.name}] == 'true'",
+          "test": {"field": @{fields.is_outlier.name}, "oneOf": [true, "true", 1, "1"]},
           "value": @{options.outlier_color.value}
         },
         "value": @{options.normal_color.value}
       },
       "size": {
         "condition": {
-          "test": "datum[@{fields.is_outlier.name}] == true || datum[@{fields.is_outlier.name}] == 'true'",
+          "test": {"field": @{fields.is_outlier.name}, "oneOf": [true, "true", 1, "1"]},
           "value": @{options.outlier_size.value}
         },
         "value": @{options.normal_size.value}
       },
       "shape": {
         "condition": {
-          "test": "datum[@{fields.is_outlier.name}] == true || datum[@{fields.is_outlier.name}] == 'true'",
+          "test": {"field": @{fields.is_outlier.name}, "oneOf": [true, "true", 1, "1"]},
           "value": "diamond"
         },
         "value": "circle"
       },
       "opacity": {
         "condition": {
-          "test": "datum[@{fields.is_outlier.name}] == true || datum[@{fields.is_outlier.name}] == 'true'",
+          "test": {"field": @{fields.is_outlier.name}, "oneOf": [true, "true", 1, "1"]},
           "value": 1
         },
         "value": 0.7
@@ -109,59 +109,144 @@ CustomChart {
 
 ---
 
-### Variant 2 — Hollow Ring Annotation
+### Variant 2 — Group Colors + Shape + Halo + Hover
 
 **Requires:** `is_outlier` field in the dataset.
 
-All data points are rendered normally. Outliers additionally get a bold hollow ring drawn around them as a second layer. This approach doesn't distort point size or shape — ideal when the existing visual encoding (e.g. color per cluster) should be preserved and you just want to annotate the extremes.
+Each group gets a distinct color **and shape** from the Vega scheme. Three states:
+- **Default** — small dim dot (30% opacity)
+- **Hover** — solid dot, slightly bigger, white border, soft dim halo circle behind it
+- **Outlier** — same as hover state but always active (no interaction needed)
+
+The halo is a dim filled circle (not a hollow ring) — always circular regardless of the point shape. Color comes from the group scheme automatically.
 
 **Configurable options:**
-- Normal point color (default: `#4c78a8`)
-- Outlier ring color (default: `#e45c5c`)
-- Ring size (default: `900` — controls how large the circle is)
+- Color scheme — any Vega scheme name: `tableau10`, `set2`, `dark2`, `accent`, `paired` (default: `tableau10`)
 
 ```aml
 CustomChart {
   fields {
-    field x_axis     { type: "measure";   label: "X Axis" }
-    field y_axis     { type: "measure";   label: "Y Axis" }
+    field x_axis     { type: "dimension"; label: "X Axis";  data_type: "number" }
+    field y_axis     { type: "dimension"; label: "Y Axis";  data_type: "number" }
     field group      { type: "dimension"; label: "Group" }
     field is_outlier { type: "dimension"; label: "Is Outlier (true/false)"; data_type: "boolean" }
   }
   options {
-    option point_color { type: "color";  label: "Normal Point Color"; default_value: "#4c78a8" }
-    option ring_color  { type: "color";  label: "Outlier Ring Color"; default_value: "#e45c5c" }
-    option ring_size   { type: "number"; label: "Ring Size";          default_value: 900 }
+    option color_scheme { type: "input"; label: "Color Scheme (tableau10, set2, dark2, accent…)"; default_value: "tableau10" }
   }
   template: @vgl {
     "data": {"values": @{values}},
+    "transform": [
+      {"calculate": "'Cross-filter other charts'", "as": "_tip_click"},
+      {"calculate": "'Date drill, Drill-through'", "as": "_tip_right"}
+    ],
     "layer": [
       {
-        "mark": {"type": "point", "filled": true, "tooltip": true, "size": 80},
+        "mark": {"type": "rule", "color": "#cccccc", "strokeWidth": 1},
         "encoding": {
-          "x": {"field": @{fields.x_axis.name}, "type": "quantitative", "title": "X"},
-          "y": {"field": @{fields.y_axis.name}, "type": "quantitative", "title": "Y"},
-          "color": {"value": @{options.point_color.value}},
-          "tooltip": [
-            {"field": @{fields.group.name},  "type": "nominal",      "title": "Group"},
-            {"field": @{fields.x_axis.name}, "type": "quantitative", "title": "X"},
-            {"field": @{fields.y_axis.name}, "type": "quantitative", "title": "Y"}
-          ]
+          "x": {"field": @{fields.x_axis.name}, "type": "quantitative"},
+          "opacity": {
+            "condition": {"param": "_hover", "empty": false, "value": 0.7},
+            "value": 0
+          }
         }
       },
       {
-        "transform": [
-          {"filter": "datum[@{fields.is_outlier.name}] == true || datum[@{fields.is_outlier.name}] == 'true'"}
-        ],
-        "mark": {"type": "point", "filled": false, "strokeWidth": 2.5, "opacity": 0.85},
+        "mark": {"type": "circle", "strokeOpacity": 0},
         "encoding": {
-          "x":      {"field": @{fields.x_axis.name}, "type": "quantitative"},
-          "y":      {"field": @{fields.y_axis.name}, "type": "quantitative"},
-          "stroke": {"value": @{options.ring_color.value}},
-          "size":   {"value": @{options.ring_size.value}}
+          "x": {"field": @{fields.x_axis.name}, "type": "quantitative"},
+          "y": {"field": @{fields.y_axis.name}, "type": "quantitative"},
+          "color": {
+            "field": @{fields.group.name},
+            "type": "nominal",
+            "scale": {"scheme": @{options.color_scheme.value}}
+          },
+          "size": {"value": 500},
+          "opacity": {
+            "condition": [
+              {
+                "test": {"field": @{fields.is_outlier.name}, "oneOf": [true, "true", 1, "1"]},
+                "value": 0.18
+              },
+              {"param": "_hover", "empty": false, "value": 0.18}
+            ],
+            "value": 0
+          }
+        }
+      },
+      {
+        "params": [
+          {"name": "_hover", "select": {"type": "point", "on": "mouseover", "nearest": true, "clear": "mouseout"}}
+        ],
+        "mark": {"type": "point", "filled": true},
+        "encoding": {
+          "x": {"field": @{fields.x_axis.name}, "type": "quantitative", "title": "X Axis"},
+          "y": {"field": @{fields.y_axis.name}, "type": "quantitative", "title": "Y Axis"},
+          "color": {
+            "field": @{fields.group.name},
+            "type": "nominal",
+            "scale": {"scheme": @{options.color_scheme.value}},
+            "legend": {"title": "Group"}
+          },
+          "shape": {
+            "field": @{fields.group.name},
+            "type": "nominal"
+          },
+          "size": {
+            "condition": [
+              {
+                "test": {"field": @{fields.is_outlier.name}, "oneOf": [true, "true", 1, "1"]},
+                "value": 160
+              },
+              {"param": "_hover", "empty": false, "value": 130}
+            ],
+            "value": 55
+          },
+          "stroke": {
+            "condition": [
+              {
+                "test": {"field": @{fields.is_outlier.name}, "oneOf": [true, "true", 1, "1"]},
+                "value": "white"
+              },
+              {"param": "_hover", "empty": false, "value": "white"}
+            ],
+            "value": "transparent"
+          },
+          "strokeWidth": {
+            "condition": [
+              {
+                "test": {"field": @{fields.is_outlier.name}, "oneOf": [true, "true", 1, "1"]},
+                "value": 1.5
+              },
+              {"param": "_hover", "empty": false, "value": 1.5}
+            ],
+            "value": 0
+          },
+          "opacity": {
+            "condition": [
+              {
+                "test": {"field": @{fields.is_outlier.name}, "oneOf": [true, "true", 1, "1"]},
+                "value": 1
+              },
+              {"param": "_hover", "empty": false, "value": 1}
+            ],
+            "value": 0.3
+          },
+          "tooltip": [
+            {"field": @{fields.group.name},  "type": "nominal",      "title": "Group"},
+            {"field": @{fields.x_axis.name}, "type": "quantitative", "title": "X Axis",  "format": ".2f"},
+            {"field": @{fields.y_axis.name}, "type": "quantitative", "title": "Y Axis",  "format": ".2f"},
+            {"field": "_tip_click",          "type": "nominal",      "title": "Click"},
+            {"field": "_tip_right",          "type": "nominal",      "title": "Right-click"}
+          ]
         }
       }
-    ]
+    ],
+    "config": {
+      "view":   {"stroke": "transparent"},
+      "axis":   {"gridColor": "#eeeeee", "domain": false, "ticks": false},
+      "legend": {"symbolOpacity": 1}
+    }
   };;
 }
 ```
@@ -181,14 +266,14 @@ Normal points show their tooltip only on hover. Outlier points always display th
 ```aml
 CustomChart {
   fields {
-    field x_axis     { type: "measure";   label: "X Axis" }
-    field y_axis     { type: "measure";   label: "Y Axis" }
+    field x_axis     { type: "dimension"; label: "X Axis";  data_type: "number" }
+    field y_axis     { type: "dimension"; label: "Y Axis";  data_type: "number" }
     field group      { type: "dimension"; label: "Group / Label" }
     field is_outlier { type: "dimension"; label: "Is Outlier (true/false)"; data_type: "boolean" }
   }
   options {
-    option point_color   { type: "color"; label: "Normal Point Color";  default_value: "#4c78a8" }
-    option outlier_color { type: "color"; label: "Outlier Point Color"; default_value: "#e45c5c" }
+    option point_color   { type: "color-picker"; label: "Normal Point Color";  default_value: "#4c78a8" }
+    option outlier_color { type: "color-picker"; label: "Outlier Point Color"; default_value: "#e45c5c" }
   }
   template: @vgl {
     "data": {"values": @{values}},
@@ -200,14 +285,14 @@ CustomChart {
           "y": {"field": @{fields.y_axis.name}, "type": "quantitative", "title": "Y"},
           "color": {
             "condition": {
-              "test": "datum[@{fields.is_outlier.name}] == true || datum[@{fields.is_outlier.name}] == 'true'",
+              "test": {"field": @{fields.is_outlier.name}, "oneOf": [true, "true", 1, "1"]},
               "value": @{options.outlier_color.value}
             },
             "value": @{options.point_color.value}
           },
           "size": {
             "condition": {
-              "test": "datum[@{fields.is_outlier.name}] == true || datum[@{fields.is_outlier.name}] == 'true'",
+              "test": {"field": @{fields.is_outlier.name}, "oneOf": [true, "true", 1, "1"]},
               "value": 180
             },
             "value": 60
@@ -216,7 +301,7 @@ CustomChart {
       },
       {
         "transform": [
-          {"filter": "datum[@{fields.is_outlier.name}] == true || datum[@{fields.is_outlier.name}] == 'true'"}
+          {"filter": {"field": @{fields.is_outlier.name}, "oneOf": [true, "true", 1, "1"]}}
         ],
         "mark": {"type": "text", "dy": -14, "fontSize": 11, "fontWeight": "bold"},
         "encoding": {
@@ -249,17 +334,20 @@ This variant computes outliers automatically at render time using Z-score. Any p
 ```aml
 CustomChart {
   fields {
-    field x_axis { type: "measure";   label: "X Axis" }
-    field y_axis { type: "measure";   label: "Y Axis" }
+    field x_axis { type: "dimension"; label: "X Axis";  data_type: "number" }
+    field y_axis { type: "dimension"; label: "Y Axis";  data_type: "number" }
     field group  { type: "dimension"; label: "Group / Label" }
   }
   options {
-    option normal_color  { type: "color";  label: "Normal Point Color";                  default_value: "#4c78a8" }
-    option outlier_color { type: "color";  label: "Outlier Highlight Color";             default_value: "#e45c5c" }
-    option z_threshold   { type: "number"; label: "Outlier Z-score Threshold (e.g. 2)"; default_value: 2 }
+    option normal_color  { type: "color-picker";  label: "Normal Point Color";                  default_value: "#4c78a8" }
+    option outlier_color { type: "color-picker";  label: "Outlier Highlight Color";             default_value: "#e45c5c" }
+    option z_threshold   { type: "number-input";  label: "Outlier Z-score Threshold (e.g. 2)"; default_value: 2 }
   }
   template: @vgl {
     "data": {"values": @{values}},
+    "params": [
+      {"name": "_z_threshold", "value": @{options.z_threshold.value}}
+    ],
     "transform": [
       {
         "joinaggregate": [
@@ -270,7 +358,7 @@ CustomChart {
         ]
       },
       {
-        "calculate": "abs((datum[@{fields.x_axis.name}] - datum._mean_x) / datum._stdev_x) > @{options.z_threshold.value} || abs((datum[@{fields.y_axis.name}] - datum._mean_y) / datum._stdev_y) > @{options.z_threshold.value}",
+        "calculate": "abs((datum['@{fields.x_axis.name}'] - datum._mean_x) / datum._stdev_x) > _z_threshold || abs((datum['@{fields.y_axis.name}'] - datum._mean_y) / datum._stdev_y) > _z_threshold",
         "as": "_is_outlier"
       }
     ],

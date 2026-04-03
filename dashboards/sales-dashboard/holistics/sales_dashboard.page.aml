@@ -1,0 +1,933 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Sales Dashboard — AML Page
+// Synced with prototype-v13
+// Theme: neon_dark  (defined in themes/salesforce-crm/salesforce-crm-v2.aml)
+//
+// Apply: Dashboard sales_dashboard { theme: neon_dark }
+//
+// CHART TYPE MAP (prototype-v13 → Holistics)
+// ─────────────────────────────────────────────────────────────────────────────
+// OVERVIEW TAB
+//   hero                  → TextBlock            (dynamic content, @md narrative)
+//   kpi_closed_revenue    → MetricKpi             (lime accent via BlockTheme)
+//   kpi_pipeline          → MetricKpi             (blue accent via BlockTheme)
+//   chart_revenue_trend   → CombinationChart      (bar won-revenue + line win-rate, dual y-axis)
+//   kpi_win_rate          → MetricKpi
+//   kpi_avg_deal          → MetricKpi
+//   kpi_sales_cycle       → MetricKpi
+//   kpi_ghost_rate        → MetricKpi
+//   table_recent_closes   → DataTable
+//
+// PIPELINE TAB
+//   kpi_total_pipeline    → MetricKpi
+//   kpi_at_risk           → MetricKpi
+//   kpi_avg_deal_age      → MetricKpi
+//   kpi_forecast_close    → MetricKpi
+//   chart_pipeline_funnel → CustomChart ★ Vega-Lite (horizontal funnel bars)
+//   chart_win_loss_trend  → CustomChart ★ Vega-Lite (diverging bars + net line)
+//   table_top_deals       → DataTable
+//
+// TEAM TAB
+//   kpi_team_*            → MetricKpi ×4
+//   table_rep_perf        → DataTable             (replaces rep cards; cards not natively supported)
+//   chart_rep_won_lost    → ColumnChart           (grouped won/lost by rep)
+//
+// CUSTOMERS TAB
+//   kpi_customers_*       → MetricKpi ×4
+//   map_customers         → Map (filled choropleth by country)
+//   chart_mrr_growth      → LineChart             (area-fill line)
+//   chart_plan_dist       → BarChart              (horizontal, by plan)
+//   chart_version_dist    → BarChart              (horizontal, by version)
+//   chart_regional        → BarChart              (horizontal, by country)
+//   text_key_signals      → TextBlock
+//   table_enterprise      → DataTable
+//
+// ★ = Custom Charts — Vega-Lite specs also saved as standalone files in:
+//     custom_charts/pipeline_funnel.aml
+//     custom_charts/won_vs_lost_trend.aml
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ── Layout constants ──────────────────────────────────────────────────────────
+// Canvas: 1440px wide. Grid units derived from (1440 - n_gaps × 16) / n_cols
+const W   = 1440   // canvas width
+const G   = 16     // gap between blocks
+const C4  = 348    // 4-col unit  = (1440 - 3×16) / 4
+const C3  = 469    // 3-col unit  = (1440 - 2×16) / 3
+const C2  = 712    // 2-col unit  = (1440 -   16) / 2
+// g211 layout: 2fr + 1fr + 1fr  → each unit = (1440 - 2×16) / 4 = 352
+const U   = 352    // base unit for g211
+// g21 layout: 2fr + 1fr  → each unit = (1440 - 16) / 3 ≈ 475
+const U21 = 475    // 1fr unit for g21; 2fr = 950
+
+Dashboard sales_dashboard {
+  title: 'Sales Dashboard'
+  theme: neon_dark
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // ── OVERVIEW TAB BLOCKS ───────────────────────────────────────────────────
+  // ══════════════════════════════════════════════════════════════════════════
+
+  // ── Date filter — "This Year" default, applied to all tabs ──────────────
+  block filter_date: FilterBlock {
+    label: 'Date Range'
+    type: 'field'
+    source: FieldFilterSource {
+      dataset: ds_sales_dashboard
+      field: r(fct_deals.closed_at)
+    }
+    default {
+      operator: 'matches'
+      value: 'this year'
+    }
+  }
+
+  // Hero narrative — TextBlock (dynamic content block, @md)
+  // Prototype: hero card with eyebrow, title, body, and mini stat strip
+  //
+  // TextBlock content is ALWAYS static markdown — it cannot embed live metric values.
+  // The stat strip (Revenue / Deals Won / Win Rate / NRR) is replaced by four
+  // MetricKpi blocks (hero_kpi_*) positioned directly below this text in the canvas.
+  block hero: TextBlock {
+    theme: BlockTheme {
+      background { bg_color: "#12182E" }
+      border { border_color: "#1A1E30" border_radius: 16 }
+      padding: 24
+    }
+    content: @md
+<span class="t-lime t-label">Q1 2026 · Sales Snapshot</span>
+
+## Hi Mike, here's what's <span class="t-lime">happening</span> this quarter.
+
+<span class="t-muted">Key metrics for the quarter are shown below. Watch ghost rate and pipeline coverage for next cycle.</span>
+    ;;
+  }
+
+  // Hero stat strip — 4 MetricKpi blocks positioned under the hero text
+  // These replace the hardcoded inline table from the prototype.
+  block hero_kpi_revenue: VizBlock {
+    label: 'Revenue'
+    theme: BlockTheme { background { bg_color: "#12182E" } border { border_color: "#1A1E30" border_radius: 12 } padding: 16 }
+    viz: MetricKpi {
+      dataset: sales_pipeline
+      value: VizFieldFull {
+        ref: r(sales_pipeline.won_revenue)
+        format { type: 'number' pattern: '[$$]#,###0,"K"' }
+      }
+    }
+  }
+
+  block hero_kpi_deals_won: VizBlock {
+    label: 'Deals Won'
+    theme: BlockTheme { background { bg_color: "#12182E" } border { border_color: "#1A1E30" border_radius: 12 } padding: 16 }
+    viz: MetricKpi {
+      dataset: sales_pipeline
+      value: VizFieldFull { ref: r(sales_pipeline.won_deals) }
+    }
+  }
+
+  block hero_kpi_win_rate: VizBlock {
+    label: 'Win Rate'
+    theme: BlockTheme { background { bg_color: "#12182E" } border { border_color: "#1A1E30" border_radius: 12 } padding: 16 }
+    viz: MetricKpi {
+      dataset: sales_pipeline
+      value: VizFieldFull {
+        ref: r(sales_pipeline.win_rate)
+        format { type: 'number' pattern: '#0\\%' }
+      }
+    }
+  }
+
+  // NOTE: NRR metric is not yet in sales_pipeline. Add `net_revenue_retention`
+  //       metric there before this block will show a meaningful value.
+  //       Formula: safe_divide((active_mrr + expansion_mrr - churned_mrr) * 100, prior_period_mrr)
+  block hero_kpi_nrr: VizBlock {
+    label: 'NRR'
+    theme: BlockTheme { background { bg_color: "#12182E" } border { border_color: "#1A1E30" border_radius: 12 } padding: 16 }
+    viz: MetricKpi {
+      dataset: sales_pipeline
+      // TODO: replace with r(sales_pipeline.net_revenue_retention) once defined
+      value: VizFieldFull {
+        ref: r(sales_pipeline.mrr_churn_rate)
+        format { type: 'number' pattern: '#0\\%' }
+      }
+    }
+  }
+
+  // Closed Revenue Q1 — MetricKpi (lime accent card)
+  // Prototype: .card.lime — accent background with progress bar
+  // NOTE: Progress bar is a CSS decoration only; not reproducible natively in MetricKpi.
+  //       Use theme's .card-accent-lime class on a TextBlock if you need the bar.
+  block kpi_closed_revenue: VizBlock {
+    label: 'Closed Revenue Q1'
+    theme: BlockTheme {
+      background { bg_color: "#5DA800" }
+      border { border_color: "#5DA800" border_radius: 16 }
+      label { font_color: "#FFFFFF" }
+      text  { font_color: "#FFFFFF" }
+    }
+    viz: MetricKpi {
+      dataset: sales_pipeline
+      value: VizFieldFull {
+        ref: r(sales_pipeline.won_revenue)
+        format { type: 'number' pattern: '[$$]#,###0,,"M"' }
+      }
+    }
+  }
+
+  // Active Pipeline — MetricKpi (blue accent card)
+  // Prototype: .card.blue
+  block kpi_pipeline: VizBlock {
+    label: 'Active Pipeline'
+    theme: BlockTheme {
+      background { bg_color: "#2F4FCC" }
+      border { border_color: "#2F4FCC" border_radius: 16 }
+      label { font_color: "rgba(232,236,255,0.65)" }
+      text  { font_color: "#FFFFFF" }
+    }
+    viz: MetricKpi {
+      dataset: sales_pipeline
+      value: VizFieldFull {
+        ref: r(sales_pipeline.active_pipeline_value)
+        format { type: 'number' pattern: '[$$]#,###0.0,,"M"' }
+      }
+    }
+  }
+
+  // Won Revenue by Month + Win Rate overlay — see custom_charts/revenue_trend.aml
+  block chart_revenue_trend: VizBlock {
+    label: 'Won Revenue by Month'
+    viz: revenue_trend
+  }
+
+  // Win Rate — MetricKpi
+  block kpi_win_rate: VizBlock {
+    label: 'Win Rate'
+    viz: MetricKpi {
+      dataset: sales_pipeline
+      value: VizFieldFull {
+        ref: r(sales_pipeline.win_rate)
+        format { type: 'number' pattern: '#0.0\\%' }
+      }
+    }
+  }
+
+  // Avg Deal Size — MetricKpi
+  block kpi_avg_deal: VizBlock {
+    label: 'Avg Deal Size'
+    viz: MetricKpi {
+      dataset: sales_pipeline
+      value: VizFieldFull {
+        ref: r(sales_pipeline.avg_deal_value)
+        format { type: 'number' pattern: '[$$]#,###0.0,"K"' }
+      }
+    }
+  }
+
+  // Avg Sales Cycle — MetricKpi (using won deals; open-deal age not in dataset)
+  block kpi_sales_cycle: VizBlock {
+    label: 'Avg Sales Cycle'
+    viz: MetricKpi {
+      dataset: sales_pipeline
+      value: VizFieldFull {
+        ref: r(sales_pipeline.avg_sales_cycle_won)
+        format { type: 'number' pattern: '#,###0"d"' }
+      }
+    }
+  }
+
+  // Ghost Rate — MetricKpi
+  block kpi_ghost_rate: VizBlock {
+    label: 'Ghost Rate'
+    viz: MetricKpi {
+      dataset: sales_pipeline
+      value: VizFieldFull {
+        ref: r(sales_pipeline.ghost_rate)
+        format { type: 'number' pattern: '#0.0\\%' }
+      }
+    }
+  }
+
+  // Recent Closes — DataTable (BUILT-IN)
+  // Prototype: table with pill status badges + won/lost color rows
+  // NOTE: Conditional formatting for won/lost color and pill badges requires
+  //       custom CSS from the theme (see .p-ok/.p-risk selectors in neon_dark).
+  block table_recent_closes: VizBlock {
+    label: 'Recent Closes'
+    viz: DataTable {
+      dataset: sales_pipeline
+      fields: [
+        VizFieldFull { ref: r(dim_companies.name)        label: 'Company'       },
+        VizFieldFull { ref: r(dim_reps.name)             label: 'Owner'         },
+        VizFieldFull {
+          ref: r(fct_deals.deal_value_usd)               label: 'Value'
+          format { type: 'number' pattern: '[$$]#,###0' }
+        },
+        VizFieldFull { ref: r(fct_deals.status)          label: 'Outcome'       },
+        VizFieldFull { ref: r(fct_deals.win_reason)      label: 'Win Reason'    },
+        VizFieldFull { ref: r(fct_deals.lost_reason)     label: 'Lost Reason'   },
+        VizFieldFull {
+          ref: r(fct_deals.days_to_close)                label: 'Days to Close'
+          format { type: 'number' pattern: '#,###0"d"'  }
+        },
+      ]
+      filter { field: r(fct_deals.status) operator: 'in' value: ['won', 'lost'] }
+      settings { row_limit: 50 }
+    }
+  }
+
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // ── PIPELINE TAB BLOCKS ───────────────────────────────────────────────────
+  // ══════════════════════════════════════════════════════════════════════════
+
+  // Total Pipeline — MetricKpi
+  block kpi_total_pipeline: VizBlock {
+    label: 'Total Pipeline'
+    viz: MetricKpi {
+      dataset: sales_pipeline
+      value: VizFieldFull {
+        ref: r(sales_pipeline.active_pipeline_value)
+        format { type: 'number' pattern: '[$$]#,###0.0,,"M"' }
+      }
+    }
+  }
+
+  // At Risk Deals — MetricKpi (filter on sub_status = at_risk)
+  block kpi_at_risk: VizBlock {
+    label: 'At Risk Deals'
+    viz: MetricKpi {
+      dataset: sales_pipeline
+      value: VizFieldFull { ref: r(sales_pipeline.active_deal_count) }
+      filter { field: r(fct_deals.sub_status) operator: 'is' value: 'at_risk' }
+    }
+  }
+
+  // Avg Deal Age — MetricKpi
+  // NOTE: avg_sales_cycle_won uses closed deals. For open-deal age, add a
+  //       `avg_open_deal_age` metric to sales_pipeline using date_diff('day', created_at, @today).
+  block kpi_avg_deal_age: VizBlock {
+    label: 'Avg Deal Age'
+    viz: MetricKpi {
+      dataset: sales_pipeline
+      value: VizFieldFull {
+        ref: r(sales_pipeline.avg_sales_cycle_won)
+        format { type: 'number' pattern: '#,###0"d"' }
+      }
+    }
+  }
+
+  // Forecast Close — MetricKpi (focus-stage pipeline value)
+  block kpi_forecast_close: VizBlock {
+    label: 'Forecast Close'
+    viz: MetricKpi {
+      dataset: sales_pipeline
+      value: VizFieldFull {
+        ref: r(sales_pipeline.active_pipeline_value)
+        format { type: 'number' pattern: '[$$]#,###0,"K"' }
+      }
+      filter { field: r(fct_deals.stage) operator: 'is' value: 'focus' }
+    }
+  }
+
+  // Pipeline Funnel — CustomChart ★ VEGA-LITE (horizontal funnel bars)
+  // Prototype: 5 horizontal bars by stage (Qualifying → Won), color-coded blue→lime
+  //
+  // Field mapping in Holistics UI:
+  //   stage_name → fct_deal_stage_history.stage   (or fct_deals.stage)
+  //   deal_count → sales_pipeline.stage_entries  (or fct_deals.count_deals)
+  //
+  // To include "Won Q1" as a bar: use fct_deal_stage_history with stage_entries,
+  // which tracks all deals that entered each stage historically (natural funnel shape).
+  block chart_pipeline_funnel: VizBlock {
+    label: 'Pipeline Funnel — Open Deals by Stage'
+    viz: CustomChart {
+      fields {
+        field stage_name { type: "dimension" label: "Stage"       }
+        field deal_count { type: "measure"   label: "Deal Count"  }
+      }
+      template: @vgl {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "data": { "values": @{values} },
+        "mark": {
+          "type": "bar",
+          "cornerRadiusEnd": 5
+        },
+        "encoding": {
+          "y": {
+            "field": @{fields.stage_name.name},
+            "type": "ordinal",
+            "sort": {
+              "domain": ["Qualifying", "Validating", "Progressing", "Focus", "Won Q1"]
+            },
+            "axis": {
+              "labelColor": "#6E7C9E",
+              "labelFontSize": 11,
+              "labelFont": "Space Grotesk",
+              "ticks": false,
+              "domain": false,
+              "title": null
+            }
+          },
+          "x": {
+            "field": @{fields.deal_count.name},
+            "type": "quantitative",
+            "axis": {
+              "gridColor": "rgba(28,34,56,0.8)",
+              "labelColor": "#3A4460",
+              "labelFont": "Space Grotesk",
+              "labelFontSize": 10,
+              "title": "Deals",
+              "tickColor": "transparent",
+              "domainColor": "transparent"
+            }
+          },
+          "color": {
+            "field": @{fields.stage_name.name},
+            "type": "nominal",
+            "scale": {
+              "domain": ["Qualifying", "Validating", "Progressing", "Focus", "Won Q1"],
+              "range": [
+                "rgba(79,110,245,0.88)",
+                "rgba(79,110,245,0.70)",
+                "rgba(79,110,245,0.53)",
+                "rgba(79,110,245,0.37)",
+                "rgba(202,255,0,0.82)"
+              ]
+            },
+            "legend": null
+          },
+          "tooltip": [
+            { "field": @{fields.stage_name.name}, "type": "nominal",      "title": "Stage"  },
+            { "field": @{fields.deal_count.name}, "type": "quantitative", "title": "Deals"  }
+          ]
+        },
+        "config": {
+          "view":       { "stroke": "transparent" },
+          "background": "transparent",
+          "axis":       { "gridColor": "rgba(28,34,56,0.8)" }
+        }
+      };;
+    }
+  }
+
+  // Won vs Lost Monthly Trend — see custom_charts/won_vs_lost_trend.aml
+  block chart_win_loss_trend: VizBlock {
+    label: 'Won vs Lost — Monthly Trend'
+    viz: won_vs_lost_trend
+  }
+
+  // Top Open Deals — DataTable (BUILT-IN)
+  block table_top_deals: VizBlock {
+    label: 'Top Open Deals'
+    viz: DataTable {
+      dataset: sales_pipeline
+      fields: [
+        VizFieldFull { ref: r(dim_companies.name)        label: 'Company' },
+        VizFieldFull {
+          ref: r(fct_deals.deal_value_usd)               label: 'Value'
+          format { type: 'number' pattern: '[$$]#,###0' }
+        },
+        VizFieldFull { ref: r(fct_deals.stage)           label: 'Stage'   },
+        VizFieldFull { ref: r(dim_reps.name)             label: 'Owner'   },
+        VizFieldFull {
+          ref: r(fct_deals.days_to_close)                label: 'Age'
+          format { type: 'number' pattern: '#,###0"d"'  }
+        },
+      ]
+      filter { field: r(fct_deals.status) operator: 'is' value: 'in_progress' }
+      settings { row_limit: 50 }
+    }
+  }
+
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // ── TEAM TAB BLOCKS ───────────────────────────────────────────────────────
+  // ══════════════════════════════════════════════════════════════════════════
+
+  // Q1 Revenue — MetricKpi
+  block kpi_team_revenue: VizBlock {
+    label: 'Q1 Revenue'
+    viz: MetricKpi {
+      dataset: sales_pipeline
+      value: VizFieldFull {
+        ref: r(sales_pipeline.won_revenue)
+        format { type: 'number' pattern: '[$$]#,###0,"K"' }
+      }
+    }
+  }
+
+  // Team Win Rate — MetricKpi
+  block kpi_team_win_rate: VizBlock {
+    label: 'Team Win Rate'
+    viz: MetricKpi {
+      dataset: sales_pipeline
+      value: VizFieldFull {
+        ref: r(sales_pipeline.win_rate)
+        format { type: 'number' pattern: '#0.0\\%' }
+      }
+    }
+  }
+
+  // Ghost Rate — MetricKpi
+  block kpi_team_ghost: VizBlock {
+    label: 'Ghost Rate'
+    viz: MetricKpi {
+      dataset: sales_pipeline
+      value: VizFieldFull {
+        ref: r(sales_pipeline.ghost_rate)
+        format { type: 'number' pattern: '#0.0\\%' }
+      }
+    }
+  }
+
+  // Avg Calls / Week — MetricKpi
+  block kpi_team_calls: VizBlock {
+    label: 'Avg Calls / Week'
+    viz: MetricKpi {
+      dataset: sales_pipeline
+      value: VizFieldFull {
+        ref: r(sales_pipeline.calls_per_week)
+        format { type: 'number' pattern: '#,###0.0' }
+      }
+    }
+  }
+
+  // Rep Performance — DataTable (BUILT-IN)
+  // Prototype: 5 individual rep cards (win rate, pipeline, open deals, calls/wk, ghost rate)
+  // NOTE: The card-per-rep visual from the prototype cannot be reproduced with built-in
+  //       chart types. DataTable gives the same data in a scannable table format.
+  //       For a card-grid layout, see: custom_charts/ for a Vega-Lite faceted card example.
+  block table_rep_performance: VizBlock {
+    label: 'Rep Performance'
+    viz: DataTable {
+      dataset: sales_pipeline
+      fields: [
+        VizFieldFull { ref: r(dim_reps.name)                        label: 'Rep'          },
+        VizFieldFull {
+          ref: r(sales_pipeline.rep_win_rate)                   label: 'Win Rate'
+          format { type: 'number' pattern: '#0.0\\%' }
+        },
+        VizFieldFull {
+          ref: r(sales_pipeline.active_pipeline_value)          label: 'Open Pipeline'
+          format { type: 'number' pattern: '[$$]#,###0,"K"' }
+        },
+        VizFieldFull { ref: r(sales_pipeline.active_deal_count) label: 'Open Deals'   },
+        VizFieldFull {
+          ref: r(sales_pipeline.calls_per_week)                 label: 'Calls / Wk'
+          format { type: 'number' pattern: '#,###0.0' }
+        },
+        VizFieldFull {
+          ref: r(sales_pipeline.ghost_rate)                     label: 'Ghost Rate'
+          format { type: 'number' pattern: '#0.0\\%' }
+        },
+      ]
+      settings { row_limit: 20 }
+    }
+  }
+
+  // Deals Won vs Lost — All Time by Rep — ColumnChart (BUILT-IN, grouped)
+  // Prototype: grouped bar chart, 2 series: Won (lime) and Lost (red) per rep
+  block chart_rep_won_lost: VizBlock {
+    label: 'Deals Won vs Lost — All Time by Rep'
+    viz: ColumnChart {
+      dataset: sales_pipeline
+      x_axis: VizFieldFull { ref: r(dim_reps.name) label: 'Rep' }
+      y_axis {
+        series { field: VizFieldFull { ref: r(sales_pipeline.won_deals)  label: 'Won'  } }
+        series { field: VizFieldFull { ref: r(sales_pipeline.lost_deals) label: 'Lost' } }
+      }
+      settings { row_limit: 20 legend_label: 'top' }
+    }
+  }
+
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // ── CUSTOMERS TAB BLOCKS ──────────────────────────────────────────────────
+  // ══════════════════════════════════════════════════════════════════════════
+
+  // Active Accounts — MetricKpi
+  block kpi_active_accounts: VizBlock {
+    label: 'Active Accounts'
+    viz: MetricKpi {
+      dataset: sales_pipeline
+      value: VizFieldFull { ref: r(sales_pipeline.active_customer_count) }
+    }
+  }
+
+  // Active MRR — MetricKpi (lime accent)
+  block kpi_active_mrr: VizBlock {
+    label: 'Active MRR'
+    theme: BlockTheme {
+      background { bg_color: "#5DA800" }
+      border { border_color: "#5DA800" border_radius: 16 }
+    }
+    viz: MetricKpi {
+      dataset: sales_pipeline
+      value: VizFieldFull {
+        ref: r(sales_pipeline.active_mrr)
+        format { type: 'number' pattern: '[$$]#,###0.0,"K"' }
+      }
+    }
+  }
+
+  // NRR — MetricKpi
+  // NOTE: NRR (Net Revenue Retention) is not yet in sales_pipeline.
+  //       This block will show a wrong value until you add the metric.
+  //       To add: define `net_revenue_retention` in sales_pipeline:
+  //         safe_divide((active_mrr + expansion_mrr - churned_mrr) * 100, prior_period_mrr)
+  //       Then replace the ref below with r(sales_pipeline.net_revenue_retention).
+  block kpi_nrr: VizBlock {
+    label: 'NRR — TODO: add metric'
+    viz: MetricKpi {
+      dataset: sales_pipeline
+      // Placeholder — replace with net_revenue_retention once defined in dataset
+      value: VizFieldFull {
+        ref: r(sales_pipeline.mrr_churn_rate)
+        format { type: 'number' pattern: '#0\\%' }
+      }
+    }
+  }
+
+  // MRR Churn Rate — MetricKpi
+  block kpi_mrr_churn: VizBlock {
+    label: 'MRR Churn Rate'
+    viz: MetricKpi {
+      dataset: sales_pipeline
+      value: VizFieldFull {
+        ref: r(sales_pipeline.mrr_churn_rate)
+        format { type: 'number' pattern: '#0.0\\%' }
+      }
+    }
+  }
+
+  // Customer Distribution by Country — Map (BUILT-IN, filled choropleth)
+  // Prototype: dot/bubble map sized by account count and colored by MRR
+  // NOTE: The custom glowing bubble map from the prototype requires a custom Vega-Lite
+  //       implementation. The built-in Map gives a filled choropleth with color intensity
+  //       by account count — a good functional equivalent.
+  block map_customers: VizBlock {
+    label: 'Customer Distribution by Country'
+    viz: Map {
+      dataset: sales_pipeline
+      location: VizFieldFull { ref: r(dim_companies.country) }
+      color: VizFieldFull    { ref: r(sales_pipeline.active_customer_count) }
+      settings { row_limit: 200 }
+    }
+  }
+
+  // MRR Growth — LineChart (BUILT-IN, with area fill)
+  // Prototype: smooth area-fill line chart Nov 25 → Apr 26
+  // NOTE: active_mrr is a snapshot metric. Trending over started_at month shows
+  //       new MRR per cohort, not running total. For cumulative MRR, add a
+  //       window/running-sum metric to sales_pipeline.
+  block chart_mrr_growth: VizBlock {
+    label: 'MRR Growth'
+    viz: LineChart {
+      dataset: sales_pipeline
+      x_axis: VizFieldFull {
+        ref: r(fct_subscriptions.started_at)
+        transformation: 'datetrunc month'
+        format { type: 'date' pattern: 'MMM yy' }
+      }
+      y_axis {
+        series {
+          field: VizFieldFull {
+            ref: r(sales_pipeline.active_mrr)
+            label: 'Active MRR'
+            format { type: 'number' pattern: '[$$]#,###0,"K"' }
+          }
+        }
+      }
+      settings { row_limit: 100 }
+    }
+  }
+
+  // Plan Distribution — BarChart (BUILT-IN, horizontal)
+  // Prototype: horizontal progress bars showing account counts by plan
+  block chart_plan_distribution: VizBlock {
+    label: 'Plan Distribution'
+    viz: BarChart {
+      dataset: sales_pipeline
+      x_axis: VizFieldFull { ref: r(fct_subscriptions.plan_name) label: 'Plan' }
+      y_axis {
+        series {
+          field: VizFieldFull {
+            ref: r(sales_pipeline.active_customer_count)
+            label: 'Accounts'
+          }
+        }
+      }
+      filter { field: r(fct_subscriptions.is_active) operator: 'is' value: 'true' }
+      settings { row_limit: 20 }
+    }
+  }
+
+  // Version Distribution — BarChart (BUILT-IN, horizontal)
+  // Prototype: horizontal progress bars showing account counts by product version
+  block chart_version_distribution: VizBlock {
+    label: 'Version Distribution'
+    viz: BarChart {
+      dataset: sales_pipeline
+      x_axis: VizFieldFull { ref: r(fct_subscriptions.product_version) label: 'Version' }
+      y_axis {
+        series {
+          field: VizFieldFull {
+            ref: r(sales_pipeline.active_customer_count)
+            label: 'Accounts'
+          }
+        }
+      }
+      filter { field: r(fct_subscriptions.is_active) operator: 'is' value: 'true' }
+      settings { row_limit: 20 }
+    }
+  }
+
+  // Regional Breakdown (Accounts by Country) — BarChart (BUILT-IN, horizontal)
+  // Prototype: horizontal bar chart, bars color-coded by region tier
+  block chart_regional: VizBlock {
+    label: 'Regional Breakdown'
+    viz: BarChart {
+      dataset: sales_pipeline
+      x_axis: VizFieldFull { ref: r(dim_companies.country) label: 'Country' }
+      y_axis {
+        series {
+          field: VizFieldFull {
+            ref: r(sales_pipeline.active_customer_count)
+            label: 'Accounts'
+          }
+        }
+      }
+      settings { row_limit: 50 }
+    }
+  }
+
+  // Key Signals — TextBlock
+  // Prototype: bullet KV pairs showing regional highlights (e.g. "Singapore +22%")
+  //
+  // STATIC EDITORIAL CONTENT — these specific insights (fastest-growing region,
+  // highest avg MRR market, most at-risk country) require cross-period comparisons
+  // and ranking logic that cannot be expressed as a simple metric field reference.
+  // Options to make them dynamic:
+  //   a) Replace this block with a DataTable showing all countries + growth % (recommended)
+  //   b) Add AQL-based ranking metrics to sales_pipeline and embed them in MetricKpi blocks
+  //   c) Keep as static copy and update manually each period (current approach)
+  block text_key_signals: TextBlock {
+    theme: BlockTheme {
+      background { bg_color: "transparent" }
+      border { border_style: "none" }
+      padding: 0
+    }
+    content: @md
+<span class="t-label">Key Signals</span>
+
+🏆 **Fastest growing** — *update each period*
+
+💰 **Highest avg MRR** — *update each period*
+
+⚠ **Most at-risk MRR** — *update each period*
+
+📦 **Most on v2.x** — *update each period*
+    ;;
+  }
+
+  // Top Enterprise Accounts — DataTable (BUILT-IN)
+  // Prototype: table with Days Dark, Open Issues, Version per account
+  block table_enterprise_accounts: VizBlock {
+    label: 'Top Enterprise Accounts — Days Dark & Open Issues'
+    viz: DataTable {
+      dataset: sales_pipeline
+      fields: [
+        VizFieldFull { ref: r(dim_companies.name)              label: 'Account'     },
+        VizFieldFull { ref: r(dim_companies.country)           label: 'Country'     },
+        VizFieldFull {
+          ref: r(sales_pipeline.active_mrr)                label: 'MRR'
+          format { type: 'number' pattern: '[$$]#,###0' }
+        },
+        VizFieldFull {
+          ref: r(sales_pipeline.days_since_last_call)      label: 'Days Dark'
+          format { type: 'number' pattern: '#,###0"d"' }
+        },
+        VizFieldFull { ref: r(sales_pipeline.open_issues)  label: 'Open Issues' },
+        VizFieldFull { ref: r(fct_subscriptions.product_version) label: 'Version'   },
+      ]
+      filter { field: r(dim_companies.company_size) operator: 'is' value: 'Enterprise' }
+      settings { row_limit: 50 }
+    }
+  }
+
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // ── SETTINGS ──────────────────────────────────────────────────────────────
+  // ══════════════════════════════════════════════════════════════════════════
+
+  settings {
+    timezone: 'Asia/Singapore'
+    cache_duration: 360
+    autorun: true
+  }
+
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // ── VIEW — TabLayout (4 tabs matching prototype navigation) ───────────────
+  // ══════════════════════════════════════════════════════════════════════════
+  //
+  // Canvas width: 1440px. All pos() values: pos(x, y, width, height) in pixels.
+  //
+  // Grid reference:
+  //   4-col:  C4=348   gaps at 364, 728, 1092
+  //   g211:   U=352    hero=704, kpi1=1072, kpi2=1440-352=1088
+  //   g21:    U21=475  chart=950, mini-kpis=475 (2×2 inside)
+  //   g12:    same as g21 reversed
+  //
+  // ══════════════════════════════════════════════════════════════════════════
+
+  interactions: [
+    FilterInteraction {
+      from: 'filter_date'
+      to: [
+        // Deal-based blocks — filter on fct_deals.closed_at
+        CustomMapping { block: 'chart_revenue_trend'   field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'chart_win_loss_trend'  field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'chart_pipeline_funnel' field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'table_recent_closes'   field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'table_top_deals'       field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'table_rep_performance' field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'chart_rep_won_lost'    field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'kpi_closed_revenue'    field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'kpi_pipeline'          field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'kpi_win_rate'          field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'kpi_avg_deal'          field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'kpi_sales_cycle'       field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'kpi_ghost_rate'        field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'kpi_total_pipeline'    field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'kpi_at_risk'           field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'kpi_avg_deal_age'      field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'kpi_forecast_close'    field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'kpi_team_revenue'      field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'kpi_team_win_rate'     field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'kpi_team_ghost'        field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'kpi_team_calls'        field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'hero_kpi_revenue'      field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'hero_kpi_deals_won'    field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'hero_kpi_win_rate'     field: r(fct_deals.closed_at) },
+        CustomMapping { block: 'hero_kpi_nrr'          field: r(fct_deals.closed_at) },
+        // Subscription-based chart — filter on fct_subscriptions.started_at
+        CustomMapping { block: 'chart_mrr_growth'      field: r(fct_subscriptions.started_at) },
+        // kpi_active_accounts, kpi_active_mrr, kpi_nrr, kpi_mrr_churn are excluded:
+        // they are point-in-time snapshots (currently active), not date-range metrics.
+      ]
+    }
+  ]
+
+  view: TabLayout {
+
+    // ── TAB 0: OVERVIEW ────────────────────────────────────────────────────
+    tab overview: CanvasLayout {
+      label: 'Overview'
+      width: 1440
+      height: 936
+
+      // Filter bar (y=0, h=40)
+      block filter_date         { position: pos(0, 0, 400, 40) }
+
+      // Row 1 (y=56, h=200)
+      block hero                { position: pos(0,   56,  704,  88) }
+      block hero_kpi_revenue    { position: pos(0,   160, 160,  96) }
+      block hero_kpi_deals_won  { position: pos(176, 160, 160,  96) }
+      block hero_kpi_win_rate   { position: pos(352, 160, 160,  96) }
+      block hero_kpi_nrr        { position: pos(528, 160, 160,  96) }
+      block kpi_closed_revenue  { position: pos(720, 56,  352, 200) }
+      block kpi_pipeline        { position: pos(1088,56,  352, 200) }
+
+      // Row 2 (y=272, h=300)
+      block chart_revenue_trend { position: pos(0,    272, 950, 300) }
+      block kpi_win_rate        { position: pos(966,  272, 229, 142) }
+      block kpi_avg_deal        { position: pos(1211, 272, 229, 142) }
+      block kpi_sales_cycle     { position: pos(966,  430, 229, 142) }
+      block kpi_ghost_rate      { position: pos(1211, 430, 229, 142) }
+
+      // Row 3 (y=588, h=340)
+      block table_recent_closes { position: pos(0, 588, 1440, 340) }
+    }
+
+
+    // ── TAB 1: PIPELINE ────────────────────────────────────────────────────
+    tab pipeline: CanvasLayout {
+      label: 'Pipeline'
+      width: 1440
+      height: 936
+
+      // Filter bar (y=0, h=40)
+      block filter_date          { position: pos(0, 0, 400, 40) }
+
+      // Row 1 (y=56, h=120)
+      block kpi_total_pipeline   { position: pos(0,    56, 352, 120) }
+      block kpi_at_risk          { position: pos(368,  56, 352, 120) }
+      block kpi_avg_deal_age     { position: pos(736,  56, 352, 120) }
+      block kpi_forecast_close   { position: pos(1088, 56, 352, 120) }
+
+      // Row 2 (y=192, h=360)
+      block chart_pipeline_funnel { position: pos(0,   192, 474, 360) }
+      block chart_win_loss_trend  { position: pos(490, 192, 950, 360) }
+
+      // Row 3 (y=568, h=360)
+      block table_top_deals       { position: pos(0, 568, 1440, 360) }
+    }
+
+
+    // ── TAB 2: TEAM ────────────────────────────────────────────────────────
+    tab team: CanvasLayout {
+      label: 'Team'
+      width: 1440
+      height: 776
+
+      // Filter bar (y=0, h=40)
+      block filter_date          { position: pos(0, 0, 400, 40) }
+
+      // Row 1 (y=56, h=120)
+      block kpi_team_revenue    { position: pos(0,    56, 352, 120) }
+      block kpi_team_win_rate   { position: pos(368,  56, 352, 120) }
+      block kpi_team_ghost      { position: pos(736,  56, 352, 120) }
+      block kpi_team_calls      { position: pos(1088, 56, 352, 120) }
+
+      // Row 2 (y=192, h=240)
+      block table_rep_performance { position: pos(0, 192, 1440, 240) }
+
+      // Row 3 (y=448, h=300)
+      block chart_rep_won_lost   { position: pos(0, 448, 1440, 300) }
+    }
+
+
+    // ── TAB 3: CUSTOMERS ───────────────────────────────────────────────────
+    tab customers: CanvasLayout {
+      label: 'Customers'
+      width: 1440
+      height: 1416
+
+      // Filter bar (y=0, h=40)
+      block filter_date          { position: pos(0, 0, 400, 40) }
+
+      // Row 1 (y=56, h=120)
+      block kpi_active_accounts  { position: pos(0,    56, 352, 120) }
+      block kpi_active_mrr       { position: pos(368,  56, 352, 120) }
+      block kpi_nrr              { position: pos(736,  56, 352, 120) }
+      block kpi_mrr_churn        { position: pos(1088, 56, 352, 120) }
+
+      // Row 2 (y=192, h=300)
+      block map_customers        { position: pos(0, 192, 1440, 300) }
+
+      // Row 3 left (y=508)
+      block chart_mrr_growth           { position: pos(0, 508, 474, 220) }
+      block chart_plan_distribution    { position: pos(0, 744, 474, 180) }
+      block chart_version_distribution { position: pos(0, 940, 474, 200) }
+
+      // Row 3 right (y=508)
+      block chart_regional       { position: pos(490, 508, 950, 460) }
+      block text_key_signals     { position: pos(490, 984, 950,  80) }
+
+      // Row 4 (y=1080, h=320)
+      block table_enterprise_accounts { position: pos(0, 1080, 1440, 320) }
+    }
+
+  }
+}

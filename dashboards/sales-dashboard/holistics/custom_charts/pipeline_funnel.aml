@@ -1,0 +1,90 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Custom Chart: Pipeline Funnel — Horizontal Bars
+// ─────────────────────────────────────────────────────────────────────────────
+// Prototype reference: Tab 1 "Pipeline" — .card with .funnel-stage rows
+// Renders: horizontal bars per pipeline stage, colored blue→lime by conversion proximity
+//
+// Usage in dashboard:
+//   block chart_pipeline_funnel: VizBlock {
+//     label: 'Pipeline Funnel — Open Deals by Stage'
+//     viz: CustomChart { ... }  ← see sales_dashboard.page.aml for inline definition
+//   }
+//
+// Field mapping (set in Holistics UI after uploading):
+//   stage_name → fct_deals.stage              (dimension: qualifying|validating|progressing|focus)
+//   deal_count → ds_sales_dashboard.stage_entries  (or fct_deals.count_deals)
+//
+// Tip: To include a "Won Q1" bar alongside open stages, use fct_deal_stage_history.stage
+//      with ds_sales_dashboard.stage_entries — this returns all deals that entered each
+//      stage historically, giving a natural funnel shape (more at top than bottom).
+// ─────────────────────────────────────────────────────────────────────────────
+
+CustomChart {
+  fields {
+    field stage_name { type: "dimension" label: "Stage"       }
+    field deal_count { type: "measure"   label: "Deal Count"  }
+  }
+
+  template: @vgl {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": { "values": @{values} },
+
+    "mark": {
+      "type": "bar",
+      "cornerRadiusEnd": 5
+    },
+
+    "encoding": {
+      "y": {
+        "field": @{fields.stage_name.name},
+        "type": "ordinal",
+        "sort": {
+          "domain": ["Qualifying", "Validating", "Progressing", "Focus", "Won Q1"]
+        },
+        "axis": {
+          "labelColor":    "#6E7C9E",
+          "labelFontSize": 11,
+          "labelFont":     "Space Grotesk",
+          "ticks":         false,
+          "domain":        false,
+          "title":         null
+        }
+      },
+
+      "x": {
+        "field": @{fields.deal_count.name},
+        "type": "quantitative",
+        "axis": {
+          "gridColor":     "rgba(28,34,56,0.8)",
+          "labelColor":    "#3A4460",
+          "labelFont":     "Space Grotesk",
+          "labelFontSize": 10,
+          "title":         "Deals",
+          "tickColor":     "transparent",
+          "domainColor":   "transparent"
+        }
+      },
+
+      "color": {
+        "field": @{fields.stage_name.name},
+        "type": "nominal",
+        "scale": {
+          "domain": ["Qualifying",            "Validating",           "Progressing",          "Focus",                "Won Q1"             ],
+          "range":  ["rgba(79,110,245,0.88)", "rgba(79,110,245,0.70)","rgba(79,110,245,0.53)","rgba(79,110,245,0.37)","rgba(202,255,0,0.82)"]
+        },
+        "legend": null
+      },
+
+      "tooltip": [
+        { "field": @{fields.stage_name.name}, "type": "nominal",      "title": "Stage"  },
+        { "field": @{fields.deal_count.name}, "type": "quantitative", "title": "Deals"  }
+      ]
+    },
+
+    "config": {
+      "view":       { "stroke": "transparent" },
+      "background": "transparent",
+      "axis":       { "gridColor": "rgba(28,34,56,0.8)" }
+    }
+  };;
+}

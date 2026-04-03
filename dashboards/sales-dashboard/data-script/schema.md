@@ -188,6 +188,9 @@ Every interaction between Holistics and a company, pre- or post-sale.
 | `phase` | enum | No | Where in the lifecycle this call falls |
 | `type` | enum | No | What kind of call this was |
 | `notes` | text | Yes | Free-text summary — display only, not used in metrics |
+| `scheduled_at` | timestamp | Yes | When a future call is scheduled. Null for completed calls |
+| `prep_notes` | text | Yes | Brief preparation notes for upcoming calls |
+| `ai_summary` | text | Yes | AI-generated call summary (key takeaways, action items, features raised) |
 
 **`phase` values:**
 
@@ -259,6 +262,8 @@ Any signal from a customer — unified regardless of channel. Covers what a rep 
 | `call` | Captured during a structured call — rep logged it |
 | `ticket` | Customer raised it through a support channel |
 | `email` | Captured from email communication |
+| `slack` | Raised in a shared Slack channel |
+| `community` | Posted in the Holistics community forum |
 | `other` | Any other channel |
 
 **`direction` values:**
@@ -302,10 +307,14 @@ A commercial engagement — from first discussion to won, lost, or churned.
 | `stage` | enum | Yes | Current sales stage — only relevant when `status = in_progress` |
 | `deal_value_usd` | integer | Yes | Expected annual contract value in USD |
 | `lost_reason` | enum | Yes | Why the deal was lost — only set when `status = lost` |
+| `win_reason` | enum | Yes | Why the deal was won — only set when `status = won` |
+| `sub_status` | enum | Yes | Pipeline sub-status for in-progress deals. Only set when `status = in_progress` |
+| `key_learning` | text | Yes | One-sentence takeaway from this deal (won or lost) |
+| `follow_up_action` | text | Yes | Next step after close (e.g., "Re-engage when SSO ships", "Onboarding kickoff") |
 | `previous_deal_id` | uuid | Yes | FK → `deals.id` — links a renewal/expansion back to the prior deal |
 | `created_at` | timestamp | No | When the deal was created |
 | `closed_at` | timestamp | Yes | When the deal was won, lost, or ghosted |
-| `follow_up_at` | date | Yes | Date the prospect asked to be contacted again. Set when a prospect intentionally defers — distinct from `ghost` (which is unintended silence). A deal can be `in_progress` or `ghost` and still have a `follow_up_at`. |
+| `follow_up_at` | date | Yes | Date the prospect asked to be contacted again |
 
 **`deal_type` values:**
 
@@ -348,6 +357,26 @@ A commercial engagement — from first discussion to won, lost, or churned.
 | `ghosted` | Prospect went silent with no decision |
 | `not_a_fit` | Use case or profile doesn't match |
 
+**`win_reason` values:**
+
+| Value | Description |
+|---|---|
+| `product_fit` | Product capabilities matched their needs |
+| `pricing_advantage` | Competitive pricing or favorable terms |
+| `relationship` | Strong relationship, referral, or trust factor |
+| `competitive_gap` | Competitor's weakness was our strength |
+| `speed_to_value` | Fast evaluation, quick time-to-value |
+| `other` | Other or unclear reason |
+
+**`sub_status` values** — only applies while `status = in_progress`:
+
+| Value | Description |
+|---|---|
+| `promising` | On track, no blockers, progressing normally |
+| `focus` | Management involved, dedicated Slack channel, tracked blockers |
+| `at_risk` | Ghost, blocked, or stalled — needs intervention |
+| `highlight` | Existing customer (upsell/downgrade) or returning prospect |
+
 ---
 
 ## `subscriptions`
@@ -363,6 +392,7 @@ The active billing state that results from a won deal. One active subscription p
 | `mrr_usd` | integer | No | Monthly recurring revenue in USD |
 | `billing_cycle` | enum | No | How often the customer is invoiced — `monthly` or `annual` |
 | `term_months` | integer | No | How many months this subscription runs before a renewal deal is triggered. E.g. `billing_cycle = monthly, term_months = 6` means the customer pays monthly but the renewal deal is created after 6 months — not after each payment. |
+| `product_version` | varchar | No | Product version at time of subscription: '2.0', '2.5', '2.7', '3.0', '4.0'. Assigned based on `started_at` date — customers keep their version on renewal unless explicitly upgraded |
 | `started_at` | date | No | When the subscription became active |
 | `ended_at` | date | Yes | When the subscription ended. Null = still active |
 | `churn_reason` | enum | Yes | Why the customer churned — only set when `ended_at` is populated |
@@ -449,6 +479,7 @@ An Improvement answers: *"What specific customer problem are we solving?"* — m
 | `description` | text | Yes | Full description of the customer problem, synthesized from raw inputs |
 | `status` | enum | No | Where this customer problem stands from a product perspective — see values below |
 | `is_blocking` | boolean | No | `true` = this improvement is actively blocking deals or renewals |
+| `priority` | enum | Yes | Urgency: `critical` · `high` · `medium` · `low` |
 | `raw_input_count` | integer | Yes | Denormalized count of linked raw inputs — for quick sorting without a join |
 | `created_at` | timestamp | No | When the improvement was created by the product team |
 | `updated_at` | timestamp | No | Last update |
@@ -463,6 +494,21 @@ An Improvement answers: *"What specific customer problem are we solving?"* — m
 | `workaround` | No native solution, but a workaround exists. Kept open for future improvement. |
 | `wont_do` | Product decided not to address this — definitively out of scope |
 | `deferred` | Not now, but not ruled out — will revisit in a future cycle |
+
+---
+
+## `satisfaction_scores`
+
+Periodic CSAT scores captured per customer. Enables satisfaction trend charts and per-customer health scoring.
+
+| Field | Type | Nullable | Description |
+|---|---|---|---|
+| `id` | uuid | No | Primary key |
+| `company_id` | uuid | No | FK → `companies.id` — the customer being scored |
+| `score` | decimal(2,1) | No | CSAT score from 1.0 to 5.0 |
+| `recorded_at` | date | No | When this score was captured |
+
+> Typically ~1 score per active customer per month. Trend should show declining satisfaction (4.2 → 3.8) over the most recent 6 months across the customer base.
 
 ---
 

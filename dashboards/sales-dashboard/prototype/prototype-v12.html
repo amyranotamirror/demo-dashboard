@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales & Customer Lifecycle — v12</title>
+<!-- Lufga font (local) → fallback to Space Grotesk (Google Fonts) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="../../../assets/fonts/lufga.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+/* ── CSS VARIABLES ──────────────────────────────────────────────────────────── */
+:root {
+  --bg:       #0C0E15;
+  --bg-card:  #161A27;
+  --bg-card2: #1B1F2E;
+  --bg-card3: #0F1220;
+  --green:    #CAFF00;
+  --blue:     #4F6EF5;
+  --red:      #C8485E;
+  --t1:       #E8ECFF;
+  --t2:       #6E7C9E;
+  --t3:       #3A4460;
+  --t4:       #222840;
+  --border:   #1C2238;
+  --radius:   15px;
+  --font:     'Lufga', 'Space Grotesk', system-ui, sans-serif;
+}
+
+/* ── BASE ───────────────────────────────────────────────────────────────────── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font); font-size: 12px; background: var(--bg); color: var(--t2); }
+
+/* ── TABS ───────────────────────────────────────────────────────────────────── */
+.tab-bar { display: flex; gap: 2px; background: #080A10; border-bottom: 1px solid var(--border); padding: 0 20px; position: sticky; top: 0; z-index: 100; }
+.tab-btn { padding: 11px 18px; cursor: pointer; color: var(--t2); font-size: 11px; font-weight: 500; letter-spacing: .02em; font-family: var(--font); border-bottom: 2px solid transparent; background: none; border-top: none; border-left: none; border-right: none; transition: all .15s; white-space: nowrap; }
+.tab-btn:hover { color: var(--t1); }
+.tab-btn.active { color: var(--green); border-bottom-color: var(--green); }
+.tab-pane { display: none; padding: 20px; max-width: 1400px; margin: 0 auto; }
+.tab-pane.active { display: block; }
+
+/* ── KPI STRIPS ─────────────────────────────────────────────────────────────── */
+.kstrip { display: grid; gap: 10px; margin-bottom: 14px; }
+.k6 { grid-template-columns: repeat(6, 1fr); }
+.k5 { grid-template-columns: repeat(5, 1fr); }
+.k4 { grid-template-columns: repeat(4, 1fr); }
+.k3 { grid-template-columns: repeat(3, 1fr); }
+.ks { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; }
+.ks-label { font-size: 10px; color: var(--t3); text-transform: uppercase; letter-spacing: .6px; margin-bottom: 6px; font-weight: 600; }
+.ks-val { font-size: 21px; font-weight: 700; color: var(--t1); line-height: 1; letter-spacing: -.02em; }
+.ks-sub { font-size: 11px; color: var(--t3); margin-top: 5px; }
+.ks-delta { font-size: 11px; margin-top: 3px; }
+.ks-delta.up  { color: var(--green); }
+.ks-delta.dn  { color: var(--red); }
+.ks-delta.neu { color: var(--t3); }
+
+/* ── STATUS STRIP — unified neutral, accent via dot only ─────────────────────── */
+.ss { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 16px; margin-bottom: 14px; font-size: 12px; display: flex; align-items: center; gap: 10px; color: var(--t2); }
+.ss.green { border-color: rgba(204,255,0,0.14); }
+.ss.red   { border-color: rgba(200,72,94,0.18); }
+.ss-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.ss.green .ss-dot { background: var(--green); }
+.ss.amber .ss-dot { background: var(--t2); }
+.ss.red   .ss-dot { background: var(--red); }
+
+/* ── GRID LAYOUTS ───────────────────────────────────────────────────────────── */
+.grid { display: grid; gap: 14px; margin-bottom: 14px; }
+.g2  { grid-template-columns: 1fr 1fr; }
+.g3  { grid-template-columns: 1fr 1fr 1fr; }
+.g12 { grid-template-columns: 1fr 2fr; }
+.g21 { grid-template-columns: 2fr 1fr; }
+
+/* ── CARD ───────────────────────────────────────────────────────────────────── */
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; }
+.card-title { font-size: 11px; font-weight: 600; color: var(--t1); margin-bottom: 12px; line-height: 1.4; text-transform: uppercase; letter-spacing: .04em; }
+.card-sub { font-size: 11px; color: var(--t3); margin-top: 8px; }
+
+/* ── TABLES ─────────────────────────────────────────────────────────────────── */
+.tbl { width: 100%; border-collapse: collapse; }
+.tbl th { font-size: 10px; color: var(--t3); text-transform: uppercase; letter-spacing: .5px; padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--border); font-weight: 600; }
+.tbl td { padding: 8px 10px; border-bottom: 1px solid rgba(30,35,53,.8); font-size: 11.5px; color: var(--t2); vertical-align: middle; }
+.tbl tr:hover td { background: rgba(255,255,255,0.02); }
+.tbl td.val { color: var(--t1); font-weight: 600; }
+.tbl td.dim { color: var(--t3); font-size: 11px; }
+/* Row status: subtle left edge only */
+.tr-critical td:first-child { border-left: 2px solid rgba(200,72,94,0.45); }
+.tr-watch    td:first-child { border-left: 2px solid rgba(255,255,255,0.12); }
+.tr-ok       td:first-child { border-left: 2px solid rgba(204,255,0,0.30); }
+
+/* ── PILLS — border-only, 3 variants ────────────────────────────────────────── */
+.pill { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; letter-spacing: .3px; border: 1px solid; }
+.pill-focus     { background: transparent;              color: var(--t2);    border-color: var(--border); }
+.pill-risk      { background: rgba(200,72,94,0.07);    color: var(--red);   border-color: rgba(200,72,94,0.22); }
+.pill-highlight { background: rgba(79,110,245,0.07);    color: var(--blue);  border-color: rgba(79,110,245,0.22); }
+.pill-promising { background: rgba(204,255,0,0.06);     color: var(--green); border-color: rgba(204,255,0,0.20); }
+.pill-won       { background: rgba(204,255,0,0.08);     color: var(--green); border-color: rgba(204,255,0,0.22); }
+.pill-lost      { background: rgba(200,72,94,0.07);    color: var(--red);   border-color: rgba(200,72,94,0.22); }
+/* Subscription / stage badges — neutral */
+.sbadge { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 600; border: 1px solid var(--border); color: var(--t2); background: transparent; }
+.sbadge-ship { color: var(--green); border-color: rgba(204,255,0,0.20); }
+.sbadge-fly  { color: var(--blue);  border-color: rgba(79,110,245,0.22); }
+.sbadge-back { color: var(--t3);    border-color: var(--border); }
+.sbadge-open { color: var(--t2);    border-color: var(--border); }
+.sbadge-deferred { color: var(--t3); border-color: var(--border); }
+.fbadge { background: transparent; color: var(--t2); border-radius: 4px; padding: 1px 5px; font-size: 10px; font-weight: 700; border: 1px solid var(--border); }
+
+/* ── SIGNAL CHIPS — neutral base, lime when active ───────────────────────────── */
+.signal-row { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; align-items: center; }
+.sig-chip { padding: 4px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 500; transition: all .15s; border: 1px solid var(--border); background: rgba(255,255,255,0.03); color: var(--t2); }
+.sig-chip:hover { color: var(--t1); border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); }
+/* Remove per-color backgrounds — all chips look the same until active */
+.sig-amber, .sig-red, .sig-blue, .sig-green, .sig-dim {}
+.sig-chip.active { background: rgba(204,255,0,0.08); border-color: rgba(204,255,0,0.28); color: var(--green); }
+
+/* ── FUNNEL — single blue, opacity steps; Won = lime ────────────────────────── */
+.funnel-wrap { padding: 4px 0; }
+.funnel-stage { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+.funnel-label { width: 90px; font-size: 11px; color: var(--t2); text-align: right; flex-shrink: 0; }
+.funnel-bar-wrap { flex: 1; background: rgba(255,255,255,0.04); border-radius: 3px; height: 20px; }
+.funnel-bar { height: 100%; border-radius: 3px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; font-weight: 600; color: rgba(240,242,255,0.9); }
+.funnel-bar.q { background: rgba(79,110,245,0.85); }
+.funnel-bar.v { background: rgba(79,110,245,0.68); }
+.funnel-bar.p { background: rgba(79,110,245,0.52); }
+.funnel-bar.f { background: rgba(79,110,245,0.38); }
+.funnel-bar.w { background: rgba(204,255,0,0.75); color: #0A0C12; }
+.funnel-conv { width: 46px; font-size: 10px; color: var(--t3); text-align: right; flex-shrink: 0; }
+
+/* ── REP CARDS ──────────────────────────────────────────────────────────────── */
+.rep-cards { display: grid; grid-template-columns: repeat(5,1fr); gap: 10px; }
+.rep-card { background: var(--bg-card2); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; }
+.rep-name { font-size: 12px; font-weight: 600; color: var(--t1); margin-bottom: 8px; }
+.rep-wr { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+.rep-bar-wrap { height: 3px; background: rgba(255,255,255,0.06); border-radius: 2px; margin-bottom: 8px; }
+.rep-bar { height: 100%; border-radius: 2px; }
+.rep-stats { display: flex; flex-direction: column; gap: 3px; }
+.rep-stat { display: flex; justify-content: space-between; font-size: 10px; }
+.rep-stat .rk { color: var(--t3); }
+.rep-stat .rv { color: var(--t2); }
+
+/* ── DEAL DETAIL ────────────────────────────────────────────────────────────── */
+.deal-detail { display: none; background: var(--bg-card2); border: 1px solid rgba(79,110,245,0.22); border-radius: var(--radius); padding: 16px; margin-top: 10px; }
+.deal-detail.visible { display: block; }
+.dd-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+.dd-title { font-size: 15px; font-weight: 700; color: var(--t1); }
+.dd-meta-row { display: flex; gap: 20px; margin-bottom: 14px; flex-wrap: wrap; }
+.dd-field { min-width: 100px; }
+.dd-field-label { font-size: 10px; color: var(--t3); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 2px; }
+.dd-field-val { font-size: 12px; color: var(--t2); font-weight: 500; }
+.dd-blocker { font-size: 12px; color: var(--t2); background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 5px; padding: 10px; margin-bottom: 12px; }
+.call-item { padding: 9px 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 5px; margin-bottom: 6px; }
+.call-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.call-type { font-size: 11px; font-weight: 600; color: var(--t1); }
+.call-date { font-size: 11px; color: var(--t3); }
+.call-summary { font-size: 11px; color: var(--t3); line-height: 1.5; }
+.close-btn { cursor: pointer; color: var(--t3); font-size: 16px; background: none; border: none; padding: 4px 8px; border-radius: 4px; }
+.close-btn:hover { color: var(--t1); background: rgba(255,255,255,0.05); }
+
+/* ── MISC ───────────────────────────────────────────────────────────────────── */
+.section-label { font-size: 10px; color: var(--t3); text-transform: uppercase; letter-spacing: .6px; margin-bottom: 10px; font-weight: 600; border-left: 2px solid rgba(204,255,0,0.4); padding-left: 8px; }
+.pct-bar-wrap { height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; margin-top: 4px; }
+.pct-bar { height: 100%; border-radius: 2px; background: var(--blue); }
+a.xref { color: var(--blue); font-size: 11px; text-decoration: none; cursor: pointer; opacity: 0.85; }
+a.xref:hover { opacity: 1; text-decoration: underline; }
+.scroll-x { overflow-x: auto; }
+canvas { max-height: 220px; }
+</style>
+</head>
+<body>
+
+<!-- TAB BAR -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab(0)">Overview</button>
+  <button class="tab-btn" onclick="switchTab(1)">Pipeline</button>
+  <button class="tab-btn" onclick="switchTab(2)">Performance</button>
+  <button class="tab-btn" onclick="switchTab(3)">Calls &amp; Market Intel</button>
+  <button class="tab-btn" onclick="switchTab(4)">Customers</button>
+  <div style="flex:1"></div>
+  <div style="display:flex;align-items:center;gap:12px;padding:0 8px">
+    <span style="font-size:11px;color:var(--t3)">Period: Q1 2026 (Jan–Apr)</span>
+    <span style="font-size:10px;color:var(--t4);background:var(--bg-card);padding:3px 8px;border-radius:4px;border:1px solid var(--border)">Refreshed: Apr 14, 2026 09:00</span>
+  </div>
+</div>
+
+
+<!-- ══════════════ TAB 0: OVERVIEW ══════════════════════════════════════════════ -->
+<div class="tab-pane active" id="tab0">
+
+  <div class="kstrip k6">
+    <div class="ks">
+      <div class="ks-label">Active Pipeline</div>
+      <div class="ks-val">$1.62M</div>
+      <div class="ks-sub">120 deals · 3.1× coverage</div>
+      <div class="ks-delta up">↑ 12% vs Q4 2025</div>
+    </div>
+    <div class="ks">
+      <div class="ks-label">Win Rate</div>
+      <div class="ks-val">63%</div>
+      <div class="ks-sub">Target 70% · −7pp gap</div>
+      <div class="ks-delta neu">Q1: 68% · improving</div>
+    </div>
+    <div class="ks">
+      <div class="ks-label">Closed Revenue Q1</div>
+      <div class="ks-val">$434K</div>
+      <div class="ks-sub">vs $520K quota · 83%</div>
+      <div class="ks-delta dn">−$86K to quota</div>
+    </div>
+    <div class="ks">
+      <div class="ks-label">Ghost Rate</div>
+      <div class="ks-val" style="color:var(--t1)">34%</div>
+      <div class="ks-sub">63 deals gone dark</div>
+      <div class="ks-delta dn">↑ 6pp — fill problem</div>
+    </div>
+    <div class="ks">
+      <div class="ks-label">NRR (trailing 90d)</div>
+      <div class="ks-val">108%</div>
+      <div class="ks-sub">Expanding from base</div>
+      <div class="ks-delta up">↑ 3pp vs Q4</div>
+    </div>
+    <div class="ks">
+      <div class="ks-label">Avg Sales Cycle</div>
+      <div class="ks-val">44d</div>
+      <div class="ks-sub">Won = Lost · no difference</div>
+      <div class="ks-delta neu">No early signal</div>
+    </div>
+  </div>
+
+  <div class="ss amber">
+    <span class="ss-dot"></span>
+    <span><b>Watch:</b> Ghost rate 34% (+6pp) is the primary pipeline risk — 63 unworked deals. Win rate 63% vs 70% target, but Q1 improving to 68%. NRR 108% is healthy. Structural alert: <b>Missing Feature at 34% of losses</b> — near the 40% escalation threshold. Jordan Lee at 37% win rate needs a coaching conversation.</span>
+  </div>
+
+  <div class="grid g3">
+    <div class="card">
+      <div class="card-title">Validating → Progressing drops 37pp — biggest conversion leak</div>
+      <div class="funnel-wrap">
+        <div class="funnel-stage"><div class="funnel-label">Qualifying</div><div class="funnel-bar-wrap"><div class="funnel-bar q" style="width:100%">1,396</div></div><div class="funnel-conv"></div></div>
+        <div class="funnel-stage"><div class="funnel-label">Validating</div><div class="funnel-bar-wrap"><div class="funnel-bar v" style="width:94%">1,312</div></div><div class="funnel-conv" style="color:var(--green)">94%</div></div>
+        <div class="funnel-stage"><div class="funnel-label">Progressing</div><div class="funnel-bar-wrap"><div class="funnel-bar p" style="width:59%">830</div></div><div class="funnel-conv" style="color:var(--red)">63%</div></div>
+        <div class="funnel-stage"><div class="funnel-label">Focus</div><div class="funnel-bar-wrap"><div class="funnel-bar f" style="width:57%">797</div></div><div class="funnel-conv">96%</div></div>
+        <div class="funnel-stage"><div class="funnel-label">Won</div><div class="funnel-bar-wrap"><div class="funnel-bar w" style="width:55%">763</div></div><div class="funnel-conv" style="color:var(--green)">96%</div></div>
+      </div>
+      <div class="card-sub"><a class="xref" onclick="switchTab(2)">→ Full conversion analysis in Performance</a></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Win volume recovering — Jan–Feb 2026 were strongest months</div>
+      <canvas id="c0_wonlost"></canvas>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="card" style="flex:1">
+        <div class="card-title">Win rate trending up — reached 65% in Feb</div>
+        <canvas id="c0_wr" style="max-height:90px"></canvas>
+      </div>
+      <div class="card" style="flex:1">
+        <div class="card-title">NRR 108% — customers expanding spend</div>
+        <canvas id="c0_nrr" style="max-height:90px"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid g12">
+    <div class="card">
+      <div class="card-title">Missing Feature at 34% — 6pp from the 40% escalation threshold</div>
+      <table class="tbl">
+        <thead><tr><th>Reason</th><th>% Losses</th><th>Deals</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><b style="color:var(--t1)">Missing Feature</b></td><td style="color:var(--t1)">34%</td><td>295</td><td class="dim">Escalate to Product if hits 40% · SSO/SAML top item</td></tr>
+          <tr><td>Competitor Win</td><td>28%</td><td>243</td><td class="dim">Metabase #1 · win rate stable at 62%</td></tr>
+          <tr><td>Pricing</td><td>21%</td><td>182</td><td class="dim">Review discount playbook</td></tr>
+          <tr><td>No Budget</td><td>10%</td><td>87</td><td class="dim">Add to revival nurture list</td></tr>
+          <tr><td>Ghosted</td><td>4%</td><td>35</td><td class="dim">Enforce 45d close policy</td></tr>
+          <tr><td>Not a Fit</td><td>3%</td><td>26</td><td class="dim">Update ICP qualification</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Jordan Lee win rate 37% — 26pp below team average, 61% ghost rate</div>
+      <table class="tbl">
+        <thead><tr><th>Rep</th><th>Win Rate</th><th>Open Deals</th><th>Ghost %</th><th>Calls/wk</th><th>Top Loss</th></tr></thead>
+        <tbody>
+          <tr><td class="val">Mike Torres</td><td><span style="color:var(--green);font-weight:700">69%</span></td><td>31</td><td style="color:var(--t3)">21%</td><td>31.6</td><td class="dim">missing_feature</td></tr>
+          <tr><td class="val">Rachel Lee</td><td><span style="color:var(--green);font-weight:700">65%</span></td><td>13</td><td style="color:var(--t1)">35%</td><td>23.3</td><td class="dim">competitor_win</td></tr>
+          <tr><td class="val">Priya Patel</td><td><span style="color:var(--green);font-weight:700">64%</span></td><td>22</td><td style="color:var(--t3)">21%</td><td>24.2</td><td class="dim">missing_feature</td></tr>
+          <tr><td class="val">James Wilson</td><td><span style="color:var(--amber);font-weight:700">60%</span></td><td>14</td><td style="color:var(--red)">46%</td><td>19.8</td><td class="dim">pricing</td></tr>
+          <tr><td class="val">Jordan Lee</td><td><span style="color:var(--red);font-weight:700">37%</span></td><td>19</td><td style="color:var(--red)">61%</td><td>20.9</td><td class="dim">missing_feature</td></tr>
+        </tbody>
+      </table>
+      <div class="card-sub">Jordan: 61% ghost rate + 37% WR → coaching this week. James Wilson: 46% ghost rate also elevated. <a class="xref" onclick="switchTab(2)">→ Full rep scorecards</a></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════ TAB 1: PIPELINE ══════════════════════════════════════════════ -->
+<div class="tab-pane" id="tab1">
+
+  <div class="ss amber">
+    <span class="ss-dot"></span>
+    <span><b>4 deals need action today.</b> PayRoute Singapore is 97 days open — no activity for 87 days. 27 deals at-risk. CartWave (Focus deal) closed lost this week — review what happened.</span>
+  </div>
+
+  <div class="kstrip k4">
+    <div class="ks"><div class="ks-label">⚡ Focus</div><div class="ks-val" style="color:var(--t1)">34</div><div class="ks-sub">Management involved · tracked blockers</div></div>
+    <div class="ks"><div class="ks-label">🔴 At Risk</div><div class="ks-val" style="color:var(--red)">27</div><div class="ks-sub">Ghost or blocked</div></div>
+    <div class="ks"><div class="ks-label">🔵 Highlight</div><div class="ks-val" style="color:#93c5fd">15</div><div class="ks-sub">Returning / upsell</div></div>
+    <div class="ks"><div class="ks-label">🟢 Promising</div><div class="ks-val" style="color:var(--green)">44</div><div class="ks-sub">On track · no blockers</div></div>
+  </div>
+
+  <div class="signal-row">
+    <span style="font-size:11px;color:var(--t3);margin-right:4px">Filter:</span>
+    <span class="sig-chip sig-amber active" onclick="filterSignal(this,'focus')">⚡ Focus 34</span>
+    <span class="sig-chip sig-red" onclick="filterSignal(this,'at_risk')">🔴 At Risk 27</span>
+    <span class="sig-chip sig-blue" onclick="filterSignal(this,'highlight')">🔵 Highlight 15</span>
+    <span class="sig-chip sig-green" onclick="filterSignal(this,'promising')">🟢 Promising 44</span>
+    <span class="sig-chip sig-dim" onclick="filterSignal(this,'all')">All 120</span>
+  </div>
+
+  <div class="card" style="margin-bottom:10px">
+    <div class="card-title" style="margin-bottom:8px">Active Deals — top 10 of 120 · sorted by priority</div>
+    <div class="scroll-x">
+      <table class="tbl" id="deals-tbl">
+        <thead><tr>
+          <th>Signal</th><th>Company</th><th>Stage</th><th>Value</th>
+          <th>Days Open</th><th>Last Activity</th><th>Owner</th><th>Blocker / Next Step</th>
+        </tr></thead>
+        <tbody id="deals-tbody">
+          <tr data-signal="focus" data-deal="d1" onclick="selectDeal(this)" style="cursor:pointer">
+            <td><span class="pill pill-focus">⚡ Focus</span></td>
+            <td class="val">CartWave Indonesia <span class="fbadge">⚡</span></td>
+            <td>Validating</td><td class="val">$60K</td>
+            <td>52d</td><td>Mar 4</td><td>James Wilson</td>
+            <td style="color:var(--t1)">SSO/SAML requirement (IT blocked)</td>
+          </tr>
+          <tr data-signal="focus" data-deal="d2" onclick="selectDeal(this)" style="cursor:pointer">
+            <td><span class="pill pill-focus">⚡ Focus</span></td>
+            <td class="val">PayRoute Singapore <span class="fbadge">⚡</span></td>
+            <td>Progressing</td><td class="val">$60K</td>
+            <td style="color:var(--red)">97d ⚠</td><td>Jan 17</td><td>Mike Torres</td>
+            <td style="color:var(--red)">No activity 87d — stalled</td>
+          </tr>
+          <tr data-signal="focus" data-deal="d3" onclick="selectDeal(this)" style="cursor:pointer">
+            <td><span class="pill pill-focus">⚡ Focus</span></td>
+            <td class="val">SageTech USA <span class="fbadge">⚡</span></td>
+            <td>Focus</td><td class="val">$36K</td>
+            <td>25d</td><td>Mar 21</td><td>James Wilson</td>
+            <td>Demo scheduled Apr 16</td>
+          </tr>
+          <tr data-signal="focus" data-deal="d4" onclick="selectDeal(this)" style="cursor:pointer">
+            <td><span class="pill pill-focus">⚡ Focus</span></td>
+            <td class="val">DentaCare India <span class="fbadge">⚡</span></td>
+            <td>Validating</td><td class="val">$36K</td>
+            <td>34d</td><td>Mar 28</td><td>Priya Patel</td>
+            <td>Waiting on security questionnaire</td>
+          </tr>
+          <tr data-signal="at_risk" data-deal="d5" onclick="selectDeal(this)" style="cursor:pointer">
+            <td><span class="pill pill-risk">🔴 At Risk</span></td>
+            <td class="val">EchoPath Thailand</td>
+            <td>Qualifying</td><td class="val">$36K</td>
+            <td style="color:var(--t1)">65d</td><td>Feb 28</td><td>Rachel Lee</td>
+            <td style="color:var(--red)">Ghost — no response in 45d</td>
+          </tr>
+          <tr data-signal="at_risk" data-deal="d6" onclick="selectDeal(this)" style="cursor:pointer">
+            <td><span class="pill pill-risk">🔴 At Risk</span></td>
+            <td class="val">PulseCore Indonesia</td>
+            <td>Progressing</td><td class="val">$9.6K</td>
+            <td>55d</td><td>Mar 10</td><td>Mike Torres</td>
+            <td style="color:var(--t1)">Looker ecosystem lock-in</td>
+          </tr>
+          <tr data-signal="highlight" data-deal="d7" onclick="selectDeal(this)" style="cursor:pointer">
+            <td><span class="pill pill-highlight">🔵 Highlight</span></td>
+            <td class="val">XenoMed Indonesia</td>
+            <td>Won</td><td class="val">$4.8K</td>
+            <td>57d</td><td>Apr 6</td><td>Rachel Lee</td>
+            <td style="color:var(--green)">Just won — kickoff this week</td>
+          </tr>
+          <tr data-signal="promising" data-deal="d8" onclick="selectDeal(this)" style="cursor:pointer">
+            <td><span class="pill pill-promising">🟢 Promising</span></td>
+            <td class="val">NovaSpark Vietnam</td>
+            <td>Progressing</td><td class="val">$18K</td>
+            <td>28d</td><td>Apr 9</td><td>Priya Patel</td>
+            <td>Technical onboarding in progress</td>
+          </tr>
+          <tr data-signal="promising" data-deal="d9" onclick="selectDeal(this)" style="cursor:pointer">
+            <td><span class="pill pill-promising">🟢 Promising</span></td>
+            <td class="val">DataPath Germany</td>
+            <td>Validating</td><td class="val">$24K</td>
+            <td>19d</td><td>Apr 11</td><td>Mike Torres</td>
+            <td>Pricing call Apr 18</td>
+          </tr>
+          <tr data-signal="promising" data-deal="d10" onclick="selectDeal(this)" style="cursor:pointer">
+            <td><span class="pill pill-promising">🟢 Promising</span></td>
+            <td class="val">HealthBridge Philippines</td>
+            <td>Progressing</td><td class="val">$12K</td>
+            <td>41d</td><td>Apr 7</td><td>Jordan Lee</td>
+            <td>Business user demo pending</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-sub">Showing 10 of 120. Click row to expand deal context. <a class="xref" onclick="switchTab(3)">→ Call schedule in Calls tab</a></div>
+  </div>
+
+  <!-- Deal Detail Panel -->
+  <div class="deal-detail" id="deal-detail">
+    <div class="dd-header">
+      <div class="dd-title" id="dd-title">—</div>
+      <button class="close-btn" onclick="closeDeal()">✕</button>
+    </div>
+    <div class="dd-meta-row" id="dd-meta"></div>
+    <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px">Blocker / Next Step</div>
+    <div class="dd-blocker" id="dd-blocker">—</div>
+    <div style="font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Call History</div>
+    <div id="dd-calls"></div>
+  </div>
+
+  <!-- Recent Results -->
+  <div class="card" style="margin-top:14px">
+    <div class="card-title">Recent Results — Apr 2026</div>
+    <table class="tbl">
+      <thead><tr><th>Outcome</th><th>Company</th><th>Value</th><th>Owner</th><th>Days</th><th>Reason</th><th>Key Learning</th></tr></thead>
+      <tbody>
+        <tr><td><span class="pill pill-lost">Lost</span></td><td>WareLink Malaysia</td><td>$1.2K</td><td>Rachel Lee</td><td>54d</td><td class="dim">no_budget</td><td class="dim">Missing Excel export killed it</td></tr>
+        <tr><td><span class="pill pill-lost">Lost</span></td><td>CartWave Indonesia</td><td>$36K</td><td>Rachel Lee</td><td>31d</td><td class="dim">pricing</td><td class="dim">Budget frozen mid-quarter</td></tr>
+        <tr><td><span class="pill pill-lost">Lost</span></td><td>PulseCore Indonesia</td><td>$9.6K</td><td>Mike Torres</td><td>55d</td><td class="dim">competitor_win</td><td class="dim">Looker ecosystem lock-in</td></tr>
+        <tr><td><span class="pill pill-won">Won</span></td><td>XenoMed Indonesia</td><td>$4.8K</td><td>Rachel Lee</td><td>57d</td><td class="dim">speed_to_value</td><td class="dim">Self-serve trial converted smoothly</td></tr>
+        <tr><td><span class="pill pill-won">Won</span></td><td>PayNow Indonesia</td><td>$4.8K</td><td>James Wilson</td><td>51d</td><td class="dim">product_fit</td><td class="dim">Partner referral, smooth process</td></tr>
+        <tr><td><span class="pill pill-lost">Lost</span></td><td>JadeCare Indonesia</td><td>$9.6K</td><td>Priya Patel</td><td>45d</td><td class="dim">competitor_win</td><td class="dim">Sigma spreadsheet UX won</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ══════════════ TAB 2: PERFORMANCE ═══════════════════════════════════════════ -->
+<div class="tab-pane" id="tab2">
+
+  <div class="ss amber">
+    <span class="ss-dot"></span>
+    <span><b>Win rate 63% vs 70% target.</b> Missing Feature at 34% of losses (escalate at 40%). Metabase in 464 deals — win rate holds at 62%. Jordan Lee 37% WR + 61% ghost rate → coaching needed.</span>
+  </div>
+
+  <div class="kstrip k5">
+    <div class="ks"><div class="ks-label">Win Rate (Count)</div><div class="ks-val">63%</div><div class="ks-sub">Target 70%</div><div class="ks-delta dn">−7pp gap</div></div>
+    <div class="ks"><div class="ks-label">Win Rate (Value $)</div><div class="ks-val">66%</div><div class="ks-sub">$ won / ($ won + lost)</div><div class="ks-delta up">+3pp above count</div></div>
+    <div class="ks"><div class="ks-label">Avg Cycle (Won)</div><div class="ks-val">44d</div><div class="ks-sub">From create to close</div><div class="ks-delta neu">—</div></div>
+    <div class="ks"><div class="ks-label">Avg Cycle (Lost)</div><div class="ks-val">44d</div><div class="ks-sub">Wasted capacity</div><div class="ks-delta dn">No early loss signal</div></div>
+    <div class="ks"><div class="ks-label">Q1 2026 Win Rate</div><div class="ks-val">68%</div><div class="ks-sub">30 won · 14 lost</div><div class="ks-delta up">↑ improving trend</div></div>
+  </div>
+
+  <div class="grid g12">
+    <div class="card">
+      <div class="card-title">Validating → Progressing: 37pp drop — primary coaching target</div>
+      <div class="funnel-wrap">
+        <div class="funnel-stage"><div class="funnel-label">Qualifying</div><div class="funnel-bar-wrap"><div class="funnel-bar q" style="width:100%">1,396</div></div><div class="funnel-conv"></div></div>
+        <div class="funnel-stage"><div class="funnel-label">Validating</div><div class="funnel-bar-wrap"><div class="funnel-bar v" style="width:94%">1,312</div></div><div class="funnel-conv" style="color:var(--green)">94%</div></div>
+        <div class="funnel-stage"><div class="funnel-label">Progressing</div><div class="funnel-bar-wrap"><div class="funnel-bar p" style="width:59%">830</div></div><div class="funnel-conv" style="color:var(--red)">63%</div></div>
+        <div class="funnel-stage"><div class="funnel-label">Focus</div><div class="funnel-bar-wrap"><div class="funnel-bar f" style="width:57%">797</div></div><div class="funnel-conv">96%</div></div>
+        <div class="funnel-stage"><div class="funnel-label">Won</div><div class="funnel-bar-wrap"><div class="funnel-bar w" style="width:55%">763</div></div><div class="funnel-conv" style="color:var(--green)">96%</div></div>
+      </div>
+      <div class="card-sub">Deals that reach Focus close at 96% — the problem is getting there.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Win vs. Loss by factor — Product Fit wins 298 deals; Missing Feature loses 295</div>
+      <table class="tbl">
+        <thead><tr><th>Factor</th><th>Won</th><th>Lost</th><th>Net</th><th>Insight</th></tr></thead>
+        <tbody>
+          <tr><td><b style="color:var(--t1)">Product Fit</b></td><td style="color:var(--green)">298 (39%)</td><td>—</td><td style="color:var(--green)">+298</td><td class="dim">Our biggest win driver</td></tr>
+          <tr><td style="color:var(--t1)"><b>Missing Feature</b></td><td>—</td><td style="color:var(--red)">295 (34%)</td><td style="color:var(--red)">−295</td><td class="dim">Near 40% escalation threshold</td></tr>
+          <tr><td>Pricing Advantage</td><td style="color:var(--green)">199 (26%)</td><td>—</td><td style="color:var(--green)">+199</td><td class="dim">Competitive pricing wins deals</td></tr>
+          <tr><td>Competitor Win</td><td>—</td><td style="color:var(--red)">243 (28%)</td><td style="color:var(--red)">−243</td><td class="dim">Metabase leads · win rate stable</td></tr>
+          <tr><td>Pricing Too High</td><td>—</td><td style="color:var(--t1)">182 (21%)</td><td style="color:var(--t1)">−182</td><td class="dim">Review discount playbook</td></tr>
+          <tr><td>Relationship</td><td style="color:var(--green)">151 (20%)</td><td>—</td><td style="color:var(--green)">+151</td><td class="dim">Referrals + partner intros</td></tr>
+          <tr><td>Speed to Value</td><td style="color:var(--green)">115 (15%)</td><td>—</td><td style="color:var(--green)">+115</td><td class="dim">Self-serve trial differentiator</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="card-title">Metabase in 464 deals — win rate holds at 62% when they appear</div>
+      <table class="tbl">
+        <thead><tr><th>Competitor</th><th>Mentions</th><th>Deal Count</th><th>Win Rate w/ them</th><th>Baseline</th><th>Impact</th></tr></thead>
+        <tbody>
+          <tr><td class="val">Metabase</td><td>2,606</td><td>464</td><td>62%</td><td>63%</td><td class="dim">−1pp · manageable</td></tr>
+          <tr><td class="val">Tableau</td><td>1,953</td><td>447</td><td>64%</td><td>63%</td><td style="color:var(--green)">+1pp</td></tr>
+          <tr><td class="val">Power BI</td><td>1,622</td><td>440</td><td>64%</td><td>63%</td><td style="color:var(--green)">+1pp</td></tr>
+          <tr><td class="val">Looker</td><td>1,280</td><td>407</td><td>68%</td><td>63%</td><td style="color:var(--green)">+5pp · our strength</td></tr>
+          <tr><td class="val">Sigma</td><td>1,039</td><td>369</td><td>64%</td><td>63%</td><td style="color:var(--green)">+1pp</td></tr>
+          <tr><td class="val">Mode</td><td>860</td><td>329</td><td>66%</td><td>63%</td><td style="color:var(--green)">+3pp</td></tr>
+        </tbody>
+      </table>
+      <div class="card-sub">Win rates hold stable vs all competitors — not a displacement problem. <a class="xref" onclick="switchTab(3)">→ Verbatim quotes in Market Intel</a></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Win rate dipped Oct 2025, recovering through Q1 2026</div>
+      <canvas id="c2_wintrend"></canvas>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Jordan Lee at 37% win rate + 61% ghost rate — two standard deviations below team</div>
+    <div class="rep-cards" style="margin-top:8px">
+      <div class="rep-card">
+        <div class="rep-name">Mike Torres</div>
+        <div class="rep-wr" style="color:var(--green)">69%</div>
+        <div class="rep-bar-wrap"><div class="rep-bar" style="width:69%;background:var(--green)"></div></div>
+        <div class="rep-stats">
+          <div class="rep-stat"><span class="rk">Open deals</span><span class="rv">31</span></div>
+          <div class="rep-stat"><span class="rk">Ghost rate</span><span class="rv">21%</span></div>
+          <div class="rep-stat"><span class="rk">Calls/wk</span><span class="rv">31.6</span></div>
+          <div class="rep-stat"><span class="rk">Top loss</span><span class="rv" style="font-size:9px">missing_feature</span></div>
+        </div>
+      </div>
+      <div class="rep-card">
+        <div class="rep-name">Rachel Lee</div>
+        <div class="rep-wr" style="color:var(--green)">65%</div>
+        <div class="rep-bar-wrap"><div class="rep-bar" style="width:65%;background:var(--green)"></div></div>
+        <div class="rep-stats">
+          <div class="rep-stat"><span class="rk">Open deals</span><span class="rv">13</span></div>
+          <div class="rep-stat"><span class="rk">Ghost rate</span><span class="rv" style="color:var(--t1)">35%</span></div>
+          <div class="rep-stat"><span class="rk">Calls/wk</span><span class="rv">23.3</span></div>
+          <div class="rep-stat"><span class="rk">Top loss</span><span class="rv" style="font-size:9px">competitor_win</span></div>
+        </div>
+      </div>
+      <div class="rep-card">
+        <div class="rep-name">Priya Patel</div>
+        <div class="rep-wr" style="color:var(--green)">64%</div>
+        <div class="rep-bar-wrap"><div class="rep-bar" style="width:64%;background:var(--green)"></div></div>
+        <div class="rep-stats">
+          <div class="rep-stat"><span class="rk">Open deals</span><span class="rv">22</span></div>
+          <div class="rep-stat"><span class="rk">Ghost rate</span><span class="rv">21%</span></div>
+          <div class="rep-stat"><span class="rk">Calls/wk</span><span class="rv">24.2</span></div>
+          <div class="rep-stat"><span class="rk">Top loss</span><span class="rv" style="font-size:9px">missing_feature</span></div>
+        </div>
+      </div>
+      <div class="rep-card">
+        <div class="rep-name">James Wilson</div>
+        <div class="rep-wr" style="color:var(--t1)">60%</div>
+        <div class="rep-bar-wrap"><div class="rep-bar" style="width:60%;background:var(--amber)"></div></div>
+        <div class="rep-stats">
+          <div class="rep-stat"><span class="rk">Open deals</span><span class="rv">14</span></div>
+          <div class="rep-stat"><span class="rk">Ghost rate</span><span class="rv" style="color:var(--red)">46%</span></div>
+          <div class="rep-stat"><span class="rk">Calls/wk</span><span class="rv">19.8</span></div>
+          <div class="rep-stat"><span class="rk">Top loss</span><span class="rv" style="font-size:9px">pricing</span></div>
+        </div>
+      </div>
+      <div class="rep-card" style="border-color:rgba(239,68,68,.35)">
+        <div class="rep-name">Jordan Lee <span style="color:var(--red);font-size:10px">⚠ coaching</span></div>
+        <div class="rep-wr" style="color:var(--red)">37%</div>
+        <div class="rep-bar-wrap"><div class="rep-bar" style="width:37%;background:var(--red)"></div></div>
+        <div class="rep-stats">
+          <div class="rep-stat"><span class="rk">Open deals</span><span class="rv">19</span></div>
+          <div class="rep-stat"><span class="rk">Ghost rate</span><span class="rv" style="color:var(--red)">61%</span></div>
+          <div class="rep-stat"><span class="rk">Calls/wk</span><span class="rv">20.9</span></div>
+          <div class="rep-stat"><span class="rk">Top loss</span><span class="rv" style="font-size:9px">missing_feature</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-sub" style="margin-top:10px">Jordan: 61% ghost = deals not being worked, not a volume problem (20.9 calls/wk close to team avg). Diagnosis: deal engagement quality and follow-through.</div>
+  </div>
+</div>
+
+
+<!-- ══════════════ TAB 3: CALLS & MARKET INTEL ══════════════════════════════════ -->
+<div class="tab-pane" id="tab3">
+
+  <div class="section-label" style="margin-bottom:12px">Call Management</div>
+
+  <div class="kstrip k4">
+    <div class="ks"><div class="ks-label">Calls This Week</div><div class="ks-val">38</div><div class="ks-sub">vs 42 target</div><div class="ks-delta dn">−4 below target</div></div>
+    <div class="ks"><div class="ks-label">Calls This Month</div><div class="ks-val">143</div><div class="ks-sub">Apr 1–14 · on pace 286/mo</div><div class="ks-delta neu">—</div></div>
+    <div class="ks"><div class="ks-label">Discovery Calls</div><div class="ks-val">22</div><div class="ks-sub">Top-of-funnel activity</div><div class="ks-delta up">↑ 18% vs last period</div></div>
+    <div class="ks"><div class="ks-label">CS Review Calls</div><div class="ks-val">41</div><div class="ks-sub">Post-sale touches</div><div class="ks-delta neu">Steady</div></div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="card-title">Upcoming Calls — Next 14 Days</div>
+      <table class="tbl">
+        <thead><tr><th>Date</th><th>Company</th><th>Type</th><th>Rep</th><th>Prep Note</th></tr></thead>
+        <tbody>
+          <tr><td class="val">Apr 15</td><td>SageTech USA</td><td><span class="sbadge sbadge-fly">Demo</span></td><td>James Wilson</td><td class="dim">Confirm SAML timeline</td></tr>
+          <tr><td class="val">Apr 16</td><td>DentaCare India</td><td><span class="sbadge sbadge-fly">Technical</span></td><td>Priya Patel</td><td class="dim">Security audit checklist</td></tr>
+          <tr><td class="val">Apr 17</td><td>PayRoute Singapore</td><td><span class="sbadge sbadge-open">Discovery</span></td><td>Mike Torres</td><td class="dim">97d open — diagnose blockers</td></tr>
+          <tr><td class="val">Apr 18</td><td>DataPath Germany</td><td><span class="sbadge sbadge-fly">Pricing</span></td><td>Mike Torres</td><td class="dim">Enterprise pricing deck</td></tr>
+          <tr><td class="val">Apr 20</td><td>HealthBridge Philippines</td><td><span class="sbadge sbadge-fly">Biz User</span></td><td>Jordan Lee</td><td class="dim">Clinical ops demo</td></tr>
+          <tr><td class="val">Apr 22</td><td>AutoFlow Germany</td><td><span class="sbadge sbadge-back">CS Review</span></td><td>Priya Patel</td><td class="dim">Dark 2,695d — revival</td></tr>
+          <tr><td class="val">Apr 24</td><td>NovaSpark Vietnam</td><td><span class="sbadge sbadge-fly">Technical</span></td><td>Priya Patel</td><td class="dim">Data source setup</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">Call mix — Technical Onboarding highest volume (trial activation)</div>
+      <canvas id="c3_calltype"></canvas>
+      <div class="card-sub" style="margin-top:8px">Each discovery call generates 5–15 raw inputs. CS review calls generate renewal + upsell signals.</div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:6px;margin-bottom:12px">Feature Request Tracker — Single Source of Truth</div>
+
+  <div class="card" style="margin-bottom:14px">
+    <div class="card-title">Top requests by company count — 8 companies × 1 mention &gt; 1 company × 14 mentions</div>
+    <table class="tbl">
+      <thead><tr><th>Feature / Improvement</th><th>Status</th><th>Companies</th><th>Inputs</th><th>Blocking?</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td class="val">Multi-tenant notification system</td><td><span class="sbadge sbadge-ship">Shipped</span></td><td>14</td><td>10</td><td class="dim">—</td><td class="dim">Follow up with 14 companies</td></tr>
+        <tr><td class="val">Bulk CSV parser (mobile)</td><td><span class="sbadge sbadge-ship">Shipped</span></td><td>13</td><td>7</td><td class="dim">—</td><td class="dim">Re-engage lost deals that cited this</td></tr>
+        <tr><td class="val">Custom workflow validator (Dev UX)</td><td><span class="sbadge sbadge-open">Open</span></td><td>13</td><td>1</td><td class="dim">—</td><td class="dim">In product backlog</td></tr>
+        <tr><td class="val">Self-service scheduling connector</td><td><span class="sbadge sbadge-back">Workaround</span></td><td>13</td><td>9</td><td style="color:var(--red)">Yes</td><td class="dim">Workaround docs sent · native deferred</td></tr>
+        <tr><td class="val">Async permissions for embedding</td><td><span class="sbadge sbadge-deferred">Deferred</span></td><td>13</td><td>11</td><td class="dim">—</td><td class="dim">Revisit H2 2026</td></tr>
+        <tr><td class="val"><b style="color:var(--t1)">Excel export (direct download)</b></td><td><span class="sbadge sbadge-fly">In Flight</span></td><td>12</td><td>18</td><td style="color:var(--t1)">Yes</td><td class="dim">Most-requested · shipping Q2 2026</td></tr>
+        <tr><td class="val"><b style="color:var(--red)">Enterprise SSO via SAML</b></td><td><span class="sbadge sbadge-fly">In Flight</span></td><td>11</td><td>14</td><td style="color:var(--red)">Yes</td><td class="dim">#1 deal blocker · shipping Q2 2026</td></tr>
+        <tr><td class="val">Column masking (row-level security)</td><td><span class="sbadge sbadge-ship">Shipped</span></td><td>9</td><td>12</td><td class="dim">—</td><td class="dim">36d since ship · 9 customers to notify</td></tr>
+      </tbody>
+    </table>
+    <div class="card-sub">Promise Tracker: column masking shipped 36 days ago — 9 customers who requested it haven't been notified. <a class="xref" onclick="switchTab(4)">→ Triage those accounts</a></div>
+  </div>
+
+  <div class="section-label" style="margin-bottom:12px">Market Intelligence</div>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="card-title">Competitor frequency — Metabase dominant, Looker actually improves our win rate</div>
+      <canvas id="c3_comp"></canvas>
+    </div>
+    <div class="card">
+      <div class="card-title">What prospects are saying — verbatim</div>
+      <table class="tbl">
+        <thead><tr><th>Company</th><th>About</th><th>Quote</th></tr></thead>
+        <tbody>
+          <tr><td class="dim">JadeCare</td><td>Sigma</td><td style="font-size:11px;font-style:italic;color:var(--t2)">"Their spreadsheet UX is just familiar to our analysts"</td></tr>
+          <tr><td class="dim">PulseCore</td><td>Looker</td><td style="font-size:11px;font-style:italic;color:var(--t2)">"Already in the Google ecosystem — switching costs are high"</td></tr>
+          <tr><td class="dim">CartWave</td><td>Pricing</td><td style="font-size:11px;font-style:italic;color:var(--t2)">"Budget was frozen mid-quarter, not about the product"</td></tr>
+          <tr><td class="dim">DataPath</td><td>Holistics</td><td style="font-size:11px;font-style:italic;color:var(--t2)">"The modeling layer is exactly what our dbt team needed"</td></tr>
+          <tr><td class="dim">SageTech</td><td>SAML</td><td style="font-size:11px;font-style:italic;color:var(--t2)">"IT won't approve any tool without SAML SSO, full stop"</td></tr>
+          <tr><td class="dim">NovaSpark</td><td>Holistics</td><td style="font-size:11px;font-style:italic;color:var(--t2)">"Self-serve trial was the fastest we've ever evaluated a BI tool"</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════ TAB 4: CUSTOMERS ════════════════════════════════════════════ -->
+<div class="tab-pane" id="tab4">
+
+  <div class="ss green">
+    <span class="ss-dot"></span>
+    <span><b>NRR 108% — customers are expanding.</b> MRR $174K → $252K in 5 months (+45%). No critical renewals ≤30 days. Key risk: <b>110 customers on v2.0</b> — 3× higher churn rate vs v4.0. Proactive upgrade outreach needed.</span>
+  </div>
+
+  <div class="kstrip k5">
+    <div class="ks"><div class="ks-label">Active Customers</div><div class="ks-val">256</div><div class="ks-sub">Unique companies</div><div class="ks-delta up">↑ 14 this quarter</div></div>
+    <div class="ks"><div class="ks-label">Total MRR</div><div class="ks-val">$252K</div><div class="ks-sub">Monthly recurring revenue</div><div class="ks-delta up">↑ $78K in 5 months</div></div>
+    <div class="ks"><div class="ks-label">Avg MRR / Customer</div><div class="ks-val">$984</div><div class="ks-sub">Revenue concentration</div><div class="ks-delta neu">Stable</div></div>
+    <div class="ks"><div class="ks-label">NRR (trailing 90d)</div><div class="ks-val" style="color:var(--green)">108%</div><div class="ks-sub">Target ≥ 100%</div><div class="ks-delta up">Expanding from base</div></div>
+    <div class="ks"><div class="ks-label">MRR Churn Rate</div><div class="ks-val" style="color:var(--green)">0%</div><div class="ks-sub">No churns this period</div><div class="ks-delta up">Clean quarter</div></div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="card-title">MRR grew $78K in 5 months — steady compounding from expansions</div>
+      <canvas id="c4_mrr"></canvas>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="card" style="flex:1">
+        <div class="card-title">110 customers on v2.0 — proactively suggest v4.0 upgrade</div>
+        <table class="tbl">
+          <thead><tr><th>Version</th><th>Customers</th><th>Churn Risk</th></tr></thead>
+          <tbody>
+            <tr><td style="color:var(--green);font-weight:600">v4.0</td><td>137</td><td style="color:var(--green)">Low</td></tr>
+            <tr><td style="font-weight:600">v3.0</td><td>175</td><td style="color:var(--t3)">Normal</td></tr>
+            <tr><td style="font-weight:600">v2.7</td><td>51</td><td style="color:var(--t1)">Elevated</td></tr>
+            <tr><td style="font-weight:600">v2.5</td><td>55</td><td style="color:var(--t1)">Elevated</td></tr>
+            <tr><td style="color:var(--red);font-weight:600">v2.0</td><td>110</td><td style="color:var(--red)">3× higher churn</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card" style="flex:1">
+        <div class="card-title">Plan distribution — Enterprise underweighted at 8%</div>
+        <canvas id="c4_plan" style="max-height:130px"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:14px">
+    <div class="card-title">Account triage — watch list dominated by v2.0 customers with long dark periods</div>
+    <table class="tbl">
+      <thead><tr>
+        <th>Company</th><th>MRR</th><th>Plan</th><th>Version</th>
+        <th>Days Dark</th><th>Renewal</th><th>Open Issues</th>
+        <th>Health</th><th>Action</th>
+      </tr></thead>
+      <tbody>
+        <tr class="tr-watch">
+          <td class="val">AutoFlow Germany</td><td>$2,000</td><td>Enterprise</td>
+          <td style="color:var(--red)">v2.0</td>
+          <td style="color:var(--red)">2,695d</td><td>—</td><td style="color:var(--t1)">2</td>
+          <td><span class="pill pill-risk">Watch</span></td>
+          <td class="dim">Schedule revival · pitch v4.0 upgrade</td>
+        </tr>
+        <tr class="tr-watch">
+          <td class="val">BuySmart Korea</td><td>$2,000</td><td>Enterprise</td>
+          <td style="color:var(--red)">v2.0</td>
+          <td style="color:var(--red)">1,904d</td><td>—</td><td style="color:var(--t1)">4</td>
+          <td><span class="pill pill-risk">Watch</span></td>
+          <td class="dim">4 open issues — resolve before sync</td>
+        </tr>
+        <tr class="tr-watch">
+          <td class="val">TradeNest Indonesia</td><td>$2,000</td><td>Enterprise</td>
+          <td style="color:var(--red)">v2.0</td>
+          <td style="color:var(--red)">1,581d</td><td>—</td><td style="color:var(--red)">8</td>
+          <td><span class="pill pill-risk">Watch</span></td>
+          <td class="dim">8 open issues — priority account review</td>
+        </tr>
+        <tr class="tr-watch">
+          <td class="val">PeakTech Vietnam</td><td>$2,000</td><td>Enterprise</td>
+          <td style="color:var(--red)">v2.0</td>
+          <td style="color:var(--red)">1,762d</td><td>—</td><td style="color:var(--t1)">2</td>
+          <td><span class="pill pill-risk">Watch</span></td>
+          <td class="dim">Engagement check needed</td>
+        </tr>
+        <tr class="tr-ok">
+          <td class="val">ClearVision Philippines</td><td>$5,000</td><td>Enterprise</td>
+          <td style="color:var(--green)">v4.0</td>
+          <td style="color:var(--green)">5d</td><td>Nov 2026</td><td style="color:var(--green)">0</td>
+          <td><span class="pill pill-promising">Healthy</span></td>
+          <td class="dim">Strong engagement · upsell opportunity</td>
+        </tr>
+        <tr class="tr-ok">
+          <td class="val">FlowMetrics Singapore</td><td>$1,400</td><td>Growth</td>
+          <td style="color:var(--green)">v4.0</td>
+          <td style="color:var(--green)">12d</td><td>Oct 2026</td><td style="color:var(--green)">0</td>
+          <td><span class="pill pill-promising">Healthy</span></td>
+          <td class="dim">—</td>
+        </tr>
+        <tr class="tr-ok">
+          <td class="val">XenoMed Indonesia</td><td>$400</td><td>Starter</td>
+          <td style="color:var(--green)">v4.0</td>
+          <td style="color:var(--green)">8d</td><td>Oct 2026</td><td style="color:var(--green)">0</td>
+          <td><span class="pill pill-promising">Healthy</span></td>
+          <td class="dim">New customer — send onboarding resources</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="card-sub">Watch accounts: all v2.0, all dark for 4+ years. These are auto-renewing but disengaged — high churn risk at next renewal. Column masking shipped 36d ago — notify these accounts. <a class="xref" onclick="switchTab(3)">→ Feature tracker in Market Intel</a></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Customer geography — Southeast Asia leads, Germany growing</div>
+    <table class="tbl">
+      <thead><tr><th>Country</th><th>Customers</th><th>MRR</th></tr></thead>
+      <tbody id="geo-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════════════════════════
+     JAVASCRIPT
+     ══════════════════════════════════════════════════════════════════════════ -->
+<script>
+// ── TAB SWITCHING ────────────────────────────────────────────────────────────
+function switchTab(n) {
+  document.querySelectorAll('.tab-pane').forEach((p,i) => p.classList.toggle('active', i===n));
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i===n));
+}
+
+// ── SIGNAL FILTER ────────────────────────────────────────────────────────────
+function filterSignal(el, sig) {
+  document.querySelectorAll('.sig-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('#deals-tbody tr').forEach(tr => {
+    tr.style.display = (sig==='all' || tr.dataset.signal===sig) ? '' : 'none';
+  });
+}
+
+// ── DEAL DATA ────────────────────────────────────────────────────────────────
+const dealData = {
+  d1: {
+    title: 'CartWave Indonesia', sub: '⚡ Focus · $60K · James Wilson · Validating',
+    fields: [{l:'Stage',v:'Validating'},{l:'Value',v:'$60,000'},{l:'Owner',v:'James Wilson'},{l:'Days Open',v:'52 days'},{l:'Sub-Status',v:'⚡ Focus'}],
+    blocker: 'SSO/SAML required by IT security team before sign-off. Rep has escalated to BizOps — waiting for product team to confirm Q2 shipping timeline. Deal cannot advance until this is resolved.',
+    calls: [
+      {type:'Business User Onboarding', date:'Mar 4, 2026', summary:'Non-technical team evaluated dashboards. Positive reaction. Blocker: IT requires SAML before sign-off. Champion: Ahmad R. (Head of Data).'},
+      {type:'Technical Onboarding', date:'Feb 12, 2026', summary:'Connected Snowflake data source successfully. dbt models imported cleanly. Requested SAML SSO documentation.'},
+      {type:'Demo', date:'Jan 28, 2026', summary:'Data team excited about the semantic modeling layer. Strong fit. Decision: move to trial pending SAML confirmation.'}
+    ]
+  },
+  d2: {
+    title: 'PayRoute Singapore', sub: '⚡ Focus · $60K · Mike Torres · Progressing · ⚠ 87d no activity',
+    fields: [{l:'Stage',v:'Progressing'},{l:'Value',v:'$60,000'},{l:'Owner',v:'Mike Torres'},{l:'Days Open',v:'97 days'},{l:'Sub-Status',v:'⚡ Focus'}],
+    blocker: 'No activity for 87 days. Last interaction was January 17. Champion may have changed roles. Rep should re-engage immediately — $60K deal at risk of going ghost.',
+    calls: [
+      {type:'Technical Onboarding', date:'Jan 17, 2026', summary:'Started trial. Data source connected. Champion said "team loves it but we need exec buy-in before committing budget."'},
+      {type:'Demo', date:'Dec 10, 2025', summary:'Strong demo. All 3 evaluators attended. Payment data modeling use case discussed.'},
+      {type:'Discovery', date:'Nov 28, 2025', summary:'Payment ops team. Uses dbt + Snowflake. Clear ICP fit. Looking to replace Mode Analytics.'}
+    ]
+  },
+  d3: {
+    title: 'SageTech USA', sub: '⚡ Focus · $36K · James Wilson · Focus stage',
+    fields: [{l:'Stage',v:'Focus'},{l:'Value',v:'$36,000'},{l:'Owner',v:'James Wilson'},{l:'Days Open',v:'25 days'},{l:'Sub-Status',v:'⚡ Focus'}],
+    blocker: 'Demo scheduled Apr 16. Prep: confirm SAML shipping timeline with product, prepare enterprise pricing deck. Management elevated to Focus due to deal size.',
+    calls: [
+      {type:'Discovery', date:'Mar 21, 2026', summary:'50-person data team, heavy dbt users. Clear ICP. Champion: CTO. Management escalated to Focus immediately.'}
+    ]
+  },
+  d4: {
+    title: 'DentaCare India', sub: '⚡ Focus · $36K · Priya Patel · Validating',
+    fields: [{l:'Stage',v:'Validating'},{l:'Value',v:'$36,000'},{l:'Owner',v:'Priya Patel'},{l:'Days Open',v:'34 days'},{l:'Sub-Status',v:'⚡ Focus'}],
+    blocker: 'IT team reviewing security questionnaire and data handling docs. India data residency requirement flagged. Rep waiting on completion before trial access can be granted.',
+    calls: [
+      {type:'Demo', date:'Mar 28, 2026', summary:'Product team very positive. CSO asked for security documentation before approving trial — data residency is a hard requirement.'},
+      {type:'Discovery', date:'Mar 14, 2026', summary:'Healthcare analytics use case. Strict data residency requirements. India-region hosting may be required.'}
+    ]
+  },
+  d5: {
+    title: 'EchoPath Thailand', sub: '🔴 At Risk · $36K · Rachel Lee · Qualifying',
+    fields: [{l:'Stage',v:'Qualifying'},{l:'Value',v:'$36,000'},{l:'Owner',v:'Rachel Lee'},{l:'Days Open',v:'65 days (ghost 45d)'},{l:'Sub-Status',v:'At Risk'}],
+    blocker: 'No response since Feb 28. Ghost threshold exceeded 45 days ago. Rep should send final re-engagement email or mark as lost and add to revival nurture list.',
+    calls: [
+      {type:'Discovery', date:'Feb 28, 2026', summary:'Logistics analytics team. Said they would sign up for trial but never did. Follow-up sent Mar 15 — no reply. Likely budget or internal prioritization issue.'}
+    ]
+  },
+  d6: {
+    title: 'PulseCore Indonesia', sub: '🔴 At Risk · $9.6K · Mike Torres · Progressing',
+    fields: [{l:'Stage',v:'Progressing'},{l:'Value',v:'$9,600'},{l:'Owner',v:'Mike Torres'},{l:'Days Open',v:'55 days'},{l:'Sub-Status',v:'At Risk'}],
+    blocker: '"We\'re already deep in the Google/Looker ecosystem via Cloud contracts. Switching costs are high even if the product is better." Needs a competitive positioning response from rep.',
+    calls: [
+      {type:'Technical Onboarding', date:'Mar 10, 2026', summary:'Onboarding completed successfully. Champion raised Google ecosystem lock-in concern during debrief call.'},
+      {type:'Demo', date:'Feb 20, 2026', summary:'Demo went well technically. Concern raised post-call: Google enterprise contract makes switching politically difficult.'}
+    ]
+  },
+  d7: {
+    title: 'XenoMed Indonesia', sub: '🔵 Highlight · $4.8K · Rachel Lee · Just Won',
+    fields: [{l:'Stage',v:'Won → Onboarding'},{l:'Value',v:'$4,800'},{l:'Owner',v:'Rachel Lee'},{l:'Days Open',v:'57 days to close'},{l:'Sub-Status',v:'Highlight'}],
+    blocker: 'Won Apr 6. Onboarding kickoff needs to be scheduled this week. CS handoff to be completed — share deal context from Git repo with CS rep.',
+    calls: [
+      {type:'Business User Onboarding', date:'Apr 4, 2026', summary:'Self-serve trial went smoothly. Team built their first dashboard independently without rep involvement. Decision came 2 days later.'}
+    ]
+  },
+  d8: {
+    title: 'NovaSpark Vietnam', sub: '🟢 Promising · $18K · Priya Patel · Progressing',
+    fields: [{l:'Stage',v:'Progressing'},{l:'Value',v:'$18,000'},{l:'Owner',v:'Priya Patel'},{l:'Days Open',v:'28 days'},{l:'Sub-Status',v:'Promising'}],
+    blocker: 'Technical onboarding in progress. No blockers reported. Data source connecting this week. Next step: Business User Onboarding once data is flowing.',
+    calls: [
+      {type:'Technical Onboarding', date:'Apr 9, 2026', summary:'Data team working through dbt model setup. One question on incremental models — resolved in call. Strong team competency.'}
+    ]
+  },
+  d9: {
+    title: 'DataPath Germany', sub: '🟢 Promising · $24K · Mike Torres · Validating',
+    fields: [{l:'Stage',v:'Validating'},{l:'Value',v:'$24,000'},{l:'Owner',v:'Mike Torres'},{l:'Days Open',v:'19 days'},{l:'Sub-Status',v:'Promising'}],
+    blocker: 'Pricing call Apr 18. Rep to confirm discount authority with manager beforehand. Competitor: Power BI (company-wide license they want to consolidate).',
+    calls: [
+      {type:'Demo', date:'Apr 11, 2026', summary:'Strong interest. 8-engineer data team. Currently on Power BI company license — evaluating Holistics for the data team specifically.'}
+    ]
+  },
+  d10: {
+    title: 'HealthBridge Philippines', sub: '🟢 Promising · $12K · Jordan Lee · Progressing',
+    fields: [{l:'Stage',v:'Progressing'},{l:'Value',v:'$12,000'},{l:'Owner',v:'Jordan Lee'},{l:'Days Open',v:'41 days'},{l:'Sub-Status',v:'Promising'}],
+    blocker: 'Milestone: Technical Onboarding ✓ complete. Business user demo pending — Jordan needs to schedule with clinical ops team this week.',
+    calls: [
+      {type:'Technical Onboarding', date:'Apr 7, 2026', summary:'Smooth onboarding. Data connected successfully. Champion requested business user demo for clinical operations team (non-technical).'}
+    ]
+  }
+};
+
+function selectDeal(row) {
+  const d = dealData[row.dataset.deal];
+  if (!d) return;
+  document.querySelectorAll('#deals-tbody tr').forEach(r => r.style.background='');
+  row.style.background = 'rgba(59,130,246,.06)';
+  document.getElementById('dd-title').textContent = d.title;
+  document.getElementById('dd-meta').innerHTML = d.fields.map(f=>`
+    <div class="dd-field">
+      <div class="dd-field-label">${f.l}</div>
+      <div class="dd-field-val">${f.v}</div>
+    </div>`).join('');
+  document.getElementById('dd-blocker').textContent = d.blocker;
+  document.getElementById('dd-calls').innerHTML = d.calls.map(c=>`
+    <div class="call-item">
+      <div class="call-item-header">
+        <span class="call-type">${c.type}</span>
+        <span class="call-date">${c.date}</span>
+      </div>
+      <div class="call-summary">${c.summary}</div>
+    </div>`).join('');
+  const panel = document.getElementById('deal-detail');
+  panel.classList.add('visible');
+  setTimeout(()=>panel.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
+}
+
+function closeDeal() {
+  document.getElementById('deal-detail').classList.remove('visible');
+  document.querySelectorAll('#deals-tbody tr').forEach(r => r.style.background='');
+}
+
+// ── CHART DEFAULTS ───────────────────────────────────────────────────────────
+Chart.defaults.color = '#8892AC';
+Chart.defaults.font.family = "'Space Grotesk',-apple-system,sans-serif";
+Chart.defaults.font.size = 11;
+const grid = { color:'rgba(37,43,60,.9)', drawBorder:false };
+const tick  = { color:'#4A5268' };
+
+// Tab 0 — Won/Lost Monthly
+new Chart(document.getElementById('c0_wonlost'), {
+  type:'bar',
+  data:{
+    labels:['Oct 25','Nov 25','Dec 25','Jan 26','Feb 26','Mar 26','Apr 26'],
+    datasets:[
+      {label:'Won', data:[3,11,14,16,15,13,5], backgroundColor:'rgba(204,255,0,.65)', borderRadius:3},
+      {label:'Lost',data:[6,7,12,11,8,11,5],   backgroundColor:'rgba(200,72,94,.4)', borderRadius:3}
+    ]
+  },
+  options:{
+    plugins:{legend:{position:'top',labels:{boxWidth:10,padding:12}}},
+    scales:{x:{grid,ticks:tick},y:{grid,ticks:tick,beginAtZero:true}},
+    responsive:true,maintainAspectRatio:true
+  }
+});
+
+// Tab 0 — Win Rate mini
+new Chart(document.getElementById('c0_wr'), {
+  type:'line',
+  data:{
+    labels:['Oct','Nov','Dec','Jan','Feb','Mar'],
+    datasets:[
+      {label:'Win Rate',data:[33,61,54,59,65,54],borderColor:'#5B7CF8',backgroundColor:'rgba(79,110,245,.1)',tension:.4,fill:true,pointRadius:3},
+      {label:'Target',data:[70,70,70,70,70,70],borderColor:'rgba(239,68,68,.4)',borderDash:[4,3],pointRadius:0}
+    ]
+  },
+  options:{
+    plugins:{legend:{display:false}},
+    scales:{x:{grid:{display:false},ticks:tick},y:{grid,ticks:{...tick,callback:v=>v+'%'},min:0,max:100}},
+    responsive:true,maintainAspectRatio:true
+  }
+});
+
+// Tab 0 — NRR mini
+new Chart(document.getElementById('c0_nrr'), {
+  type:'line',
+  data:{
+    labels:['Nov 25','Dec 25','Jan 26','Feb 26','Mar 26','Apr 26'],
+    datasets:[
+      {label:'NRR',data:[102,103,104,106,107,108],borderColor:'#CCFF00',backgroundColor:'rgba(204,255,0,.08)',tension:.4,fill:true,pointRadius:3},
+      {label:'100%',data:[100,100,100,100,100,100],borderColor:'rgba(245,158,11,.4)',borderDash:[4,3],pointRadius:0}
+    ]
+  },
+  options:{
+    plugins:{legend:{display:false}},
+    scales:{x:{grid:{display:false},ticks:tick},y:{grid,ticks:{...tick,callback:v=>v+'%'},min:95,max:115}},
+    responsive:true,maintainAspectRatio:true
+  }
+});
+
+// Tab 2 — Win Rate Trend
+new Chart(document.getElementById('c2_wintrend'), {
+  type:'line',
+  data:{
+    labels:['Oct 25','Nov 25','Dec 25','Jan 26','Feb 26','Mar 26','Apr 26'],
+    datasets:[
+      {label:'Win Rate %',data:[33,61,54,59,65,54,50],borderColor:'#5B7CF8',backgroundColor:'rgba(79,110,245,.08)',tension:.4,fill:true,pointRadius:3},
+      {label:'Target 70%',data:[70,70,70,70,70,70,70],borderColor:'rgba(239,68,68,.4)',borderDash:[4,3],pointRadius:0}
+    ]
+  },
+  options:{
+    plugins:{legend:{position:'top',labels:{boxWidth:10,padding:12}}},
+    scales:{x:{grid,ticks:tick},y:{grid,ticks:{...tick,callback:v=>v+'%'},min:0,max:100}},
+    responsive:true,maintainAspectRatio:true
+  }
+});
+
+// Tab 3 — Call Type Donut
+new Chart(document.getElementById('c3_calltype'), {
+  type:'doughnut',
+  data:{
+    labels:['Discovery','Demo','Technical Onboarding','Biz User Onboarding','CS Review'],
+    datasets:[{data:[1420,1890,2105,1240,1125],backgroundColor:['#5B7CF8','rgba(79,110,245,.6)','rgba(79,110,245,.38)','rgba(255,255,255,.12)','#CCFF00'],borderWidth:0,hoverOffset:4}]
+  },
+  options:{plugins:{legend:{position:'right',labels:{boxWidth:10,padding:10}}},cutout:'60%',responsive:true,maintainAspectRatio:true}
+});
+
+// Tab 3 — Competitor Bar
+new Chart(document.getElementById('c3_comp'), {
+  type:'bar',
+  data:{
+    labels:['Metabase','Tableau','Power BI','Looker','Sigma','Mode'],
+    datasets:[{label:'Mentions in deals',data:[2606,1953,1622,1280,1039,860],backgroundColor:['rgba(79,110,245,.9)','rgba(79,110,245,.75)','rgba(79,110,245,.60)','rgba(79,110,245,.45)','rgba(79,110,245,.32)','rgba(79,110,245,.22)'],borderRadius:4}]
+  },
+  options:{
+    indexAxis:'y',
+    plugins:{legend:{display:false}},
+    scales:{x:{grid,ticks:tick},y:{grid:{display:false},ticks:tick}},
+    responsive:true,maintainAspectRatio:true
+  }
+});
+
+// Tab 4 — MRR Line
+new Chart(document.getElementById('c4_mrr'), {
+  type:'line',
+  data:{
+    labels:['Nov 25','Dec 25','Jan 26','Feb 26','Mar 26','Apr 26'],
+    datasets:[{label:'MRR',data:[174581,178829,183635,189739,193788,198852],borderColor:'#CCFF00',backgroundColor:'rgba(204,255,0,.07)',tension:.4,fill:true,pointRadius:4,pointBackgroundColor:'#CCFF00'}]
+  },
+  options:{
+    plugins:{legend:{display:false}},
+    scales:{x:{grid,ticks:tick},y:{grid,ticks:{...tick,callback:v=>'$'+(v/1000).toFixed(0)+'K'},beginAtZero:false}},
+    responsive:true,maintainAspectRatio:true
+  }
+});
+
+// Tab 4 — Plan Donut
+new Chart(document.getElementById('c4_plan'), {
+  type:'doughnut',
+  data:{
+    labels:['Growth (190)','Business (151)','Starter (142)','Enterprise (45)'],
+    datasets:[{data:[190,151,142,45],backgroundColor:['#5B7CF8','rgba(79,110,245,.65)','rgba(79,110,245,.38)','#CCFF00'],borderWidth:0,hoverOffset:4}]
+  },
+  options:{plugins:{legend:{position:'right',labels:{boxWidth:10,padding:8,font:{size:10}}}},cutout:'55%',responsive:true,maintainAspectRatio:true}
+});
+
+// Tab 4 — Geography Table
+const geoData = [
+  {country:'Indonesia',flag:'🇮🇩',n:48,mrr:42100},
+  {country:'Singapore',flag:'🇸🇬',n:31,mrr:39800},
+  {country:'Vietnam',flag:'🇻🇳',n:28,mrr:24500},
+  {country:'India',flag:'🇮🇳',n:25,mrr:22000},
+  {country:'Germany',flag:'🇩🇪',n:18,mrr:19200},
+  {country:'Philippines',flag:'🇵🇭',n:22,mrr:17600},
+  {country:'South Korea',flag:'🇰🇷',n:14,mrr:15800},
+  {country:'USA',flag:'🇺🇸',n:12,mrr:14400},
+];
+const maxMrr = Math.max(...geoData.map(g=>g.mrr));
+document.getElementById('geo-tbody').innerHTML = geoData.map(g=>`
+  <tr>
+    <td>${g.flag} <span class="val">${g.country}</span></td>
+    <td>${g.n}</td>
+    <td>
+      $${(g.mrr/1000).toFixed(1)}K
+      <div style="display:inline-block;width:100px;height:4px;background:var(--bg-card3);border-radius:2px;vertical-align:middle;margin-left:8px">
+        <div style="width:${Math.round(g.mrr/maxMrr*100)}%;height:100%;background:var(--blue);border-radius:2px"></div>
+      </div>
+    </td>
+  </tr>`).join('');
+</script>
+</body>
+</html>

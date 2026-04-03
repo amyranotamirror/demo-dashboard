@@ -1,0 +1,80 @@
+// Fact: Calls — one row per interaction between Holistics and a company.
+// "Many" side of: dim_companies (via company_id), fct_deals (via deal_id, nullable).
+// "One" side of: fct_call_attendees.
+//
+// Path ambiguity note: calls can reach dim_companies via two paths:
+//   Direct (registered): fct_calls.company_id > dim_companies.id
+//   Transitive (NOT registered separately): fct_calls → fct_deals → dim_companies
+// Register only the direct path in datasets.
+
+Model fct_calls {
+  type: 'table'
+  label: 'Calls'
+  table_name: 'calls'
+  data_source_name: 'neondb'
+
+  dimension id {
+    label: 'Call ID'
+    type: 'text'
+    primary_key: true
+    definition: @sql {{ #SOURCE.id }};;
+  }
+  dimension company_id {
+    label: 'Company ID'
+    type: 'text'
+    hidden: true
+  }
+  dimension deal_id {
+    label: 'Deal ID'
+    type: 'text'
+    hidden: true
+    description: 'Nullable — post-sale calls may not be tied to a deal'
+  }
+  dimension call_date {
+    label: 'Call Date'
+    type: 'date'
+  }
+  dimension duration_min {
+    label: 'Duration (Min)'
+    type: 'number'
+  }
+  dimension phase {
+    label: 'Phase'
+    type: 'text'
+    description: 'pre_sale | post_sale'
+  }
+  dimension type {
+    label: 'Call Type'
+    type: 'text'
+    description: 'discovery | demo | evaluation | negotiation | onboarding | check_in | renewal'
+  }
+  dimension scheduled_at {
+    label: 'Scheduled At'
+    type: 'datetime'
+    description: 'Non-null = upcoming call; null = completed'
+  }
+  dimension is_completed {
+    label: 'Is Completed'
+    type: 'truefalse'
+    definition: @sql {{ #SOURCE.scheduled_at }} IS NULL;;
+  }
+
+  measure count_calls {
+    label: 'Calls'
+    type: 'number'
+    definition: @sql {{ id }};;
+    aggregation_type: 'count'
+  }
+  measure total_duration_min {
+    label: 'Total Call Duration (Min)'
+    type: 'number'
+    definition: @sql sum({{ #SOURCE.duration_min }});;
+    aggregation_type: 'custom'
+  }
+  measure avg_duration_min {
+    label: 'Avg Call Duration (Min)'
+    type: 'number'
+    definition: @sql avg({{ #SOURCE.duration_min }});;
+    aggregation_type: 'custom'
+  }
+}

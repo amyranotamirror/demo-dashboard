@@ -1,0 +1,146 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Custom Chart: Won vs Lost Monthly Trend — Diverging Bars + Net Line
+// ─────────────────────────────────────────────────────────────────────────────
+// Prototype reference: Tab 1 "Pipeline" — canvas id="winLossChart"
+// Renders:
+//   • Won bars above the zero line (gray-blue, muted)
+//   • Lost bars below the zero line (dark slate)
+//   • Net deals line (won − lost) with dot markers
+//
+// Why CustomChart (not CombinationChart):
+//   CombinationChart in Holistics cannot render bars below zero (negative axis bars).
+//   This pattern requires Vega-Lite's layered spec with a negated-value transform.
+//
+// Usage in dashboard:
+//   block chart_win_loss_trend: VizBlock {
+//     label: 'Won vs Lost — Monthly Trend'
+//     viz: CustomChart { ... }  ← see sales_dashboard.page.aml for inline definition
+//   }
+//
+// Field mapping (set in Holistics UI after uploading):
+//   period → fct_deals.closed_at   (datetrunc month)
+//   won    → ds_sales_dashboard.won_deals
+//   lost   → ds_sales_dashboard.lost_deals
+// ─────────────────────────────────────────────────────────────────────────────
+
+CustomChart {
+  fields {
+    field period { type: "dimension" label: "Month"       }
+    field won    { type: "measure"   label: "Won Deals"   }
+    field lost   { type: "measure"   label: "Lost Deals"  }
+  }
+
+  template: @vgl {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": { "values": @{values} },
+
+    "transform": [
+      {
+        "calculate": "-datum[@{fields.lost.name}]",
+        "as": "lost_neg"
+      },
+      {
+        "calculate": "datum[@{fields.won.name}] - datum[@{fields.lost.name}]",
+        "as": "net"
+      }
+    ],
+
+    "layer": [
+      {
+        "description": "Won bars — above zero",
+        "mark": {
+          "type": "bar",
+          "color": "rgba(140,155,185,0.55)",
+          "cornerRadiusTopLeft":  4,
+          "cornerRadiusTopRight": 4
+        },
+        "encoding": {
+          "x": {
+            "field": @{fields.period.name},
+            "type": "ordinal",
+            "axis": {
+              "labelColor":    "#3A4460",
+              "labelFont":     "Space Grotesk",
+              "labelFontSize": 10,
+              "ticks":         false,
+              "domain":        false,
+              "title":         null
+            }
+          },
+          "y": {
+            "field": @{fields.won.name},
+            "type": "quantitative",
+            "title": "Deals",
+            "axis": {
+              "gridColor":   "rgba(28,34,56,0.8)",
+              "labelColor":  "#3A4460",
+              "labelFont":   "Space Grotesk",
+              "domainColor": "transparent",
+              "tickColor":   "transparent"
+            }
+          },
+          "tooltip": [
+            { "field": @{fields.period.name}, "title": "Month" },
+            { "field": @{fields.won.name},    "title": "Won",   "type": "quantitative" }
+          ]
+        }
+      },
+
+      {
+        "description": "Lost bars — below zero (negated)",
+        "mark": {
+          "type": "bar",
+          "color": "rgba(58,68,100,0.55)",
+          "cornerRadiusBottomLeft":  4,
+          "cornerRadiusBottomRight": 4
+        },
+        "encoding": {
+          "x": { "field": @{fields.period.name}, "type": "ordinal" },
+          "y": { "field": "lost_neg", "type": "quantitative" },
+          "tooltip": [
+            { "field": @{fields.period.name}, "title": "Month" },
+            { "field": @{fields.lost.name},   "title": "Lost",  "type": "quantitative" }
+          ]
+        }
+      },
+
+      {
+        "description": "Net deals line (won − lost) with dot markers",
+        "mark": {
+          "type": "line",
+          "color": "rgba(232,236,255,0.80)",
+          "strokeWidth": 2,
+          "interpolate": "monotone",
+          "point": {
+            "filled":      true,
+            "fill":        "rgba(232,236,255,0.90)",
+            "size":        50,
+            "stroke":      "#161A27",
+            "strokeWidth": 2
+          }
+        },
+        "encoding": {
+          "x": { "field": @{fields.period.name}, "type": "ordinal" },
+          "y": { "field": "net", "type": "quantitative" },
+          "tooltip": [
+            { "field": @{fields.period.name}, "title": "Month" },
+            { "field": "net",                 "title": "Net Deals", "type": "quantitative" }
+          ]
+        }
+      }
+    ],
+
+    "config": {
+      "view":       { "stroke": "transparent" },
+      "background": "transparent",
+      "axis": {
+        "gridColor": "rgba(28,34,56,0.8)"
+      },
+      "legend": {
+        "labelColor": "#6E7C9E",
+        "titleColor": "#3A4460",
+        "labelFont":  "Space Grotesk"
+      }
+    }
+  };;
+}

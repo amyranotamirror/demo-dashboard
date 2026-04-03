@@ -1,0 +1,61 @@
+group_dim,row_label,col_name,col_display,col_status
+Android,W06 08/02/2026,Total Cost,$6298,normal
+Android,W06 08/02/2026,DAU Count,521,normal
+Android,W06 08/02/2026,CPDAU,$12.09,normal
+Android,W06 08/02/2026,D3 ROI,2.62%,bad
+Android,W06 08/02/2026,CP ReFD D3,$190.85,normal
+Android,W06 08/02/2026,D7 ROI,4.31%,bad
+Android,W07 15/02/2026,Total Cost,$21997,normal
+Android,W07 15/02/2026,DAU Count,1892,normal
+Android,W07 15/02/2026,CPDAU,$11.63,normal
+Android,W07 15/02/2026,D3 ROI,2.51%,bad
+Android,W07 15/02/2026,CP ReFD D3,$215.66,normal
+Android,W07 15/02/2026,D7 ROI,5.50%,bad
+Android,W08 22/02/2026,Total Cost,$20710,normal
+Android,W08 22/02/2026,DAU Count,1809,normal
+Android,W08 22/02/2026,CPDAU,$11.45,normal
+Android,W08 22/02/2026,D3 ROI,2.35%,bad
+Android,W08 22/02/2026,CP ReFD D3,$197.23,normal
+Android,W08 22/02/2026,D7 ROI,3.77%,bad
+Android,W09 01/03/2026,Total Cost,$16651,normal
+Android,W09 01/03/2026,DAU Count,1597,normal
+Android,W09 01/03/2026,CPDAU,$10.43,normal
+Android,W09 01/03/2026,D3 ROI,2.80%,bad
+Android,W09 01/03/2026,CP ReFD D3,$180.99,normal
+Android,W09 01/03/2026,D7 ROI,6.53%,normal
+Android,W10 08/03/2026,Total Cost,$14387,normal
+Android,W10 08/03/2026,DAU Count,1737,normal
+Android,W10 08/03/2026,CPDAU,$8.28,good
+Android,W10 08/03/2026,D3 ROI,2.44%,bad
+Android,W10 08/03/2026,CP ReFD D3,$197.09,normal
+Android,W10 08/03/2026,D7 ROI,4.53%,bad
+iOS,W06 08/02/2026,Total Cost,$4779,normal
+iOS,W06 08/02/2026,DAU Count,350,normal
+iOS,W06 08/02/2026,CPDAU,$13.65,normal
+iOS,W06 08/02/2026,D3 ROI,5.07%,normal
+iOS,W06 08/02/2026,CP ReFD D3,$217.23,normal
+iOS,W06 08/02/2026,D7 ROI,7.75%,normal
+iOS,W07 15/02/2026,Total Cost,$16702,normal
+iOS,W07 15/02/2026,DAU Count,1374,normal
+iOS,W07 15/02/2026,CPDAU,$12.16,normal
+iOS,W07 15/02/2026,D3 ROI,6.27%,normal
+iOS,W07 15/02/2026,CP ReFD D3,$177.68,normal
+iOS,W07 15/02/2026,D7 ROI,10.16%,good
+iOS,W08 22/02/2026,Total Cost,$16629,normal
+iOS,W08 22/02/2026,DAU Count,1342,normal
+iOS,W08 22/02/2026,CPDAU,$12.39,normal
+iOS,W08 22/02/2026,D3 ROI,40.36%,good
+iOS,W08 22/02/2026,CP ReFD D3,$188.97,normal
+iOS,W08 22/02/2026,D7 ROI,140.70%,good
+iOS,W09 01/03/2026,Total Cost,$17057,normal
+iOS,W09 01/03/2026,DAU Count,1302,normal
+iOS,W09 01/03/2026,CPDAU,$13.10,normal
+iOS,W09 01/03/2026,D3 ROI,6.36%,normal
+iOS,W09 01/03/2026,CP ReFD D3,$198.33,normal
+iOS,W09 01/03/2026,D7 ROI,10.07%,good
+iOS,W10 08/03/2026,Total Cost,$16154,normal
+iOS,W10 08/03/2026,DAU Count,1417,normal
+iOS,W10 08/03/2026,CPDAU,$11.40,normal
+iOS,W10 08/03/2026,D3 ROI,7.33%,normal
+iOS,W10 08/03/2026,CP ReFD D3,$166.09,normal
+iOS,W10 08/03/2026,D7 ROI,3.97%,bad

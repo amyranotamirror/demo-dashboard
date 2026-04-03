@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salesforce CRM Dark — Dashboard Preview</title>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+  <!-- ★★★ THEME SLOT START — Salesforce CRM Dark ★★★ -->
+  <style>
+  /* ── FONT IMPORT ──────────────────────────────────────────────────────── */
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    /* Page */
+    --page-bg:              #0A0C12;
+
+    /* Canvas */
+    --canvas-bg:            #111520;
+    --canvas-border-color:  rgba(255,255,255,0.05);
+    --canvas-radius:        20px;
+    --canvas-shadow:        0 8px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(204,255,0,0.06);
+
+    /* Blocks */
+    --block-bg:             rgba(24, 29, 44, 0.75);
+    --block-border-color:   rgba(255,255,255,0.08);
+    --block-radius:         16px;
+    --block-shadow:         0 4px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(204,255,0,0.04);
+    --block-padding:        20px;
+
+    /* Typography */
+    --font-heading:         'Space Grotesk', system-ui, sans-serif;
+    --font-body:            'Space Grotesk', system-ui, sans-serif;
+    --text-primary:         #F0F2FF;
+    --text-secondary:       #8892AC;
+    --text-muted:           #4A5268;
+    --label-color:          #8892AC;
+
+    /* Brand palette */
+    --color-primary:        #CCFF00;
+    --color-secondary:      #5B7CF8;
+    --color-accent:         #F59E0B;
+    --color-danger:         #FF5566;
+
+    /* Header / hero */
+    --header-bg:            linear-gradient(135deg, #0D1220 0%, #111828 50%, #141E30 100%);
+
+    /* Nav / tab bar */
+    --nav-bg:               #080A10;
+    --nav-text:             rgba(136,146,172,0.75);
+    --nav-active-text:      #F0F2FF;
+    --nav-active-bg:        rgba(204,255,0,0.06);
+
+    /* KPI */
+    --kpi-value-size:       28px;
+    --kpi-value-color:      #F0F2FF;
+    --kpi-pos-color:        #CCFF00;
+    --kpi-neg-color:        #FF5566;
+
+    /* Table */
+    --table-bg:             #0E1220;
+    --table-header-bg:      #0A0C12;
+    --table-header-color:   #8892AC;
+    --table-border:         rgba(255,255,255,0.07);
+    --table-hover:          rgba(204,255,0,0.04);
+    --table-band:           rgba(0,0,0,0.2);
+
+    /* Section headings */
+    --section-accent:       #CCFF00;
+    --section-text:         #F0F2FF;
+
+    /* Filters */
+    --filter-bg:            #181D2C;
+    --filter-border:        rgba(255,255,255,0.1);
+    --filter-text:          #F0F2FF;
+  }
+
+  /* ── Salesforce CRM–specific structural overrides ────────────────────── */
+
+  /* Top bar: deep navy, lime-tinted bottom */
+  .top-bar {
+    border-bottom: 1px solid rgba(204,255,0,0.08) !important;
+  }
+
+  /* Active tab: lime underline */
+  .tab-btn.active {
+    border-bottom-color: #CCFF00 !important;
+    color: #F0F2FF !important;
+  }
+
+  /* Header: no extra border needed — gradient handles it */
+  .header-block {
+    border-bottom: 1px solid rgba(91,124,248,0.15);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* KPI card: faint lime left accent */
+  .kpi-card {
+    border-left: 3px solid rgba(204,255,0,0.20);
+  }
+
+  /* Filter dropdown: blue arrow */
+  .filter-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%235B7CF8' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 8px center !important;
+    background-color: var(--filter-bg) !important;
+  }
+  .filter-select option { background: #181D2C; color: #F0F2FF; }
+
+  /* Badges: dark-mode palette */
+  .badge-green { background: rgba(204,255,0,0.12);  color: #CCFF00; }
+  .badge-blue  { background: rgba(91,124,248,0.15); color: #5B7CF8; }
+  .badge-amber { background: rgba(245,158,11,0.15); color: #F59E0B; }
+  .badge-red   { background: rgba(255,85,102,0.15); color: #FF5566; }
+  .badge-gray  { background: rgba(74,82,104,0.25);  color: #8892AC; }
+
+  /* Progress track on dark */
+  .progress-track { background: rgba(255,255,255,0.08); }
+
+  /* Section heading: lime left bar */
+  .section-heading { border-left-color: #CCFF00; }
+  </style>
+  <!-- ★★★ THEME SLOT END ★★★ -->
+
+  <style>
+  /* ── BASE STRUCTURAL STYLES ───────────────────────────────────────── */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-body); background: var(--page-bg); color: var(--text-primary); min-height: 100vh; }
+
+  /* Top bar */
+  .top-bar {
+    position: sticky; top: 0; z-index: 200;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--nav-bg); padding: 0 24px;
+    border-bottom: 1px solid rgba(0,0,0,0.15);
+  }
+  .top-bar-title { font-family: var(--font-heading); font-size: 13px; font-weight: 700; color: var(--text-primary); padding: 12px 0; letter-spacing: 0.04em; }
+  .tabs { display: flex; }
+  .tab-btn {
+    padding: 12px 20px; font-size: 12px; font-weight: 600; border: none; cursor: pointer;
+    background: transparent; color: var(--nav-text); border-bottom: 3px solid transparent;
+    transition: all 0.15s; font-family: var(--font-body); letter-spacing: 0.01em;
+  }
+  .tab-btn.active { color: var(--nav-active-text); border-bottom-color: #CCFF00; background: var(--nav-active-bg); }
+  .tab-btn:hover:not(.active) { color: var(--nav-active-text); }
+  .version-nav { display: flex; gap: 6px; align-items: center; }
+  .ver-link {
+    padding: 4px 12px; border-radius: 6px; font-size: 11px; font-weight: 600;
+    text-decoration: none; color: var(--nav-text); border: 1px solid rgba(255,255,255,0.15);
+    transition: all 0.15s;
+  }
+  .ver-link.active, .ver-link:hover { background: rgba(204,255,0,0.08); color: #CCFF00; border-color: rgba(204,255,0,0.25); }
+
+  /* Canvas wrapper */
+  .canvas {
+    max-width: 1360px; margin: 24px auto;
+    background: var(--canvas-bg);
+    border: 1px solid var(--canvas-border-color);
+    border-top: 1px solid rgba(204,255,0,0.10);
+    border-radius: var(--canvas-radius);
+    box-shadow: var(--canvas-shadow);
+    overflow: hidden;
+  }
+
+  /* Header / hero */
+  .header-block { background: var(--header-bg); padding: 28px 32px; font-family: var(--font-heading); position: relative; overflow: hidden; }
+  .header-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .header-logo-name { font-size: 11px; font-weight: 700; color: var(--text-secondary); letter-spacing: 0.12em; text-transform: uppercase; }
+  .header-title { font-size: 26px; font-weight: 700; color: var(--text-primary); margin-bottom: 5px; letter-spacing: -0.01em; }
+  .header-subtitle-text { font-size: 13px; color: var(--text-secondary); }
+
+  /* Tabs display */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  .dash-body { padding: 24px 32px 36px; }
+
+  /* Filter row */
+  .filter-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; align-items: flex-end; }
+  .filter-item { display: flex; flex-direction: column; gap: 4px; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+  .filter-label { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; }
+  .filter-select {
+    padding: 6px 28px 6px 10px; font-size: 12px; font-family: var(--font-body);
+    background: var(--filter-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 8px center;
+    border: 1px solid var(--filter-border); border-radius: 8px; color: var(--filter-text);
+    appearance: none; cursor: pointer; min-width: 140px;
+  }
+  .filter-select:focus { outline: 2px solid var(--color-primary); outline-offset: 1px; }
+
+  /* KPI row */
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 26px; }
+  .kpi-card {
+    background: var(--block-bg); border: 1px solid var(--block-border-color);
+    border-radius: var(--block-radius); box-shadow: var(--block-shadow); padding: var(--block-padding);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  }
+  .kpi-block-label { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 10px; }
+  .kpi-value { font-family: var(--font-heading); font-size: var(--kpi-value-size); font-weight: 700; color: var(--kpi-value-color); margin-bottom: 5px; line-height: 1.1; }
+  .kpi-delta { font-size: 11px; font-weight: 600; }
+  .kpi-delta.pos { color: var(--kpi-pos-color); }
+  .kpi-delta.neg { color: var(--kpi-neg-color); }
+
+  /* Section headings */
+  .section-heading { display: flex; align-items: flex-start; gap: 0; margin: 28px 0 14px; border-left: 3px solid var(--section-accent); padding-left: 14px; }
+  .section-heading h2 { font-family: var(--font-heading); font-size: 14px; font-weight: 700; color: var(--section-text); letter-spacing: -0.01em; }
+  .section-heading p { font-size: 12px; color: var(--text-secondary); margin-top: 3px; }
+
+  /* Chart grid */
+  .chart-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .chart-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .chart-block {
+    background: var(--block-bg); border: 1px solid var(--block-border-color);
+    border-radius: var(--block-radius); box-shadow: var(--block-shadow); padding: var(--block-padding);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  }
+  .block-label { font-size: 10px; font-weight: 700; color: var(--label-color); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 14px; }
+  .chart-container { width: 100%; min-height: 240px; }
+
+  /* Table block */
+  .table-block {
+    background: var(--block-bg); border: 1px solid var(--block-border-color);
+    border-radius: var(--block-radius); box-shadow: var(--block-shadow); overflow: hidden; margin-bottom: 14px;
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  }
+  .table-block-header { padding: 12px 18px; border-bottom: 1px solid var(--table-border); }
+  table.data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  table.data-table thead th {
+    background: var(--table-header-bg); color: var(--table-header-color);
+    font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.07em;
+    padding: 9px 16px; text-align: left; border-bottom: 1px solid var(--table-border); white-space: nowrap;
+  }
+  table.data-table tbody tr { border-bottom: 1px solid var(--table-border); transition: background 0.1s; }
+  table.data-table tbody tr:hover { background: var(--table-hover); }
+  table.data-table tbody tr:nth-child(even) { background: var(--table-band); }
+  table.data-table tbody tr:nth-child(even):hover { background: var(--table-hover); }
+  table.data-table td { padding: 9px 16px; vertical-align: middle; color: var(--text-primary); }
+  .deal-name { font-weight: 600; font-size: 12px; }
+  .deal-sub  { font-size: 11px; color: var(--text-secondary); }
+  .progress-wrap { display: flex; align-items: center; gap: 8px; }
+  .progress-track { flex: 1; height: 4px; background: var(--table-border); border-radius: 99px; overflow: hidden; min-width: 60px; }
+  .progress-fill { height: 100%; border-radius: 99px; }
+  .progress-fill.p-primary  { background: var(--color-primary); }
+  .progress-fill.p-blue     { background: var(--color-secondary); }
+  .progress-fill.p-amber    { background: var(--color-accent); }
+  .progress-fill.p-red      { background: var(--color-danger); }
+  .pct-label { font-size: 11px; font-weight: 600; color: var(--text-secondary); min-width: 28px; }
+  .badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 99px; font-size: 10px; font-weight: 700; }
+  .badge-green  { background: rgba(204,255,0,0.12);  color: #CCFF00; }
+  .badge-blue   { background: rgba(91,124,248,0.15); color: #5B7CF8; }
+  .badge-amber  { background: rgba(245,158,11,0.15); color: #F59E0B; }
+  .badge-red    { background: rgba(255,85,102,0.15); color: #FF5566; }
+  .badge-gray   { background: rgba(74,82,104,0.25);  color: #8892AC; }
+
+  /* Wide chart */
+  .chart-block-wide {
+    background: var(--block-bg); border: 1px solid var(--block-border-color);
+    border-radius: var(--block-radius); box-shadow: var(--block-shadow); padding: var(--block-padding);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    margin-bottom: 14px;
+  }
+  </style>
+</head>
+<body>
+
+<!-- ── TOP BAR ─────────────────────────────────────────────────────────── -->
+<div class="top-bar">
+  <div class="top-bar-title">Salesforce CRM — Dashboard Preview</div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('overview', this)">Overview</button>
+    <button class="tab-btn" onclick="switchTab('pipeline', this)">Pipeline</button>
+  </div>
+  <!-- VERSION NAV -->
+  <nav class="version-nav">
+    <a href="salesforce-crm-v1.html" class="ver-link active">v1</a>
+  </nav>
+</div>
+
+<!-- ── CANVAS ──────────────────────────────────────────────────────────── -->
+<div class="canvas">
+
+  <!-- Header (always visible) -->
+  <div class="header-block">
+    <!-- Blue radial glow — top right -->
+    <div style="position:absolute;top:-60px;right:-40px;width:280px;height:280px;background:radial-gradient(circle,rgba(91,124,248,0.18) 0%,transparent 70%);pointer-events:none;"></div>
+    <!-- Lime radial glow — mid right -->
+    <div style="position:absolute;top:30px;left:60%;width:180px;height:180px;background:radial-gradient(circle,rgba(204,255,0,0.06) 0%,transparent 70%);pointer-events:none;"></div>
+
+    <div class="header-logo">
+      <svg width="32" height="32" viewBox="0 0 100 80" fill="none">
+        <!-- Cloud shape: simplified Salesforce cloud -->
+        <path d="M42,20 a18,18 0 0,1 36,0 a14,14 0 0,1 12,26 H28 a16,16 0 0,1 14,-26z" fill="#5B7CF8" opacity="0.9"/>
+      </svg>
+      <span class="header-logo-name">Salesforce CRM</span>
+    </div>
+    <div class="header-title">Sales Intelligence Dashboard</div>
+    <div class="header-subtitle-text">Q1 2026 · Pipeline Analytics · All Regions</div>
+  </div>
+
+  <!-- ── TAB 1: OVERVIEW ─────────────────────────────────────────────── -->
+  <div id="tab-overview" class="tab-content active">
+  <div class="dash-body">
+
+    <!-- Filters -->
+    <div class="filter-row">
+      <div class="filter-item">
+        <span class="filter-label">Period</span>
+        <select class="filter-select"><option>Q1 2026 (current)</option><option>Q4 2025</option><option>Q3 2025</option></select>
+      </div>
+      <div class="filter-item">
+        <span class="filter-label">Region</span>
+        <select class="filter-select"><option>All Regions</option><option>North America</option><option>EMEA</option><option>APAC</option></select>
+      </div>
+      <div class="filter-item">
+        <span class="filter-label">Rep</span>
+        <select class="filter-select"><option>All Reps</option><option>Sarah Kim</option><option>Marcus Chen</option><option>Priya Sharma</option></select>
+      </div>
+      <div class="filter-item">
+        <span class="filter-label">Deal Type</span>
+        <select class="filter-select"><option>All Types</option><option>New Business</option><option>Expansion</option><option>Renewal</option></select>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-block-label">Total Revenue</div>
+        <div class="kpi-value">$4.82M</div>
+        <div class="kpi-delta pos">▲ 18.4% vs Q4 2025</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-block-label">Win Rate</div>
+        <div class="kpi-value">38.6%</div>
+        <div class="kpi-delta pos">▲ 3.1pp vs Q4 2025</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-block-label">Avg Deal Size</div>
+        <div class="kpi-value">$127K</div>
+        <div class="kpi-delta neg">▼ 2.3% vs Q4 2025</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-block-label">Open Pipeline</div>
+        <div class="kpi-value">$12.4M</div>
+        <div class="kpi-delta pos">▲ 24.7% vs Q4 2025</div>
+      </div>
+    </div>
+
+    <!-- Revenue Trend + Win Rate by Rep -->
+    <div class="section-heading">
+      <div>
+        <h2>Revenue Performance</h2>
+        <p>Monthly revenue trend and win rate breakdown by sales representative</p>
+      </div>
+    </div>
+    <div class="chart-grid-2">
+      <div class="chart-block">
+        <div class="block-label">Revenue Trend — Q1 2026</div>
+        <div class="chart-container" id="chart-revenue-trend"></div>
+      </div>
+      <div class="chart-block">
+        <div class="block-label">Win Rate by Rep</div>
+        <div class="chart-container" id="chart-win-rate-bar"></div>
+      </div>
+    </div>
+
+    <!-- Revenue by Segment donut -->
+    <div class="section-heading">
+      <div>
+        <h2>Revenue Segmentation</h2>
+        <p>Distribution of closed-won revenue across customer segments</p>
+      </div>
+    </div>
+    <div class="chart-grid-2">
+      <div class="chart-block">
+        <div class="block-label">Revenue by Segment</div>
+        <div class="chart-container" id="chart-segment-donut"></div>
+      </div>
+      <div class="chart-block">
+        <div class="block-label">Deals Closed by Month</div>
+        <div class="chart-container" id="chart-deals-closed"></div>
+      </div>
+    </div>
+
+    <!-- Deals table -->
+    <div class="section-heading">
+      <div>
+        <h2>Recent Deals</h2>
+        <p>Latest closed and in-progress opportunities this quarter</p>
+      </div>
+    </div>
+    <div class="table-block">
+      <div class="table-block-header">
+        <span class="block-label">Top Opportunities — Q1 2026</span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Account</th><th>Deal Name</th><th>Rep</th><th>Value</th>
+            <th>Close Prob.</th><th>Stage</th><th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="deal-name">Accenture</div><div class="deal-sub">Enterprise · NA</div></td>
+            <td>Platform Expansion 2026</td>
+            <td>Sarah Kim</td>
+            <td style="font-weight:700;">$420K</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-primary" style="width:90%"></div></div><span class="pct-label">90%</span></div></td>
+            <td><span class="badge badge-green">Negotiation</span></td>
+            <td style="color:var(--kpi-pos-color);font-weight:700;">Won</td>
+          </tr>
+          <tr>
+            <td><div class="deal-name">HSBC</div><div class="deal-sub">Enterprise · EMEA</div></td>
+            <td>CRM + Analytics Suite</td>
+            <td>Marcus Chen</td>
+            <td style="font-weight:700;">$310K</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-blue" style="width:75%"></div></div><span class="pct-label">75%</span></div></td>
+            <td><span class="badge badge-blue">Proposal</span></td>
+            <td style="color:var(--text-secondary);font-weight:600;">Open</td>
+          </tr>
+          <tr>
+            <td><div class="deal-name">Toyota</div><div class="deal-sub">Enterprise · APAC</div></td>
+            <td>Sales Cloud Global</td>
+            <td>Priya Sharma</td>
+            <td style="font-weight:700;">$580K</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-blue" style="width:60%"></div></div><span class="pct-label">60%</span></div></td>
+            <td><span class="badge badge-blue">Demo</span></td>
+            <td style="color:var(--text-secondary);font-weight:600;">Open</td>
+          </tr>
+          <tr>
+            <td><div class="deal-name">Spotify</div><div class="deal-sub">Mid-Market · EMEA</div></td>
+            <td>Marketing Cloud Renewal</td>
+            <td>Leon Weber</td>
+            <td style="font-weight:700;">$195K</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-primary" style="width:85%"></div></div><span class="pct-label">85%</span></div></td>
+            <td><span class="badge badge-green">Contract</span></td>
+            <td style="color:var(--kpi-pos-color);font-weight:700;">Won</td>
+          </tr>
+          <tr>
+            <td><div class="deal-name">DoorDash</div><div class="deal-sub">Mid-Market · NA</div></td>
+            <td>Service Cloud Expansion</td>
+            <td>Sarah Kim</td>
+            <td style="font-weight:700;">$148K</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-amber" style="width:40%"></div></div><span class="pct-label">40%</span></div></td>
+            <td><span class="badge badge-amber">Discovery</span></td>
+            <td style="color:var(--text-secondary);font-weight:600;">Open</td>
+          </tr>
+          <tr>
+            <td><div class="deal-name">Siemens</div><div class="deal-sub">Enterprise · EMEA</div></td>
+            <td>MuleSoft Integration Pack</td>
+            <td>Marcus Chen</td>
+            <td style="font-weight:700;">$740K</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-blue" style="width:55%"></div></div><span class="pct-label">55%</span></div></td>
+            <td><span class="badge badge-blue">Evaluation</span></td>
+            <td style="color:var(--text-secondary);font-weight:600;">Open</td>
+          </tr>
+          <tr>
+            <td><div class="deal-name">Reddit</div><div class="deal-sub">SMB · NA</div></td>
+            <td>Starter Suite New Biz</td>
+            <td>Ana Torres</td>
+            <td style="font-weight:700;">$62K</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-red" style="width:15%"></div></div><span class="pct-label">15%</span></div></td>
+            <td><span class="badge badge-red">Stalled</span></td>
+            <td style="color:var(--kpi-neg-color);font-weight:700;">Lost</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  </div><!-- end tab-overview -->
+
+  <!-- ── TAB 2: PIPELINE ─────────────────────────────────────────────── -->
+  <div id="tab-pipeline" class="tab-content">
+  <div class="dash-body">
+
+    <div class="section-heading">
+      <div>
+        <h2>Pipeline Analytics</h2>
+        <p>Stage breakdown, deal size distribution, and monthly win rate trend</p>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-row">
+      <div class="filter-item">
+        <span class="filter-label">Stage</span>
+        <select class="filter-select"><option>All Stages</option><option>Discovery</option><option>Demo</option><option>Proposal</option><option>Negotiation</option></select>
+      </div>
+      <div class="filter-item">
+        <span class="filter-label">Min Value</span>
+        <select class="filter-select"><option>Any Size</option><option>$50K+</option><option>$100K+</option><option>$250K+</option></select>
+      </div>
+    </div>
+
+    <!-- Pipeline by stage (horizontal bar) + Deal size vs win rate (scatter) -->
+    <div class="chart-grid-2">
+      <div class="chart-block">
+        <div class="block-label">Pipeline Value by Stage</div>
+        <div class="chart-container" id="chart-pipeline-stage"></div>
+      </div>
+      <div class="chart-block">
+        <div class="block-label">Deal Size vs Win Rate</div>
+        <div class="chart-container" id="chart-deal-scatter"></div>
+      </div>
+    </div>
+
+    <!-- Monthly win rate trend (line) — full width -->
+    <div class="chart-block-wide">
+      <div class="block-label">Monthly Win Rate Trend — Last 12 Months</div>
+      <div class="chart-container" id="chart-winrate-trend" style="min-height:220px;"></div>
+    </div>
+
+    <!-- Pipeline table -->
+    <div class="section-heading">
+      <div>
+        <h2>Pipeline Stage Summary</h2>
+        <p>Aggregate value and average deal size per stage</p>
+      </div>
+    </div>
+    <div class="table-block">
+      <div class="table-block-header">
+        <span class="block-label">Stage Breakdown — Q1 2026</span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Stage</th><th>Deals</th><th>Total Value</th><th>Avg Deal Size</th><th>Avg Close Prob.</th><th>Health</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:600;">Qualification</td>
+            <td>34</td><td style="font-weight:700;">$3.2M</td><td>$94K</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-blue" style="width:20%"></div></div><span class="pct-label">20%</span></div></td>
+            <td><span class="badge badge-gray">Early</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;">Discovery</td>
+            <td>28</td><td style="font-weight:700;">$4.1M</td><td>$146K</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-blue" style="width:35%"></div></div><span class="pct-label">35%</span></div></td>
+            <td><span class="badge badge-blue">Active</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;">Demo / Evaluation</td>
+            <td>19</td><td style="font-weight:700;">$2.8M</td><td>$147K</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-blue" style="width:50%"></div></div><span class="pct-label">50%</span></div></td>
+            <td><span class="badge badge-blue">Active</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;">Proposal</td>
+            <td>12</td><td style="font-weight:700;">$1.9M</td><td>$158K</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-primary" style="width:65%"></div></div><span class="pct-label">65%</span></div></td>
+            <td><span class="badge badge-green">Strong</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight:600;">Negotiation</td>
+            <td>7</td><td style="font-weight:700;">$2.4M</td><td>$343K</td>
+            <td><div class="progress-wrap"><div class="progress-track"><div class="progress-fill p-primary" style="width:85%"></div></div><span class="pct-label">85%</span></div></td>
+            <td><span class="badge badge-green">Hot</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  </div><!-- end tab-pipeline -->
+
+</div><!-- end canvas -->
+
+<script>
+  // ★★★ THEME CONSTANTS — Salesforce CRM Dark ★★★
+  const THEME_PRIMARY   = '#CCFF00';
+  const THEME_SECONDARY = '#5B7CF8';
+  const THEME_ACCENT    = '#F59E0B';
+  const THEME_DANGER    = '#FF5566';
+  const THEME_FONT      = 'Space Grotesk';
+
+  function switchTab(name, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active');
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 60);
+  }
+
+  const embedOpts = { renderer: 'svg', actions: false };
+
+  const vegaConfig = {
+    background: 'transparent',
+    axis: {
+      grid: true,
+      gridColor: 'rgba(255,255,255,0.06)',
+      gridWidth: 1,
+      domainColor: 'rgba(255,255,255,0.1)',
+      tickColor: 'transparent',
+      labelColor: '#8892AC',
+      labelFont: 'Space Grotesk',
+      labelFontSize: 11,
+      titleColor: '#4A5268',
+      titleFont: 'Space Grotesk',
+      titleFontSize: 11
+    },
+    legend: {
+      labelColor: '#8892AC',
+      titleColor: '#8892AC',
+      labelFont: 'Space Grotesk'
+    },
+    view: { stroke: 'transparent' }
+  };
+
+  // ── OVERVIEW TAB CHARTS ────────────────────────────────────────────────────
+
+  // 1. Revenue Trend (area/line)
+  vegaEmbed('#chart-revenue-trend', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 240, "config": vegaConfig,
+    "data": { "values": [
+      {"week": "Jan W1", "revenue": 310}, {"week": "Jan W2", "revenue": 420},
+      {"week": "Jan W3", "revenue": 390}, {"week": "Jan W4", "revenue": 510},
+      {"week": "Feb W1", "revenue": 480}, {"week": "Feb W2", "revenue": 620},
+      {"week": "Feb W3", "revenue": 590}, {"week": "Feb W4", "revenue": 710},
+      {"week": "Mar W1", "revenue": 650}, {"week": "Mar W2", "revenue": 780},
+      {"week": "Mar W3", "revenue": 840}, {"week": "Mar W4", "revenue": 950}
+    ]},
+    "layer": [{
+      "mark": {
+        "type": "area",
+        "line": { "color": THEME_SECONDARY, "strokeWidth": 2.5 },
+        "point": { "color": THEME_SECONDARY, "filled": true, "size": 50 },
+        "color": THEME_SECONDARY,
+        "fillOpacity": 0.15,
+        "tooltip": true
+      },
+      "encoding": {
+        "x": { "field": "week", "type": "ordinal", "axis": { "title": null, "labelAngle": -32 } },
+        "y": { "field": "revenue", "type": "quantitative", "axis": { "title": "Revenue ($K)", "format": ",.0f" } },
+        "tooltip": [
+          { "field": "week", "type": "ordinal", "title": "Week" },
+          { "field": "revenue", "type": "quantitative", "title": "Revenue ($K)", "format": ",.0f" }
+        ]
+      }
+    }]
+  }, embedOpts);
+
+  // 2. Win Rate by Rep (vertical bar)
+  vegaEmbed('#chart-win-rate-bar', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 240, "config": vegaConfig,
+    "data": { "values": [
+      {"rep": "Sarah Kim",    "winrate": 44.2},
+      {"rep": "Marcus Chen",  "winrate": 38.7},
+      {"rep": "Priya Sharma", "winrate": 41.5},
+      {"rep": "Leon Weber",   "winrate": 35.1},
+      {"rep": "Ana Torres",   "winrate": 29.8},
+      {"rep": "James Park",   "winrate": 33.4}
+    ]},
+    "mark": { "type": "bar", "tooltip": true, "cornerRadiusEnd": 4, "color": THEME_SECONDARY },
+    "encoding": {
+      "x": { "field": "rep", "type": "nominal", "sort": "-y", "axis": { "title": null, "labelAngle": -24 } },
+      "y": { "field": "winrate", "type": "quantitative", "axis": { "title": "Win Rate (%)", "format": ".1f" } },
+      "color": {
+        "condition": { "test": "datum.winrate >= 40", "value": THEME_PRIMARY },
+        "value": THEME_SECONDARY
+      },
+      "tooltip": [
+        { "field": "rep",     "type": "nominal",      "title": "Rep" },
+        { "field": "winrate", "type": "quantitative", "title": "Win Rate", "format": ".1f" }
+      ]
+    }
+  }, embedOpts);
+
+  // 3. Revenue by Segment (donut)
+  vegaEmbed('#chart-segment-donut', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 240, "config": vegaConfig,
+    "data": { "values": [
+      {"segment": "Enterprise",  "revenue": 2480},
+      {"segment": "Mid-Market",  "revenue": 1420},
+      {"segment": "SMB",         "revenue": 620},
+      {"segment": "Public Sector","revenue": 300}
+    ]},
+    "mark": { "type": "arc", "innerRadius": 70, "tooltip": true },
+    "encoding": {
+      "theta": { "field": "revenue", "type": "quantitative" },
+      "color": {
+        "field": "segment", "type": "nominal",
+        "scale": { "range": [THEME_SECONDARY, "#8B9CF8", "#3A5FD8", "#1E3EA8"] },
+        "legend": { "orient": "right" }
+      },
+      "tooltip": [
+        { "field": "segment", "type": "nominal",      "title": "Segment" },
+        { "field": "revenue", "type": "quantitative", "title": "Revenue ($K)", "format": ",.0f" }
+      ]
+    }
+  }, embedOpts);
+
+  // 4. Deals Closed by Month (bar)
+  vegaEmbed('#chart-deals-closed', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 240, "config": vegaConfig,
+    "data": { "values": [
+      {"month": "Jan", "won": 14, "lost": 6},
+      {"month": "Feb", "won": 18, "lost": 8},
+      {"month": "Mar", "won": 22, "lost": 5}
+    ]},
+    "transform": [
+      { "fold": ["won", "lost"], "as": ["outcome", "deals"] }
+    ],
+    "mark": { "type": "bar", "tooltip": true, "cornerRadiusEnd": 3 },
+    "encoding": {
+      "x": { "field": "month", "type": "ordinal", "axis": { "title": null } },
+      "y": { "field": "deals", "type": "quantitative", "axis": { "title": "Deals" } },
+      "xOffset": { "field": "outcome" },
+      "color": {
+        "field": "outcome", "type": "nominal",
+        "scale": { "domain": ["won", "lost"], "range": [THEME_PRIMARY, THEME_DANGER] },
+        "legend": { "title": "Outcome" }
+      },
+      "tooltip": [
+        { "field": "month",   "type": "ordinal",      "title": "Month" },
+        { "field": "outcome", "type": "nominal",      "title": "Outcome" },
+        { "field": "deals",   "type": "quantitative", "title": "Count" }
+      ]
+    }
+  }, embedOpts);
+
+  // ── PIPELINE TAB CHARTS ────────────────────────────────────────────────────
+
+  // 5. Pipeline by Stage (horizontal bar)
+  vegaEmbed('#chart-pipeline-stage', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 240, "config": vegaConfig,
+    "data": { "values": [
+      {"stage": "Negotiation",  "value": 2400},
+      {"stage": "Proposal",     "value": 1900},
+      {"stage": "Demo/Eval",    "value": 2800},
+      {"stage": "Discovery",    "value": 4100},
+      {"stage": "Qualification","value": 3200}
+    ]},
+    "mark": { "type": "bar", "tooltip": true, "cornerRadiusEnd": 4, "color": THEME_SECONDARY },
+    "encoding": {
+      "y": { "field": "stage", "type": "nominal", "sort": "-x", "axis": { "title": null } },
+      "x": { "field": "value", "type": "quantitative", "axis": { "title": "Pipeline Value ($K)", "format": ",.0f" } },
+      "color": {
+        "condition": { "test": "datum.stage === 'Negotiation'", "value": THEME_PRIMARY },
+        "value": THEME_SECONDARY
+      },
+      "tooltip": [
+        { "field": "stage", "type": "nominal",      "title": "Stage" },
+        { "field": "value", "type": "quantitative", "title": "Value ($K)", "format": ",.0f" }
+      ]
+    }
+  }, embedOpts);
+
+  // 6. Deal Size vs Win Rate (scatter/bubble)
+  vegaEmbed('#chart-deal-scatter', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 240, "config": vegaConfig,
+    "data": { "values": [
+      {"rep": "Sarah Kim",    "avg_size": 182, "win_rate": 44.2, "deals": 18},
+      {"rep": "Marcus Chen",  "avg_size": 210, "win_rate": 38.7, "deals": 14},
+      {"rep": "Priya Sharma", "avg_size": 155, "win_rate": 41.5, "deals": 22},
+      {"rep": "Leon Weber",   "avg_size": 130, "win_rate": 35.1, "deals": 19},
+      {"rep": "Ana Torres",   "avg_size": 88,  "win_rate": 29.8, "deals": 25},
+      {"rep": "James Park",   "avg_size": 165, "win_rate": 33.4, "deals": 16},
+      {"rep": "Nina Patel",   "avg_size": 240, "win_rate": 36.8, "deals": 11},
+      {"rep": "David Osei",   "avg_size": 98,  "win_rate": 42.1, "deals": 28}
+    ]},
+    "mark": { "type": "point", "filled": true, "tooltip": true },
+    "encoding": {
+      "x": { "field": "avg_size", "type": "quantitative", "axis": { "title": "Avg Deal Size ($K)" } },
+      "y": { "field": "win_rate", "type": "quantitative", "axis": { "title": "Win Rate (%)" } },
+      "size": { "field": "deals", "type": "quantitative", "scale": { "range": [80, 400] }, "legend": { "title": "Deals" } },
+      "color": {
+        "condition": { "test": "datum.win_rate >= 40", "value": THEME_PRIMARY },
+        "value": THEME_SECONDARY
+      },
+      "tooltip": [
+        { "field": "rep",      "type": "nominal",      "title": "Rep" },
+        { "field": "avg_size", "type": "quantitative", "title": "Avg Deal ($K)" },
+        { "field": "win_rate", "type": "quantitative", "title": "Win Rate", "format": ".1f" },
+        { "field": "deals",    "type": "quantitative", "title": "# Deals" }
+      ]
+    }
+  }, embedOpts);
+
+  // 7. Monthly Win Rate Trend — last 12 months (line)
+  vegaEmbed('#chart-winrate-trend', {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": "container", "height": 220, "config": vegaConfig,
+    "data": { "values": [
+      {"month": "Apr 25", "winrate": 31.2}, {"month": "May 25", "winrate": 33.5},
+      {"month": "Jun 25", "winrate": 30.8}, {"month": "Jul 25", "winrate": 34.1},
+      {"month": "Aug 25", "winrate": 35.6}, {"month": "Sep 25", "winrate": 33.9},
+      {"month": "Oct 25", "winrate": 36.2}, {"month": "Nov 25", "winrate": 34.7},
+      {"month": "Dec 25", "winrate": 37.1}, {"month": "Jan 26", "winrate": 36.8},
+      {"month": "Feb 26", "winrate": 38.2}, {"month": "Mar 26", "winrate": 38.6}
+    ]},
+    "layer": [
+      {
+        "mark": {
+          "type": "area",
+          "line": false,
+          "color": THEME_SECONDARY,
+          "fillOpacity": 0.10
+        },
+        "encoding": {
+          "x": { "field": "month", "type": "ordinal", "axis": { "title": null, "labelAngle": -28 } },
+          "y": { "field": "winrate", "type": "quantitative", "axis": { "title": "Win Rate (%)", "format": ".1f" }, "scale": { "domain": [25, 45] } }
+        }
+      },
+      {
+        "mark": {
+          "type": "line",
+          "color": THEME_SECONDARY,
+          "strokeWidth": 2.5,
+          "point": { "color": THEME_SECONDARY, "filled": true, "size": 55 }
+        },
+        "encoding": {
+          "x": { "field": "month", "type": "ordinal" },
+          "y": { "field": "winrate", "type": "quantitative", "scale": { "domain": [25, 45] } },
+          "tooltip": [
+            { "field": "month",   "type": "ordinal",      "title": "Month" },
+            { "field": "winrate", "type": "quantitative", "title": "Win Rate", "format": ".1f" }
+          ]
+        }
+      },
+      {
+        "mark": { "type": "rule", "color": "rgba(204,255,0,0.25)", "strokeDash": [4, 4], "strokeWidth": 1 },
+        "encoding": {
+          "y": { "datum": 35, "type": "quantitative" }
+        }
+      }
+    ]
+  }, embedOpts);
+</script>
+
+</body>
+</html>

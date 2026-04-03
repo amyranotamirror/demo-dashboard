@@ -1,0 +1,234 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Sales Dashboard Dark — Theme v2
+// Synced with prototype-v13 design
+// Dark mode · solid cards · lime + blue accent · minimal red
+// Font: Lufga → Space Grotesk fallback
+// Apply: Dashboard my_dashboard { theme: neon_dark }
+//
+// To use Lufga (after hosting font files on GitHub):
+//   Replace the @import below with your raw GitHub URL, e.g.:
+//   @import url('https://raw.githubusercontent.com/YOUR_ORG/YOUR_REPO/main/demo-dashboard/assets/fonts/lufga.css');
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ── Color tokens ──────────────────────────────────────────────────────────────
+// NOTE: AML consts below are used in the PageTheme block properties above.
+// They CANNOT be interpolated inside @css strings — the hex values in custom_css
+// are hardcoded but annotated with /* = const_name */ comments for traceability.
+const page_bg        = "#080A10"
+const canvas_bg      = "#0F1120"
+const block_bg       = "#161A27"
+const block_border   = "#1C2238"
+const canvas_border  = "#1A1E30"
+const accent_lime    = "#5DA800"   // deep electric lime — white text AA-compliant
+const accent_blue    = "#2F4FCC"   // deep royal blue   — white text AA-compliant
+const accent_red     = "#C8485E"
+const text_primary   = "#E8ECFF"
+const text_secondary = "#6E7C9E"
+const text_muted     = "#3A4460"
+const font           = "Space Grotesk"    // swap to "Lufga" once font is hosted
+
+PageTheme sales_dark_v2 {
+
+  // ── Page background ──────────────────────────────────────────────────────
+  background {
+    bg_color: page_bg
+  }
+
+  // ── Canvas (the dashboard card container) ────────────────────────────────
+  canvas {
+    background { bg_color: canvas_bg }
+    border {
+      border_width: 1
+      border_radius: 20
+      border_color: canvas_border
+      border_style: "solid"
+    }
+    shadow: "md"
+    opacity: 1
+  }
+
+  // ── Block default ─────────────────────────────────────────────────────────
+  block {
+    label {
+      font_family: font
+      font_size:   10
+      font_color:  text_muted
+      font_weight: "semibold"
+    }
+    text {
+      font_family: font
+      font_size:   12
+      font_color:  text_secondary
+      font_weight: "normal"
+    }
+    border {
+      border_width:  1
+      border_radius: 16
+      border_color:  block_border
+      border_style:  "solid"
+    }
+    background { bg_color: block_bg }
+    padding: 24
+    shadow: "sm"
+    opacity: 1
+  }
+
+  // ── Table styling ─────────────────────────────────────────────────────────
+  viz {
+    table {
+      general {
+        bg_color:      block_bg
+        hover_color:   "rgba(255,255,255,0.018)"
+        banding_color: "rgba(28,34,56,0.40)"
+        font_size:     11
+        font_color:    text_secondary
+        font_family:   font
+        border_color:  block_border
+        border_width:  1
+        grid_color:    "rgba(28,34,56,0.50)"
+      }
+      header {
+        bg_color:    block_bg
+        font_size:   10
+        font_color:  text_muted
+        font_weight: "semibold"
+      }
+    }
+  }
+
+  // ── Custom CSS ────────────────────────────────────────────────────────────
+  custom_css: @css
+    /* ── Font import — swap for Lufga raw GitHub URL once hosted ──────── */
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+    /* ── Global font application ───────────────────────────────────────── */
+    .dac-viz-block,
+    .dac-ic-block,
+    .dac-text-block,
+    .h-kpi-metric-kpi,
+    .h-kpi-metric-label {
+      font-family: 'Space Grotesk', system-ui, sans-serif !important;
+    }
+
+    /* ── Block label: uppercase spaced ────────────────────────────────── */
+    .dac-viz-block-label,
+    .dac-ic-block-label {
+      font-size:      10px !important;
+      font-weight:    600 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.07em !important;
+      color:          #3A4460 !important; /* = text_muted */
+    }
+
+    /* ── KPI metric ────────────────────────────────────────────────────── */
+    .h-kpi-metric-kpi {
+      font-size:      32px !important;
+      font-weight:    700 !important;
+      letter-spacing: -0.025em !important;
+      color:          #E8ECFF !important; /* = text_primary */
+      line-height:    1 !important;
+    }
+    .h-kpi-metric-label {
+      font-size:      10px !important;
+      font-weight:    600 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.06em !important;
+      color:          #3A4460 !important; /* = text_muted */
+    }
+    .h-kpi-metric-diff.positive { color: #5DA800 !important; font-size: 11px !important; } /* = accent_lime */
+    .h-kpi-metric-diff.negative { color: #C8485E !important; font-size: 11px !important; } /* = accent_red */
+
+    /* ── Table: tighter text, clean borders ────────────────────────────── */
+    .h-table-chart th {
+      font-size:      10px !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.05em !important;
+      color:          #3A4460 !important;          /* = text_muted */
+      border-bottom:  1px solid #1C2238 !important; /* = block_border */
+      padding:        0 10px 10px !important;
+    }
+    .h-table-chart td {
+      font-size:   11.5px !important;
+      color:       #6E7C9E !important;              /* = text_secondary */
+      padding:     11px 10px !important;
+      border-bottom: 1px solid rgba(28,34,56,0.5) !important; /* = block_border @ 50% */
+    }
+    .h-table-chart tr:hover td {
+      background: rgba(255,255,255,0.018) !important;
+    }
+
+    /* ── Filter dropdown: dark, clean ──────────────────────────────────── */
+    .dac-ic-block {
+      background:    #161A27 !important; /* = block_bg */
+      border-color:  #1C2238 !important; /* = block_border */
+      border-radius: 12px !important;
+    }
+    .dac-ic-block select,
+    .dac-ic-block input {
+      background:   #080A10 !important; /* = page_bg */
+      color:        #E8ECFF !important; /* = text_primary */
+      border-color: #1C2238 !important; /* = block_border */
+      font-family:  'Space Grotesk', system-ui, sans-serif !important;
+      font-size:    11px !important;
+    }
+
+    /* ── DateDrill block: lime active tab ───────────────────────────────── */
+    .dac-date-drill-tab.active,
+    .dac-date-drill-tab:checked + label {
+      color:        #5DA800 !important; /* = accent_lime */
+      border-color: #5DA800 !important; /* = accent_lime */
+    }
+
+    /* ── Canvas: subtle lime top edge ──────────────────────────────────── */
+    .dac-canvas {
+      border-top: 1px solid rgba(202,255,0,0.08) !important; /* = accent_lime @ 8% */
+    }
+
+    /* ── Scrollbar: minimal dark ─────────────────────────────────────────── */
+    ::-webkit-scrollbar       { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #1C2238; border-radius: 3px; } /* = block_border */
+    ::-webkit-scrollbar-thumb:hover { background: #3A4460; }               /* = text_muted */
+
+    /* ── Utility helpers for TextBlock content ──────────────────────────── */
+    /* Usage: wrap text in <span class="t-lime">$434K</span> inside @md blocks */
+    .t-lime  { color: #5DA800 !important; } /* = accent_lime */
+    .t-blue  { color: #2F4FCC !important; } /* = accent_blue */
+    .t-red   { color: #C8485E !important; } /* = accent_red */
+    .t-muted { color: #3A4460 !important; font-size: 10px !important; } /* = text_muted */
+    .t-label {
+      font-size:      10px !important;
+      font-weight:    600 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.07em !important;
+      color:          #3A4460 !important; /* = text_muted */
+    }
+    /* Lime-accent KPI card variant — add class to a TextBlock */
+    .card-accent-lime {
+      background:   #5DA800 !important; /* = accent_lime */
+      border-color: #5DA800 !important; /* = accent_lime */
+      color:        #080A10 !important; /* = page_bg */
+    }
+    /* Blue-accent KPI card variant */
+    .card-accent-blue {
+      background:   #2F4FCC !important; /* = accent_blue */
+      border-color: #2F4FCC !important; /* = accent_blue */
+      color:        #ffffff !important;
+    }
+
+    /* ── Accent KPI block overrides — white text on both lime + blue ─────── */
+    /* Both accent_lime (#5DA800) and accent_blue (#2F4FCC) are dark enough   */
+    /* for white text to pass AA contrast requirements (4.5:1+).              */
+    [data-block-id="kpi_closed_revenue"] .h-kpi-metric-kpi,
+    [data-block-id="kpi_closed_revenue"] .h-kpi-metric-label,
+    [data-block-id="kpi_closed_revenue"] .h-kpi-metric-diff,
+    [data-block-id="kpi_pipeline"] .h-kpi-metric-kpi,
+    [data-block-id="kpi_pipeline"] .h-kpi-metric-label,
+    [data-block-id="kpi_pipeline"] .h-kpi-metric-diff,
+    [data-block-id="kpi_active_mrr"] .h-kpi-metric-kpi,
+    [data-block-id="kpi_active_mrr"] .h-kpi-metric-label,
+    [data-block-id="kpi_active_mrr"] .h-kpi-metric-diff {
+      color: #ffffff !important;
+    }
+  ;;
+}

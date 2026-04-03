@@ -1,0 +1,114 @@
+// Fact: Raw Inputs — all signals from prospects/customers regardless of channel.
+// "Many" side of: dim_companies (via company_id), fct_calls (via call_id, nullable),
+//                 dim_improvements (via improvement_id, nullable),
+//                 dim_competitors (via competitor_id, nullable — role-playing path).
+//
+// Path ambiguity notes (from schema.md):
+//   1. raw_inputs.company_id > dim_companies  — register direct path only
+//      Omit transitive: raw_inputs → fct_calls → dim_companies
+//   2. raw_inputs.competitor_id > dim_competitors — register as a SEPARATE relationship
+//      with alias in dataset; this is a second FK to the companies table,
+//      NOT the same as the company_id path.
+
+Model fct_raw_inputs {
+  type: 'table'
+  label: 'Raw Inputs'
+  table_name: 'raw_inputs'
+  data_source_name: 'neondb'
+  description: 'All market signals: feature requests, bugs, competitor mentions, testimonials, etc. Unified across call, ticket, email, Slack.'
+
+  dimension id {
+    label: 'Input ID'
+    type: 'text'
+    primary_key: true
+    definition: @sql {{ #SOURCE.id }};;
+  }
+  dimension company_id {
+    label: 'Company ID'
+    type: 'text'
+    hidden: true
+  }
+  dimension call_id {
+    label: 'Call ID'
+    type: 'text'
+    hidden: true
+  }
+  dimension improvement_id {
+    label: 'Improvement ID'
+    type: 'text'
+    hidden: true
+  }
+  dimension competitor_id {
+    label: 'Competitor ID'
+    type: 'text'
+    hidden: true
+    description: 'FK to dim_competitors — only set when a competitor was referenced'
+  }
+
+  // --- Classification ---
+  dimension input_type {
+    label: 'Input Type'
+    type: 'text'
+    description: 'feature_request | deal_breaker | ui_ux | onboarding_issue | testimonial | excitement | performance | competitor_mention | pricing | integration | security | irrelevant | permission | feedback | how_to | bug'
+  }
+  dimension source {
+    label: 'Source'
+    type: 'text'
+    description: 'call | ticket | email | slack | community | other'
+  }
+  dimension direction {
+    label: 'Direction'
+    type: 'text'
+    description: 'outbound = rep logged it | inbound = customer raised it'
+  }
+  dimension is_blocking {
+    label: 'Is Blocking'
+    type: 'truefalse'
+  }
+  dimension priority {
+    label: 'Priority'
+    type: 'text'
+    description: 'critical | high | medium | low'
+  }
+  dimension status {
+    label: 'Status'
+    type: 'text'
+    description: 'new | need_inputs | valid | solved | informed | has_workaround | not_relevant | duplicated'
+  }
+
+  // --- Dates ---
+  dimension created_at {
+    label: 'Created At'
+    type: 'datetime'
+  }
+  dimension resolved_at {
+    label: 'Resolved At'
+    type: 'datetime'
+  }
+
+  // --- Derived ---
+  dimension is_competitor_mention {
+    label: 'Mentions Competitor'
+    type: 'truefalse'
+    definition: @sql {{ #SOURCE.competitor_id }} IS NOT NULL;;
+  }
+  dimension is_open {
+    label: 'Is Open'
+    type: 'truefalse'
+    definition: @sql {{ #SOURCE.resolved_at }} IS NULL;;
+  }
+
+  // --- Measures ---
+  measure count_inputs {
+    label: 'Raw Inputs'
+    type: 'number'
+    definition: @sql {{ id }};;
+    aggregation_type: 'count'
+  }
+  measure count_companies_affected {
+    label: 'Companies Affected'
+    type: 'number'
+    definition: @sql {{ company_id }};;
+    aggregation_type: 'count distinct'
+  }
+}

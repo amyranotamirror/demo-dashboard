@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-// Sales Dashboard — Seed Data Generator
+// Sales Dashboard — Seed Data Generator (v2 — scaled)
 // Run: node generate.js
-// Outputs: one CSV per table in ../data/
+// Outputs: one CSV per table in ../data/, plus postgres.sql
 //
 // Story baked in:
 //   - Enterprise SSO via SAML is the #1 deal blocker (shows in Market Signals)
@@ -10,14 +10,20 @@
 //   - Column masking recently shipped → follow-up needed (Promise Tracker)
 //   - Pipeline bottleneck at "validating" stage
 //   - 4–5 at-risk customers with no contact in 90+ days
-//   - Sarah Chen (AE) departed at month 30 → visible win rate dip
+//   - Sarah Chen (AE) departed at ~month 60 (5 years in) → visible win rate dip
+//   - Jordan Lee (AE) biased toward ghost/lost — 26% win rate, 21% ghost rate
+//   - Deals in last 2 quarters: win rate declining from 38% to 34%
+//   - 3 customer accounts going dark (no calls >60 days) with renewal ≤30 days
+//   - Early version (v2.0) customers have 3x churn rate of v4.0 customers
+//   - Satisfaction scores declining from 4.2 to 3.8 over last 6 months
+//   - 100 themes, 500 use cases, 1000 features, 4000 improvements
+//   - ~520 companies, ~1800 deals, ~10 calls per won customer
 
 const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 
 // ─── DATE HELPERS ─────────────────────────────────────────────────────────────
-// All dates shift forward from DATE_GENERATED so the demo never looks stale.
 
 const addDays = (d, n) => { const r = new Date(d); r.setDate(r.getDate() + n); return r; };
 const daysAgo = (n) => addDays(new Date(), -n);
@@ -29,6 +35,7 @@ const fmtTs = (d) => new Date(d).toISOString().replace('T', ' ').slice(0, 19);
 const uuid = () => crypto.randomUUID();
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 const randInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+const randFloat = (min, max) => Math.random() * (max - min) + min;
 const wpick = (arr, weights) => {
   const total = weights.reduce((a, b) => a + b, 0);
   let r = Math.random() * total;
@@ -48,67 +55,187 @@ const toCSV = (rows) => {
   return [headers.join(','), ...rows.map(r => headers.map(h => esc(r[h])).join(','))].join('\n');
 };
 
-// ─── PRODUCT TAXONOMY ─────────────────────────────────────────────────────────
+// ─── PRODUCT TAXONOMY (MASSIVE — 100 themes, 500 use cases, 1000 features, 4000 improvements) ───
 
-const themes = [
-  { id: uuid(), name: 'Collaboration',   description: 'Working together on data and dashboards' },
-  { id: uuid(), name: 'Data Governance', description: 'Controlling who sees what data and when' },
-  { id: uuid(), name: 'Reporting Speed', description: 'Making reports and dashboards load faster' },
-  { id: uuid(), name: 'Integrations',    description: 'Connecting to warehouses, tools, and external APIs' },
-  { id: uuid(), name: 'Administration',  description: 'User management, security, and compliance' },
+// 20 domain areas
+const domainAreas = [
+  'Data Modeling', 'Visualization', 'Charts', 'Security', 'Collaboration',
+  'Performance', 'Integrations', 'Admin', 'AI/ML', 'Embedding',
+  'Export/Delivery', 'Mobile', 'Alerting', 'Scheduling', 'Git/Version Control',
+  'Developer Experience', 'Data Quality', 'Semantic Layer', 'Self-Service', 'Multi-tenancy',
 ];
-const tid = (name) => themes.find(t => t.name === name).id;
 
-const useCases = [
-  { id: uuid(), theme_id: tid('Collaboration'),   name: 'External sharing',     description: 'Share dashboards outside the organization' },
-  { id: uuid(), theme_id: tid('Collaboration'),   name: 'Team workspaces',      description: 'Organize content by team or project' },
-  { id: uuid(), theme_id: tid('Data Governance'), name: 'Column-level access',  description: 'Restrict access to sensitive columns' },
-  { id: uuid(), theme_id: tid('Data Governance'), name: 'Row-level security',   description: 'Restrict visible rows per user or role' },
-  { id: uuid(), theme_id: tid('Reporting Speed'), name: 'Query caching',        description: 'Cache results to speed up repeated queries' },
-  { id: uuid(), theme_id: tid('Reporting Speed'), name: 'Pre-aggregation',      description: 'Pre-compute heavy aggregates at refresh time' },
-  { id: uuid(), theme_id: tid('Integrations'),    name: 'Warehouse connectors', description: 'Native connections to major data warehouses' },
-  { id: uuid(), theme_id: tid('Integrations'),    name: 'API & embedding',      description: 'Embed dashboards and access data via API' },
-  { id: uuid(), theme_id: tid('Administration'),  name: 'SSO & authentication', description: 'Single sign-on and enterprise authentication' },
-  { id: uuid(), theme_id: tid('Administration'),  name: 'Audit & compliance',   description: 'Track user actions for security and compliance' },
+// 5 sub-themes per domain
+const subThemeTemplates = [
+  'Core', 'Advanced', 'Enterprise', 'User Experience', 'Automation',
 ];
-const ucid = (name) => useCases.find(u => u.name === name).id;
 
-const features = [
-  { id: uuid(), use_case_id: ucid('External sharing'),     name: 'Public dashboard links',     description: 'Share a read-only dashboard with anyone via a link', status: 'shipped',        shipped_at: fmtDate(daysAgo(210)) },
-  { id: uuid(), use_case_id: ucid('External sharing'),     name: 'Password-protected embeds',  description: 'Require a password to view an embedded dashboard',   status: 'shipped',        shipped_at: fmtDate(daysAgo(107)) },
-  { id: uuid(), use_case_id: ucid('External sharing'),     name: 'White-label embedding',      description: 'Remove Holistics branding from embedded dashboards', status: 'planned',        shipped_at: null },
-  { id: uuid(), use_case_id: ucid('Team workspaces'),      name: 'Shared folders',             description: 'Organize dashboards into team-accessible folders',   status: 'shipped',        shipped_at: fmtDate(daysAgo(330)) },
-  { id: uuid(), use_case_id: ucid('Team workspaces'),      name: 'Dashboard templates',        description: 'Pre-built starter templates for common analytics',   status: 'in_development', shipped_at: null },
-  { id: uuid(), use_case_id: ucid('Column-level access'),  name: 'Column masking',             description: 'Hide raw PII columns from analyst-level users',     status: 'shipped',        shipped_at: fmtDate(daysAgo(36)) },
-  { id: uuid(), use_case_id: ucid('Column-level access'),  name: 'Column-level permissions',   description: 'Grant individual-level access to specific columns',  status: 'planned',        shipped_at: null },
-  { id: uuid(), use_case_id: ucid('Row-level security'),   name: 'Dynamic row-level security', description: 'Filter rows based on user identity at query time',   status: 'shipped',        shipped_at: fmtDate(daysAgo(213)) },
-  { id: uuid(), use_case_id: ucid('Row-level security'),   name: 'User attribute filters',     description: 'Parameterize RLS rules using user profile attributes',status: 'shipped',        shipped_at: fmtDate(daysAgo(156)) },
-  { id: uuid(), use_case_id: ucid('Query caching'),        name: 'Smart query caching',        description: 'Cache query results and invalidate on data refresh',  status: 'shipped',        shipped_at: fmtDate(daysAgo(295)) },
-  { id: uuid(), use_case_id: ucid('Pre-aggregation'),      name: 'Pre-built aggregates',       description: 'Pre-compute complex aggregates at pipeline run time', status: 'in_development', shipped_at: null },
-  { id: uuid(), use_case_id: ucid('Warehouse connectors'), name: 'BigQuery connector',         description: 'Native connection to Google BigQuery',               status: 'shipped',        shipped_at: fmtDate(daysAgo(430)) },
-  { id: uuid(), use_case_id: ucid('Warehouse connectors'), name: 'Snowflake connector',        description: 'Native connection to Snowflake',                     status: 'shipped',        shipped_at: fmtDate(daysAgo(430)) },
-  { id: uuid(), use_case_id: ucid('Warehouse connectors'), name: 'Redshift connector',         description: 'Native connection to Amazon Redshift',               status: 'shipped',        shipped_at: fmtDate(daysAgo(370)) },
-  { id: uuid(), use_case_id: ucid('API & embedding'),      name: 'Embedding SDK',              description: 'Embed Holistics dashboards in external products',    status: 'shipped',        shipped_at: fmtDate(daysAgo(248)) },
-  { id: uuid(), use_case_id: ucid('API & embedding'),      name: 'REST API',                   description: 'Programmatic access to reports and data',            status: 'planned',        shipped_at: null },
-  { id: uuid(), use_case_id: ucid('SSO & authentication'), name: 'SAML 2.0 integration',       description: 'Enterprise SSO via SAML for IT-gated accounts',     status: 'in_development', shipped_at: null },
-  { id: uuid(), use_case_id: ucid('Audit & compliance'),   name: 'User activity log',          description: 'Audit trail of user actions for compliance',         status: 'shipped',        shipped_at: fmtDate(daysAgo(186)) },
-];
-const fid = (name) => features.find(f => f.name === name).id;
+const themes = [];
+domainAreas.forEach(domain => {
+  subThemeTemplates.forEach(sub => {
+    themes.push({
+      id: uuid(),
+      name: `${domain} — ${sub}`,
+      description: `${sub} capabilities for ${domain.toLowerCase()}`,
+    });
+  });
+});
 
-const improvements = [
-  { id: uuid(), feature_id: fid('SAML 2.0 integration'),      title: 'Enterprise SSO via SAML for IT-gated accounts',              description: 'Enterprise customers require SAML SSO as a hard IT requirement before they can approve Holistics. Blocking 4 active deals.',    status: 'planned',   is_blocking: true,  raw_input_count: 14, created_at: fmtTs(daysAgo(217)), updated_at: fmtTs(daysAgo(66))  },
-  { id: uuid(), feature_id: fid('Column masking'),             title: 'Mask PII columns by role (email, phone, national ID)',       description: 'Customers handling regulated data need to hide raw PII from analysts. Column masking shipped — follow up with accounts.',          status: 'shipped',   is_blocking: false, raw_input_count: 9,  created_at: fmtTs(daysAgo(173)), updated_at: fmtTs(daysAgo(36))  },
-  { id: uuid(), feature_id: fid('Embedding SDK'),              title: 'Embed dashboards without requiring a Holistics login',       description: 'SaaS customers want to embed dashboards in their own products without end-users needing a Holistics account.',                     status: 'planned',   is_blocking: true,  raw_input_count: 8,  created_at: fmtTs(daysAgo(187)), updated_at: fmtTs(daysAgo(53))  },
-  { id: uuid(), feature_id: fid('Dynamic row-level security'), title: 'Multi-tenant RLS — each client sees only their own data',    description: 'SaaS companies need per-tenant row filtering in embedded analytics. Shipped — follow up with pre-sale contacts.',                  status: 'shipped',   is_blocking: false, raw_input_count: 11, created_at: fmtTs(daysAgo(309)), updated_at: fmtTs(daysAgo(156)) },
-  { id: uuid(), feature_id: fid('Column-level permissions'),   title: 'User-level column grants, independent of role',             description: 'Grant a specific individual access to a sensitive column without promoting their entire role.',                                   status: 'planned',   is_blocking: false, raw_input_count: 5,  created_at: fmtTs(daysAgo(157)), updated_at: fmtTs(daysAgo(66))  },
-  { id: uuid(), feature_id: fid('REST API'),                   title: 'Trigger cache refresh via API after pipeline runs',         description: 'Data teams want to invalidate the cache via API after dbt or Airflow pipelines complete.',                                       status: 'open',      is_blocking: false, raw_input_count: 7,  created_at: fmtTs(daysAgo(97)),  updated_at: fmtTs(daysAgo(97))  },
-  { id: uuid(), feature_id: fid('White-label embedding'),      title: 'Remove Holistics branding from embedded dashboards',        description: 'Customers embedding dashboards in their own products need logos and domain hidden for brand consistency.',                          status: 'open',      is_blocking: true,  raw_input_count: 6,  created_at: fmtTs(daysAgo(143)), updated_at: fmtTs(daysAgo(143)) },
-  { id: uuid(), feature_id: fid('Dashboard templates'),        title: 'Pre-built starter templates for SaaS and fintech',          description: 'New customers struggle to build their first dashboard from scratch. Curated templates shorten time-to-value.',                   status: 'planned',   is_blocking: false, raw_input_count: 8,  created_at: fmtTs(daysAgo(173)), updated_at: fmtTs(daysAgo(66))  },
-  { id: uuid(), feature_id: null,                              title: 'Excel / CSV export from any report or table',               description: 'The single most common ask from finance and ops teams. One-click export to Excel or CSV. Currently requires an API workaround.', status: 'open',      is_blocking: true,  raw_input_count: 18, created_at: fmtTs(daysAgo(247)), updated_at: fmtTs(daysAgo(53))  },
-  { id: uuid(), feature_id: null,                              title: 'Scheduled email delivery for individual reports',           description: 'Schedule a single report as a PDF or CSV on a daily/weekly cadence — not just full dashboard snapshots.',                        status: 'open',      is_blocking: false, raw_input_count: 9,  created_at: fmtTs(daysAgo(203)), updated_at: fmtTs(daysAgo(66))  },
-  { id: uuid(), feature_id: fid('Pre-built aggregates'),       title: 'Pre-aggregate multi-join P&L reports for finance teams',    description: 'Finance P&L dashboards with 5+ joined tables time out at scale. Pre-aggregation makes them usable for month-end reporting.',        status: 'planned',   is_blocking: true,  raw_input_count: 6,  created_at: fmtTs(daysAgo(157)), updated_at: fmtTs(daysAgo(83))  },
-  { id: uuid(), feature_id: null,                              title: 'Git sync support for GitLab repositories',                  description: 'Several customers use GitLab, not GitHub. Current git sync only works with GitHub.',                                              status: 'deferred',  is_blocking: false, raw_input_count: 4,  created_at: fmtTs(daysAgo(277)), updated_at: fmtTs(daysAgo(187)) },
+// Key theme lookups for named items
+const findTheme = (partial) => themes.find(t => t.name.includes(partial));
+
+// Generate 500 use cases (~5 per theme)
+const useCaseNameParts = [
+  'manage', 'configure', 'automate', 'monitor', 'analyze',
+  'optimize', 'customize', 'share', 'export', 'schedule',
+  'validate', 'transform', 'filter', 'aggregate', 'secure',
 ];
+const useCaseObjectParts = [
+  'dashboards', 'reports', 'data sources', 'queries', 'metrics',
+  'permissions', 'workflows', 'alerts', 'pipelines', 'schemas',
+  'users', 'teams', 'roles', 'connections', 'templates',
+];
+
+const useCases = [];
+themes.forEach((theme, ti) => {
+  const ucCount = 5;
+  for (let i = 0; i < ucCount; i++) {
+    const verb = useCaseNameParts[(ti * 5 + i) % useCaseNameParts.length];
+    const obj = useCaseObjectParts[(ti * 5 + i + 3) % useCaseObjectParts.length];
+    useCases.push({
+      id: uuid(),
+      theme_id: theme.id,
+      name: `${verb.charAt(0).toUpperCase() + verb.slice(1)} ${obj} (${theme.name.split(' — ')[0]})`,
+      description: `${verb.charAt(0).toUpperCase() + verb.slice(1)} ${obj} in the context of ${theme.name.toLowerCase()}`,
+    });
+  }
+});
+
+// Key use case lookups
+const ucByName = (partial) => useCases.find(u => u.name.toLowerCase().includes(partial.toLowerCase()));
+// Ensure we have named use cases for the key story items — find or assign them
+const ucSSO = useCases.find(u => u.name.includes('Security')) || useCases[0];
+const ucColAccess = useCases.find(u => u.name.includes('Security') && u !== ucSSO) || useCases[1];
+const ucRLS = useCases.find(u => u.name.includes('secure') || u.name.includes('Secure')) || useCases[2];
+const ucEmbed = useCases.find(u => u.name.includes('Embedding')) || useCases[3];
+const ucExport = useCases.find(u => u.name.includes('Export')) || useCases[4];
+const ucCollab = useCases.find(u => u.name.includes('Collaboration')) || useCases[5];
+const ucPerf = useCases.find(u => u.name.includes('Performance')) || useCases[6];
+const ucInteg = useCases.find(u => u.name.includes('Integrations')) || useCases[7];
+const ucAdmin = useCases.find(u => u.name.includes('Admin')) || useCases[8];
+const ucGit = useCases.find(u => u.name.includes('Git')) || useCases[9];
+
+// Generate 1000 features (~2 per use case)
+const featureStatuses = ['shipped', 'in_development', 'planned', 'deprecated'];
+const featureStatusWeights = [50, 20, 25, 5];
+
+const features = [];
+
+// Named key features first (preserved from original)
+const keyFeatures = [
+  { use_case_id: ucCollab.id,    name: 'Public dashboard links',     description: 'Share a read-only dashboard with anyone via a link',              status: 'shipped',        shipped_at: fmtDate(daysAgo(210)) },
+  { use_case_id: ucCollab.id,    name: 'Password-protected embeds',  description: 'Require a password to view an embedded dashboard',                status: 'shipped',        shipped_at: fmtDate(daysAgo(107)) },
+  { use_case_id: ucCollab.id,    name: 'White-label embedding',      description: 'Remove Holistics branding from embedded dashboards',              status: 'planned',        shipped_at: null },
+  { use_case_id: ucCollab.id,    name: 'Shared folders',             description: 'Organize dashboards into team-accessible folders',                status: 'shipped',        shipped_at: fmtDate(daysAgo(330)) },
+  { use_case_id: ucCollab.id,    name: 'Dashboard templates',        description: 'Pre-built starter templates for common analytics',                status: 'in_development', shipped_at: null },
+  { use_case_id: ucColAccess.id, name: 'Column masking',             description: 'Hide raw PII columns from analyst-level users',                   status: 'shipped',        shipped_at: fmtDate(daysAgo(36)) },
+  { use_case_id: ucColAccess.id, name: 'Column-level permissions',   description: 'Grant individual-level access to specific columns',               status: 'planned',        shipped_at: null },
+  { use_case_id: ucRLS.id,       name: 'Dynamic row-level security', description: 'Filter rows based on user identity at query time',                status: 'shipped',        shipped_at: fmtDate(daysAgo(213)) },
+  { use_case_id: ucRLS.id,       name: 'User attribute filters',     description: 'Parameterize RLS rules using user profile attributes',            status: 'shipped',        shipped_at: fmtDate(daysAgo(156)) },
+  { use_case_id: ucPerf.id,      name: 'Smart query caching',        description: 'Cache query results and invalidate on data refresh',              status: 'shipped',        shipped_at: fmtDate(daysAgo(295)) },
+  { use_case_id: ucPerf.id,      name: 'Pre-built aggregates',       description: 'Pre-compute complex aggregates at pipeline run time',             status: 'in_development', shipped_at: null },
+  { use_case_id: ucInteg.id,     name: 'BigQuery connector',         description: 'Native connection to Google BigQuery',                            status: 'shipped',        shipped_at: fmtDate(daysAgo(430)) },
+  { use_case_id: ucInteg.id,     name: 'Snowflake connector',        description: 'Native connection to Snowflake',                                  status: 'shipped',        shipped_at: fmtDate(daysAgo(430)) },
+  { use_case_id: ucInteg.id,     name: 'Redshift connector',         description: 'Native connection to Amazon Redshift',                            status: 'shipped',        shipped_at: fmtDate(daysAgo(370)) },
+  { use_case_id: ucEmbed.id,     name: 'Embedding SDK',              description: 'Embed Holistics dashboards in external products',                 status: 'shipped',        shipped_at: fmtDate(daysAgo(248)) },
+  { use_case_id: ucEmbed.id,     name: 'REST API',                   description: 'Programmatic access to reports and data',                         status: 'planned',        shipped_at: null },
+  { use_case_id: ucAdmin.id,     name: 'SAML 2.0 integration',       description: 'Enterprise SSO via SAML for IT-gated accounts',                   status: 'in_development', shipped_at: null },
+  { use_case_id: ucAdmin.id,     name: 'User activity log',          description: 'Audit trail of user actions for compliance',                      status: 'shipped',        shipped_at: fmtDate(daysAgo(186)) },
+];
+
+keyFeatures.forEach(f => {
+  features.push({ id: uuid(), ...f });
+});
+
+// Generate remaining features to reach 1000
+const featureVerbParts = ['Advanced', 'Smart', 'Bulk', 'Custom', 'Auto', 'Enhanced', 'Inline', 'Live', 'Cached', 'Async'];
+const featureNounParts = ['editor', 'viewer', 'builder', 'picker', 'navigator', 'wizard', 'renderer', 'connector', 'validator', 'parser'];
+
+let featureIdx = 0;
+while (features.length < 1000) {
+  const uc = useCases[featureIdx % useCases.length];
+  const status = wpick(featureStatuses, featureStatusWeights);
+  const shippedAt = status === 'shipped' ? fmtDate(daysAgo(randInt(30, 2000))) : (status === 'deprecated' ? fmtDate(daysAgo(randInt(100, 1500))) : null);
+  const verb = featureVerbParts[featureIdx % featureVerbParts.length];
+  const noun = featureNounParts[Math.floor(featureIdx / featureVerbParts.length) % featureNounParts.length];
+  const domain = uc.name.split('(')[1]?.replace(')', '') || 'general';
+  features.push({
+    id: uuid(),
+    use_case_id: uc.id,
+    name: `${verb} ${noun} for ${domain} #${featureIdx}`,
+    description: `${verb} ${noun} capability in ${domain}`,
+    status,
+    shipped_at: shippedAt,
+  });
+  featureIdx++;
+}
+
+// Feature ID lookup
+const fid = (name) => features.find(f => f.name === name)?.id || features[0].id;
+
+// Generate 4000 improvements
+const improvements = [];
+
+// Key story improvements first (preserved from original)
+const keyImprovements = [
+  { feature_id: fid('SAML 2.0 integration'),      title: 'Enterprise SSO via SAML for IT-gated accounts',              description: 'Enterprise customers require SAML SSO as a hard IT requirement before they can approve Holistics. Blocking 4 active deals.',    status: 'planned',   is_blocking: true,  priority: 'critical', raw_input_count: 14, created_at: fmtTs(daysAgo(217)), updated_at: fmtTs(daysAgo(66))  },
+  { feature_id: fid('Column masking'),             title: 'Mask PII columns by role (email, phone, national ID)',       description: 'Customers handling regulated data need to hide raw PII from analysts. Column masking shipped — follow up with accounts.',          status: 'shipped',   is_blocking: false, priority: 'high',     raw_input_count: 9,  created_at: fmtTs(daysAgo(173)), updated_at: fmtTs(daysAgo(36))  },
+  { feature_id: fid('Embedding SDK'),              title: 'Embed dashboards without requiring a Holistics login',       description: 'SaaS customers want to embed dashboards in their own products without end-users needing a Holistics account.',                     status: 'planned',   is_blocking: true,  priority: 'high',     raw_input_count: 8,  created_at: fmtTs(daysAgo(187)), updated_at: fmtTs(daysAgo(53))  },
+  { feature_id: fid('Dynamic row-level security'), title: 'Multi-tenant RLS — each client sees only their own data',    description: 'SaaS companies need per-tenant row filtering in embedded analytics. Shipped — follow up with pre-sale contacts.',                  status: 'shipped',   is_blocking: false, priority: 'high',     raw_input_count: 11, created_at: fmtTs(daysAgo(309)), updated_at: fmtTs(daysAgo(156)) },
+  { feature_id: fid('Column-level permissions'),   title: 'User-level column grants, independent of role',             description: 'Grant a specific individual access to a sensitive column without promoting their entire role.',                                   status: 'planned',   is_blocking: false, priority: 'medium',   raw_input_count: 5,  created_at: fmtTs(daysAgo(157)), updated_at: fmtTs(daysAgo(66))  },
+  { feature_id: fid('REST API'),                   title: 'Trigger cache refresh via API after pipeline runs',         description: 'Data teams want to invalidate the cache via API after dbt or Airflow pipelines complete.',                                       status: 'open',      is_blocking: false, priority: 'medium',   raw_input_count: 7,  created_at: fmtTs(daysAgo(97)),  updated_at: fmtTs(daysAgo(97))  },
+  { feature_id: fid('White-label embedding'),      title: 'Remove Holistics branding from embedded dashboards',        description: 'Customers embedding dashboards in their own products need logos and domain hidden for brand consistency.',                          status: 'open',      is_blocking: true,  priority: 'high',     raw_input_count: 6,  created_at: fmtTs(daysAgo(143)), updated_at: fmtTs(daysAgo(143)) },
+  { feature_id: fid('Dashboard templates'),        title: 'Pre-built starter templates for SaaS and fintech',          description: 'New customers struggle to build their first dashboard from scratch. Curated templates shorten time-to-value.',                   status: 'planned',   is_blocking: false, priority: 'medium',   raw_input_count: 8,  created_at: fmtTs(daysAgo(173)), updated_at: fmtTs(daysAgo(66))  },
+  { feature_id: null,                              title: 'Excel / CSV export from any report or table',               description: 'The single most common ask from finance and ops teams. One-click export to Excel or CSV. Currently requires an API workaround.', status: 'open',      is_blocking: true,  priority: 'critical', raw_input_count: 18, created_at: fmtTs(daysAgo(247)), updated_at: fmtTs(daysAgo(53))  },
+  { feature_id: null,                              title: 'Scheduled email delivery for individual reports',           description: 'Schedule a single report as a PDF or CSV on a daily/weekly cadence — not just full dashboard snapshots.',                        status: 'open',      is_blocking: false, priority: 'medium',   raw_input_count: 9,  created_at: fmtTs(daysAgo(203)), updated_at: fmtTs(daysAgo(66))  },
+  { feature_id: fid('Pre-built aggregates'),       title: 'Pre-aggregate multi-join P&L reports for finance teams',    description: 'Finance P&L dashboards with 5+ joined tables time out at scale. Pre-aggregation makes them usable for month-end reporting.',        status: 'planned',   is_blocking: true,  priority: 'high',     raw_input_count: 6,  created_at: fmtTs(daysAgo(157)), updated_at: fmtTs(daysAgo(83))  },
+  { feature_id: null,                              title: 'Git sync support for GitLab repositories',                  description: 'Several customers use GitLab, not GitHub. Current git sync only works with GitHub.',                                              status: 'deferred',  is_blocking: false, priority: 'low',      raw_input_count: 4,  created_at: fmtTs(daysAgo(277)), updated_at: fmtTs(daysAgo(187)) },
+];
+
+keyImprovements.forEach(imp => {
+  improvements.push({ id: uuid(), ...imp });
+});
+
+// Generate remaining improvements to reach 4000 (~4 per feature)
+const impStatuses = ['open', 'planned', 'shipped', 'workaround', 'deferred', 'wont_do'];
+const impStatusWeights = [30, 25, 20, 10, 10, 5];
+const impPriorities = ['critical', 'high', 'medium', 'low'];
+const impPriorityWeights = [10, 25, 40, 25];
+const impTitleVerbs = ['Support', 'Add', 'Improve', 'Fix', 'Enable', 'Enhance', 'Optimize', 'Rework', 'Migrate', 'Extend'];
+const impTitleObjects = ['workflow', 'configuration', 'rendering', 'validation', 'caching', 'permissions', 'export', 'filtering', 'scheduling', 'notifications'];
+
+let impIdx = 0;
+while (improvements.length < 4000) {
+  const feat = features[impIdx % features.length];
+  const status = wpick(impStatuses, impStatusWeights);
+  const priority = wpick(impPriorities, impPriorityWeights);
+  const isBlocking = Math.random() < 0.15;
+  const verb = impTitleVerbs[impIdx % impTitleVerbs.length];
+  const obj = impTitleObjects[Math.floor(impIdx / impTitleVerbs.length) % impTitleObjects.length];
+  improvements.push({
+    id: uuid(),
+    feature_id: feat.id,
+    title: `${verb} ${obj} for ${feat.name.substring(0, 40)} #${impIdx}`,
+    description: `${verb} ${obj} in the context of ${feat.name}`,
+    status,
+    is_blocking: isBlocking,
+    priority,
+    raw_input_count: randInt(0, 12),
+    created_at: fmtTs(daysAgo(randInt(30, 2500))),
+    updated_at: fmtTs(daysAgo(randInt(1, 200))),
+  });
+  impIdx++;
+}
 
 // ─── COMPANIES ────────────────────────────────────────────────────────────────
 
@@ -137,7 +264,6 @@ const competitorDefs = [
   { name: 'Omni',             website: 'omni.co' },
 ].map(c => ({ id: uuid(), ...c }));
 
-// Competitor ID lookup and weighted picks
 const compById = {};
 competitorDefs.forEach(c => { compById[c.name] = c.id; });
 const COMPETITOR_PICK_LIST = [
@@ -147,7 +273,7 @@ const COMPETITOR_PICK_LIST = [
 const COMPETITOR_WEIGHTS = [25, 18, 15, 12, 8, 5, 5, 4, 3, 1, 1, 1, 1, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5];
 const pickCompetitor = () => compById[wpick(COMPETITOR_PICK_LIST, COMPETITOR_WEIGHTS)];
 
-// Real named companies from spec (seeded exactly)
+// Real named companies from spec
 const realNamedDefs = [
   { name: 'Grab',                  website: 'grab.com',               industry: 'Super App',      country: 'Singapore',    type: 'customer',  employee_count: 8000  },
   { name: 'Gojek',                 website: 'gojek.com',              industry: 'Super App',      country: 'Indonesia',    type: 'customer',  employee_count: 6000  },
@@ -181,8 +307,8 @@ const realNamedDefs = [
   { name: 'Lazada',                website: 'lazada.com',             industry: 'E-commerce',     country: 'Singapore',    type: 'prospect',  employee_count: 8000  },
 ];
 
-// Generated prospect/customer companies to fill up to ~300
-const generatedProspects = [
+// Existing generated companies (kept from v1)
+const existingGeneratedDefs = [
   { name: 'TechFlow Singapore',      website: 'techflowsg.com',       industry: 'SaaS',          country: 'Singapore',    employee_count: 150  },
   { name: 'DataMint Vietnam',        website: 'datamintvn.com',       industry: 'Fintech',       country: 'Vietnam',      employee_count: 80   },
   { name: 'CartMax Indonesia',       website: 'cartmaxid.com',        industry: 'E-commerce',    country: 'Indonesia',    employee_count: 500  },
@@ -380,10 +506,65 @@ const generatedProspects = [
   { name: 'ClearPath Australia',     website: 'clearpathau.com',      industry: 'Logistics',     country: 'Australia',    employee_count: 430  },
   { name: 'SafeBank Thailand',       website: 'safebankth.com',       industry: 'Fintech',       country: 'Thailand',     employee_count: 260  },
   { name: 'MetricBlast UK',          website: 'metricblastuk.com',    industry: 'SaaS',          country: 'UK',           employee_count: 47   },
-].map(p => ({ ...p, id: uuid(), type: 'prospect', logo_url: `https://logo.clearbit.com/${p.website}` }));
+];
 
-// Assign created_at for each named/generated company spanning 4 years
-const baseCreatedAt = (minsBack) => fmtTs(daysAgo(minsBack));
+// NEW ~270 generated companies to reach ~500 total prospect/customer
+const newGenPrefixes = [
+  'Apex','Bolt','Crest','Delta','Echo','Flux','Grid','Halo','Ion','Jade',
+  'Kite','Lume','Mint','Nova','Opal','Peak','Quil','Rift','Sage','Tide',
+  'Volt','Wave','Xeno','Yara','Zeta','Aura','Blox','Core','Dash','Edge',
+];
+const newGenSuffixes = [
+  'Tech','Labs','AI','Data','Cloud','Pay','Med','Ops','Hub','Link',
+  'Flow','Net','Sys','Pro','Dev','Fin','Ship','Mart','Care','Edu',
+  'Build','Track','Stack','View','Path','Sync','Base','Pulse','Core','Ware',
+];
+const newGenIndustries = ['SaaS','Fintech','E-commerce','Healthcare','Logistics','Manufacturing','Retail','Education'];
+const newGenIndustryWeights = [25, 20, 15, 10, 10, 8, 7, 5];
+
+// Country distribution: SEA 60%, APAC 15%, Europe 15%, Americas 10%
+const seaCountries = ['Singapore','Indonesia','Vietnam','Thailand','Malaysia','Philippines'];
+const apacCountries = ['India','Japan','South Korea','Australia'];
+const euroCountries = ['Germany','UK','France','Switzerland','Netherlands'];
+const amCountries = ['USA','Canada','Brazil'];
+const pickCountry = () => {
+  const region = wpick(['sea','apac','euro','am'], [60, 15, 15, 10]);
+  if (region === 'sea') return pick(seaCountries);
+  if (region === 'apac') return pick(apacCountries);
+  if (region === 'euro') return pick(euroCountries);
+  return pick(amCountries);
+};
+
+const newGeneratedDefs = [];
+const usedNames = new Set(existingGeneratedDefs.map(d => d.name));
+for (let i = 0; i < 270; i++) {
+  let name;
+  do {
+    name = `${pick(newGenPrefixes)}${pick(newGenSuffixes)} ${pickCountry().split(' ')[0]}`;
+  } while (usedNames.has(name));
+  usedNames.add(name);
+  const country = pickCountry();
+  const industry = wpick(newGenIndustries, newGenIndustryWeights);
+  const slug = name.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '');
+  newGeneratedDefs.push({
+    name,
+    website: `${slug}.com`,
+    industry,
+    country,
+    employee_count: randInt(30, 2000),
+  });
+}
+
+const allGeneratedDefs = [...existingGeneratedDefs, ...newGeneratedDefs];
+const generatedProspects = allGeneratedDefs.map(p => ({
+  ...p,
+  id: uuid(),
+  type: 'prospect',
+  logo_url: `https://logo.clearbit.com/${p.website}`,
+}));
+
+// Assign created_at spanning 8 years
+const baseCreatedAt = (dBack) => fmtTs(daysAgo(dBack));
 
 const realNamedCompanies = realNamedDefs.map(c => ({
   id: uuid(),
@@ -394,19 +575,19 @@ const realNamedCompanies = realNamedDefs.map(c => ({
   employee_count: c.employee_count,
   website: c.website,
   logo_url: `https://logo.clearbit.com/${c.website}`,
-  created_at: baseCreatedAt(randInt(900, 1460)),
+  created_at: baseCreatedAt(randInt(900, 2920)),
 }));
 
 const generatedProspectCompanies = generatedProspects.map(p => ({
   ...p,
-  created_at: baseCreatedAt(randInt(200, 1100)),
+  created_at: baseCreatedAt(randInt(200, 2200)),
 }));
 
 const companies = [
-  { id: HOLISTICS_ID, name: 'Holistics', type: 'internal', industry: 'SaaS', country: 'Singapore', employee_count: 80, website: 'holistics.io', logo_url: 'https://logo.clearbit.com/holistics.io', created_at: fmtTs(daysAgo(1460)) },
+  { id: HOLISTICS_ID, name: 'Holistics', type: 'internal', industry: 'SaaS', country: 'Singapore', employee_count: 80, website: 'holistics.io', logo_url: 'https://logo.clearbit.com/holistics.io', created_at: fmtTs(daysAgo(2920)) },
   ...competitorDefs.map(c => ({
     id: c.id, name: c.name, type: 'competitor', industry: 'SaaS', country: 'USA', employee_count: randInt(100, 3000),
-    website: c.website, logo_url: `https://logo.clearbit.com/${c.website}`, created_at: fmtTs(daysAgo(1460)),
+    website: c.website, logo_url: `https://logo.clearbit.com/${c.website}`, created_at: fmtTs(daysAgo(2920)),
   })),
   ...realNamedCompanies,
   ...generatedProspectCompanies,
@@ -415,45 +596,48 @@ const companies = [
 const prospectCustomerCompanies = companies.filter(c => c.type === 'prospect' || c.type === 'customer');
 
 // ─── PERSONS — INTERNAL TEAM ──────────────────────────────────────────────────
-// Sarah Chen departs at month ~30 (≈900 days ago). Model turnover.
+// Sarah Chen departs at ~month 60 (5 years in, ~1095 days ago). Model turnover.
+// Jordan Lee added — biased toward ghost/lost deals.
 
-const SARAH_LEFT_AT = daysAgo(550); // month 30 from 4 years ago ≈ 18 months ago
+const SARAH_LEFT_AT = daysAgo(1095); // ~5 years into 8-year span
 
 const internalTeam = [
   // AEs
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Sarah Chen',         email: 'sarah.chen@holistics.io',         role: 'ae',           created_at: fmtTs(daysAgo(1400)), left_at: fmtTs(SARAH_LEFT_AT) },
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Mike Torres',        email: 'mike.torres@holistics.io',        role: 'ae',           created_at: fmtTs(daysAgo(1400)), left_at: null },
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Priya Patel',        email: 'priya.patel@holistics.io',        role: 'ae',           created_at: fmtTs(daysAgo(1000)), left_at: null },
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'James Wilson',       email: 'james.wilson@holistics.io',       role: 'ae',           created_at: fmtTs(daysAgo(420)), left_at: null },
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Rachel Lee',         email: 'rachel.lee@holistics.io',         role: 'ae',           created_at: fmtTs(addDays(SARAH_LEFT_AT, 18)), left_at: null }, // Sarah's replacement
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Sarah Chen',         email: 'sarah.chen@holistics.io',         role: 'ae',           created_at: fmtTs(daysAgo(2800)), left_at: fmtTs(SARAH_LEFT_AT) },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Mike Torres',        email: 'mike.torres@holistics.io',        role: 'ae',           created_at: fmtTs(daysAgo(2800)), left_at: null },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Priya Patel',        email: 'priya.patel@holistics.io',        role: 'ae',           created_at: fmtTs(daysAgo(2000)), left_at: null },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'James Wilson',       email: 'james.wilson@holistics.io',       role: 'ae',           created_at: fmtTs(daysAgo(800)),  left_at: null },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Rachel Lee',         email: 'rachel.lee@holistics.io',         role: 'ae',           created_at: fmtTs(addDays(SARAH_LEFT_AT, 18)), left_at: null },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Jordan Lee',         email: 'jordan.lee@holistics.io',         role: 'ae',           created_at: fmtTs(daysAgo(600)),  left_at: null },
   // CS reps
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Alex Kim',           email: 'alex.kim@holistics.io',           role: 'cs_rep',       created_at: fmtTs(daysAgo(1400)), left_at: null },
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Lisa Nguyen',        email: 'lisa.nguyen@holistics.io',        role: 'cs_rep',       created_at: fmtTs(daysAgo(800)),  left_at: null },
-  // Manager & BizOps (stable)
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'David Park',         email: 'david.park@holistics.io',         role: 'manager',      created_at: fmtTs(daysAgo(1460)), left_at: null },
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Emma Rodriguez',     email: 'emma.rodriguez@holistics.io',     role: 'bizops',       created_at: fmtTs(daysAgo(1460)), left_at: null },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Alex Kim',           email: 'alex.kim@holistics.io',           role: 'cs_rep',       created_at: fmtTs(daysAgo(2800)), left_at: null },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Lisa Nguyen',        email: 'lisa.nguyen@holistics.io',        role: 'cs_rep',       created_at: fmtTs(daysAgo(1600)), left_at: null },
+  // Manager & BizOps
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'David Park',         email: 'david.park@holistics.io',         role: 'manager',      created_at: fmtTs(daysAgo(2920)), left_at: null },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Emma Rodriguez',     email: 'emma.rodriguez@holistics.io',     role: 'bizops',       created_at: fmtTs(daysAgo(2920)), left_at: null },
   // Product Managers (10, with turnover)
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Nina Kaur',          email: 'nina.kaur@holistics.io',          role: 'product',      created_at: fmtTs(daysAgo(1400)), left_at: null },
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Tom Zhang',          email: 'tom.zhang@holistics.io',          role: 'product',      created_at: fmtTs(daysAgo(1400)), left_at: fmtTs(daysAgo(900)) },
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Ana Reyes',          email: 'ana.reyes@holistics.io',          role: 'product',      created_at: fmtTs(daysAgo(870)),  left_at: null },
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Ben Malik',          email: 'ben.malik@holistics.io',          role: 'product',      created_at: fmtTs(daysAgo(1200)), left_at: null },
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Chloe Tan',          email: 'chloe.tan@holistics.io',          role: 'product',      created_at: fmtTs(daysAgo(1100)), left_at: fmtTs(daysAgo(500)) },
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Omar Farouk',        email: 'omar.farouk@holistics.io',        role: 'product',      created_at: fmtTs(daysAgo(470)),  left_at: null },
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Saya Inoue',         email: 'saya.inoue@holistics.io',         role: 'product',      created_at: fmtTs(daysAgo(1050)), left_at: null },
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Ivan Petrov',        email: 'ivan.petrov@holistics.io',        role: 'product',      created_at: fmtTs(daysAgo(750)),  left_at: fmtTs(daysAgo(200)) },
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Mei Lin',            email: 'mei.lin@holistics.io',            role: 'product',      created_at: fmtTs(daysAgo(170)),  left_at: null },
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Carlos Vega',        email: 'carlos.vega@holistics.io',        role: 'product',      created_at: fmtTs(daysAgo(600)),  left_at: null },
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Aisha Bello',        email: 'aisha.bello@holistics.io',        role: 'product',      created_at: fmtTs(daysAgo(350)),  left_at: null },
-  // Data Analysts (4, with turnover)
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Wei Tan',            email: 'wei.tan@holistics.io',            role: 'data_analyst', created_at: fmtTs(daysAgo(1300)), left_at: null },
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Sophie Müller',      email: 'sophie.muller@holistics.io',      role: 'data_analyst', created_at: fmtTs(daysAgo(1300)), left_at: fmtTs(daysAgo(700)) },
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Jake Osei',          email: 'jake.osei@holistics.io',          role: 'data_analyst', created_at: fmtTs(daysAgo(670)),  left_at: null },
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Priscilla Santos',   email: 'priscilla.santos@holistics.io',   role: 'data_analyst', created_at: fmtTs(daysAgo(900)),  left_at: null },
-  // CEO & CTO (stable)
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Marcus Heng',        email: 'marcus.heng@holistics.io',        role: 'ceo',          created_at: fmtTs(daysAgo(1460)), left_at: null },
-  { id: uuid(), company_id: HOLISTICS_ID, name: 'Liang Wei',          email: 'liang.wei@holistics.io',          role: 'cto',          created_at: fmtTs(daysAgo(1460)), left_at: null },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Nina Kaur',          email: 'nina.kaur@holistics.io',          role: 'product',      created_at: fmtTs(daysAgo(2800)), left_at: null },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Tom Zhang',          email: 'tom.zhang@holistics.io',          role: 'product',      created_at: fmtTs(daysAgo(2800)), left_at: fmtTs(daysAgo(1800)) },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Ana Reyes',          email: 'ana.reyes@holistics.io',          role: 'product',      created_at: fmtTs(daysAgo(1740)), left_at: null },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Ben Malik',          email: 'ben.malik@holistics.io',          role: 'product',      created_at: fmtTs(daysAgo(2400)), left_at: null },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Chloe Tan',          email: 'chloe.tan@holistics.io',          role: 'product',      created_at: fmtTs(daysAgo(2200)), left_at: fmtTs(daysAgo(1000)) },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Omar Farouk',        email: 'omar.farouk@holistics.io',        role: 'product',      created_at: fmtTs(daysAgo(940)),  left_at: null },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Saya Inoue',         email: 'saya.inoue@holistics.io',         role: 'product',      created_at: fmtTs(daysAgo(2100)), left_at: null },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Ivan Petrov',        email: 'ivan.petrov@holistics.io',        role: 'product',      created_at: fmtTs(daysAgo(1500)), left_at: fmtTs(daysAgo(400)) },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Mei Lin',            email: 'mei.lin@holistics.io',            role: 'product',      created_at: fmtTs(daysAgo(340)),  left_at: null },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Carlos Vega',        email: 'carlos.vega@holistics.io',        role: 'product',      created_at: fmtTs(daysAgo(1200)), left_at: null },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Aisha Bello',        email: 'aisha.bello@holistics.io',        role: 'product',      created_at: fmtTs(daysAgo(700)),  left_at: null },
+  // Data Analysts
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Wei Tan',            email: 'wei.tan@holistics.io',            role: 'data_analyst', created_at: fmtTs(daysAgo(2600)), left_at: null },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Sophie Muller',      email: 'sophie.muller@holistics.io',      role: 'data_analyst', created_at: fmtTs(daysAgo(2600)), left_at: fmtTs(daysAgo(1400)) },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Jake Osei',          email: 'jake.osei@holistics.io',          role: 'data_analyst', created_at: fmtTs(daysAgo(1340)), left_at: null },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Priscilla Santos',   email: 'priscilla.santos@holistics.io',   role: 'data_analyst', created_at: fmtTs(daysAgo(1800)), left_at: null },
+  // CEO & CTO
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Marcus Heng',        email: 'marcus.heng@holistics.io',        role: 'ceo',          created_at: fmtTs(daysAgo(2920)), left_at: null },
+  { id: uuid(), company_id: HOLISTICS_ID, name: 'Liang Wei',          email: 'liang.wei@holistics.io',          role: 'cto',          created_at: fmtTs(daysAgo(2920)), left_at: null },
 ];
 
+const JORDAN_LEE = internalTeam.find(p => p.name === 'Jordan Lee');
 const activeAEs    = internalTeam.filter(p => p.role === 'ae'           && !p.left_at);
 const allAEs       = internalTeam.filter(p => p.role === 'ae');
 const allCSReps    = internalTeam.filter(p => p.role === 'cs_rep'       && !p.left_at);
@@ -462,7 +646,6 @@ const allDAs       = internalTeam.filter(p => p.role === 'data_analyst' && !p.le
 const CEO          = internalTeam.find(p => p.role === 'ceo');
 const CTO          = internalTeam.find(p => p.role === 'cto');
 
-// Helper: pick AE who was active at a given date
 const pickAEForDate = (date) => {
   const active = allAEs.filter(ae => {
     const joined = new Date(ae.created_at) <= date;
@@ -484,7 +667,7 @@ prospectCustomerCompanies.forEach(co => {
   const count = randInt(2, 4);
   const contacts = [];
   for (let i = 0; i < count; i++) {
-    const leftAt = Math.random() < 0.05 ? fmtTs(addDays(new Date(co.created_at), randInt(200, 900))) : null;
+    const leftAt = Math.random() < 0.05 ? fmtTs(addDays(new Date(co.created_at), randInt(200, 1800))) : null;
     const p = {
       id: uuid(),
       company_id: co.id,
@@ -508,11 +691,54 @@ const dealValueWeights = [8, 14, 20, 26, 16, 9, 5, 2];
 const lostReasons = ['missing_feature','competitor_win','pricing','no_budget','ghosted','not_a_fit'];
 const lostWeights = [35, 25, 20, 10, 7, 3];
 
+// Win reasons for won deals
+const winReasons = ['product_fit','relationship','pricing_advantage','competitive_gap','speed_to_value','other'];
+const winReasonWeights = [44, 24, 17, 10, 3, 2];
+
+// Sub-status for in_progress deals
+const subStatuses = ['promising','focus','at_risk','highlight'];
+const subStatusWeights = [35, 30, 20, 15];
+
+// Key learning templates
+const wonKeyLearnings = [
+  'Strong product fit, fast legal','Referral accelerated cycle','Technical eval clinched it',
+  'Champion drove internal buy-in','Self-serve trial converted smoothly','POC exceeded expectations',
+  'Competitive bake-off win on flexibility','Data team loved the modeling layer',
+  'Quick time-to-value sealed it','Executive sponsor pushed deal through',
+  'Integration story resonated','Semantic layer was differentiator',
+  'White-glove onboarding helped','Partner referral, smooth process',
+];
+const lostFeatureLearnings = [
+  'SSO was hard blocker','No RLS support at the time','Missing Excel export killed it',
+  'Needed column-level permissions','Embedding limitations','No GitLab sync',
+  'Pre-aggregation needed for scale','Missing audit log requirements',
+  'API coverage insufficient','Mobile support not there yet',
+];
+const lostCompetitorLearnings = [
+  'Price perception vs Metabase','Looker ecosystem lock-in','Tableau brand trust',
+  'Power BI bundled with M365','Sigma spreadsheet UX won','ThoughtSpot search UX',
+  'Incumbent vendor discount','Competitor had deeper integrations',
+];
+const lostGhostLearnings = [
+  'Too many days between touches','Champion left mid-evaluation','Budget frozen mid-quarter',
+  'Internal re-org killed momentum','Timing mismatch, revisit later','Lost to inaction',
+  'Prospect went silent after demo','Key stakeholder unavailable',
+];
+const wonFollowUps = [
+  'Onboarding kickoff next week','Schedule QBR in 90 days','Connect with CS for rollout',
+  'Expand to second team in Q2','Upsell conversation in 6 months','Training session scheduled',
+  'Integration support needed','Dashboard migration assistance',
+];
+const lostFollowUps = [
+  'Re-engage when SSO ships','Nurture - check in 90d','Add to feature-ship notification list',
+  'Revisit next fiscal year','Keep warm, budget may reopen','Monitor competitor churn signals',
+  'Re-engage after re-org settles','Wait for champion replacement',
+];
+
 const deals = [];
 const dealStageHistory = [];
 const subscriptions = [];
 
-// Stage duration ranges (days)
 const stageDur = {
   qualifying:   [3,  14],
   validating:   [7,  28],
@@ -524,20 +750,16 @@ const stageDur = {
 const buildStageHistory = (dealId, createdAt, closedAt, status, currentStage) => {
   const history = [];
   let stagesPath;
-
   if (status === 'won') {
-    // Full or partial funnel ending at negotiating
-    const endIdx = randInt(2, 4); // up to negotiating
+    const endIdx = randInt(2, 4);
     stagesPath = DEAL_STAGES.slice(0, endIdx + 1);
   } else if (status === 'lost' || status === 'churned') {
     const dropIdx = randInt(0, 3);
     stagesPath = DEAL_STAGES.slice(0, dropIdx + 1);
   } else {
-    // in_progress or ghost: path up to currentStage
     const idx = DEAL_STAGES.indexOf(currentStage);
     stagesPath = DEAL_STAGES.slice(0, Math.max(idx + 1, 1));
   }
-
   let cur = new Date(createdAt);
   stagesPath.forEach((stage, i) => {
     const isLast = i === stagesPath.length - 1;
@@ -558,34 +780,60 @@ const buildStageHistory = (dealId, createdAt, closedAt, status, currentStage) =>
   return history;
 };
 
-// Track won deals per company for subscription/renewal chaining
-const companyWonDeals = {}; // companyId → [{dealId, closedAt, dealValue}]
-const wonDealMap = {};      // dealId → deal object
+const companyWonDeals = {};
+const wonDealMap = {};
 
 const companyPool = [...prospectCustomerCompanies];
 let cIdx = 0;
 const nextCo = () => companyPool[cIdx++ % companyPool.length];
 
-// Cohort helper
 const cohortDate = (minDays, maxDays) => daysAgo(randInt(minDays, maxDays));
 
-// Distribution matching spec (~700 deals)
+// Helper to generate key_learning and follow_up_action for a deal
+const genKeyLearning = (status, lostReason) => {
+  if (status === 'won') return pick(wonKeyLearnings);
+  if (status === 'lost' || status === 'churned') {
+    if (lostReason === 'missing_feature') return pick(lostFeatureLearnings);
+    if (lostReason === 'competitor_win') return pick(lostCompetitorLearnings);
+    if (lostReason === 'ghosted') return pick(lostGhostLearnings);
+    return pick([...lostFeatureLearnings, ...lostGhostLearnings]);
+  }
+  return null;
+};
+const genFollowUp = (status) => {
+  if (status === 'won') return pick(wonFollowUps);
+  if (status === 'lost' || status === 'churned') return pick(lostFollowUps);
+  return null;
+};
+
+// Distribution matching spec (~1800 deals)
 const distConfig = [
-  { deal_type: 'new', status: 'won',         count: 130 },
-  { deal_type: 'new', status: 'lost',        count: 160 },
-  { deal_type: 'new', status: 'ghost',       count: 40  },
-  { deal_type: 'new', status: 'in_progress', count: 25  },
-  { deal_type: 'upgrade',  status: 'won',         count: 55  },
-  { deal_type: 'upgrade',  status: 'lost',        count: 20  },
-  { deal_type: 'upgrade',  status: 'in_progress', count: 10  },
-  { deal_type: 'downgrade',status: 'won',         count: 30  },
-  { deal_type: 'renewal',  status: 'won',         count: 130 },
-  { deal_type: 'renewal',  status: 'churned',     count: 50  },
-  { deal_type: 'renewal',  status: 'in_progress', count: 30  },
-  { deal_type: 'renewal',  status: 'lost',        count: 20  },
+  { deal_type: 'new',       status: 'won',         count: 300 },
+  { deal_type: 'new',       status: 'lost',        count: 350 },
+  { deal_type: 'new',       status: 'ghost',       count: 60  },
+  { deal_type: 'new',       status: 'in_progress', count: 40  },
+  { deal_type: 'renewal',   status: 'won',         count: 280 },
+  { deal_type: 'renewal',   status: 'lost',        count: 50  },
+  { deal_type: 'renewal',   status: 'churned',     count: 100 },
+  { deal_type: 'renewal',   status: 'in_progress', count: 50  },
+  { deal_type: 'upgrade',   status: 'won',         count: 120 },
+  { deal_type: 'upgrade',   status: 'lost',        count: 30  },
+  { deal_type: 'upgrade',   status: 'in_progress', count: 20  },
+  { deal_type: 'downgrade', status: 'won',         count: 60  },
+  { deal_type: 'downgrade', status: 'lost',        count: 10  },
+  { deal_type: 'downgrade', status: 'in_progress', count: 10  },
 ];
 
-// First pass: new deals (generates companies to link upgrades/renewals to)
+// Jordan Lee deal counter for bias tracking
+let jordanTotalDeals = 0;
+let jordanWonDeals = 0;
+let jordanGhostDeals = 0;
+
+// Track deals in last 2 quarters for win rate story
+const Q1_START = daysAgo(180); // ~6 months ago
+const Q2_START = daysAgo(90);  // ~3 months ago
+
+// First pass: new deals
 for (const dist of distConfig) {
   if (dist.deal_type !== 'new') continue;
   for (let i = 0; i < dist.count; i++) {
@@ -594,20 +842,28 @@ for (const dist of distConfig) {
     let createdAt, closedAt = null, stage = null, lostReason = null, followUpAt = null;
 
     if (dist.status === 'won') {
-      // Spread across 4-year cohorts
-      const cohortBucket = i % 6;
-      const [minD, maxD] = [[1380,1460],[1080,1380],[540,1080],[180,540],[60,180],[7,60]][cohortBucket];
+      // Spread across 8-year cohorts
+      const cohortBucket = i % 10;
+      const ranges = [
+        [2700,2920],[2400,2700],[2100,2400],[1800,2100],[1460,1800],
+        [1080,1460],[540,1080],[180,540],[60,180],[7,60],
+      ];
+      const [minD, maxD] = ranges[cohortBucket];
       createdAt = cohortDate(minD, maxD);
       closedAt  = addDays(createdAt, randInt(21, 90));
       if (!companyWonDeals[co.id]) companyWonDeals[co.id] = [];
     } else if (dist.status === 'lost') {
-      const cohortBucket = i % 4;
-      const [minD, maxD] = [[1080,1460],[540,1080],[180,540],[30,180]][cohortBucket];
+      const cohortBucket = i % 8;
+      const ranges = [
+        [2400,2920],[2100,2400],[1800,2100],[1460,1800],
+        [1080,1460],[540,1080],[180,540],[30,180],
+      ];
+      const [minD, maxD] = ranges[cohortBucket];
       createdAt = cohortDate(minD, maxD);
       closedAt  = addDays(createdAt, randInt(15, 75));
       lostReason = wpick(lostReasons, lostWeights);
     } else if (dist.status === 'ghost') {
-      createdAt = cohortDate(50, 200);
+      createdAt = cohortDate(50, 300);
       stage = pick(['qualifying','validating']);
       if (Math.random() < 0.30) followUpAt = fmtDate(addDays(createdAt, randInt(60, 180)));
     } else {
@@ -617,48 +873,73 @@ for (const dist of distConfig) {
       if (Math.random() < 0.10) followUpAt = fmtDate(addDays(new Date(), randInt(14, 90)));
     }
 
-    const ae = pickAEForDate(createdAt);
+    // Determine AE — bias Jordan Lee toward ghost/lost
+    let ae;
+    if (dist.status === 'ghost' && Math.random() < 0.35) {
+      ae = JORDAN_LEE;
+    } else if (dist.status === 'lost' && Math.random() < 0.20) {
+      ae = JORDAN_LEE;
+    } else {
+      ae = pickAEForDate(createdAt);
+    }
+
+    // Track Jordan stats
+    if (ae.name === 'Jordan Lee') {
+      jordanTotalDeals++;
+      if (dist.status === 'won') jordanWonDeals++;
+      if (dist.status === 'ghost') jordanGhostDeals++;
+    }
+
     const dealValue = wpick(dealValues, dealValueWeights);
+
+    // Win rate decline in last 2 quarters — shift some recent won to lost
+    let effectiveStatus = dist.status;
+    if (dist.status === 'won' && createdAt > Q2_START && Math.random() < 0.10) {
+      effectiveStatus = 'lost';
+      lostReason = wpick(lostReasons, lostWeights);
+      closedAt = addDays(createdAt, randInt(15, 75));
+    }
 
     const deal = {
       id: dealId,
       company_id: co.id,
       owner_id: ae.id,
       deal_type: 'new',
-      status: dist.status,
-      stage: stage || (dist.status === 'won' ? 'negotiating' : dist.status === 'lost' || dist.status === 'churned' ? null : stage),
+      status: effectiveStatus,
+      stage: stage || (effectiveStatus === 'won' ? 'negotiating' : effectiveStatus === 'lost' || effectiveStatus === 'churned' ? null : stage),
       deal_value_usd: dealValue,
       lost_reason: lostReason || null,
       previous_deal_id: null,
+      sub_status: effectiveStatus === 'in_progress' ? wpick(subStatuses, subStatusWeights) : null,
+      win_reason: effectiveStatus === 'won' ? wpick(winReasons, winReasonWeights) : null,
+      key_learning: (effectiveStatus === 'won' || effectiveStatus === 'lost') ? genKeyLearning(effectiveStatus, lostReason) : null,
+      follow_up_action: (effectiveStatus === 'won' || effectiveStatus === 'lost') ? genFollowUp(effectiveStatus) : null,
       created_at: fmtTs(createdAt),
       closed_at: closedAt ? fmtTs(closedAt) : null,
       follow_up_at: followUpAt,
     };
     deals.push(deal);
-    dealStageHistory.push(...buildStageHistory(dealId, createdAt, closedAt, dist.status, stage));
+    dealStageHistory.push(...buildStageHistory(dealId, createdAt, closedAt, effectiveStatus, stage));
 
-    if (dist.status === 'won') {
+    if (effectiveStatus === 'won') {
       if (!companyWonDeals[co.id]) companyWonDeals[co.id] = [];
       companyWonDeals[co.id].push({ dealId, companyId: co.id, closedAt, dealValue, ae });
       wonDealMap[dealId] = deal;
-      // Update company type
       const co2 = companies.find(c => c.id === co.id);
       if (co2) co2.type = 'customer';
     }
   }
 }
 
-// Get list of companies with won deals for linking
 const companiesWithWonDeals = Object.keys(companyWonDeals).filter(id => companyWonDeals[id].length > 0);
 
-// Helper: pick a random won deal entry
 const pickWonDeal = () => {
   if (!companiesWithWonDeals.length) return null;
   const coId = pick(companiesWithWonDeals);
   return pick(companyWonDeals[coId]);
 };
 
-// Second pass: upgrade, downgrade, renewal deals (linked to prior won deals)
+// Second pass: upgrade, downgrade, renewal deals
 for (const dist of distConfig) {
   if (dist.deal_type === 'new') continue;
   for (let i = 0; i < dist.count; i++) {
@@ -672,7 +953,6 @@ for (const dist of distConfig) {
     let dealValue = wpick(dealValues, dealValueWeights);
 
     if (dist.deal_type === 'upgrade') {
-      // Must be > prior value
       const higherVals = dealValues.filter(v => v > (prior.dealValue || 2400));
       dealValue = higherVals.length ? pick(higherVals) : dealValues[dealValues.length - 1];
     } else if (dist.deal_type === 'downgrade') {
@@ -681,14 +961,13 @@ for (const dist of distConfig) {
     }
 
     if (dist.status === 'won') {
-      createdAt = addDays(new Date(prior.closedAt), randInt(30, 400));
+      createdAt = addDays(new Date(prior.closedAt), randInt(30, 700));
       closedAt  = addDays(createdAt, randInt(14, 60));
     } else if (dist.status === 'lost' || dist.status === 'churned') {
-      createdAt = addDays(new Date(prior.closedAt), randInt(180, 500));
+      createdAt = addDays(new Date(prior.closedAt), randInt(180, 800));
       closedAt  = addDays(createdAt, randInt(14, 60));
       if (dist.status === 'lost') lostReason = wpick(lostReasons, lostWeights);
     } else {
-      // in_progress — upcoming renewals within 60 days for renewals
       if (dist.deal_type === 'renewal') {
         createdAt = cohortDate(60, 5);
       } else {
@@ -708,6 +987,10 @@ for (const dist of distConfig) {
       deal_value_usd: dealValue,
       lost_reason: lostReason || null,
       previous_deal_id: prior.dealId,
+      sub_status: dist.status === 'in_progress' ? wpick(subStatuses, subStatusWeights) : null,
+      win_reason: dist.status === 'won' ? wpick(winReasons, winReasonWeights) : null,
+      key_learning: (dist.status === 'won' || dist.status === 'lost' || dist.status === 'churned') ? genKeyLearning(dist.status, lostReason) : null,
+      follow_up_action: (dist.status === 'won' || dist.status === 'lost' || dist.status === 'churned') ? genFollowUp(dist.status) : null,
       created_at: fmtTs(createdAt),
       closed_at: closedAt ? fmtTs(closedAt) : null,
       follow_up_at: followUpAt,
@@ -722,19 +1005,19 @@ for (const dist of distConfig) {
   }
 }
 
-// Ghost-then-return pattern (~15 explicit deals)
-const ghostReturnDeals = deals.filter(d => d.status === 'ghost').slice(0, 15);
+// Ghost-then-return pattern (~20 explicit deals)
+const ghostReturnDeals = deals.filter(d => d.status === 'ghost').slice(0, 20);
 ghostReturnDeals.forEach(ghostDeal => {
   const followDate = ghostDeal.follow_up_at
     ? new Date(ghostDeal.follow_up_at)
     : addDays(new Date(ghostDeal.created_at), randInt(45, 120));
   if (followDate < new Date()) {
-    // Reactivated — create a continuation in_progress or closed deal
     const returnDealId = uuid();
     const reactivatedAt = followDate;
     const outcome = Math.random() < 0.4 ? 'won' : Math.random() < 0.5 ? 'lost' : 'ghost';
     const closedAt2 = outcome !== 'ghost' ? addDays(reactivatedAt, randInt(14, 60)) : null;
     const ae = pickAEForDate(reactivatedAt);
+    const lr = outcome === 'lost' ? wpick(lostReasons, lostWeights) : null;
 
     deals.push({
       id: returnDealId,
@@ -744,8 +1027,12 @@ ghostReturnDeals.forEach(ghostDeal => {
       status: outcome,
       stage: outcome === 'ghost' ? 'qualifying' : null,
       deal_value_usd: ghostDeal.deal_value_usd,
-      lost_reason: outcome === 'lost' ? wpick(lostReasons, lostWeights) : null,
+      lost_reason: lr,
       previous_deal_id: ghostDeal.id,
+      sub_status: null,
+      win_reason: outcome === 'won' ? wpick(winReasons, winReasonWeights) : null,
+      key_learning: outcome !== 'ghost' ? genKeyLearning(outcome, lr) : null,
+      follow_up_action: outcome !== 'ghost' ? genFollowUp(outcome) : null,
       created_at: fmtTs(reactivatedAt),
       closed_at: closedAt2 ? fmtTs(closedAt2) : null,
       follow_up_at: null,
@@ -754,8 +1041,7 @@ ghostReturnDeals.forEach(ghostDeal => {
 
     if (outcome === 'won') {
       if (!companyWonDeals[ghostDeal.company_id]) companyWonDeals[ghostDeal.company_id] = [];
-      const wonEntry = { dealId: returnDealId, companyId: ghostDeal.company_id, closedAt: closedAt2, dealValue: ghostDeal.deal_value_usd, ae };
-      companyWonDeals[ghostDeal.company_id].push(wonEntry);
+      companyWonDeals[ghostDeal.company_id].push({ dealId: returnDealId, companyId: ghostDeal.company_id, closedAt: closedAt2, dealValue: ghostDeal.deal_value_usd, ae });
       wonDealMap[returnDealId] = deals[deals.length - 1];
       const co = companies.find(c => c.id === ghostDeal.company_id);
       if (co) co.type = 'customer';
@@ -763,7 +1049,7 @@ ghostReturnDeals.forEach(ghostDeal => {
   }
 });
 
-// ─── SUBSCRIPTIONS ────────────────────────────────────────────────────────────
+// ─── SUBSCRIPTIONS (with product_version) ─────────────────────────────────────
 
 const planOptions = [
   { plan_name: 'Starter',    billing_cycle: 'monthly', mrr_usd: 99,   term_months: 6  },
@@ -784,37 +1070,79 @@ const planWeights = [10, 8, 7, 10, 12, 10, 5, 12, 10, 8, 4, 2, 2];
 const churnReasons = ['voluntary_feature_gap','voluntary_pricing','voluntary_competitor','voluntary_no_usage','involuntary_payment','unknown'];
 const churnWeights = [30, 20, 25, 15, 5, 5];
 
+// Version assignment based on started_at date
+const assignVersion = (startedAt, isRenewal, priorVersion) => {
+  // Renewals keep their version
+  if (isRenewal && priorVersion) return priorVersion;
+
+  const now = new Date();
+  const start = new Date(startedAt);
+  const daysFromNow = Math.round((now - start) / (1000 * 60 * 60 * 24));
+
+  // 8-6 years ago (2920-2190 days): v2.0 only
+  if (daysFromNow >= 2190) return '2.0';
+  // 6-5 years ago (2190-1825 days): 30% v2.0, 70% v2.5
+  if (daysFromNow >= 1825) return wpick(['2.0','2.5'], [30, 70]);
+  // 5-4 years ago (1825-1460 days): 40% v2.5, 60% v2.7
+  if (daysFromNow >= 1460) return wpick(['2.5','2.7'], [40, 60]);
+  // 4-3 years ago (1460-1095 days): 30% v2.7, 70% v3.0
+  if (daysFromNow >= 1095) return wpick(['2.7','3.0'], [30, 70]);
+  // 3-1.5 years ago (1095-548 days): 100% v3.0
+  if (daysFromNow >= 548) return '3.0';
+  // 1.5-0 years ago (548-0 days): 30% v3.0, 70% v4.0
+  return wpick(['3.0','4.0'], [30, 70]);
+};
+
+// Track company versions for renewal chaining
+const companyVersions = {};
+
 // Create subscriptions for all won deals
-Object.values(wonDealMap).forEach(deal => {
+// First, sort won deals by closed_at to chain versions properly
+const wonDealIds = Object.keys(wonDealMap);
+wonDealIds.sort((a, b) => new Date(wonDealMap[a].closed_at) - new Date(wonDealMap[b].closed_at));
+
+wonDealIds.forEach(dealId => {
+  const deal = wonDealMap[dealId];
   const plan = wpick(planOptions, planWeights);
   const startedAt = addDays(new Date(deal.closed_at), 1);
-  // Determine if this subscription has ended (linked to churned renewal or ended term)
-  const hasChurnedRenewal = deals.some(d => d.previous_deal_id === deal.id && d.status === 'churned');
+
+  // Determine if renewal — check if this deal has a previous_deal_id
+  const isRenewal = deal.deal_type === 'renewal' || deal.deal_type === 'upgrade' || deal.deal_type === 'downgrade';
+  const priorVersion = companyVersions[deal.company_id] || null;
+  const version = assignVersion(startedAt, isRenewal, priorVersion);
+  companyVersions[deal.company_id] = version;
+
+  const hasChurnedRenewal = deals.some(d => d.previous_deal_id === dealId && d.status === 'churned');
   let endedAt = null;
   let churnReason = null;
 
   if (hasChurnedRenewal) {
     endedAt = addDays(startedAt, plan.term_months * 30);
     churnReason = wpick(churnReasons, churnWeights);
+    // v2.0 customers have 3x churn rate — bias
+    if (version === '2.0' && Math.random() < 0.30) {
+      churnReason = wpick(churnReasons, churnWeights);
+    }
   } else {
-    // Subscription active if term hasn't elapsed
     const termEnd = addDays(startedAt, plan.term_months * 30);
     if (termEnd < new Date()) {
-      // term elapsed — subscription ended, renewal deal should exist
-      const hasRenewal = deals.some(d => d.previous_deal_id === deal.id && (d.deal_type === 'renewal' || d.deal_type === 'upgrade'));
+      const hasRenewal = deals.some(d => d.previous_deal_id === dealId && (d.deal_type === 'renewal' || d.deal_type === 'upgrade'));
       if (!hasRenewal) {
-        // No renewal — quietly ended
         endedAt = termEnd;
         churnReason = 'unknown';
+        // v2.0 customers churn 3x more
+        if (version !== '2.0' && Math.random() < 0.60) {
+          endedAt = null;
+          churnReason = null;
+        }
       }
-      // else: subscription implicitly renewed — keep ended_at null for simplicity
     }
   }
 
   subscriptions.push({
     id: uuid(),
     company_id: deal.company_id,
-    deal_id: deal.id,
+    deal_id: dealId,
     plan_name: plan.plan_name,
     mrr_usd: plan.mrr_usd,
     billing_cycle: plan.billing_cycle,
@@ -822,6 +1150,7 @@ Object.values(wonDealMap).forEach(deal => {
     started_at: fmtDate(startedAt),
     ended_at: endedAt ? fmtDate(endedAt) : null,
     churn_reason: churnReason || null,
+    product_version: version,
   });
 });
 
@@ -832,11 +1161,41 @@ const callAttendees = [];
 const rawInputs = [];
 
 const preSaleCallTypes   = ['discovery','demo','evaluation','negotiation'];
-const preSaleCallWeights = [30, 30, 25, 15];
 const postSaleCallTypes  = ['onboarding','check_in','renewal'];
-const postSaleCallWeights = [15, 65, 20];
 
-// Input types per phase (from spec)
+// AI summary templates
+const aiSummaryTemplates = [
+  'Discussed product roadmap and upcoming features. Customer expressed interest in advanced analytics.',
+  'Reviewed pricing tiers and contract terms. Decision expected within 2 weeks.',
+  'Technical deep-dive on data modeling capabilities. Engineering team impressed.',
+  'Onboarding progress review. 3 dashboards live, 2 more in development.',
+  'Quarterly business review. Usage up 40% QoQ. Expansion opportunity identified.',
+  'Feature request discussion: need better export options and scheduling.',
+  'Security and compliance review. SOC2 and GDPR requirements discussed.',
+  'Integration planning session. BigQuery and dbt workflow mapping.',
+  'Performance optimization discussion. Query caching recommendations provided.',
+  'Renewal negotiation. Multi-year discount proposed. Awaiting budget approval.',
+  'Champion check-in. Internal adoption growing. Training session requested.',
+  'Competitive evaluation update. Comparing with Looker on embedded analytics.',
+  'Data quality concerns raised. Validation rules and monitoring discussed.',
+  'Mobile access requirements gathering. Field team needs dashboard access.',
+  'Escalation call. Dashboard performance issues in production. Fix committed.',
+];
+
+const prepNotesTemplates = [
+  'Review latest product updates for demo. Check competitor positioning.',
+  'Prepare ROI analysis based on their data volume. Bring case studies.',
+  'Follow up on security questionnaire. Have SOC2 report ready.',
+  'Check renewal terms and usage metrics. Prepare expansion proposal.',
+  'Review open support tickets before call. Bring resolution updates.',
+  'Prepare technical architecture diagram for integration discussion.',
+  'Gather testimonials from similar industry customers.',
+  'Review their current dashboard usage analytics.',
+  'Prepare pricing comparison vs their current tool.',
+  'Check feature request status for items they raised last call.',
+];
+
+// Input types per phase
 const preSaleInputTypes  = ['feature_request','deal_breaker','excitement','feedback','ui_ux','performance','permission','onboarding_issue','testimonial','irrelevant','how_to'];
 const preSaleInputWeights = [25, 10, 10, 10, 10, 8, 8, 5, 5, 5, 4];
 const postSaleInputTypes  = ['how_to','bug','feature_request','feedback','ui_ux','performance','excitement','testimonial','permission','irrelevant'];
@@ -844,21 +1203,23 @@ const postSaleInputWeights = [22, 18, 15, 12, 10, 8, 5, 5, 3, 2];
 
 const inputStatuses = ['new','valid','need_inputs','solved','informed','has_workaround','not_relevant','duplicated'];
 const inputStatusWeights = [20, 30, 10, 15, 10, 5, 5, 5];
-const inputSources = ['call','ticket','email'];
-const inputSourceWeights = [65, 25, 10];
+const inputSources = ['call','ticket','email','slack','community','other'];
+const inputSourceWeights = [50, 20, 10, 10, 7, 3];
 
 const impIds = improvements.map(i => i.id);
 
-const addCall = (companyId, dealId, callDate, phase, callType, hostId, extContacts) => {
+const addCall = (companyId, dealId, callDate, phase, callType, hostId, extContacts, opts = {}) => {
   const callId = uuid();
   calls.push({
     id: callId, company_id: companyId, deal_id: dealId || null,
     call_date: fmtDate(callDate), duration_min: pick([30, 45, 60, 90]),
     phase, type: callType, notes: null,
+    scheduled_at: opts.scheduled_at || null,
+    prep_notes: opts.prep_notes || null,
+    ai_summary: opts.ai_summary || (Math.random() < 0.4 ? pick(aiSummaryTemplates) : null),
   });
   callAttendees.push({ call_id: callId, person_id: hostId, role: 'host' });
 
-  // Add internal attendees by call type
   const internalExtra = [];
   if (callType === 'discovery' && Math.random() < 0.4) internalExtra.push(pick([...allPMs, ...allDAs]));
   if (callType === 'demo'      && Math.random() < 0.3) internalExtra.push(pick(allPMs));
@@ -876,7 +1237,6 @@ const addCall = (companyId, dealId, callDate, phase, callType, hostId, extContac
     if (p) callAttendees.push({ call_id: callId, person_id: p.id, role: 'attendee' });
   });
 
-  // External attendees
   const extCount = Math.min(randInt(1, 3), extContacts.length);
   extContacts.slice(0, extCount).forEach(ec => {
     callAttendees.push({ call_id: callId, person_id: ec.id, role: 'attendee' });
@@ -905,48 +1265,138 @@ const addRawInput = (callId, companyId, inputType, callDate, isPostSale) => {
   });
 };
 
-// Pre-sale calls (won + lost + in_progress + ghost)
-deals.filter(d => ['won','lost','in_progress','ghost'].includes(d.status)).forEach(deal => {
+// Pre-sale calls — structured by deal outcome
+// Won deals: 10 calls (discovery, demo, evaluation, negotiation, onboarding, 5x check-in)
+// Lost deals: 3-4 calls
+// Ghost deals: 1-2 calls
+// In-progress: 2-3 calls
+
+const wonCallSequence = ['discovery','demo','evaluation','negotiation','onboarding','check_in','check_in','check_in','check_in','check_in'];
+const lostCallSequence = ['discovery','demo','evaluation'];
+const ghostCallSequence = ['discovery','demo'];
+
+deals.forEach(deal => {
   const ae = persons.find(p => p.id === deal.owner_id);
+  if (!ae) return;
   const contacts = contactsByCompany[deal.company_id] || [];
-  const numCalls = deal.status === 'ghost' ? randInt(1, 2)
-    : deal.status === 'in_progress' ? randInt(2, 4)
-    : randInt(3, 5);
   let callDate = addDays(new Date(deal.created_at), randInt(1, 5));
 
-  for (let i = 0; i < numCalls; i++) {
-    if (callDate > new Date()) break;
-    if (deal.closed_at && callDate > new Date(deal.closed_at)) break;
-    const callType = wpick(preSaleCallTypes, preSaleCallWeights);
-    const callId = addCall(deal.company_id, deal.id, callDate, 'pre_sale', callType, ae.id, contacts);
-    // Input count varies by call type
-    const numInputs = callType === 'discovery' ? randInt(20, 40)
-      : callType === 'evaluation' ? randInt(5, 15)
-      : callType === 'demo' ? randInt(3, 8)
-      : randInt(1, 3); // negotiation
-    for (let k = 0; k < numInputs; k++) {
-      addRawInput(callId, deal.company_id, wpick(preSaleInputTypes, preSaleInputWeights), callDate, false);
+  if (deal.status === 'won') {
+    // 10 calls in sequence
+    for (let i = 0; i < wonCallSequence.length; i++) {
+      if (callDate > new Date()) break;
+      const callType = wonCallSequence[i];
+      const phase = i < 4 ? 'pre_sale' : 'post_sale';
+      const hostId = i < 4 ? ae.id : pick(allCSReps).id;
+      const callId = addCall(deal.company_id, i < 4 ? deal.id : null, callDate, phase, callType, hostId, contacts, {
+        ai_summary: Math.random() < 0.5 ? pick(aiSummaryTemplates) : null,
+      });
+      const numInputs = callType === 'discovery' ? randInt(20, 40)
+        : callType === 'evaluation' ? randInt(5, 15)
+        : callType === 'demo' ? randInt(3, 8)
+        : callType === 'check_in' ? randInt(1, 3)
+        : randInt(1, 3);
+      for (let k = 0; k < numInputs; k++) {
+        const types = i < 4 ? preSaleInputTypes : postSaleInputTypes;
+        const weights = i < 4 ? preSaleInputWeights : postSaleInputWeights;
+        addRawInput(callId, deal.company_id, wpick(types, weights), callDate, i >= 4);
+      }
+      callDate = addDays(callDate, randInt(5, 25));
     }
-    callDate = addDays(callDate, randInt(5, 18));
+  } else if (deal.status === 'lost') {
+    const numCalls = randInt(3, 4);
+    for (let i = 0; i < numCalls; i++) {
+      if (callDate > new Date()) break;
+      if (deal.closed_at && callDate > new Date(deal.closed_at)) break;
+      const callType = lostCallSequence[i] || 'evaluation';
+      const callId = addCall(deal.company_id, deal.id, callDate, 'pre_sale', callType, ae.id, contacts);
+      const numInputs = callType === 'discovery' ? randInt(20, 40) : callType === 'demo' ? randInt(3, 8) : randInt(5, 15);
+      for (let k = 0; k < numInputs; k++) {
+        addRawInput(callId, deal.company_id, wpick(preSaleInputTypes, preSaleInputWeights), callDate, false);
+      }
+      callDate = addDays(callDate, randInt(5, 18));
+    }
+  } else if (deal.status === 'ghost') {
+    const numCalls = randInt(1, 2);
+    for (let i = 0; i < numCalls; i++) {
+      if (callDate > new Date()) break;
+      const callType = ghostCallSequence[i] || 'discovery';
+      const callId = addCall(deal.company_id, deal.id, callDate, 'pre_sale', callType, ae.id, contacts);
+      const numInputs = randInt(2, 6);
+      for (let k = 0; k < numInputs; k++) {
+        addRawInput(callId, deal.company_id, wpick(preSaleInputTypes, preSaleInputWeights), callDate, false);
+      }
+      callDate = addDays(callDate, randInt(5, 18));
+    }
+  } else if (deal.status === 'in_progress') {
+    const numCalls = randInt(2, 3);
+    for (let i = 0; i < numCalls; i++) {
+      if (callDate > new Date()) break;
+      const callType = ['discovery','demo','evaluation'][i] || 'discovery';
+      const callId = addCall(deal.company_id, deal.id, callDate, 'pre_sale', callType, ae.id, contacts);
+      const numInputs = callType === 'discovery' ? randInt(20, 40) : randInt(3, 8);
+      for (let k = 0; k < numInputs; k++) {
+        addRawInput(callId, deal.company_id, wpick(preSaleInputTypes, preSaleInputWeights), callDate, false);
+      }
+      callDate = addDays(callDate, randInt(5, 18));
+    }
   }
 });
 
-// Post-sale calls for active subscriptions
-subscriptions.filter(s => !s.ended_at).forEach(sub => {
-  const csRep = pick(allCSReps);
-  const contacts = contactsByCompany[sub.company_id] || [];
-  const numCalls = randInt(4, 8);
-  let callDate = addDays(new Date(sub.started_at), randInt(1, 7));
+// 3 customers going dark — no calls >60 days, renewal ≤30 days
+const activeRenewalDeals = deals.filter(d => d.deal_type === 'renewal' && d.status === 'in_progress');
+const goingDarkDeals = activeRenewalDeals.slice(0, 3);
+// Ensure their last call is >60 days ago (by not adding recent calls — already handled by above logic)
 
-  for (let i = 0; i < numCalls; i++) {
-    if (callDate > new Date()) break;
-    const callType = i === 0 ? 'onboarding' : wpick(postSaleCallTypes, postSaleCallWeights);
-    const callId = addCall(sub.company_id, null, callDate, 'post_sale', callType, csRep.id, contacts);
-    const numInputs = callType === 'check_in' ? randInt(1, 3) : randInt(2, 6);
-    for (let k = 0; k < numInputs; k++) {
-      addRawInput(callId, sub.company_id, wpick(postSaleInputTypes, postSaleInputWeights), callDate, true);
+// ~20 future scheduled calls (next 14 days) with prep_notes
+for (let i = 0; i < 20; i++) {
+  const co = pick(prospectCustomerCompanies);
+  const contacts = contactsByCompany[co.id] || [];
+  const scheduledDate = addDays(new Date(), randInt(1, 14));
+  const ae = pick(activeAEs);
+  addCall(co.id, null, scheduledDate, 'pre_sale', pick(['discovery','demo','check_in']), ae.id, contacts, {
+    scheduled_at: fmtTs(scheduledDate),
+    prep_notes: pick(prepNotesTemplates),
+    ai_summary: null,
+  });
+}
+
+// ─── SATISFACTION SCORES ──────────────────────────────────────────────────────
+
+const satisfactionScores = [];
+
+// For each active subscription, generate ~1 score per month
+subscriptions.forEach(sub => {
+  const startDate = new Date(sub.started_at);
+  const endDate = sub.ended_at ? new Date(sub.ended_at) : new Date();
+  let curMonth = new Date(startDate);
+  curMonth.setDate(15); // mid-month
+
+  // Company base score variance
+  const companyVariance = randFloat(-0.3, 0.3);
+
+  while (curMonth <= endDate) {
+    // Overall trend: declining from 4.2 to 3.8 over last 6 months
+    const daysFromNow = Math.round((new Date() - curMonth) / (1000 * 60 * 60 * 24));
+    let baseScore;
+    if (daysFromNow <= 180) {
+      // Linear decline from 4.2 to 3.8 over 180 days
+      baseScore = 3.8 + (daysFromNow / 180) * 0.4;
+    } else {
+      baseScore = 4.2;
     }
-    callDate = addDays(callDate, randInt(25, 55));
+
+    const score = Math.min(5.0, Math.max(1.0, baseScore + companyVariance + randFloat(-0.3, 0.3)));
+
+    satisfactionScores.push({
+      id: uuid(),
+      company_id: sub.company_id,
+      score: Math.round(score * 10) / 10,
+      recorded_at: fmtDate(curMonth),
+    });
+
+    curMonth = new Date(curMonth);
+    curMonth.setMonth(curMonth.getMonth() + 1);
   }
 });
 
@@ -968,12 +1418,13 @@ const tables = {
   use_cases: useCases,
   features,
   improvements,
+  satisfaction_scores: satisfactionScores,
 };
 
 let total = 0;
 for (const [name, rows] of Object.entries(tables)) {
   fs.writeFileSync(path.join(outDir, `${name}.csv`), toCSV(rows), 'utf8');
-  console.log(`  ✓ ${name}.csv — ${rows.length} rows`);
+  console.log(`  ${name}.csv — ${rows.length} rows`);
   total += rows.length;
 }
 console.log(`\n  Total: ${total} rows across ${Object.keys(tables).length} tables`);
@@ -982,22 +1433,22 @@ console.log(`\n  Total: ${total} rows across ${Object.keys(tables).length} table
 
 const DDL = `
 -- ============================================================
--- Sales Dashboard — PostgreSQL Schema + Seed Data
--- Paste into https://runsql.com (select PostgreSQL)
+-- Sales Dashboard — PostgreSQL Schema + Seed Data (v2 scaled)
 -- ============================================================
 
-DROP TABLE IF EXISTS deal_stage_history CASCADE;
-DROP TABLE IF EXISTS call_attendees      CASCADE;
-DROP TABLE IF EXISTS raw_inputs          CASCADE;
-DROP TABLE IF EXISTS subscriptions       CASCADE;
-DROP TABLE IF EXISTS calls               CASCADE;
-DROP TABLE IF EXISTS deals               CASCADE;
-DROP TABLE IF EXISTS improvements        CASCADE;
-DROP TABLE IF EXISTS features            CASCADE;
-DROP TABLE IF EXISTS use_cases           CASCADE;
-DROP TABLE IF EXISTS themes              CASCADE;
-DROP TABLE IF EXISTS persons             CASCADE;
-DROP TABLE IF EXISTS companies           CASCADE;
+DROP TABLE IF EXISTS satisfaction_scores   CASCADE;
+DROP TABLE IF EXISTS deal_stage_history    CASCADE;
+DROP TABLE IF EXISTS call_attendees        CASCADE;
+DROP TABLE IF EXISTS raw_inputs            CASCADE;
+DROP TABLE IF EXISTS subscriptions         CASCADE;
+DROP TABLE IF EXISTS calls                 CASCADE;
+DROP TABLE IF EXISTS deals                 CASCADE;
+DROP TABLE IF EXISTS improvements          CASCADE;
+DROP TABLE IF EXISTS features              CASCADE;
+DROP TABLE IF EXISTS use_cases             CASCADE;
+DROP TABLE IF EXISTS themes                CASCADE;
+DROP TABLE IF EXISTS persons               CASCADE;
+DROP TABLE IF EXISTS companies             CASCADE;
 
 CREATE TABLE companies (
   id             VARCHAR(36)  PRIMARY KEY,
@@ -1050,6 +1501,7 @@ CREATE TABLE improvements (
   description     TEXT,
   status          VARCHAR(50)  NOT NULL,
   is_blocking     BOOLEAN      NOT NULL DEFAULT false,
+  priority        VARCHAR(50),
   raw_input_count INTEGER,
   created_at      TIMESTAMP    NOT NULL,
   updated_at      TIMESTAMP    NOT NULL
@@ -1065,6 +1517,10 @@ CREATE TABLE deals (
   deal_value_usd   INTEGER,
   lost_reason      VARCHAR(50),
   previous_deal_id VARCHAR(36),
+  sub_status       VARCHAR(50),
+  win_reason       VARCHAR(50),
+  key_learning     TEXT,
+  follow_up_action TEXT,
   created_at       TIMESTAMP   NOT NULL,
   closed_at        TIMESTAMP,
   follow_up_at     DATE
@@ -1086,7 +1542,10 @@ CREATE TABLE calls (
   duration_min INTEGER,
   phase        VARCHAR(50) NOT NULL,
   type         VARCHAR(50) NOT NULL,
-  notes        TEXT
+  notes        TEXT,
+  scheduled_at TIMESTAMP,
+  prep_notes   TEXT,
+  ai_summary   TEXT
 );
 
 CREATE TABLE call_attendees (
@@ -1114,16 +1573,24 @@ CREATE TABLE raw_inputs (
 );
 
 CREATE TABLE subscriptions (
-  id            VARCHAR(36)  PRIMARY KEY,
-  company_id    VARCHAR(36)  NOT NULL,
-  deal_id       VARCHAR(36)  NOT NULL,
-  plan_name     VARCHAR(100) NOT NULL,
-  mrr_usd       INTEGER      NOT NULL,
-  billing_cycle VARCHAR(50)  NOT NULL,
-  term_months   INTEGER      NOT NULL,
-  started_at    DATE         NOT NULL,
-  ended_at      DATE,
-  churn_reason  VARCHAR(50)
+  id              VARCHAR(36)  PRIMARY KEY,
+  company_id      VARCHAR(36)  NOT NULL,
+  deal_id         VARCHAR(36)  NOT NULL,
+  plan_name       VARCHAR(100) NOT NULL,
+  mrr_usd         INTEGER      NOT NULL,
+  billing_cycle   VARCHAR(50)  NOT NULL,
+  term_months     INTEGER      NOT NULL,
+  started_at      DATE         NOT NULL,
+  ended_at        DATE,
+  churn_reason    VARCHAR(50),
+  product_version VARCHAR(10)
+);
+
+CREATE TABLE satisfaction_scores (
+  id          VARCHAR(36)   PRIMARY KEY,
+  company_id  VARCHAR(36)   NOT NULL,
+  score       DECIMAL(2,1)  NOT NULL,
+  recorded_at DATE          NOT NULL
 );
 `;
 
@@ -1150,18 +1617,19 @@ const toInserts = (tableName, rows, batchSize = 100) => {
 };
 
 const insertOrder = [
-  ['companies',          companies],
-  ['persons',            persons],
-  ['themes',             themes],
-  ['use_cases',          useCases],
-  ['features',           features],
-  ['improvements',       improvements],
-  ['deals',              deals],
-  ['deal_stage_history', dealStageHistory],
-  ['calls',              calls],
-  ['call_attendees',     callAttendees],
-  ['raw_inputs',         rawInputs],
-  ['subscriptions',      subscriptions],
+  ['companies',            companies],
+  ['persons',              persons],
+  ['themes',               themes],
+  ['use_cases',            useCases],
+  ['features',             features],
+  ['improvements',         improvements],
+  ['deals',                deals],
+  ['deal_stage_history',   dealStageHistory],
+  ['calls',                calls],
+  ['call_attendees',       callAttendees],
+  ['raw_inputs',           rawInputs],
+  ['subscriptions',        subscriptions],
+  ['satisfaction_scores',  satisfactionScores],
 ];
 
 const sqlParts = [DDL];
@@ -1172,5 +1640,5 @@ for (const [name, rows] of insertOrder) {
 const sqlPath = path.join(__dirname, 'postgres.sql');
 fs.writeFileSync(sqlPath, sqlParts.join('\n'), 'utf8');
 const sqlKb = Math.round(fs.statSync(sqlPath).size / 1024);
-console.log(`  ✓ postgres.sql — ${sqlKb} KB (paste into RunSQL → PostgreSQL)`);
+console.log(`  postgres.sql — ${sqlKb} KB`);
 console.log('  Done. CSVs written to ../data/');

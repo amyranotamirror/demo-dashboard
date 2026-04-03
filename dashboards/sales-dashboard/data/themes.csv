@@ -1,6 +1,101 @@
 id,name,description
-ddee9b0a-c6ae-4a3d-aae6-bc65c745c970,Collaboration,Working together on data and dashboards
-bf16bfb8-5d1b-4ca6-b8ca-2188464c798a,Data Governance,Controlling who sees what data and when
-4b1a13a7-ce58-4ae6-b787-cc3247c70531,Reporting Speed,Making reports and dashboards load faster
-e48ad37d-9cd0-490d-b2b3-00d5d5de4f0f,Integrations,"Connecting to warehouses, tools, and external APIs"
-3e1233f2-b2c7-4d60-9225-3286441d1f9a,Administration,"User management, security, and compliance"
+104ccaf6-7726-46dc-91f6-b46f0d8c9f4c,Data Modeling — Core,Core capabilities for data modeling
+299be0ec-2c63-4dc4-aa34-2a53db48c1e8,Data Modeling — Advanced,Advanced capabilities for data modeling
+129bb025-bdc0-4d52-b62b-98847782b5d7,Data Modeling — Enterprise,Enterprise capabilities for data modeling
+7b4fc317-0bdf-44be-b9d1-a3efe92b53b1,Data Modeling — User Experience,User Experience capabilities for data modeling
+12f84945-5512-4d9d-b074-ad9c166228fe,Data Modeling — Automation,Automation capabilities for data modeling
+36ef80e6-f2f0-44cc-ad76-ce57f0d8b0bd,Visualization — Core,Core capabilities for visualization
+d5f2a059-7f28-4f69-8f41-43292d305484,Visualization — Advanced,Advanced capabilities for visualization
+2c1e4cae-d094-418d-b5e5-96ad9b784f96,Visualization — Enterprise,Enterprise capabilities for visualization
+77084f5e-9028-4672-a5f0-c362e9846a0a,Visualization — User Experience,User Experience capabilities for visualization
+311fbde7-3546-4721-a049-afd258eb9607,Visualization — Automation,Automation capabilities for visualization
+6cd4706d-e385-4f89-b180-4e7e89c175f8,Charts — Core,Core capabilities for charts
+ce9c22b7-c563-4b71-bf72-f2659afec9c7,Charts — Advanced,Advanced capabilities for charts
+d4bf1e69-7641-414c-81d1-d35dbd0a0815,Charts — Enterprise,Enterprise capabilities for charts
+1d3693ba-0750-4fd9-8e75-a19480c13138,Charts — User Experience,User Experience capabilities for charts
+e4c0efb7-b795-4c3a-b10f-a9032635ea76,Charts — Automation,Automation capabilities for charts
+79fe5fa3-bf44-47d6-b6f8-670886875dad,Security — Core,Core capabilities for security
+4f6cec4e-9021-43c3-b351-55c150e984ed,Security — Advanced,Advanced capabilities for security
+e9b0e204-0087-4500-ab42-944654a13f8b,Security — Enterprise,Enterprise capabilities for security
+9686336a-c10d-4bb7-b5d8-15d2a333cca9,Security — User Experience,User Experience capabilities for security
+74de2178-9730-4aef-8c6c-749efabfaa6b,Security — Automation,Automation capabilities for security
+d704d6c0-7fa4-4298-b359-6c565b44095b,Collaboration — Core,Core capabilities for collaboration
+5b745d6e-3034-4696-8b12-1808d3eda2b9,Collaboration — Advanced,Advanced capabilities for collaboration
+eb84d125-a3dc-4f02-8ec0-0c4f320a2426,Collaboration — Enterprise,Enterprise capabilities for collaboration
+9d89d5a5-3d05-4376-980f-5e981ec87a8d,Collaboration — User Experience,User Experience capabilities for collaboration
+a59052c6-1f50-41b7-b75c-f5a618e15163,Collaboration — Automation,Automation capabilities for collaboration
+64e0358d-ea91-4628-ad65-7aa696d28613,Performance — Core,Core capabilities for performance
+aed5ebc6-9414-447e-badd-4aa22115fd4c,Performance — Advanced,Advanced capabilities for performance
+4300b9ef-83e1-48cc-863f-34d2d35b65f9,Performance — Enterprise,Enterprise capabilities for performance
+e5288706-7a8b-4159-8cf6-5183a7caeb88,Performance — User Experience,User Experience capabilities for performance
+fbb6d067-ac0f-4286-8ef2-64ec601c057d,Performance — Automation,Automation capabilities for performance
+e73d2dd2-6369-4614-b8c1-8087d4494d3f,Integrations — Core,Core capabilities for integrations
+82b57af7-930b-4088-b7ad-5de6cb5baca1,Integrations — Advanced,Advanced capabilities for integrations
+85bd5086-cb73-4824-a5ff-c34a6aae693b,Integrations — Enterprise,Enterprise capabilities for integrations
+d24b45c2-df93-4e6e-97bd-a04c9f2ac588,Integrations — User Experience,User Experience capabilities for integrations
+cc175b69-cfaa-4eec-bb6c-f4e53703b290,Integrations — Automation,Automation capabilities for integrations
+4d1f6b46-33c6-4e58-a795-2a53d1dd3349,Admin — Core,Core capabilities for admin
+300969d0-ad63-49e7-b347-5713850ee371,Admin — Advanced,Advanced capabilities for admin
+6f864f04-562e-4fce-98b1-fcc27c3f258f,Admin — Enterprise,Enterprise capabilities for admin
+de6e91aa-baef-4be4-9827-b37a0131b201,Admin — User Experience,User Experience capabilities for admin
+ba2d1d63-4b77-4d56-9d46-34da884af371,Admin — Automation,Automation capabilities for admin
+65e28cdf-bd16-4474-9d93-6717231463b3,AI/ML — Core,Core capabilities for ai/ml
+607b59a2-c819-4e9d-945b-72478b284d09,AI/ML — Advanced,Advanced capabilities for ai/ml
+be88886f-e223-4f51-b0ae-4bc90fce7e32,AI/ML — Enterprise,Enterprise capabilities for ai/ml
+58d9e237-b3ec-499b-b1cb-39091f875bde,AI/ML — User Experience,User Experience capabilities for ai/ml
+40d69dd4-4dc3-4f51-b8dd-712e20d90fdb,AI/ML — Automation,Automation capabilities for ai/ml
+d3071f30-358e-488e-a0f5-8793fe9c6047,Embedding — Core,Core capabilities for embedding
+0b89623b-8a0c-46ca-a20b-df6e6075e007,Embedding — Advanced,Advanced capabilities for embedding
+b26ee093-0e0b-4964-b387-76b6c5636bfd,Embedding — Enterprise,Enterprise capabilities for embedding
+921fc497-6dba-4347-96cf-64c9b9f47821,Embedding — User Experience,User Experience capabilities for embedding
+28e3da46-bf89-4739-a96f-470cf0aaac71,Embedding — Automation,Automation capabilities for embedding
+663e9190-76ec-459d-8a24-97ac7cb28acb,Export/Delivery — Core,Core capabilities for export/delivery
+68bcdbe4-7f45-4db9-87ab-075e715f6244,Export/Delivery — Advanced,Advanced capabilities for export/delivery
+9ae4e947-a26f-4a04-9e36-1e1e7ab0703b,Export/Delivery — Enterprise,Enterprise capabilities for export/delivery
+6ac28412-e2e9-4b22-b433-225a0fb045a3,Export/Delivery — User Experience,User Experience capabilities for export/delivery
+ec63bb92-a3e6-4b2a-afd9-6135e4cc88d0,Export/Delivery — Automation,Automation capabilities for export/delivery
+daebe3a7-87b6-4866-b8de-fe8e17d76634,Mobile — Core,Core capabilities for mobile
+cc0783fd-a6ca-4032-9708-06a767f077cb,Mobile — Advanced,Advanced capabilities for mobile
+cfc0afae-0687-4f45-8bf2-1990934ed8a4,Mobile — Enterprise,Enterprise capabilities for mobile
+656d716c-5b62-4c78-85a1-de9e214a6178,Mobile — User Experience,User Experience capabilities for mobile
+a5a5769b-5368-4eef-a6b1-5cdc2d8043be,Mobile — Automation,Automation capabilities for mobile
+0ec96f72-0f7e-47af-bc5a-11f1edfd2172,Alerting — Core,Core capabilities for alerting
+364a36e1-bf27-4770-afbb-1de188098381,Alerting — Advanced,Advanced capabilities for alerting
+46680445-237c-44e9-8583-8a2bb181d9fe,Alerting — Enterprise,Enterprise capabilities for alerting
+db43b0c8-918e-4813-a75c-0e8aa8cf8894,Alerting — User Experience,User Experience capabilities for alerting
+3fc31917-d517-41a4-8264-0d0c65c3c67a,Alerting — Automation,Automation capabilities for alerting
+9f654c59-8ea1-4194-8a85-7492ce1120cf,Scheduling — Core,Core capabilities for scheduling
+aff3e68f-1b89-41f0-aa26-ecc9682dad3e,Scheduling — Advanced,Advanced capabilities for scheduling
+9c558b75-b9c0-465e-807b-6b3d69636d33,Scheduling — Enterprise,Enterprise capabilities for scheduling
+e25ff912-8386-4af8-9dae-c2451e944dfd,Scheduling — User Experience,User Experience capabilities for scheduling
+e7be2e82-3025-4bd1-80a2-b18ece8f39f0,Scheduling — Automation,Automation capabilities for scheduling
+a4a588bd-dde7-410c-8988-4fbf0594f68f,Git/Version Control — Core,Core capabilities for git/version control
+d50adaf8-a131-458b-b355-36a2cc702382,Git/Version Control — Advanced,Advanced capabilities for git/version control
+5402ac3c-e76c-42ba-a6e7-28874bc7fd22,Git/Version Control — Enterprise,Enterprise capabilities for git/version control
+9a9235b0-98f5-4f8d-ba63-6283f7e44376,Git/Version Control — User Experience,User Experience capabilities for git/version control
+1280a879-9929-4bc6-afe8-01ffd6159979,Git/Version Control — Automation,Automation capabilities for git/version control
+975dd548-c92c-4a16-8b9e-1756cd182471,Developer Experience — Core,Core capabilities for developer experience
+d6f841df-9d7e-4f54-8a9b-98c29aa17ce5,Developer Experience — Advanced,Advanced capabilities for developer experience
+b60614e9-fab4-480d-97a2-96d4c53d860f,Developer Experience — Enterprise,Enterprise capabilities for developer experience
+a0113cc6-f95c-4a0d-9421-0cd8bee250fc,Developer Experience — User Experience,User Experience capabilities for developer experience
+779b0734-bb3a-4ecf-bcda-5736508db85e,Developer Experience — Automation,Automation capabilities for developer experience
+53117ed1-6e5d-45f9-90d7-61fbecc71f28,Data Quality — Core,Core capabilities for data quality
+0e24cc60-de33-451c-8d48-a8719ae5e479,Data Quality — Advanced,Advanced capabilities for data quality
+f1f7b8a2-4f3d-43a2-b2a8-e9ddde11b620,Data Quality — Enterprise,Enterprise capabilities for data quality
+f0f08143-58ec-42d0-911d-8ab8783593ec,Data Quality — User Experience,User Experience capabilities for data quality
+4513296e-d7b2-4489-9be9-23bee3d8e7e2,Data Quality — Automation,Automation capabilities for data quality
+149fa3f2-2d12-4eeb-822b-a1f7f402ba3a,Semantic Layer — Core,Core capabilities for semantic layer
+e851f48d-5e09-49b5-b26d-cfcf4718a6b1,Semantic Layer — Advanced,Advanced capabilities for semantic layer
+b9c42631-82b7-489e-af75-92d478eb0672,Semantic Layer — Enterprise,Enterprise capabilities for semantic layer
+39eaeeef-3ce3-4556-b21f-a3dc964359be,Semantic Layer — User Experience,User Experience capabilities for semantic layer
+b6516c93-6a82-4e31-9222-e6d530daed7b,Semantic Layer — Automation,Automation capabilities for semantic layer
+48973d5a-2efc-455a-81e9-7dd2f66a047c,Self-Service — Core,Core capabilities for self-service
+628557b2-6d5a-4310-a0de-f016fc20c96c,Self-Service — Advanced,Advanced capabilities for self-service
+4b1bff07-e45d-476a-add8-6cdf1ef8423c,Self-Service — Enterprise,Enterprise capabilities for self-service
+420f4253-8619-4349-a5b4-e625cd649969,Self-Service — User Experience,User Experience capabilities for self-service
+7af742c8-3b21-47ba-b481-290628eb11e1,Self-Service — Automation,Automation capabilities for self-service
+88c7dc29-6c6e-4f83-bb3f-c22bb143abf4,Multi-tenancy — Core,Core capabilities for multi-tenancy
+121bc7ca-9c31-43dc-ae33-8c3bf248b6b9,Multi-tenancy — Advanced,Advanced capabilities for multi-tenancy
+70fea702-e935-4fa7-84c1-2a2aa4813e5d,Multi-tenancy — Enterprise,Enterprise capabilities for multi-tenancy
+688fd455-9f10-4e58-84c3-39e948ae8ced,Multi-tenancy — User Experience,User Experience capabilities for multi-tenancy
+c6a7d885-421d-43bc-83c0-5e6487328c6c,Multi-tenancy — Automation,Automation capabilities for multi-tenancy

@@ -1,0 +1,848 @@
+{
+  "generatedAt": "2026-04-14",
+  "inferredToday": "2026-04-14",
+  "overview": {
+    "pipelineValue": 1618600,
+    "pipelineCount": 120,
+    "pipelineCoverage": 311,
+    "winRateCount": 63,
+    "winRateValue": 66,
+    "qWinRate": 68,
+    "qWon": 30,
+    "qLost": 14,
+    "qClosedRevenue": 434000,
+    "quota": 520000,
+    "quotaAttainment": 83,
+    "avgCycleWon": 44,
+    "avgCycleLost": 44,
+    "ghostRate": 34,
+    "ghostCount": 63,
+    "nrr": 108,
+    "activeMrr": 251592,
+    "activeCustomerCount": 256
+  },
+  "funnel": {
+    "stages": {
+      "qualifying": 21,
+      "validating": 32,
+      "progressing": 33,
+      "focus": 18
+    },
+    "funnelCounts": {
+      "qualifying": 1396,
+      "validating": 1312,
+      "progressing": 830,
+      "focus": 797,
+      "won": 763
+    }
+  },
+  "wonLostMonthly": [
+    {
+      "month": "2025-10",
+      "won": 3,
+      "lost": 6,
+      "wonVal": 10100
+    },
+    {
+      "month": "2025-11",
+      "won": 11,
+      "lost": 7,
+      "wonVal": 79000
+    },
+    {
+      "month": "2025-12",
+      "won": 14,
+      "lost": 12,
+      "wonVal": 172100
+    },
+    {
+      "month": "2026-01",
+      "won": 16,
+      "lost": 11,
+      "wonVal": 215300
+    },
+    {
+      "month": "2026-02",
+      "won": 15,
+      "lost": 8,
+      "wonVal": 139000
+    },
+    {
+      "month": "2026-03",
+      "won": 13,
+      "lost": 11,
+      "wonVal": 88800
+    },
+    {
+      "month": "2026-04",
+      "won": 5,
+      "lost": 5,
+      "wonVal": 74400
+    }
+  ],
+  "winRateByMonth": [
+    {
+      "month": "2025-10",
+      "winRate": 33
+    },
+    {
+      "month": "2025-11",
+      "winRate": 61
+    },
+    {
+      "month": "2025-12",
+      "winRate": 54
+    },
+    {
+      "month": "2026-01",
+      "winRate": 59
+    },
+    {
+      "month": "2026-02",
+      "winRate": 65
+    },
+    {
+      "month": "2026-03",
+      "winRate": 54
+    },
+    {
+      "month": "2026-04",
+      "winRate": 50
+    }
+  ],
+  "lostReasons": [
+    {
+      "reason": "missing_feature",
+      "count": 155,
+      "pct": 34
+    },
+    {
+      "reason": "competitor_win",
+      "count": 124,
+      "pct": 28
+    },
+    {
+      "reason": "pricing",
+      "count": 96,
+      "pct": 21
+    },
+    {
+      "reason": "no_budget",
+      "count": 37,
+      "pct": 8
+    },
+    {
+      "reason": "ghosted",
+      "count": 26,
+      "pct": 6
+    },
+    {
+      "reason": "not_a_fit",
+      "count": 12,
+      "pct": 3
+    }
+  ],
+  "winReasons": [
+    {
+      "reason": "product_fit",
+      "count": 341,
+      "pct": 45
+    },
+    {
+      "reason": "relationship",
+      "count": 186,
+      "pct": 24
+    },
+    {
+      "reason": "pricing_advantage",
+      "count": 129,
+      "pct": 17
+    },
+    {
+      "reason": "competitive_gap",
+      "count": 75,
+      "pct": 10
+    },
+    {
+      "reason": "speed_to_value",
+      "count": 20,
+      "pct": 3
+    },
+    {
+      "reason": "other",
+      "count": 12,
+      "pct": 2
+    }
+  ],
+  "pipeline": {
+    "sample": [
+      {
+        "company": "CartWave Indonesia",
+        "country": "Indonesia",
+        "stage": "validating",
+        "subStatus": "focus",
+        "value": 60000,
+        "daysOpen": 52,
+        "lastActivity": "2026-03-04",
+        "owner": "James Wilson",
+        "lostReason": ""
+      },
+      {
+        "company": "PayRoute Singapore",
+        "country": "Singapore",
+        "stage": "progressing",
+        "subStatus": "focus",
+        "value": 60000,
+        "daysOpen": 97,
+        "lastActivity": "2026-01-17",
+        "owner": "Mike Torres",
+        "lostReason": ""
+      },
+      {
+        "company": "SageTech USA",
+        "country": "Indonesia",
+        "stage": "focus",
+        "subStatus": "focus",
+        "value": 36000,
+        "daysOpen": 25,
+        "lastActivity": "2026-03-21",
+        "owner": "James Wilson",
+        "lostReason": ""
+      },
+      {
+        "company": "DentaCare India",
+        "country": "India",
+        "stage": "validating",
+        "subStatus": "focus",
+        "value": 36000,
+        "daysOpen": 34,
+        "lastActivity": "2026-03-28",
+        "owner": "Sarah Chen",
+        "lostReason": ""
+      },
+      {
+        "company": "EchoPath Thailand",
+        "country": "Switzerland",
+        "stage": "qualifying",
+        "subStatus": "focus",
+        "value": 36000,
+        "daysOpen": 65,
+        "lastActivity": "2026-02-28",
+        "owner": "Sarah Chen",
+        "lostReason": ""
+      },
+      {
+        "company": "Advance Intelligence",
+        "country": "Singapore",
+        "stage": "progressing",
+        "subStatus": "focus",
+        "value": 36000,
+        "daysOpen": 30,
+        "lastActivity": "2026-03-23",
+        "owner": "Priya Patel",
+        "lostReason": ""
+      },
+      {
+        "company": "JadeStack Indonesia",
+        "country": "Thailand",
+        "stage": "negotiating",
+        "subStatus": "focus",
+        "value": 18000,
+        "daysOpen": 28,
+        "lastActivity": "2026-03-17",
+        "owner": "Rachel Lee",
+        "lostReason": ""
+      },
+      {
+        "company": "ApexBuild Brazil",
+        "country": "Germany",
+        "stage": "focus",
+        "subStatus": "focus",
+        "value": 18000,
+        "daysOpen": 47,
+        "lastActivity": "2026-03-08",
+        "owner": "Mike Torres",
+        "lostReason": ""
+      },
+      {
+        "company": "CityRetail Thailand",
+        "country": "Thailand",
+        "stage": "validating",
+        "subStatus": "focus",
+        "value": 18000,
+        "daysOpen": 59,
+        "lastActivity": "2026-03-14",
+        "owner": "Priya Patel",
+        "lostReason": ""
+      },
+      {
+        "company": "BloxLabs Thailand",
+        "country": "France",
+        "stage": "progressing",
+        "subStatus": "focus",
+        "value": 18000,
+        "daysOpen": 19,
+        "lastActivity": "2026-03-29",
+        "owner": "Mike Torres",
+        "lostReason": ""
+      }
+    ],
+    "stageCount": {
+      "qualifying": 21,
+      "validating": 32,
+      "progressing": 33,
+      "focus": 18
+    },
+    "subStatusCount": {
+      "promising": 44,
+      "highlight": 15,
+      "focus": 34,
+      "at_risk": 27
+    }
+  },
+  "recentResults": [
+    {
+      "company": "WareLink Malaysia",
+      "outcome": "lost",
+      "value": 1200,
+      "owner": "Rachel Lee",
+      "daysToClose": 54,
+      "lostReason": "no_budget",
+      "winReason": "",
+      "keyLearning": "Missing Excel export killed it",
+      "closedAt": "2026-04-12 03:54:14"
+    },
+    {
+      "company": "CartWave Indonesia",
+      "outcome": "lost",
+      "value": 36000,
+      "owner": "Rachel Lee",
+      "daysToClose": 31,
+      "lostReason": "pricing",
+      "winReason": "",
+      "keyLearning": "Budget frozen mid-quarter",
+      "closedAt": "2026-04-10 03:54:14"
+    },
+    {
+      "company": "PulseCore Indonesia",
+      "outcome": "lost",
+      "value": 9600,
+      "owner": "Mike Torres",
+      "daysToClose": 55,
+      "lostReason": "competitor_win",
+      "winReason": "",
+      "keyLearning": "Looker ecosystem lock-in",
+      "closedAt": "2026-04-07 03:54:14"
+    },
+    {
+      "company": "XenoMed Indonesia",
+      "outcome": "won",
+      "value": 4800,
+      "owner": "Rachel Lee",
+      "daysToClose": 57,
+      "lostReason": "",
+      "winReason": "speed_to_value",
+      "keyLearning": "Self-serve trial converted smoothly",
+      "closedAt": "2026-04-06 03:54:14"
+    },
+    {
+      "company": "PayNow Indonesia",
+      "outcome": "won",
+      "value": 4800,
+      "owner": "James Wilson",
+      "daysToClose": 51,
+      "lostReason": "",
+      "winReason": "product_fit",
+      "keyLearning": "Partner referral, smooth process",
+      "closedAt": "2026-04-05 03:54:14"
+    },
+    {
+      "company": "JadeCare Indonesia",
+      "outcome": "lost",
+      "value": 9600,
+      "owner": "Priya Patel",
+      "daysToClose": 45,
+      "lostReason": "competitor_win",
+      "winReason": "",
+      "keyLearning": "Sigma spreadsheet UX won",
+      "closedAt": "2026-04-05 03:54:14"
+    },
+    {
+      "company": "GoTo Financial",
+      "outcome": "won",
+      "value": 2400,
+      "owner": "Jordan Lee",
+      "daysToClose": 84,
+      "lostReason": "",
+      "winReason": "relationship",
+      "keyLearning": "White-glove onboarding helped",
+      "closedAt": "2026-04-02 03:54:14"
+    },
+    {
+      "company": "TrueStack India",
+      "outcome": "won",
+      "value": 60000,
+      "owner": "James Wilson",
+      "daysToClose": 29,
+      "lostReason": "",
+      "winReason": "product_fit",
+      "keyLearning": "White-glove onboarding helped",
+      "closedAt": "2026-04-02 03:54:14"
+    }
+  ],
+  "repStats": [
+    {
+      "name": "Mike Torres",
+      "totalDeals": 412,
+      "wonDeals": 232,
+      "lostDeals": 104,
+      "openDeals": 31,
+      "ghostDeals": 8,
+      "pipelineValue": 475500,
+      "wonValue": 2442000,
+      "winRateCount": 69,
+      "winRateValue": 68,
+      "ghostRate": 21,
+      "callsPerWeek": 31.6,
+      "topLostReason": "competitor_win"
+    },
+    {
+      "name": "Rachel Lee",
+      "totalDeals": 169,
+      "wonDeals": 91,
+      "lostDeals": 49,
+      "openDeals": 13,
+      "ghostDeals": 7,
+      "pipelineValue": 90500,
+      "wonValue": 1066700,
+      "winRateCount": 65,
+      "winRateValue": 62,
+      "ghostRate": 35,
+      "callsPerWeek": 23.3,
+      "topLostReason": "missing_feature"
+    },
+    {
+      "name": "Priya Patel",
+      "totalDeals": 288,
+      "wonDeals": 151,
+      "lostDeals": 84,
+      "openDeals": 22,
+      "ghostDeals": 6,
+      "pipelineValue": 246100,
+      "wonValue": 2186700,
+      "winRateCount": 64,
+      "winRateValue": 72,
+      "ghostRate": 21,
+      "callsPerWeek": 24.2,
+      "topLostReason": "competitor_win"
+    },
+    {
+      "name": "James Wilson",
+      "totalDeals": 125,
+      "wonDeals": 56,
+      "lostDeals": 37,
+      "openDeals": 14,
+      "ghostDeals": 12,
+      "pipelineValue": 280600,
+      "wonValue": 670500,
+      "winRateCount": 60,
+      "winRateValue": 63,
+      "ghostRate": 46,
+      "callsPerWeek": 19.8,
+      "topLostReason": "missing_feature"
+    },
+    {
+      "name": "Jordan Lee",
+      "totalDeals": 208,
+      "wonDeals": 56,
+      "lostDeals": 95,
+      "openDeals": 19,
+      "ghostDeals": 30,
+      "pipelineValue": 222500,
+      "wonValue": 851400,
+      "winRateCount": 37,
+      "winRateValue": 56,
+      "ghostRate": 61,
+      "callsPerWeek": 20.9,
+      "topLostReason": "missing_feature"
+    }
+  ],
+  "customers": {
+    "activeCount": 256,
+    "activeMrr": 251592,
+    "avgMrrPerCustomer": 983,
+    "nrr": 108,
+    "mrrChurnRate": 2,
+    "atRiskMrr": 168490,
+    "criticalCount": 0,
+    "watchCount": 250,
+    "planDist": {
+      "Business": 151,
+      "Growth": 190,
+      "Enterprise": 45,
+      "Starter": 142
+    },
+    "versionDist": {
+      "2.0": 110,
+      "2.5": 55,
+      "2.7": 51,
+      "3.0": 175,
+      "4.0": 137
+    },
+    "mrrByMonth": {
+      "2025-11": 174581,
+      "2025-12": 178829,
+      "2026-01": 183635,
+      "2026-02": 189739,
+      "2026-03": 193788,
+      "2026-04": 198852
+    },
+    "topCountries": [
+      {
+        "country": "Indonesia",
+        "count": 63,
+        "mrr": 27077
+      },
+      {
+        "country": "Singapore",
+        "count": 65,
+        "mrr": 26915
+      },
+      {
+        "country": "India",
+        "count": 44,
+        "mrr": 26896
+      },
+      {
+        "country": "Australia",
+        "count": 38,
+        "mrr": 26162
+      },
+      {
+        "country": "Vietnam",
+        "count": 46,
+        "mrr": 22834
+      },
+      {
+        "country": "Thailand",
+        "count": 41,
+        "mrr": 21659
+      },
+      {
+        "country": "Philippines",
+        "count": 50,
+        "mrr": 19370
+      },
+      {
+        "country": "Germany",
+        "count": 29,
+        "mrr": 17491
+      }
+    ],
+    "accountHealth": [
+      {
+        "company": "AutoFlow Germany",
+        "country": "Germany",
+        "mrr": 1999,
+        "plan": "Enterprise",
+        "daysDark": 2695,
+        "daysToRenewal": null,
+        "openIssues": 2,
+        "health": "watch",
+        "version": "2.0"
+      },
+      {
+        "company": "DentaCare India",
+        "country": "India",
+        "mrr": 1999,
+        "plan": "Enterprise",
+        "daysDark": 1191,
+        "daysToRenewal": null,
+        "openIssues": 4,
+        "health": "watch",
+        "version": "2.0"
+      },
+      {
+        "company": "BuySmart Korea",
+        "country": "South Korea",
+        "mrr": 1999,
+        "plan": "Enterprise",
+        "daysDark": 1904,
+        "daysToRenewal": null,
+        "openIssues": 4,
+        "health": "watch",
+        "version": "2.0"
+      },
+      {
+        "company": "PeakTech South",
+        "country": "Vietnam",
+        "mrr": 1999,
+        "plan": "Enterprise",
+        "daysDark": 1762,
+        "daysToRenewal": null,
+        "openIssues": 2,
+        "health": "watch",
+        "version": "2.0"
+      },
+      {
+        "company": "TradeNest Indonesia",
+        "country": "Indonesia",
+        "mrr": 1999,
+        "plan": "Enterprise",
+        "daysDark": 1581,
+        "daysToRenewal": null,
+        "openIssues": 8,
+        "health": "watch",
+        "version": "2.0"
+      },
+      {
+        "company": "ValueEdge Korea",
+        "country": "South Korea",
+        "mrr": 1999,
+        "plan": "Enterprise",
+        "daysDark": 997,
+        "daysToRenewal": null,
+        "openIssues": 4,
+        "health": "watch",
+        "version": "2.5"
+      },
+      {
+        "company": "Pomelo Fashion",
+        "country": "Thailand",
+        "mrr": 1999,
+        "plan": "Enterprise",
+        "daysDark": 425,
+        "daysToRenewal": null,
+        "openIssues": 8,
+        "health": "watch",
+        "version": "3.0"
+      },
+      {
+        "company": "Doctor Anywhere",
+        "country": "Singapore",
+        "mrr": 1999,
+        "plan": "Enterprise",
+        "daysDark": 493,
+        "daysToRenewal": null,
+        "openIssues": 11,
+        "health": "watch",
+        "version": "3.0"
+      },
+      {
+        "company": "EcoFreight Germany",
+        "country": "Germany",
+        "mrr": 1999,
+        "plan": "Enterprise",
+        "daysDark": 214,
+        "daysToRenewal": null,
+        "openIssues": 9,
+        "health": "watch",
+        "version": "2.5"
+      },
+      {
+        "company": "ShopSense Korea",
+        "country": "South Korea",
+        "mrr": 1999,
+        "plan": "Enterprise",
+        "daysDark": 220,
+        "daysToRenewal": null,
+        "openIssues": 6,
+        "health": "watch",
+        "version": "3.0"
+      },
+      {
+        "company": "TrueStack India",
+        "country": "India",
+        "mrr": 1999,
+        "plan": "Enterprise",
+        "daysDark": 168,
+        "daysToRenewal": null,
+        "openIssues": 8,
+        "health": "watch",
+        "version": "3.0"
+      },
+      {
+        "company": "VoltCare UK",
+        "country": "India",
+        "mrr": 1999,
+        "plan": "Enterprise",
+        "daysDark": 197,
+        "daysToRenewal": null,
+        "openIssues": 4,
+        "health": "watch",
+        "version": "3.0"
+      },
+      {
+        "company": "PrimePay Germany",
+        "country": "Germany",
+        "mrr": 1999,
+        "plan": "Enterprise",
+        "daysDark": 287,
+        "daysToRenewal": null,
+        "openIssues": 1,
+        "health": "watch",
+        "version": "3.0"
+      },
+      {
+        "company": "PlanBase India",
+        "country": "India",
+        "mrr": 1999,
+        "plan": "Enterprise",
+        "daysDark": 18,
+        "daysToRenewal": null,
+        "openIssues": 2,
+        "health": "watch",
+        "version": "4.0"
+      },
+      {
+        "company": "ByteForce India",
+        "country": "India",
+        "mrr": 1999,
+        "plan": "Enterprise",
+        "daysDark": 48,
+        "daysToRenewal": null,
+        "openIssues": 3,
+        "health": "watch",
+        "version": "3.0"
+      }
+    ],
+    "upcomingRenewals": 0,
+    "avgSatisfaction": 3.7
+  },
+  "market": {
+    "topCompetitors": [
+      {
+        "name": "Metabase",
+        "mentions": 2606,
+        "winRate": 62,
+        "dealCount": 464
+      },
+      {
+        "name": "Tableau",
+        "mentions": 1953,
+        "winRate": 64,
+        "dealCount": 447
+      },
+      {
+        "name": "Power BI",
+        "mentions": 1622,
+        "winRate": 64,
+        "dealCount": 440
+      },
+      {
+        "name": "Looker",
+        "mentions": 1280,
+        "winRate": 68,
+        "dealCount": 407
+      },
+      {
+        "name": "Sigma",
+        "mentions": 842,
+        "winRate": 72,
+        "dealCount": 345
+      },
+      {
+        "name": "Apache Superset",
+        "mentions": 513,
+        "winRate": 74,
+        "dealCount": 289
+      }
+    ],
+    "topImprovements": [
+      {
+        "title": "Extend notifications for Smart validator for Multi-tenancy #981 #999",
+        "status": "shipped",
+        "isBlocking": false,
+        "companyCount": 14,
+        "rawInputCount": 10,
+        "featureStatus": "in_development"
+      },
+      {
+        "title": "Support configuration for Bulk parser for Mobile #292 #2310",
+        "status": "shipped",
+        "isBlocking": false,
+        "companyCount": 13,
+        "rawInputCount": 7,
+        "featureStatus": "planned"
+      },
+      {
+        "title": "Add workflow for Custom validator for Developer Experienc #2401",
+        "status": "open",
+        "isBlocking": false,
+        "companyCount": 13,
+        "rawInputCount": 1,
+        "featureStatus": "in_development"
+      },
+      {
+        "title": "Support workflow for Bulk validator for Security #82 #3100",
+        "status": "wont_do",
+        "isBlocking": false,
+        "companyCount": 13,
+        "rawInputCount": 4,
+        "featureStatus": "shipped"
+      },
+      {
+        "title": "Extend scheduling for Smart connector for Self-Service #471 #3489",
+        "status": "workaround",
+        "isBlocking": true,
+        "companyCount": 13,
+        "rawInputCount": 9,
+        "featureStatus": "shipped"
+      },
+      {
+        "title": "Rework permissions for Async picker for Embedding #739 #3757",
+        "status": "deferred",
+        "isBlocking": false,
+        "companyCount": 13,
+        "rawInputCount": 11,
+        "featureStatus": "planned"
+      },
+      {
+        "title": "Improve caching for Auto builder for Data Modeling #24 #42",
+        "status": "planned",
+        "isBlocking": false,
+        "companyCount": 12,
+        "rawInputCount": 1,
+        "featureStatus": "shipped"
+      },
+      {
+        "title": "Enable permissions for Inline picker for Visualization #36 #54",
+        "status": "planned",
+        "isBlocking": false,
+        "companyCount": 12,
+        "rawInputCount": 2,
+        "featureStatus": "in_development"
+      },
+      {
+        "title": "Extend rendering for Smart viewer for Collaboration #111 #129",
+        "status": "workaround",
+        "isBlocking": false,
+        "companyCount": 12,
+        "rawInputCount": 4,
+        "featureStatus": "planned"
+      },
+      {
+        "title": "Rework scheduling for Async renderer for Integrations #169 #187",
+        "status": "open",
+        "isBlocking": false,
+        "companyCount": 12,
+        "rawInputCount": 3,
+        "featureStatus": "in_development"
+      }
+    ],
+    "blockingImprovements": [
+      {
+        "title": "Extend scheduling for Smart connector for Self-Service #471 #3489",
+        "status": "workaround",
+        "isBlocking": true,
+        "companyCount": 13,
+        "rawInputCount": 9,
+        "featureStatus": "shipped"
+      }
+    ]
+  },
+  "calls": {
+    "recentWeekCount": 13,
+    "upcoming": []
+  }
+}

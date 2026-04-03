@@ -1,0 +1,62 @@
+// Dimension: Improvements (product team's structured customer problems)
+// Bridges raw_inputs (noisy, many) → features (clean, few).
+// "One" side of: raw_inputs.improvement_id.
+// feature_id optionally links to dim_product_taxonomy for theme/use-case context.
+
+Model dim_improvements {
+  type: 'table'
+  label: 'Improvements'
+  table_name: 'improvements'
+  data_source_name: 'neondb'
+  description: 'Product-team synthesis of many raw signals into a single structured customer problem. Null feature_id = no feature built yet.'
+
+  dimension id {
+    label: 'Improvement ID'
+    type: 'text'
+    primary_key: true
+    definition: @sql {{ #SOURCE.id }};;
+  }
+  dimension feature_id {
+    label: 'Feature ID'
+    type: 'text'
+    hidden: true
+    description: 'FK to dim_product_taxonomy.id — null if no feature exists yet'
+  }
+  dimension title {
+    label: 'Improvement Title'
+    type: 'text'
+  }
+  dimension description {
+    label: 'Description'
+    type: 'text'
+    hidden: true
+  }
+  dimension status {
+    label: 'Status'
+    type: 'text'
+    description: 'open | planned | shipped | workaround | wont_do | deferred'
+  }
+  dimension is_blocking {
+    label: 'Is Blocking'
+    type: 'truefalse'
+    description: 'true = actively blocking deals or renewals'
+  }
+  dimension priority {
+    label: 'Priority'
+    type: 'text'
+    description: 'critical | high | medium | low'
+  }
+  dimension raw_input_count {
+    label: 'Raw Input Count'
+    type: 'number'
+    description: 'Denormalized count of linked raw inputs — for quick sorting without a join'
+  }
+  dimension created_at {
+    label: 'Created At'
+    type: 'datetime'
+  }
+  dimension updated_at {
+    label: 'Updated At'
+    type: 'datetime'
+  }
+}

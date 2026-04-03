@@ -1,11 +1,501 @@
 id,theme_id,name,description
-8827d88a-12e7-46f7-a1bb-f19c58aefbad,ddee9b0a-c6ae-4a3d-aae6-bc65c745c970,External sharing,Share dashboards outside the organization
-578e4e2e-da34-40a0-b12e-08e6285af78c,ddee9b0a-c6ae-4a3d-aae6-bc65c745c970,Team workspaces,Organize content by team or project
-d15a5df5-dc6e-459d-84d4-448c0a05f7b3,bf16bfb8-5d1b-4ca6-b8ca-2188464c798a,Column-level access,Restrict access to sensitive columns
-85b22292-40d3-481e-979b-bf7c6557cf66,bf16bfb8-5d1b-4ca6-b8ca-2188464c798a,Row-level security,Restrict visible rows per user or role
-e2a7c969-6f3c-47c3-8e68-15227ad0e859,4b1a13a7-ce58-4ae6-b787-cc3247c70531,Query caching,Cache results to speed up repeated queries
-d343957b-4fb1-4437-8267-8f99612b1bc3,4b1a13a7-ce58-4ae6-b787-cc3247c70531,Pre-aggregation,Pre-compute heavy aggregates at refresh time
-1cdc9d99-9428-4890-817a-b9e21838a502,e48ad37d-9cd0-490d-b2b3-00d5d5de4f0f,Warehouse connectors,Native connections to major data warehouses
-f5c8e6a4-2719-4231-832c-eac0b23aec06,e48ad37d-9cd0-490d-b2b3-00d5d5de4f0f,API & embedding,Embed dashboards and access data via API
-3ec89fbd-704d-4ad1-8d6b-e1e7c238db68,3e1233f2-b2c7-4d60-9225-3286441d1f9a,SSO & authentication,Single sign-on and enterprise authentication
-caafc018-1022-4452-8d83-a817918f75ae,3e1233f2-b2c7-4d60-9225-3286441d1f9a,Audit & compliance,Track user actions for security and compliance
+645da331-866f-4175-81ea-519e51055cf6,104ccaf6-7726-46dc-91f6-b46f0d8c9f4c,Manage queries (Data Modeling),Manage queries in the context of data modeling — core
+943394b6-0984-4f3d-9d8a-5be247845d70,104ccaf6-7726-46dc-91f6-b46f0d8c9f4c,Configure metrics (Data Modeling),Configure metrics in the context of data modeling — core
+64a40557-9d97-40c0-8d5b-f595f66bd8fc,104ccaf6-7726-46dc-91f6-b46f0d8c9f4c,Automate permissions (Data Modeling),Automate permissions in the context of data modeling — core
+008b6e4e-e2bb-4ffb-bb1a-25995fc2610b,104ccaf6-7726-46dc-91f6-b46f0d8c9f4c,Monitor workflows (Data Modeling),Monitor workflows in the context of data modeling — core
+1115cb64-cafe-40ea-83b3-e23700fb8229,104ccaf6-7726-46dc-91f6-b46f0d8c9f4c,Analyze alerts (Data Modeling),Analyze alerts in the context of data modeling — core
+1f327bd6-5ba8-4654-9c25-8ec9f9131942,299be0ec-2c63-4dc4-aa34-2a53db48c1e8,Optimize pipelines (Data Modeling),Optimize pipelines in the context of data modeling — advanced
+ad91fa43-b818-474c-bd71-067d54855193,299be0ec-2c63-4dc4-aa34-2a53db48c1e8,Customize schemas (Data Modeling),Customize schemas in the context of data modeling — advanced
+c3cf567b-f12a-499c-98f0-193065b3b1d7,299be0ec-2c63-4dc4-aa34-2a53db48c1e8,Share users (Data Modeling),Share users in the context of data modeling — advanced
+36bcf275-4e58-48a0-a44a-5d06b9cd35af,299be0ec-2c63-4dc4-aa34-2a53db48c1e8,Export teams (Data Modeling),Export teams in the context of data modeling — advanced
+585f7d2b-8007-4976-ba6b-81696579a7e4,299be0ec-2c63-4dc4-aa34-2a53db48c1e8,Schedule roles (Data Modeling),Schedule roles in the context of data modeling — advanced
+446449c7-84cc-4bf7-8209-64cdf0e8df67,129bb025-bdc0-4d52-b62b-98847782b5d7,Validate connections (Data Modeling),Validate connections in the context of data modeling — enterprise
+4ca8c930-dd01-475b-aadc-cb8a8149a4a2,129bb025-bdc0-4d52-b62b-98847782b5d7,Transform templates (Data Modeling),Transform templates in the context of data modeling — enterprise
+c68e92a8-087a-486b-ad44-f646d7fb26bd,129bb025-bdc0-4d52-b62b-98847782b5d7,Filter dashboards (Data Modeling),Filter dashboards in the context of data modeling — enterprise
+6abaa5f9-a142-421b-8c48-d05c0b2cbfe0,129bb025-bdc0-4d52-b62b-98847782b5d7,Aggregate reports (Data Modeling),Aggregate reports in the context of data modeling — enterprise
+6719c56a-b36a-4a2d-b4fd-daefc50aa626,129bb025-bdc0-4d52-b62b-98847782b5d7,Secure data sources (Data Modeling),Secure data sources in the context of data modeling — enterprise
+2008f817-d6cf-4b87-a677-ea19deb43b0e,7b4fc317-0bdf-44be-b9d1-a3efe92b53b1,Manage queries (Data Modeling),Manage queries in the context of data modeling — user experience
+bdad2f6b-40bf-4704-896d-fbb70a67bc57,7b4fc317-0bdf-44be-b9d1-a3efe92b53b1,Configure metrics (Data Modeling),Configure metrics in the context of data modeling — user experience
+95f79681-01aa-4900-9144-16728d3d5477,7b4fc317-0bdf-44be-b9d1-a3efe92b53b1,Automate permissions (Data Modeling),Automate permissions in the context of data modeling — user experience
+7081fb77-bcaa-4ec0-8380-ba4d600f26f9,7b4fc317-0bdf-44be-b9d1-a3efe92b53b1,Monitor workflows (Data Modeling),Monitor workflows in the context of data modeling — user experience
+6f71df6c-8e99-4f6e-9c51-fcf5c29eebbe,7b4fc317-0bdf-44be-b9d1-a3efe92b53b1,Analyze alerts (Data Modeling),Analyze alerts in the context of data modeling — user experience
+7064e94a-a7b3-4e1b-8af2-6fff85cf25f7,12f84945-5512-4d9d-b074-ad9c166228fe,Optimize pipelines (Data Modeling),Optimize pipelines in the context of data modeling — automation
+b404131b-efa9-43ee-b00e-7617e9aa802d,12f84945-5512-4d9d-b074-ad9c166228fe,Customize schemas (Data Modeling),Customize schemas in the context of data modeling — automation
+a8a24058-c7a6-4841-b872-4e0d4576b047,12f84945-5512-4d9d-b074-ad9c166228fe,Share users (Data Modeling),Share users in the context of data modeling — automation
+5005e820-9388-483f-b6a8-7a4325406d04,12f84945-5512-4d9d-b074-ad9c166228fe,Export teams (Data Modeling),Export teams in the context of data modeling — automation
+655cf69f-d7de-4fb6-b1eb-ccb227c5bed5,12f84945-5512-4d9d-b074-ad9c166228fe,Schedule roles (Data Modeling),Schedule roles in the context of data modeling — automation
+4f4aeec0-54a7-4300-ae0a-f20fa14a3397,36ef80e6-f2f0-44cc-ad76-ce57f0d8b0bd,Validate connections (Visualization),Validate connections in the context of visualization — core
+3f7e21a7-eb88-4bc0-b929-b8bad892b66c,36ef80e6-f2f0-44cc-ad76-ce57f0d8b0bd,Transform templates (Visualization),Transform templates in the context of visualization — core
+42691758-e3d0-483b-a7be-545ad77bd0f8,36ef80e6-f2f0-44cc-ad76-ce57f0d8b0bd,Filter dashboards (Visualization),Filter dashboards in the context of visualization — core
+cfbaeb68-7087-4847-b83e-a7970ca4ebac,36ef80e6-f2f0-44cc-ad76-ce57f0d8b0bd,Aggregate reports (Visualization),Aggregate reports in the context of visualization — core
+de544a2b-6e27-4078-9555-1955de8f6f9f,36ef80e6-f2f0-44cc-ad76-ce57f0d8b0bd,Secure data sources (Visualization),Secure data sources in the context of visualization — core
+0c0b427f-e99d-4aa4-b4a9-8105c3f7e575,d5f2a059-7f28-4f69-8f41-43292d305484,Manage queries (Visualization),Manage queries in the context of visualization — advanced
+bd47e361-89f2-4c7f-8a10-c60c6c7f03fd,d5f2a059-7f28-4f69-8f41-43292d305484,Configure metrics (Visualization),Configure metrics in the context of visualization — advanced
+afe0f198-d05c-4a16-8992-ed154905c0b3,d5f2a059-7f28-4f69-8f41-43292d305484,Automate permissions (Visualization),Automate permissions in the context of visualization — advanced
+541c685f-b449-4d36-b2e2-b012b8bc9f07,d5f2a059-7f28-4f69-8f41-43292d305484,Monitor workflows (Visualization),Monitor workflows in the context of visualization — advanced
+3c3e72d2-49a6-4619-98fb-14ddc605dfd0,d5f2a059-7f28-4f69-8f41-43292d305484,Analyze alerts (Visualization),Analyze alerts in the context of visualization — advanced
+e9e0d1e6-2be8-4578-acb6-c26f5aedb7d4,2c1e4cae-d094-418d-b5e5-96ad9b784f96,Optimize pipelines (Visualization),Optimize pipelines in the context of visualization — enterprise
+78e0fd8e-edf7-4b82-9863-c61433c0ef02,2c1e4cae-d094-418d-b5e5-96ad9b784f96,Customize schemas (Visualization),Customize schemas in the context of visualization — enterprise
+541b42ed-2ad1-4210-b302-e12d97bccdb9,2c1e4cae-d094-418d-b5e5-96ad9b784f96,Share users (Visualization),Share users in the context of visualization — enterprise
+2c6655de-c2d6-440a-9e7a-ef4780c724d2,2c1e4cae-d094-418d-b5e5-96ad9b784f96,Export teams (Visualization),Export teams in the context of visualization — enterprise
+63114578-25a0-4b0e-8641-355328afc6ec,2c1e4cae-d094-418d-b5e5-96ad9b784f96,Schedule roles (Visualization),Schedule roles in the context of visualization — enterprise
+e796d20a-bf1e-49a0-9a71-f1d5e7809614,77084f5e-9028-4672-a5f0-c362e9846a0a,Validate connections (Visualization),Validate connections in the context of visualization — user experience
+ebe45120-0724-4fb9-8bb4-fc90ff598299,77084f5e-9028-4672-a5f0-c362e9846a0a,Transform templates (Visualization),Transform templates in the context of visualization — user experience
+c27cca53-e4cd-4f37-b909-09019e504a30,77084f5e-9028-4672-a5f0-c362e9846a0a,Filter dashboards (Visualization),Filter dashboards in the context of visualization — user experience
+2fcb925b-bc6b-405b-bf5d-729d8169316f,77084f5e-9028-4672-a5f0-c362e9846a0a,Aggregate reports (Visualization),Aggregate reports in the context of visualization — user experience
+5b6b92cf-85ea-4b28-b97d-63636fd0e627,77084f5e-9028-4672-a5f0-c362e9846a0a,Secure data sources (Visualization),Secure data sources in the context of visualization — user experience
+6fcde54a-80c0-467b-891d-fa7421fa2b88,311fbde7-3546-4721-a049-afd258eb9607,Manage queries (Visualization),Manage queries in the context of visualization — automation
+85a8da51-15d4-49d5-bccd-e26dc8447914,311fbde7-3546-4721-a049-afd258eb9607,Configure metrics (Visualization),Configure metrics in the context of visualization — automation
+4a5cdfea-951f-48a7-b088-b80b9b007103,311fbde7-3546-4721-a049-afd258eb9607,Automate permissions (Visualization),Automate permissions in the context of visualization — automation
+910e9014-cbe1-4b8a-bbfa-a76684dfc2e9,311fbde7-3546-4721-a049-afd258eb9607,Monitor workflows (Visualization),Monitor workflows in the context of visualization — automation
+e943c956-d718-425f-9a1d-73656fe3f536,311fbde7-3546-4721-a049-afd258eb9607,Analyze alerts (Visualization),Analyze alerts in the context of visualization — automation
+2f986ac9-7579-428c-94eb-24563d6463fd,6cd4706d-e385-4f89-b180-4e7e89c175f8,Optimize pipelines (Charts),Optimize pipelines in the context of charts — core
+a31e9dcb-5787-4d88-9aa5-ccbe4be87168,6cd4706d-e385-4f89-b180-4e7e89c175f8,Customize schemas (Charts),Customize schemas in the context of charts — core
+01165687-35ef-4a3f-b14e-e274609521cd,6cd4706d-e385-4f89-b180-4e7e89c175f8,Share users (Charts),Share users in the context of charts — core
+d351f982-47b3-4532-97de-498e97d220a9,6cd4706d-e385-4f89-b180-4e7e89c175f8,Export teams (Charts),Export teams in the context of charts — core
+f87729c1-35b0-4066-85f9-11d7e7c625ed,6cd4706d-e385-4f89-b180-4e7e89c175f8,Schedule roles (Charts),Schedule roles in the context of charts — core
+90df2aa2-89a0-4097-9388-169371b4cb70,ce9c22b7-c563-4b71-bf72-f2659afec9c7,Validate connections (Charts),Validate connections in the context of charts — advanced
+c949f42b-53e8-4cd2-981d-111032f1ad81,ce9c22b7-c563-4b71-bf72-f2659afec9c7,Transform templates (Charts),Transform templates in the context of charts — advanced
+b9e17783-af20-4627-b1a3-3287f75606df,ce9c22b7-c563-4b71-bf72-f2659afec9c7,Filter dashboards (Charts),Filter dashboards in the context of charts — advanced
+a7e3aa6d-59ca-4155-9b00-faab5b74413f,ce9c22b7-c563-4b71-bf72-f2659afec9c7,Aggregate reports (Charts),Aggregate reports in the context of charts — advanced
+0ec69930-65cf-47ab-a4f5-ab21547c4fb0,ce9c22b7-c563-4b71-bf72-f2659afec9c7,Secure data sources (Charts),Secure data sources in the context of charts — advanced
+23ef3d13-2479-480b-a74b-7d14fd532069,d4bf1e69-7641-414c-81d1-d35dbd0a0815,Manage queries (Charts),Manage queries in the context of charts — enterprise
+6e2a6e47-8665-4171-a4b3-dd89cd649f55,d4bf1e69-7641-414c-81d1-d35dbd0a0815,Configure metrics (Charts),Configure metrics in the context of charts — enterprise
+c268357b-525a-4363-8aed-70f26ea61026,d4bf1e69-7641-414c-81d1-d35dbd0a0815,Automate permissions (Charts),Automate permissions in the context of charts — enterprise
+bea12c01-2c52-477b-9400-69fc73c72da4,d4bf1e69-7641-414c-81d1-d35dbd0a0815,Monitor workflows (Charts),Monitor workflows in the context of charts — enterprise
+a123d8bd-d769-4bc0-a1a6-124c95933824,d4bf1e69-7641-414c-81d1-d35dbd0a0815,Analyze alerts (Charts),Analyze alerts in the context of charts — enterprise
+1f33503a-8006-4da4-bdff-62b68bb9ea54,1d3693ba-0750-4fd9-8e75-a19480c13138,Optimize pipelines (Charts),Optimize pipelines in the context of charts — user experience
+6b02cd19-6c6c-4011-b03b-4a4bf8c0e030,1d3693ba-0750-4fd9-8e75-a19480c13138,Customize schemas (Charts),Customize schemas in the context of charts — user experience
+0ffb40db-78c5-4311-8ab9-5197f1139941,1d3693ba-0750-4fd9-8e75-a19480c13138,Share users (Charts),Share users in the context of charts — user experience
+3bd07440-2764-433d-8c63-823a0c08ac46,1d3693ba-0750-4fd9-8e75-a19480c13138,Export teams (Charts),Export teams in the context of charts — user experience
+76eb0d5d-a8c0-4ebc-aede-7c00cbcc0703,1d3693ba-0750-4fd9-8e75-a19480c13138,Schedule roles (Charts),Schedule roles in the context of charts — user experience
+20013793-a790-4faf-8162-6eb29cb591ed,e4c0efb7-b795-4c3a-b10f-a9032635ea76,Validate connections (Charts),Validate connections in the context of charts — automation
+8b4b50e8-5be6-4e2f-ba10-82559b2f3f88,e4c0efb7-b795-4c3a-b10f-a9032635ea76,Transform templates (Charts),Transform templates in the context of charts — automation
+230d721c-b52b-4151-991b-34b5b8be8556,e4c0efb7-b795-4c3a-b10f-a9032635ea76,Filter dashboards (Charts),Filter dashboards in the context of charts — automation
+79c0a07a-326f-4246-8d9f-7b5ef58bc864,e4c0efb7-b795-4c3a-b10f-a9032635ea76,Aggregate reports (Charts),Aggregate reports in the context of charts — automation
+04c6e8e3-1583-4fd8-a198-b54220b083af,e4c0efb7-b795-4c3a-b10f-a9032635ea76,Secure data sources (Charts),Secure data sources in the context of charts — automation
+7fa10a98-3e2a-4ced-ab08-8f1ed62130ec,79fe5fa3-bf44-47d6-b6f8-670886875dad,Manage queries (Security),Manage queries in the context of security — core
+4ddda5f7-ce64-4d90-8779-238424c82722,79fe5fa3-bf44-47d6-b6f8-670886875dad,Configure metrics (Security),Configure metrics in the context of security — core
+dd1ba9ee-f6e0-4a94-a98a-0151cc4d6781,79fe5fa3-bf44-47d6-b6f8-670886875dad,Automate permissions (Security),Automate permissions in the context of security — core
+86e1d833-2926-48bc-a0c6-57e1b725e91b,79fe5fa3-bf44-47d6-b6f8-670886875dad,Monitor workflows (Security),Monitor workflows in the context of security — core
+13ce630b-77ba-47c1-930b-edf21bb3dfc5,79fe5fa3-bf44-47d6-b6f8-670886875dad,Analyze alerts (Security),Analyze alerts in the context of security — core
+d4d7bdba-eaa0-49d3-a105-ec2966246afa,4f6cec4e-9021-43c3-b351-55c150e984ed,Optimize pipelines (Security),Optimize pipelines in the context of security — advanced
+0cd09ba3-d7f4-4ce2-a56b-5d994cbc9fe2,4f6cec4e-9021-43c3-b351-55c150e984ed,Customize schemas (Security),Customize schemas in the context of security — advanced
+665c15b7-6f1b-48b9-84a4-0d0921849529,4f6cec4e-9021-43c3-b351-55c150e984ed,Share users (Security),Share users in the context of security — advanced
+5283de37-9035-4d28-8029-3b5b356419f0,4f6cec4e-9021-43c3-b351-55c150e984ed,Export teams (Security),Export teams in the context of security — advanced
+29abe08a-349b-4f9a-abe4-09caedf8f00f,4f6cec4e-9021-43c3-b351-55c150e984ed,Schedule roles (Security),Schedule roles in the context of security — advanced
+0bb75935-87b9-47dc-bd9a-67a1a98b64b8,e9b0e204-0087-4500-ab42-944654a13f8b,Validate connections (Security),Validate connections in the context of security — enterprise
+e6a14d09-aaa6-4e0c-8b10-ce04f8d0f24e,e9b0e204-0087-4500-ab42-944654a13f8b,Transform templates (Security),Transform templates in the context of security — enterprise
+310e56b7-684a-42bd-8f14-8541c8d48121,e9b0e204-0087-4500-ab42-944654a13f8b,Filter dashboards (Security),Filter dashboards in the context of security — enterprise
+da9ac1ef-e066-46f4-ba6a-fd981995abf0,e9b0e204-0087-4500-ab42-944654a13f8b,Aggregate reports (Security),Aggregate reports in the context of security — enterprise
+08da7d71-8313-4634-aa88-c2e01c7b613c,e9b0e204-0087-4500-ab42-944654a13f8b,Secure data sources (Security),Secure data sources in the context of security — enterprise
+52de0d82-8909-41e1-913b-a40de4302e07,9686336a-c10d-4bb7-b5d8-15d2a333cca9,Manage queries (Security),Manage queries in the context of security — user experience
+c484ff52-56c3-4277-949d-445e9d8b2046,9686336a-c10d-4bb7-b5d8-15d2a333cca9,Configure metrics (Security),Configure metrics in the context of security — user experience
+4775d21e-71bb-4fbb-b1c3-64544db1cc44,9686336a-c10d-4bb7-b5d8-15d2a333cca9,Automate permissions (Security),Automate permissions in the context of security — user experience
+a5249454-4fd8-4e5a-9487-bd373eec1796,9686336a-c10d-4bb7-b5d8-15d2a333cca9,Monitor workflows (Security),Monitor workflows in the context of security — user experience
+e1d7507e-2277-428e-a609-1e79722ec516,9686336a-c10d-4bb7-b5d8-15d2a333cca9,Analyze alerts (Security),Analyze alerts in the context of security — user experience
+bcda76a6-e348-49bc-a947-5c298a7a6ffe,74de2178-9730-4aef-8c6c-749efabfaa6b,Optimize pipelines (Security),Optimize pipelines in the context of security — automation
+d149061d-74af-4501-85cf-7d9b1cf77169,74de2178-9730-4aef-8c6c-749efabfaa6b,Customize schemas (Security),Customize schemas in the context of security — automation
+eabdd599-a072-4836-b7a1-8e2cf0a337ff,74de2178-9730-4aef-8c6c-749efabfaa6b,Share users (Security),Share users in the context of security — automation
+ce40940d-8ec3-4a54-91a8-945cb04d047f,74de2178-9730-4aef-8c6c-749efabfaa6b,Export teams (Security),Export teams in the context of security — automation
+f19b3959-ad12-4f1e-94d5-aef42ff35f8c,74de2178-9730-4aef-8c6c-749efabfaa6b,Schedule roles (Security),Schedule roles in the context of security — automation
+fc4a61cb-4d96-4686-a85f-4799a85a9b0c,d704d6c0-7fa4-4298-b359-6c565b44095b,Validate connections (Collaboration),Validate connections in the context of collaboration — core
+7e92d6dc-d21f-48f3-b81c-c5cf5fc1faf1,d704d6c0-7fa4-4298-b359-6c565b44095b,Transform templates (Collaboration),Transform templates in the context of collaboration — core
+aef21c51-0ffe-43c2-9593-6ec2e00ad3b3,d704d6c0-7fa4-4298-b359-6c565b44095b,Filter dashboards (Collaboration),Filter dashboards in the context of collaboration — core
+1bb72a85-c5e6-4e0d-b418-90ed2461ea5b,d704d6c0-7fa4-4298-b359-6c565b44095b,Aggregate reports (Collaboration),Aggregate reports in the context of collaboration — core
+61f19728-6251-40ed-81ba-f80a2cdeff33,d704d6c0-7fa4-4298-b359-6c565b44095b,Secure data sources (Collaboration),Secure data sources in the context of collaboration — core
+6ed26bb9-c270-43ea-bc53-0229e956b7f6,5b745d6e-3034-4696-8b12-1808d3eda2b9,Manage queries (Collaboration),Manage queries in the context of collaboration — advanced
+958c83b0-c284-4a1e-ae8e-513a1cf57130,5b745d6e-3034-4696-8b12-1808d3eda2b9,Configure metrics (Collaboration),Configure metrics in the context of collaboration — advanced
+664c0445-32ec-40bb-8f67-d976a9cd78f3,5b745d6e-3034-4696-8b12-1808d3eda2b9,Automate permissions (Collaboration),Automate permissions in the context of collaboration — advanced
+a22ec827-3118-4485-be44-5c3d3cbc62cf,5b745d6e-3034-4696-8b12-1808d3eda2b9,Monitor workflows (Collaboration),Monitor workflows in the context of collaboration — advanced
+9aad36da-1b4e-4e7a-ac18-159d7a66f23b,5b745d6e-3034-4696-8b12-1808d3eda2b9,Analyze alerts (Collaboration),Analyze alerts in the context of collaboration — advanced
+b8deeeac-0a05-4fc4-999a-d6ed693bb69c,eb84d125-a3dc-4f02-8ec0-0c4f320a2426,Optimize pipelines (Collaboration),Optimize pipelines in the context of collaboration — enterprise
+624600fc-7a7c-4e15-b091-b4d15b8910c8,eb84d125-a3dc-4f02-8ec0-0c4f320a2426,Customize schemas (Collaboration),Customize schemas in the context of collaboration — enterprise
+bd26c70f-4a2f-4d9f-838f-aad3b99d362b,eb84d125-a3dc-4f02-8ec0-0c4f320a2426,Share users (Collaboration),Share users in the context of collaboration — enterprise
+51cb13a6-b4ae-48c3-b0bc-7ce1eb55cfdf,eb84d125-a3dc-4f02-8ec0-0c4f320a2426,Export teams (Collaboration),Export teams in the context of collaboration — enterprise
+1590d534-e224-4a38-ae8b-19ae2ff46dcc,eb84d125-a3dc-4f02-8ec0-0c4f320a2426,Schedule roles (Collaboration),Schedule roles in the context of collaboration — enterprise
+d9948b6d-f215-4604-85a3-bdd99c1b6490,9d89d5a5-3d05-4376-980f-5e981ec87a8d,Validate connections (Collaboration),Validate connections in the context of collaboration — user experience
+3be1c28c-b110-49f2-b7b9-492aefcd717e,9d89d5a5-3d05-4376-980f-5e981ec87a8d,Transform templates (Collaboration),Transform templates in the context of collaboration — user experience
+7f1c3fe5-dac8-4815-97f7-288798354b9b,9d89d5a5-3d05-4376-980f-5e981ec87a8d,Filter dashboards (Collaboration),Filter dashboards in the context of collaboration — user experience
+2122d091-34f8-4708-8114-7ab4dbd119f7,9d89d5a5-3d05-4376-980f-5e981ec87a8d,Aggregate reports (Collaboration),Aggregate reports in the context of collaboration — user experience
+2bcc6229-f500-4fc4-ae39-89c6bbb4460e,9d89d5a5-3d05-4376-980f-5e981ec87a8d,Secure data sources (Collaboration),Secure data sources in the context of collaboration — user experience
+e55c94fe-e69d-4dce-a338-5ec866aa2631,a59052c6-1f50-41b7-b75c-f5a618e15163,Manage queries (Collaboration),Manage queries in the context of collaboration — automation
+8035b61f-f12b-4fe7-a3d8-27e7a7cf1abf,a59052c6-1f50-41b7-b75c-f5a618e15163,Configure metrics (Collaboration),Configure metrics in the context of collaboration — automation
+68c9d9e7-af89-4eaa-ab48-9a4bbe89395a,a59052c6-1f50-41b7-b75c-f5a618e15163,Automate permissions (Collaboration),Automate permissions in the context of collaboration — automation
+3f882ff7-ca33-4856-8902-f588a93aeb74,a59052c6-1f50-41b7-b75c-f5a618e15163,Monitor workflows (Collaboration),Monitor workflows in the context of collaboration — automation
+600ac142-ff56-4968-b52f-d27406c05462,a59052c6-1f50-41b7-b75c-f5a618e15163,Analyze alerts (Collaboration),Analyze alerts in the context of collaboration — automation
+087ee3a1-eabd-4009-ae02-df20538e91bf,64e0358d-ea91-4628-ad65-7aa696d28613,Optimize pipelines (Performance),Optimize pipelines in the context of performance — core
+8b7fe48d-4028-4c56-9c9d-d56b75b80cbb,64e0358d-ea91-4628-ad65-7aa696d28613,Customize schemas (Performance),Customize schemas in the context of performance — core
+c61ad363-7ede-44e9-b696-fbda28ac0478,64e0358d-ea91-4628-ad65-7aa696d28613,Share users (Performance),Share users in the context of performance — core
+a216f313-cb8c-40fd-8c8d-66dbabc70b8d,64e0358d-ea91-4628-ad65-7aa696d28613,Export teams (Performance),Export teams in the context of performance — core
+add5b268-bc6d-4a60-8974-c6cda3aa0c3d,64e0358d-ea91-4628-ad65-7aa696d28613,Schedule roles (Performance),Schedule roles in the context of performance — core
+2bad5a3a-ad5e-4ba7-8a4d-6e24d4e0c857,aed5ebc6-9414-447e-badd-4aa22115fd4c,Validate connections (Performance),Validate connections in the context of performance — advanced
+d109dc38-96d1-4459-b4a5-44f64fa17b89,aed5ebc6-9414-447e-badd-4aa22115fd4c,Transform templates (Performance),Transform templates in the context of performance — advanced
+5316c136-8908-4f44-8968-dbc8142df03a,aed5ebc6-9414-447e-badd-4aa22115fd4c,Filter dashboards (Performance),Filter dashboards in the context of performance — advanced
+7fb1accf-2b4e-4b2f-8b76-179d6bde1e98,aed5ebc6-9414-447e-badd-4aa22115fd4c,Aggregate reports (Performance),Aggregate reports in the context of performance — advanced
+79593384-c465-46e0-bb09-2228f8578bd4,aed5ebc6-9414-447e-badd-4aa22115fd4c,Secure data sources (Performance),Secure data sources in the context of performance — advanced
+4ac8d334-80c4-4bcd-9a28-4e9527e34020,4300b9ef-83e1-48cc-863f-34d2d35b65f9,Manage queries (Performance),Manage queries in the context of performance — enterprise
+d89a5ed1-7186-40cb-b93a-9036c0d71b51,4300b9ef-83e1-48cc-863f-34d2d35b65f9,Configure metrics (Performance),Configure metrics in the context of performance — enterprise
+2d5b47cf-77d1-4f7d-8272-182bcced3da4,4300b9ef-83e1-48cc-863f-34d2d35b65f9,Automate permissions (Performance),Automate permissions in the context of performance — enterprise
+da023b5a-a686-41b7-9faf-ab5fdec9020f,4300b9ef-83e1-48cc-863f-34d2d35b65f9,Monitor workflows (Performance),Monitor workflows in the context of performance — enterprise
+45a20a2f-c6c4-418f-a138-93363c961cbc,4300b9ef-83e1-48cc-863f-34d2d35b65f9,Analyze alerts (Performance),Analyze alerts in the context of performance — enterprise
+7b560677-db8f-49e8-b8b8-cf8f0962c78f,e5288706-7a8b-4159-8cf6-5183a7caeb88,Optimize pipelines (Performance),Optimize pipelines in the context of performance — user experience
+a3b68ad2-82e3-4ae2-a02e-4c1c2aa2c9f7,e5288706-7a8b-4159-8cf6-5183a7caeb88,Customize schemas (Performance),Customize schemas in the context of performance — user experience
+6b42903f-7097-419b-b4c9-a6ec01c85da2,e5288706-7a8b-4159-8cf6-5183a7caeb88,Share users (Performance),Share users in the context of performance — user experience
+7d97062f-c208-4778-bea1-128926d351fd,e5288706-7a8b-4159-8cf6-5183a7caeb88,Export teams (Performance),Export teams in the context of performance — user experience
+23a3b5a2-30c0-4736-acdd-f0dd0dee23bf,e5288706-7a8b-4159-8cf6-5183a7caeb88,Schedule roles (Performance),Schedule roles in the context of performance — user experience
+e25581b3-0259-46f6-bd97-77647c5f938a,fbb6d067-ac0f-4286-8ef2-64ec601c057d,Validate connections (Performance),Validate connections in the context of performance — automation
+ff98ce8d-e758-44b2-9e9f-e179b4f4fcb3,fbb6d067-ac0f-4286-8ef2-64ec601c057d,Transform templates (Performance),Transform templates in the context of performance — automation
+4f46cdcb-adce-4313-919a-493c93e57ef0,fbb6d067-ac0f-4286-8ef2-64ec601c057d,Filter dashboards (Performance),Filter dashboards in the context of performance — automation
+7a08caca-78bd-4f1f-9329-895016f60072,fbb6d067-ac0f-4286-8ef2-64ec601c057d,Aggregate reports (Performance),Aggregate reports in the context of performance — automation
+3315eb81-a6d9-4166-b919-458cebb5ff86,fbb6d067-ac0f-4286-8ef2-64ec601c057d,Secure data sources (Performance),Secure data sources in the context of performance — automation
+480d8c95-1470-4ecc-82a2-63d191447738,e73d2dd2-6369-4614-b8c1-8087d4494d3f,Manage queries (Integrations),Manage queries in the context of integrations — core
+53c69b34-f46d-4d8c-9fd8-a388167633fe,e73d2dd2-6369-4614-b8c1-8087d4494d3f,Configure metrics (Integrations),Configure metrics in the context of integrations — core
+60500670-3466-4a1e-9da0-139b7bd501fd,e73d2dd2-6369-4614-b8c1-8087d4494d3f,Automate permissions (Integrations),Automate permissions in the context of integrations — core
+49b5b8ec-c6d7-4202-820d-d8528365276c,e73d2dd2-6369-4614-b8c1-8087d4494d3f,Monitor workflows (Integrations),Monitor workflows in the context of integrations — core
+5353e653-fa19-4bc1-ba16-725b4b1dfe3b,e73d2dd2-6369-4614-b8c1-8087d4494d3f,Analyze alerts (Integrations),Analyze alerts in the context of integrations — core
+80109d4d-0be7-49fe-aee0-31d02fcced28,82b57af7-930b-4088-b7ad-5de6cb5baca1,Optimize pipelines (Integrations),Optimize pipelines in the context of integrations — advanced
+1af0e76c-0062-4733-a320-666c1074ab62,82b57af7-930b-4088-b7ad-5de6cb5baca1,Customize schemas (Integrations),Customize schemas in the context of integrations — advanced
+a6c96355-2c19-4f06-96e5-bc595371be9b,82b57af7-930b-4088-b7ad-5de6cb5baca1,Share users (Integrations),Share users in the context of integrations — advanced
+247546c6-ee41-4969-b9c9-6976cb02fa87,82b57af7-930b-4088-b7ad-5de6cb5baca1,Export teams (Integrations),Export teams in the context of integrations — advanced
+4e6cbd1c-e7d6-4986-b86f-91afe36537ae,82b57af7-930b-4088-b7ad-5de6cb5baca1,Schedule roles (Integrations),Schedule roles in the context of integrations — advanced
+21091d6b-5112-4f7a-b859-8db1cb608614,85bd5086-cb73-4824-a5ff-c34a6aae693b,Validate connections (Integrations),Validate connections in the context of integrations — enterprise
+313e1439-1a20-4096-9563-31e4d1d91f66,85bd5086-cb73-4824-a5ff-c34a6aae693b,Transform templates (Integrations),Transform templates in the context of integrations — enterprise
+8827cd5e-4880-4ecf-a1c5-49c06316426d,85bd5086-cb73-4824-a5ff-c34a6aae693b,Filter dashboards (Integrations),Filter dashboards in the context of integrations — enterprise
+8c47b6b1-21cf-49b0-b888-df5a723c08c1,85bd5086-cb73-4824-a5ff-c34a6aae693b,Aggregate reports (Integrations),Aggregate reports in the context of integrations — enterprise
+5896878a-3541-414b-b6d0-16a2c7a719e0,85bd5086-cb73-4824-a5ff-c34a6aae693b,Secure data sources (Integrations),Secure data sources in the context of integrations — enterprise
+bd853784-281d-46d8-bfc5-38983fe883ac,d24b45c2-df93-4e6e-97bd-a04c9f2ac588,Manage queries (Integrations),Manage queries in the context of integrations — user experience
+fc0a61be-adc4-41eb-92a9-ecd4eff54fba,d24b45c2-df93-4e6e-97bd-a04c9f2ac588,Configure metrics (Integrations),Configure metrics in the context of integrations — user experience
+a7c4b39a-d490-4895-ac3e-cc43ef7bcbbe,d24b45c2-df93-4e6e-97bd-a04c9f2ac588,Automate permissions (Integrations),Automate permissions in the context of integrations — user experience
+22f1df97-864c-4a7b-b0da-7c391204e0a1,d24b45c2-df93-4e6e-97bd-a04c9f2ac588,Monitor workflows (Integrations),Monitor workflows in the context of integrations — user experience
+95905df5-53be-49d7-b80c-c8931c0866e1,d24b45c2-df93-4e6e-97bd-a04c9f2ac588,Analyze alerts (Integrations),Analyze alerts in the context of integrations — user experience
+3f99376f-e0de-4c89-8b35-2fa28cde693b,cc175b69-cfaa-4eec-bb6c-f4e53703b290,Optimize pipelines (Integrations),Optimize pipelines in the context of integrations — automation
+6bb8f555-47d0-4f44-8a94-69815a0039d1,cc175b69-cfaa-4eec-bb6c-f4e53703b290,Customize schemas (Integrations),Customize schemas in the context of integrations — automation
+5d05d6db-5b3b-4cb0-b0cf-cfd4c94fe85b,cc175b69-cfaa-4eec-bb6c-f4e53703b290,Share users (Integrations),Share users in the context of integrations — automation
+62fb7940-19c3-43f2-894d-f3719f6c5e51,cc175b69-cfaa-4eec-bb6c-f4e53703b290,Export teams (Integrations),Export teams in the context of integrations — automation
+2f493f17-bdc2-4428-a8b3-cf1551695c9f,cc175b69-cfaa-4eec-bb6c-f4e53703b290,Schedule roles (Integrations),Schedule roles in the context of integrations — automation
+9a28965a-993c-46b6-a324-ef2be18e0c18,4d1f6b46-33c6-4e58-a795-2a53d1dd3349,Validate connections (Admin),Validate connections in the context of admin — core
+da3048ed-061a-4aa5-b064-f95631ca101d,4d1f6b46-33c6-4e58-a795-2a53d1dd3349,Transform templates (Admin),Transform templates in the context of admin — core
+68fa7c79-fba3-4a5c-a9e3-79e17e27efc5,4d1f6b46-33c6-4e58-a795-2a53d1dd3349,Filter dashboards (Admin),Filter dashboards in the context of admin — core
+29a84ec1-710e-45b9-b9be-9f7aa1b88a8b,4d1f6b46-33c6-4e58-a795-2a53d1dd3349,Aggregate reports (Admin),Aggregate reports in the context of admin — core
+9a5287db-dfa1-4e4b-b738-2823375d7a66,4d1f6b46-33c6-4e58-a795-2a53d1dd3349,Secure data sources (Admin),Secure data sources in the context of admin — core
+ee5b21ca-9dd1-41f6-b84e-186b25dd267b,300969d0-ad63-49e7-b347-5713850ee371,Manage queries (Admin),Manage queries in the context of admin — advanced
+f91d1753-a66c-4795-aa30-1be7cf9dae7f,300969d0-ad63-49e7-b347-5713850ee371,Configure metrics (Admin),Configure metrics in the context of admin — advanced
+26826d71-684a-4a90-a229-99b12ebb3e00,300969d0-ad63-49e7-b347-5713850ee371,Automate permissions (Admin),Automate permissions in the context of admin — advanced
+c7c0bd04-3872-400a-bf32-b29339ad4ba1,300969d0-ad63-49e7-b347-5713850ee371,Monitor workflows (Admin),Monitor workflows in the context of admin — advanced
+28dce522-3087-4ba2-85cf-fed0c757d2b8,300969d0-ad63-49e7-b347-5713850ee371,Analyze alerts (Admin),Analyze alerts in the context of admin — advanced
+25114232-c6e7-4bbf-8f32-a0f7f014cb39,6f864f04-562e-4fce-98b1-fcc27c3f258f,Optimize pipelines (Admin),Optimize pipelines in the context of admin — enterprise
+3f0543ab-f88f-48f0-a35c-31f93dedb3d2,6f864f04-562e-4fce-98b1-fcc27c3f258f,Customize schemas (Admin),Customize schemas in the context of admin — enterprise
+508e7ce7-110e-42ef-a1f7-f33f6c33452c,6f864f04-562e-4fce-98b1-fcc27c3f258f,Share users (Admin),Share users in the context of admin — enterprise
+ee4f2389-0aa6-4b3c-8dba-a7903b9b72d9,6f864f04-562e-4fce-98b1-fcc27c3f258f,Export teams (Admin),Export teams in the context of admin — enterprise
+20908be6-cf67-4a61-b244-8dc98c416435,6f864f04-562e-4fce-98b1-fcc27c3f258f,Schedule roles (Admin),Schedule roles in the context of admin — enterprise
+6d4cb120-72c0-4cd5-938a-c60d566162dd,de6e91aa-baef-4be4-9827-b37a0131b201,Validate connections (Admin),Validate connections in the context of admin — user experience
+55425c44-039f-4e62-aa9b-09ed71b1530a,de6e91aa-baef-4be4-9827-b37a0131b201,Transform templates (Admin),Transform templates in the context of admin — user experience
+73db58a2-e45f-4c73-ac7a-797ddde6ed90,de6e91aa-baef-4be4-9827-b37a0131b201,Filter dashboards (Admin),Filter dashboards in the context of admin — user experience
+2e25fcf2-4953-43d1-9628-3e7f55f9e1ca,de6e91aa-baef-4be4-9827-b37a0131b201,Aggregate reports (Admin),Aggregate reports in the context of admin — user experience
+5a59d398-b9f3-4b73-b878-59c0b0e3a2b6,de6e91aa-baef-4be4-9827-b37a0131b201,Secure data sources (Admin),Secure data sources in the context of admin — user experience
+ac01d776-c2ef-409c-bbaa-ee7314928f7c,ba2d1d63-4b77-4d56-9d46-34da884af371,Manage queries (Admin),Manage queries in the context of admin — automation
+5e8dd8f3-f62e-41ab-848a-468192f43944,ba2d1d63-4b77-4d56-9d46-34da884af371,Configure metrics (Admin),Configure metrics in the context of admin — automation
+96ebed9f-1500-49ed-9678-88228f212db1,ba2d1d63-4b77-4d56-9d46-34da884af371,Automate permissions (Admin),Automate permissions in the context of admin — automation
+33f88ea6-b41e-4716-b330-079889b5eec0,ba2d1d63-4b77-4d56-9d46-34da884af371,Monitor workflows (Admin),Monitor workflows in the context of admin — automation
+55313f0b-0bbb-4799-8c81-2bd441354a23,ba2d1d63-4b77-4d56-9d46-34da884af371,Analyze alerts (Admin),Analyze alerts in the context of admin — automation
+cd3a7722-0bcf-479b-bd8d-3b49216101d8,65e28cdf-bd16-4474-9d93-6717231463b3,Optimize pipelines (AI/ML),Optimize pipelines in the context of ai/ml — core
+d810814b-e4a6-4daa-b9e4-106741cf23f3,65e28cdf-bd16-4474-9d93-6717231463b3,Customize schemas (AI/ML),Customize schemas in the context of ai/ml — core
+8ba90148-435b-4c0f-9a22-53795a15f3bf,65e28cdf-bd16-4474-9d93-6717231463b3,Share users (AI/ML),Share users in the context of ai/ml — core
+d7d83346-06f9-4947-9bae-e7e7ff6ab4ee,65e28cdf-bd16-4474-9d93-6717231463b3,Export teams (AI/ML),Export teams in the context of ai/ml — core
+446534a3-c8c1-48ad-b55a-3f176b5d0938,65e28cdf-bd16-4474-9d93-6717231463b3,Schedule roles (AI/ML),Schedule roles in the context of ai/ml — core
+3bdfe049-9409-4674-80c5-9e8063140225,607b59a2-c819-4e9d-945b-72478b284d09,Validate connections (AI/ML),Validate connections in the context of ai/ml — advanced
+62011120-64fc-49b6-a37f-12dca021ea59,607b59a2-c819-4e9d-945b-72478b284d09,Transform templates (AI/ML),Transform templates in the context of ai/ml — advanced
+bc7a2c8c-286e-4ec7-8e41-198edf5c2ffa,607b59a2-c819-4e9d-945b-72478b284d09,Filter dashboards (AI/ML),Filter dashboards in the context of ai/ml — advanced
+dd405986-7017-41c0-9ee1-b2404ec7a02d,607b59a2-c819-4e9d-945b-72478b284d09,Aggregate reports (AI/ML),Aggregate reports in the context of ai/ml — advanced
+912e0535-94ab-4c09-b06f-16cd46f0eb61,607b59a2-c819-4e9d-945b-72478b284d09,Secure data sources (AI/ML),Secure data sources in the context of ai/ml — advanced
+30361528-95d3-4fa4-862b-609841901332,be88886f-e223-4f51-b0ae-4bc90fce7e32,Manage queries (AI/ML),Manage queries in the context of ai/ml — enterprise
+4ca60a5b-02a7-4f30-ba97-992e0a0a4443,be88886f-e223-4f51-b0ae-4bc90fce7e32,Configure metrics (AI/ML),Configure metrics in the context of ai/ml — enterprise
+dbf63a72-5e8d-481f-8375-43cd3b43bcd2,be88886f-e223-4f51-b0ae-4bc90fce7e32,Automate permissions (AI/ML),Automate permissions in the context of ai/ml — enterprise
+71a1db8f-a84f-458e-955b-987a30c82c57,be88886f-e223-4f51-b0ae-4bc90fce7e32,Monitor workflows (AI/ML),Monitor workflows in the context of ai/ml — enterprise
+609b3549-ed06-4616-a525-802f4b3a1273,be88886f-e223-4f51-b0ae-4bc90fce7e32,Analyze alerts (AI/ML),Analyze alerts in the context of ai/ml — enterprise
+dd7e192d-9be0-4530-98ec-7a3af4067331,58d9e237-b3ec-499b-b1cb-39091f875bde,Optimize pipelines (AI/ML),Optimize pipelines in the context of ai/ml — user experience
+5661d125-d97e-4eea-9ea6-93b7203e424b,58d9e237-b3ec-499b-b1cb-39091f875bde,Customize schemas (AI/ML),Customize schemas in the context of ai/ml — user experience
+e1750929-6aff-4719-b370-3bf84536faa9,58d9e237-b3ec-499b-b1cb-39091f875bde,Share users (AI/ML),Share users in the context of ai/ml — user experience
+4b7b6a2d-93ee-4876-86c2-2f14bf79b466,58d9e237-b3ec-499b-b1cb-39091f875bde,Export teams (AI/ML),Export teams in the context of ai/ml — user experience
+8a60e79d-2748-44a0-9722-5db7a54c5b66,58d9e237-b3ec-499b-b1cb-39091f875bde,Schedule roles (AI/ML),Schedule roles in the context of ai/ml — user experience
+6f811f2b-3237-4735-9500-78201b47f32c,40d69dd4-4dc3-4f51-b8dd-712e20d90fdb,Validate connections (AI/ML),Validate connections in the context of ai/ml — automation
+ad61f89a-07f5-460e-9483-9b4f6745b062,40d69dd4-4dc3-4f51-b8dd-712e20d90fdb,Transform templates (AI/ML),Transform templates in the context of ai/ml — automation
+e512457f-58e2-4605-ad2d-2b922a20f0d7,40d69dd4-4dc3-4f51-b8dd-712e20d90fdb,Filter dashboards (AI/ML),Filter dashboards in the context of ai/ml — automation
+20cf4cbd-b29c-48bf-8b2e-5ecb725a446e,40d69dd4-4dc3-4f51-b8dd-712e20d90fdb,Aggregate reports (AI/ML),Aggregate reports in the context of ai/ml — automation
+d0efb65c-aba2-41dd-a025-54974c48e811,40d69dd4-4dc3-4f51-b8dd-712e20d90fdb,Secure data sources (AI/ML),Secure data sources in the context of ai/ml — automation
+0b007e33-2179-4bcd-b2bb-783a8597ce5a,d3071f30-358e-488e-a0f5-8793fe9c6047,Manage queries (Embedding),Manage queries in the context of embedding — core
+bb848717-f19a-4d8a-86f2-8708a59f8a9e,d3071f30-358e-488e-a0f5-8793fe9c6047,Configure metrics (Embedding),Configure metrics in the context of embedding — core
+918a972d-9a62-4ecd-a7f2-f7e4a8a9e0b7,d3071f30-358e-488e-a0f5-8793fe9c6047,Automate permissions (Embedding),Automate permissions in the context of embedding — core
+91188810-c086-48e1-9719-088254a8848c,d3071f30-358e-488e-a0f5-8793fe9c6047,Monitor workflows (Embedding),Monitor workflows in the context of embedding — core
+8d998239-1521-41e2-8112-e4544145a721,d3071f30-358e-488e-a0f5-8793fe9c6047,Analyze alerts (Embedding),Analyze alerts in the context of embedding — core
+e3bcffd3-dad6-48b3-9b69-ce0ee2e328be,0b89623b-8a0c-46ca-a20b-df6e6075e007,Optimize pipelines (Embedding),Optimize pipelines in the context of embedding — advanced
+6af6b61e-eebb-4b02-b75a-369b3738c680,0b89623b-8a0c-46ca-a20b-df6e6075e007,Customize schemas (Embedding),Customize schemas in the context of embedding — advanced
+8e807443-6c1c-4ec0-8bb2-fc377e09064d,0b89623b-8a0c-46ca-a20b-df6e6075e007,Share users (Embedding),Share users in the context of embedding — advanced
+766a91fc-9d4a-4565-a431-0fa85be30539,0b89623b-8a0c-46ca-a20b-df6e6075e007,Export teams (Embedding),Export teams in the context of embedding — advanced
+2558f483-665f-41cd-b364-040a50cbab53,0b89623b-8a0c-46ca-a20b-df6e6075e007,Schedule roles (Embedding),Schedule roles in the context of embedding — advanced
+fa65a0f3-c163-4537-b55e-27b673681591,b26ee093-0e0b-4964-b387-76b6c5636bfd,Validate connections (Embedding),Validate connections in the context of embedding — enterprise
+bfae5815-273f-436e-af07-6666884a5ed9,b26ee093-0e0b-4964-b387-76b6c5636bfd,Transform templates (Embedding),Transform templates in the context of embedding — enterprise
+5658445d-4bb1-45a6-a405-99e3344fef7b,b26ee093-0e0b-4964-b387-76b6c5636bfd,Filter dashboards (Embedding),Filter dashboards in the context of embedding — enterprise
+34ac25e7-6168-4961-b120-7dd213a6657f,b26ee093-0e0b-4964-b387-76b6c5636bfd,Aggregate reports (Embedding),Aggregate reports in the context of embedding — enterprise
+791a0e6b-0e8c-418d-9729-4a8876b54568,b26ee093-0e0b-4964-b387-76b6c5636bfd,Secure data sources (Embedding),Secure data sources in the context of embedding — enterprise
+8dfd8090-af49-43ed-8689-4e514489c300,921fc497-6dba-4347-96cf-64c9b9f47821,Manage queries (Embedding),Manage queries in the context of embedding — user experience
+1b758d53-5b76-43d3-b60b-3dedb6a30b0d,921fc497-6dba-4347-96cf-64c9b9f47821,Configure metrics (Embedding),Configure metrics in the context of embedding — user experience
+ac33e23b-0be9-4add-a290-97dc8366f640,921fc497-6dba-4347-96cf-64c9b9f47821,Automate permissions (Embedding),Automate permissions in the context of embedding — user experience
+5c4eab04-2ac8-4185-b78f-cd4068507789,921fc497-6dba-4347-96cf-64c9b9f47821,Monitor workflows (Embedding),Monitor workflows in the context of embedding — user experience
+787fa277-4d3f-4d0a-8465-e287d139f775,921fc497-6dba-4347-96cf-64c9b9f47821,Analyze alerts (Embedding),Analyze alerts in the context of embedding — user experience
+9faf3baf-4533-4be4-af3a-2d6d0704f900,28e3da46-bf89-4739-a96f-470cf0aaac71,Optimize pipelines (Embedding),Optimize pipelines in the context of embedding — automation
+03cad670-bd31-4a68-b262-29b762989da6,28e3da46-bf89-4739-a96f-470cf0aaac71,Customize schemas (Embedding),Customize schemas in the context of embedding — automation
+eccfcf2d-f7b0-4bfe-8a60-e41ad95bc381,28e3da46-bf89-4739-a96f-470cf0aaac71,Share users (Embedding),Share users in the context of embedding — automation
+dd1c238d-323f-48f6-a13f-2e8b9e3a33ae,28e3da46-bf89-4739-a96f-470cf0aaac71,Export teams (Embedding),Export teams in the context of embedding — automation
+74f71aca-8267-46fe-8d4c-6c1d9eedf38c,28e3da46-bf89-4739-a96f-470cf0aaac71,Schedule roles (Embedding),Schedule roles in the context of embedding — automation
+2bedfb9f-cbe1-4fb0-b2aa-1d3af3972810,663e9190-76ec-459d-8a24-97ac7cb28acb,Validate connections (Export/Delivery),Validate connections in the context of export/delivery — core
+8a41749b-83e0-45c8-b191-071ebd33bffd,663e9190-76ec-459d-8a24-97ac7cb28acb,Transform templates (Export/Delivery),Transform templates in the context of export/delivery — core
+7efb83b5-9af6-4f28-a6cd-48a8124b0636,663e9190-76ec-459d-8a24-97ac7cb28acb,Filter dashboards (Export/Delivery),Filter dashboards in the context of export/delivery — core
+3d130da2-e29c-4463-a608-bfead01adcef,663e9190-76ec-459d-8a24-97ac7cb28acb,Aggregate reports (Export/Delivery),Aggregate reports in the context of export/delivery — core
+dd45adbf-dddd-4618-b0f1-7977cfb21a70,663e9190-76ec-459d-8a24-97ac7cb28acb,Secure data sources (Export/Delivery),Secure data sources in the context of export/delivery — core
+6851ef79-9fc7-4eb5-b821-57f79c4a0aa1,68bcdbe4-7f45-4db9-87ab-075e715f6244,Manage queries (Export/Delivery),Manage queries in the context of export/delivery — advanced
+9d6e761e-4b5b-4b16-8743-76c8525954ab,68bcdbe4-7f45-4db9-87ab-075e715f6244,Configure metrics (Export/Delivery),Configure metrics in the context of export/delivery — advanced
+8b988bbd-23eb-4f54-993b-0f41e0b9d815,68bcdbe4-7f45-4db9-87ab-075e715f6244,Automate permissions (Export/Delivery),Automate permissions in the context of export/delivery — advanced
+51dd40c1-b3e0-42c7-897e-b21ba5f8c788,68bcdbe4-7f45-4db9-87ab-075e715f6244,Monitor workflows (Export/Delivery),Monitor workflows in the context of export/delivery — advanced
+0418388c-e990-4e9c-b643-d89f2c64a806,68bcdbe4-7f45-4db9-87ab-075e715f6244,Analyze alerts (Export/Delivery),Analyze alerts in the context of export/delivery — advanced
+4a3f5d4e-5ffb-484d-ae17-8e782bcb5909,9ae4e947-a26f-4a04-9e36-1e1e7ab0703b,Optimize pipelines (Export/Delivery),Optimize pipelines in the context of export/delivery — enterprise
+58a526a8-aa20-43a2-882a-ea40f3a7f86d,9ae4e947-a26f-4a04-9e36-1e1e7ab0703b,Customize schemas (Export/Delivery),Customize schemas in the context of export/delivery — enterprise
+69631439-cf25-4362-90aa-47132783a2af,9ae4e947-a26f-4a04-9e36-1e1e7ab0703b,Share users (Export/Delivery),Share users in the context of export/delivery — enterprise
+710613aa-4604-47ae-8bf5-8cebd32e44b2,9ae4e947-a26f-4a04-9e36-1e1e7ab0703b,Export teams (Export/Delivery),Export teams in the context of export/delivery — enterprise
+51a49ff4-41c6-4a1d-becb-710ac339373f,9ae4e947-a26f-4a04-9e36-1e1e7ab0703b,Schedule roles (Export/Delivery),Schedule roles in the context of export/delivery — enterprise
+be73c30e-b391-41b5-b28f-ba240b25cb30,6ac28412-e2e9-4b22-b433-225a0fb045a3,Validate connections (Export/Delivery),Validate connections in the context of export/delivery — user experience
+9b3483d5-767f-4a17-b1ff-5f279d30b86d,6ac28412-e2e9-4b22-b433-225a0fb045a3,Transform templates (Export/Delivery),Transform templates in the context of export/delivery — user experience
+4aaaea64-fd97-4e9d-aba8-7dd33f4b66e7,6ac28412-e2e9-4b22-b433-225a0fb045a3,Filter dashboards (Export/Delivery),Filter dashboards in the context of export/delivery — user experience
+7118d6d8-1161-4350-a3b1-f3ecbceea037,6ac28412-e2e9-4b22-b433-225a0fb045a3,Aggregate reports (Export/Delivery),Aggregate reports in the context of export/delivery — user experience
+f1f14a56-75d7-49d8-b6ed-b508ca115d39,6ac28412-e2e9-4b22-b433-225a0fb045a3,Secure data sources (Export/Delivery),Secure data sources in the context of export/delivery — user experience
+5577d201-0c31-4dae-a82a-7f4d2ec5ccb2,ec63bb92-a3e6-4b2a-afd9-6135e4cc88d0,Manage queries (Export/Delivery),Manage queries in the context of export/delivery — automation
+93398edf-c68f-499b-9c07-58a1d64cb804,ec63bb92-a3e6-4b2a-afd9-6135e4cc88d0,Configure metrics (Export/Delivery),Configure metrics in the context of export/delivery — automation
+eff26e96-186a-41bb-b674-86d75fd9711e,ec63bb92-a3e6-4b2a-afd9-6135e4cc88d0,Automate permissions (Export/Delivery),Automate permissions in the context of export/delivery — automation
+5a0d2457-2d1d-4b29-8627-65bfe39da570,ec63bb92-a3e6-4b2a-afd9-6135e4cc88d0,Monitor workflows (Export/Delivery),Monitor workflows in the context of export/delivery — automation
+bd1dd411-e8a1-4c6e-bc9a-7d380a20f58e,ec63bb92-a3e6-4b2a-afd9-6135e4cc88d0,Analyze alerts (Export/Delivery),Analyze alerts in the context of export/delivery — automation
+2d520deb-a8aa-4a58-82e6-bc810e1c3270,daebe3a7-87b6-4866-b8de-fe8e17d76634,Optimize pipelines (Mobile),Optimize pipelines in the context of mobile — core
+431578bf-2002-463a-991f-3da97a524795,daebe3a7-87b6-4866-b8de-fe8e17d76634,Customize schemas (Mobile),Customize schemas in the context of mobile — core
+0ed11ed0-e775-4433-88ca-bb697a71b53e,daebe3a7-87b6-4866-b8de-fe8e17d76634,Share users (Mobile),Share users in the context of mobile — core
+25c6bffc-ec38-4ae3-893a-7a478184342f,daebe3a7-87b6-4866-b8de-fe8e17d76634,Export teams (Mobile),Export teams in the context of mobile — core
+f2c47dbf-104a-4d0d-83b9-fa3c1e34c0e4,daebe3a7-87b6-4866-b8de-fe8e17d76634,Schedule roles (Mobile),Schedule roles in the context of mobile — core
+e22c02ba-9a8f-4500-a58c-42edfd46fa18,cc0783fd-a6ca-4032-9708-06a767f077cb,Validate connections (Mobile),Validate connections in the context of mobile — advanced
+976cc7ca-1396-49cb-92db-70db32e5511a,cc0783fd-a6ca-4032-9708-06a767f077cb,Transform templates (Mobile),Transform templates in the context of mobile — advanced
+fe6c1d0b-f703-4f7e-9f0c-13abfeaae6a1,cc0783fd-a6ca-4032-9708-06a767f077cb,Filter dashboards (Mobile),Filter dashboards in the context of mobile — advanced
+21df7aa7-4243-4601-bd0c-bbff6c55898c,cc0783fd-a6ca-4032-9708-06a767f077cb,Aggregate reports (Mobile),Aggregate reports in the context of mobile — advanced
+70361dbe-400f-43c8-881c-abeb2f83e294,cc0783fd-a6ca-4032-9708-06a767f077cb,Secure data sources (Mobile),Secure data sources in the context of mobile — advanced
+dfa83e54-54b3-4908-94d6-e5ca9371a6e3,cfc0afae-0687-4f45-8bf2-1990934ed8a4,Manage queries (Mobile),Manage queries in the context of mobile — enterprise
+f4b6e2fd-f236-480b-a493-88f65e67f3ef,cfc0afae-0687-4f45-8bf2-1990934ed8a4,Configure metrics (Mobile),Configure metrics in the context of mobile — enterprise
+7894ce6d-5d84-4f62-a55a-567bbb700197,cfc0afae-0687-4f45-8bf2-1990934ed8a4,Automate permissions (Mobile),Automate permissions in the context of mobile — enterprise
+83d7578f-2672-4709-aac3-9f0774dbeabe,cfc0afae-0687-4f45-8bf2-1990934ed8a4,Monitor workflows (Mobile),Monitor workflows in the context of mobile — enterprise
+acfa9823-c0a7-4a8c-8017-257a89cc808a,cfc0afae-0687-4f45-8bf2-1990934ed8a4,Analyze alerts (Mobile),Analyze alerts in the context of mobile — enterprise
+73bf8ae9-2dc5-45e1-a22c-c2b463e633ca,656d716c-5b62-4c78-85a1-de9e214a6178,Optimize pipelines (Mobile),Optimize pipelines in the context of mobile — user experience
+ecdc8324-3022-45fd-ab8f-ff2b65ef365b,656d716c-5b62-4c78-85a1-de9e214a6178,Customize schemas (Mobile),Customize schemas in the context of mobile — user experience
+5b616d9a-b4d6-4c8d-a4d9-0b817c0f87ca,656d716c-5b62-4c78-85a1-de9e214a6178,Share users (Mobile),Share users in the context of mobile — user experience
+bf8ed4ec-fd3e-4fb5-8a09-b7d8c9fc6f76,656d716c-5b62-4c78-85a1-de9e214a6178,Export teams (Mobile),Export teams in the context of mobile — user experience
+94581446-d490-4508-927b-b5b6897d8ba9,656d716c-5b62-4c78-85a1-de9e214a6178,Schedule roles (Mobile),Schedule roles in the context of mobile — user experience
+aa66f5ff-7817-45a2-a1ff-f9c0956915f6,a5a5769b-5368-4eef-a6b1-5cdc2d8043be,Validate connections (Mobile),Validate connections in the context of mobile — automation
+9b76ab6f-37a0-422a-9662-a575017fbd89,a5a5769b-5368-4eef-a6b1-5cdc2d8043be,Transform templates (Mobile),Transform templates in the context of mobile — automation
+5bada45e-cfaf-4cef-baef-799f24023eba,a5a5769b-5368-4eef-a6b1-5cdc2d8043be,Filter dashboards (Mobile),Filter dashboards in the context of mobile — automation
+147e280e-cd0b-452c-9ae5-4aae0e22eaea,a5a5769b-5368-4eef-a6b1-5cdc2d8043be,Aggregate reports (Mobile),Aggregate reports in the context of mobile — automation
+bfe86617-cb69-47e0-973f-d2ee4ffa28e7,a5a5769b-5368-4eef-a6b1-5cdc2d8043be,Secure data sources (Mobile),Secure data sources in the context of mobile — automation
+b003c371-f7af-48ce-ab84-055739e61a04,0ec96f72-0f7e-47af-bc5a-11f1edfd2172,Manage queries (Alerting),Manage queries in the context of alerting — core
+ed5c8a4e-f62e-425a-9957-bd859391ffbc,0ec96f72-0f7e-47af-bc5a-11f1edfd2172,Configure metrics (Alerting),Configure metrics in the context of alerting — core
+b3744010-5157-4dd3-bb22-f02c25f1fb4c,0ec96f72-0f7e-47af-bc5a-11f1edfd2172,Automate permissions (Alerting),Automate permissions in the context of alerting — core
+6e2a93c9-5f30-4b28-8b0a-b47caaa3d657,0ec96f72-0f7e-47af-bc5a-11f1edfd2172,Monitor workflows (Alerting),Monitor workflows in the context of alerting — core
+159dd31f-104f-4b2c-9ca8-92c8e8c3d79c,0ec96f72-0f7e-47af-bc5a-11f1edfd2172,Analyze alerts (Alerting),Analyze alerts in the context of alerting — core
+f538b960-8907-4794-843e-eee3957221c9,364a36e1-bf27-4770-afbb-1de188098381,Optimize pipelines (Alerting),Optimize pipelines in the context of alerting — advanced
+166101b9-2cf2-4fba-aaeb-c3cd468e2a73,364a36e1-bf27-4770-afbb-1de188098381,Customize schemas (Alerting),Customize schemas in the context of alerting — advanced
+5552fb56-3871-43f5-9576-3568784939cf,364a36e1-bf27-4770-afbb-1de188098381,Share users (Alerting),Share users in the context of alerting — advanced
+9acfd275-6f44-4bb2-980d-2aa921cd1cb3,364a36e1-bf27-4770-afbb-1de188098381,Export teams (Alerting),Export teams in the context of alerting — advanced
+acfa11ab-d033-46e1-8e64-7e6beff56876,364a36e1-bf27-4770-afbb-1de188098381,Schedule roles (Alerting),Schedule roles in the context of alerting — advanced
+dff6eaeb-0a11-47e0-955e-78176e638092,46680445-237c-44e9-8583-8a2bb181d9fe,Validate connections (Alerting),Validate connections in the context of alerting — enterprise
+7d379108-3c5f-4fa7-b6d3-ca58bfba7708,46680445-237c-44e9-8583-8a2bb181d9fe,Transform templates (Alerting),Transform templates in the context of alerting — enterprise
+5a21d774-5e00-44a9-b8a0-cd827e9060af,46680445-237c-44e9-8583-8a2bb181d9fe,Filter dashboards (Alerting),Filter dashboards in the context of alerting — enterprise
+33f56f8a-4369-47e8-8ed6-df048f6e2aa6,46680445-237c-44e9-8583-8a2bb181d9fe,Aggregate reports (Alerting),Aggregate reports in the context of alerting — enterprise
+9faae864-baed-4b70-91ef-07e729dc61ee,46680445-237c-44e9-8583-8a2bb181d9fe,Secure data sources (Alerting),Secure data sources in the context of alerting — enterprise
+044be161-caf9-4c59-a3d0-6bb67f4a12a8,db43b0c8-918e-4813-a75c-0e8aa8cf8894,Manage queries (Alerting),Manage queries in the context of alerting — user experience
+0cd6f7cb-ac09-415a-986e-545a60ae14a3,db43b0c8-918e-4813-a75c-0e8aa8cf8894,Configure metrics (Alerting),Configure metrics in the context of alerting — user experience
+63f70044-9412-46ff-b1c7-74feceab410c,db43b0c8-918e-4813-a75c-0e8aa8cf8894,Automate permissions (Alerting),Automate permissions in the context of alerting — user experience
+213b1bc0-0f49-47df-953a-7fb7d21165bd,db43b0c8-918e-4813-a75c-0e8aa8cf8894,Monitor workflows (Alerting),Monitor workflows in the context of alerting — user experience
+5b6952d3-ce30-4dd7-915b-180df489f446,db43b0c8-918e-4813-a75c-0e8aa8cf8894,Analyze alerts (Alerting),Analyze alerts in the context of alerting — user experience
+7d9ee7e7-2cd4-4c51-8790-362f6d97dbb7,3fc31917-d517-41a4-8264-0d0c65c3c67a,Optimize pipelines (Alerting),Optimize pipelines in the context of alerting — automation
+d22499d9-5ca1-4e52-b58b-a0fa7c4abbcb,3fc31917-d517-41a4-8264-0d0c65c3c67a,Customize schemas (Alerting),Customize schemas in the context of alerting — automation
+b686981d-5be1-4bbe-a8bf-0f91a68d08ce,3fc31917-d517-41a4-8264-0d0c65c3c67a,Share users (Alerting),Share users in the context of alerting — automation
+50d4bdd4-0a51-4997-8b28-ec3b06a254b4,3fc31917-d517-41a4-8264-0d0c65c3c67a,Export teams (Alerting),Export teams in the context of alerting — automation
+88507f87-09d4-4eff-8602-07ab6e1ceec7,3fc31917-d517-41a4-8264-0d0c65c3c67a,Schedule roles (Alerting),Schedule roles in the context of alerting — automation
+d7ac0082-b797-49c8-9659-44a4fb8ed942,9f654c59-8ea1-4194-8a85-7492ce1120cf,Validate connections (Scheduling),Validate connections in the context of scheduling — core
+b7140707-f7b1-47d8-bb45-1de991d9df3a,9f654c59-8ea1-4194-8a85-7492ce1120cf,Transform templates (Scheduling),Transform templates in the context of scheduling — core
+d964905a-f775-4e48-b45a-419bae2a286d,9f654c59-8ea1-4194-8a85-7492ce1120cf,Filter dashboards (Scheduling),Filter dashboards in the context of scheduling — core
+22b8690b-aa8d-45b3-9048-36d9488b6e9d,9f654c59-8ea1-4194-8a85-7492ce1120cf,Aggregate reports (Scheduling),Aggregate reports in the context of scheduling — core
+8eaffde2-3206-4ed6-a19d-af29dc96d53f,9f654c59-8ea1-4194-8a85-7492ce1120cf,Secure data sources (Scheduling),Secure data sources in the context of scheduling — core
+b3d07d4a-ff21-47b9-8f43-24bc21182411,aff3e68f-1b89-41f0-aa26-ecc9682dad3e,Manage queries (Scheduling),Manage queries in the context of scheduling — advanced
+a2a380a4-eb40-40da-ab86-e57e40fa79ef,aff3e68f-1b89-41f0-aa26-ecc9682dad3e,Configure metrics (Scheduling),Configure metrics in the context of scheduling — advanced
+04e6f391-7713-46a3-9bab-76dadd1bbac0,aff3e68f-1b89-41f0-aa26-ecc9682dad3e,Automate permissions (Scheduling),Automate permissions in the context of scheduling — advanced
+78bf0871-0876-471c-b611-a527ab2f1445,aff3e68f-1b89-41f0-aa26-ecc9682dad3e,Monitor workflows (Scheduling),Monitor workflows in the context of scheduling — advanced
+20a528e4-0f66-401f-81f4-247da71a3664,aff3e68f-1b89-41f0-aa26-ecc9682dad3e,Analyze alerts (Scheduling),Analyze alerts in the context of scheduling — advanced
+3af2a0e1-931f-4913-90bf-2d723377507f,9c558b75-b9c0-465e-807b-6b3d69636d33,Optimize pipelines (Scheduling),Optimize pipelines in the context of scheduling — enterprise
+6f2cbefb-fc66-42d4-bb9d-8ab9f815afeb,9c558b75-b9c0-465e-807b-6b3d69636d33,Customize schemas (Scheduling),Customize schemas in the context of scheduling — enterprise
+cb302333-0a4a-4e17-be10-3506ce27bb1e,9c558b75-b9c0-465e-807b-6b3d69636d33,Share users (Scheduling),Share users in the context of scheduling — enterprise
+7d436615-00b7-47c3-953e-6765bb61af2d,9c558b75-b9c0-465e-807b-6b3d69636d33,Export teams (Scheduling),Export teams in the context of scheduling — enterprise
+a6765fed-aac5-45f5-a03f-c3130083a7f6,9c558b75-b9c0-465e-807b-6b3d69636d33,Schedule roles (Scheduling),Schedule roles in the context of scheduling — enterprise
+15d88c20-0115-40ec-b683-0575ba25c763,e25ff912-8386-4af8-9dae-c2451e944dfd,Validate connections (Scheduling),Validate connections in the context of scheduling — user experience
+f698e047-a9e9-4385-b53b-9415440399b3,e25ff912-8386-4af8-9dae-c2451e944dfd,Transform templates (Scheduling),Transform templates in the context of scheduling — user experience
+add61929-adf3-4721-a8de-fe91cb9ce7f3,e25ff912-8386-4af8-9dae-c2451e944dfd,Filter dashboards (Scheduling),Filter dashboards in the context of scheduling — user experience
+8bd2729a-5749-46cb-bb16-8997dd59d2d9,e25ff912-8386-4af8-9dae-c2451e944dfd,Aggregate reports (Scheduling),Aggregate reports in the context of scheduling — user experience
+d8a9e322-28f0-4008-bec3-933adbb4a426,e25ff912-8386-4af8-9dae-c2451e944dfd,Secure data sources (Scheduling),Secure data sources in the context of scheduling — user experience
+879aa647-1a35-496c-8a76-af61c2d780be,e7be2e82-3025-4bd1-80a2-b18ece8f39f0,Manage queries (Scheduling),Manage queries in the context of scheduling — automation
+1f8d497a-4539-4d74-8ffe-c73e4f4dad43,e7be2e82-3025-4bd1-80a2-b18ece8f39f0,Configure metrics (Scheduling),Configure metrics in the context of scheduling — automation
+978a08e7-e461-4b83-8803-431e9e15c8ac,e7be2e82-3025-4bd1-80a2-b18ece8f39f0,Automate permissions (Scheduling),Automate permissions in the context of scheduling — automation
+2cfa64b4-d311-447d-80a2-c271a1d2290b,e7be2e82-3025-4bd1-80a2-b18ece8f39f0,Monitor workflows (Scheduling),Monitor workflows in the context of scheduling — automation
+b6389aa2-ea78-48ce-ad96-cb59e3dc0787,e7be2e82-3025-4bd1-80a2-b18ece8f39f0,Analyze alerts (Scheduling),Analyze alerts in the context of scheduling — automation
+9c44c037-0753-407d-b819-fb55f292a7b1,a4a588bd-dde7-410c-8988-4fbf0594f68f,Optimize pipelines (Git/Version Control),Optimize pipelines in the context of git/version control — core
+ca5e16dc-48dd-4c4d-a689-6d473f26f2ee,a4a588bd-dde7-410c-8988-4fbf0594f68f,Customize schemas (Git/Version Control),Customize schemas in the context of git/version control — core
+4eb153c2-b1d9-4723-97b1-89b37a6b0f28,a4a588bd-dde7-410c-8988-4fbf0594f68f,Share users (Git/Version Control),Share users in the context of git/version control — core
+dc4b9e83-0525-4e80-bfbf-9723ae8530cd,a4a588bd-dde7-410c-8988-4fbf0594f68f,Export teams (Git/Version Control),Export teams in the context of git/version control — core
+331c8673-358c-4037-bcbc-7ffca0951fe5,a4a588bd-dde7-410c-8988-4fbf0594f68f,Schedule roles (Git/Version Control),Schedule roles in the context of git/version control — core
+b03ebf76-cd87-4de0-a2f0-160238ee162b,d50adaf8-a131-458b-b355-36a2cc702382,Validate connections (Git/Version Control),Validate connections in the context of git/version control — advanced
+248b8ec4-3286-4d34-ac01-c1bfb4efc286,d50adaf8-a131-458b-b355-36a2cc702382,Transform templates (Git/Version Control),Transform templates in the context of git/version control — advanced
+b6cfea29-ecd0-43cd-ad01-678e21dcffb5,d50adaf8-a131-458b-b355-36a2cc702382,Filter dashboards (Git/Version Control),Filter dashboards in the context of git/version control — advanced
+3ef340b2-bb06-48d2-96cf-83f4b415fbdb,d50adaf8-a131-458b-b355-36a2cc702382,Aggregate reports (Git/Version Control),Aggregate reports in the context of git/version control — advanced
+12ffda36-da50-4c44-bbc6-8115c460c7ee,d50adaf8-a131-458b-b355-36a2cc702382,Secure data sources (Git/Version Control),Secure data sources in the context of git/version control — advanced
+23b901de-c4de-48db-aabc-7a2782be74ca,5402ac3c-e76c-42ba-a6e7-28874bc7fd22,Manage queries (Git/Version Control),Manage queries in the context of git/version control — enterprise
+337e9065-6869-4705-9899-371e5f216aa1,5402ac3c-e76c-42ba-a6e7-28874bc7fd22,Configure metrics (Git/Version Control),Configure metrics in the context of git/version control — enterprise
+f17154ef-939d-49dd-98a0-dcde0cd92104,5402ac3c-e76c-42ba-a6e7-28874bc7fd22,Automate permissions (Git/Version Control),Automate permissions in the context of git/version control — enterprise
+51718af0-60e8-43d2-a84e-21fcd581637a,5402ac3c-e76c-42ba-a6e7-28874bc7fd22,Monitor workflows (Git/Version Control),Monitor workflows in the context of git/version control — enterprise
+30e38666-8148-4e6f-840f-1085a383e319,5402ac3c-e76c-42ba-a6e7-28874bc7fd22,Analyze alerts (Git/Version Control),Analyze alerts in the context of git/version control — enterprise
+b1d0029f-b0fc-4fd3-b8fd-cb7a8533bdf4,9a9235b0-98f5-4f8d-ba63-6283f7e44376,Optimize pipelines (Git/Version Control),Optimize pipelines in the context of git/version control — user experience
+80d920da-a305-40e8-8342-f833f2c49976,9a9235b0-98f5-4f8d-ba63-6283f7e44376,Customize schemas (Git/Version Control),Customize schemas in the context of git/version control — user experience
+e558118b-e885-4577-a79a-8a1f547c1ffd,9a9235b0-98f5-4f8d-ba63-6283f7e44376,Share users (Git/Version Control),Share users in the context of git/version control — user experience
+3d83c58e-c053-423c-a87a-fa033571e75e,9a9235b0-98f5-4f8d-ba63-6283f7e44376,Export teams (Git/Version Control),Export teams in the context of git/version control — user experience
+f8b2b64e-48eb-4c13-b6a2-e9cca7f021e5,9a9235b0-98f5-4f8d-ba63-6283f7e44376,Schedule roles (Git/Version Control),Schedule roles in the context of git/version control — user experience
+9cf8a025-1e54-4a88-809e-bd8648ce4eb0,1280a879-9929-4bc6-afe8-01ffd6159979,Validate connections (Git/Version Control),Validate connections in the context of git/version control — automation
+da55acde-a94b-40b8-95b5-e3e49aa6d225,1280a879-9929-4bc6-afe8-01ffd6159979,Transform templates (Git/Version Control),Transform templates in the context of git/version control — automation
+67b05e87-76b6-4454-9155-6239d14f33dd,1280a879-9929-4bc6-afe8-01ffd6159979,Filter dashboards (Git/Version Control),Filter dashboards in the context of git/version control — automation
+00db7e3e-12c2-4764-af9b-ebf30eae55d5,1280a879-9929-4bc6-afe8-01ffd6159979,Aggregate reports (Git/Version Control),Aggregate reports in the context of git/version control — automation
+1ef4de10-3b0f-43fc-9e47-096065382edd,1280a879-9929-4bc6-afe8-01ffd6159979,Secure data sources (Git/Version Control),Secure data sources in the context of git/version control — automation
+2ab47cd3-ca97-4b05-baa7-3fb03beee9d2,975dd548-c92c-4a16-8b9e-1756cd182471,Manage queries (Developer Experience),Manage queries in the context of developer experience — core
+85a65ce8-e7e9-4187-b080-ab47f05f6fc7,975dd548-c92c-4a16-8b9e-1756cd182471,Configure metrics (Developer Experience),Configure metrics in the context of developer experience — core
+03846797-53b0-4db2-863d-0473c96409c4,975dd548-c92c-4a16-8b9e-1756cd182471,Automate permissions (Developer Experience),Automate permissions in the context of developer experience — core
+e4bc5832-a0ce-44bf-87ca-3737514af98c,975dd548-c92c-4a16-8b9e-1756cd182471,Monitor workflows (Developer Experience),Monitor workflows in the context of developer experience — core
+29f383cc-9257-4a41-9071-8dd38f632bd7,975dd548-c92c-4a16-8b9e-1756cd182471,Analyze alerts (Developer Experience),Analyze alerts in the context of developer experience — core
+0ce7efef-950a-439d-ac88-446dea76f74f,d6f841df-9d7e-4f54-8a9b-98c29aa17ce5,Optimize pipelines (Developer Experience),Optimize pipelines in the context of developer experience — advanced
+1b56adb4-6e75-49ea-ba00-4f015b32f33f,d6f841df-9d7e-4f54-8a9b-98c29aa17ce5,Customize schemas (Developer Experience),Customize schemas in the context of developer experience — advanced
+4de9fc29-b970-47d6-a6d0-0a89eec4c6ca,d6f841df-9d7e-4f54-8a9b-98c29aa17ce5,Share users (Developer Experience),Share users in the context of developer experience — advanced
+49e7f986-7f2c-401f-a996-0bb6549fd471,d6f841df-9d7e-4f54-8a9b-98c29aa17ce5,Export teams (Developer Experience),Export teams in the context of developer experience — advanced
+92522ddd-4c8f-4566-94bf-59412fbd5224,d6f841df-9d7e-4f54-8a9b-98c29aa17ce5,Schedule roles (Developer Experience),Schedule roles in the context of developer experience — advanced
+34725d17-908f-40ea-a491-8521aa2990c2,b60614e9-fab4-480d-97a2-96d4c53d860f,Validate connections (Developer Experience),Validate connections in the context of developer experience — enterprise
+634bff7e-10a4-428f-8841-901e6b10b052,b60614e9-fab4-480d-97a2-96d4c53d860f,Transform templates (Developer Experience),Transform templates in the context of developer experience — enterprise
+24770bd5-71a3-4f92-8a54-c6c606be5bb8,b60614e9-fab4-480d-97a2-96d4c53d860f,Filter dashboards (Developer Experience),Filter dashboards in the context of developer experience — enterprise
+80fa1ba1-b3e9-4a68-a1f7-428f216d70a2,b60614e9-fab4-480d-97a2-96d4c53d860f,Aggregate reports (Developer Experience),Aggregate reports in the context of developer experience — enterprise
+860a54e8-d314-45c0-a556-ca13218ac2ae,b60614e9-fab4-480d-97a2-96d4c53d860f,Secure data sources (Developer Experience),Secure data sources in the context of developer experience — enterprise
+aad6e5a7-88b4-4c41-a77e-b32a57c43e59,a0113cc6-f95c-4a0d-9421-0cd8bee250fc,Manage queries (Developer Experience),Manage queries in the context of developer experience — user experience
+43951133-2ff0-46fc-801f-2be1b016d988,a0113cc6-f95c-4a0d-9421-0cd8bee250fc,Configure metrics (Developer Experience),Configure metrics in the context of developer experience — user experience
+bf94842f-d166-4c95-ae13-01c74145e32c,a0113cc6-f95c-4a0d-9421-0cd8bee250fc,Automate permissions (Developer Experience),Automate permissions in the context of developer experience — user experience
+7a32efab-d3f7-49de-9896-bb854b4230a1,a0113cc6-f95c-4a0d-9421-0cd8bee250fc,Monitor workflows (Developer Experience),Monitor workflows in the context of developer experience — user experience
+a67c2aa7-d3c4-4f64-a24f-87df871ebd8a,a0113cc6-f95c-4a0d-9421-0cd8bee250fc,Analyze alerts (Developer Experience),Analyze alerts in the context of developer experience — user experience
+8f6c7511-e6a2-401d-bfe7-f13745f6950d,779b0734-bb3a-4ecf-bcda-5736508db85e,Optimize pipelines (Developer Experience),Optimize pipelines in the context of developer experience — automation
+5bf8c060-414b-44f4-b5ae-0f6b7a928a07,779b0734-bb3a-4ecf-bcda-5736508db85e,Customize schemas (Developer Experience),Customize schemas in the context of developer experience — automation
+1b602c6e-6e8c-429c-a8c0-860b5f566873,779b0734-bb3a-4ecf-bcda-5736508db85e,Share users (Developer Experience),Share users in the context of developer experience — automation
+3b6ce7ec-3e41-4c18-8b0d-56a6f4f56253,779b0734-bb3a-4ecf-bcda-5736508db85e,Export teams (Developer Experience),Export teams in the context of developer experience — automation
+7db27134-15a3-4c19-9d79-367777591648,779b0734-bb3a-4ecf-bcda-5736508db85e,Schedule roles (Developer Experience),Schedule roles in the context of developer experience — automation
+702fbf43-c0be-45ab-aed2-6d99a36aa46a,53117ed1-6e5d-45f9-90d7-61fbecc71f28,Validate connections (Data Quality),Validate connections in the context of data quality — core
+58d49ecd-4980-45f3-ac2c-134972a92618,53117ed1-6e5d-45f9-90d7-61fbecc71f28,Transform templates (Data Quality),Transform templates in the context of data quality — core
+e0df72de-c362-4c65-9aaf-50cd18eb85f2,53117ed1-6e5d-45f9-90d7-61fbecc71f28,Filter dashboards (Data Quality),Filter dashboards in the context of data quality — core
+6b105784-b858-41d0-9969-5b8d74e61e8a,53117ed1-6e5d-45f9-90d7-61fbecc71f28,Aggregate reports (Data Quality),Aggregate reports in the context of data quality — core
+0d0a788e-210d-4e3c-8ca4-ef21728c4588,53117ed1-6e5d-45f9-90d7-61fbecc71f28,Secure data sources (Data Quality),Secure data sources in the context of data quality — core
+0585334e-8370-4522-b627-7cd0ced7c6ff,0e24cc60-de33-451c-8d48-a8719ae5e479,Manage queries (Data Quality),Manage queries in the context of data quality — advanced
+738edab0-a7c2-4f88-a07a-39cca5c8e138,0e24cc60-de33-451c-8d48-a8719ae5e479,Configure metrics (Data Quality),Configure metrics in the context of data quality — advanced
+bf0dbc16-4114-417d-8275-d74f1a42959a,0e24cc60-de33-451c-8d48-a8719ae5e479,Automate permissions (Data Quality),Automate permissions in the context of data quality — advanced
+9b276a2b-3669-4fc4-adb5-e7031d733750,0e24cc60-de33-451c-8d48-a8719ae5e479,Monitor workflows (Data Quality),Monitor workflows in the context of data quality — advanced
+d71e2b37-387f-4878-9aa8-ba5760c08470,0e24cc60-de33-451c-8d48-a8719ae5e479,Analyze alerts (Data Quality),Analyze alerts in the context of data quality — advanced
+21174d85-5f74-4b07-a9d8-4ae57d89cd20,f1f7b8a2-4f3d-43a2-b2a8-e9ddde11b620,Optimize pipelines (Data Quality),Optimize pipelines in the context of data quality — enterprise
+174fa20b-3b92-484b-aecf-08e59ab44e63,f1f7b8a2-4f3d-43a2-b2a8-e9ddde11b620,Customize schemas (Data Quality),Customize schemas in the context of data quality — enterprise
+63c5e336-142f-467d-99fe-8fc3fc32da3f,f1f7b8a2-4f3d-43a2-b2a8-e9ddde11b620,Share users (Data Quality),Share users in the context of data quality — enterprise
+c9f79f53-89de-47fd-b777-57db82959de8,f1f7b8a2-4f3d-43a2-b2a8-e9ddde11b620,Export teams (Data Quality),Export teams in the context of data quality — enterprise
+8c67b0b4-3a41-4545-bb94-cf0d40038f5a,f1f7b8a2-4f3d-43a2-b2a8-e9ddde11b620,Schedule roles (Data Quality),Schedule roles in the context of data quality — enterprise
+c6e9c1af-f5a0-466d-89f3-b8762f2c1f2b,f0f08143-58ec-42d0-911d-8ab8783593ec,Validate connections (Data Quality),Validate connections in the context of data quality — user experience
+e35978b3-d8b7-4093-b05a-d0422ac9c886,f0f08143-58ec-42d0-911d-8ab8783593ec,Transform templates (Data Quality),Transform templates in the context of data quality — user experience
+41106d8b-067e-4e45-a4e0-1ce5e3f8a0ee,f0f08143-58ec-42d0-911d-8ab8783593ec,Filter dashboards (Data Quality),Filter dashboards in the context of data quality — user experience
+63bbedb2-37b9-457a-9221-cb42b7b8b249,f0f08143-58ec-42d0-911d-8ab8783593ec,Aggregate reports (Data Quality),Aggregate reports in the context of data quality — user experience
+ed94830c-cee1-4af6-bbbb-d77d67de3c6d,f0f08143-58ec-42d0-911d-8ab8783593ec,Secure data sources (Data Quality),Secure data sources in the context of data quality — user experience
+30cb4db6-3362-4296-a95d-9c9178545ba6,4513296e-d7b2-4489-9be9-23bee3d8e7e2,Manage queries (Data Quality),Manage queries in the context of data quality — automation
+80380fb0-ebfe-4fd4-a70e-502bddd98ff6,4513296e-d7b2-4489-9be9-23bee3d8e7e2,Configure metrics (Data Quality),Configure metrics in the context of data quality — automation
+3895d72f-21fd-4b6b-be81-f122b5064261,4513296e-d7b2-4489-9be9-23bee3d8e7e2,Automate permissions (Data Quality),Automate permissions in the context of data quality — automation
+718dc737-a7cf-4839-abf3-2d4dd0b0c529,4513296e-d7b2-4489-9be9-23bee3d8e7e2,Monitor workflows (Data Quality),Monitor workflows in the context of data quality — automation
+c42d016d-9b62-4d69-926d-1cb201f6343f,4513296e-d7b2-4489-9be9-23bee3d8e7e2,Analyze alerts (Data Quality),Analyze alerts in the context of data quality — automation
+c2fa1f0a-e995-441e-a86a-c48d77d97c97,149fa3f2-2d12-4eeb-822b-a1f7f402ba3a,Optimize pipelines (Semantic Layer),Optimize pipelines in the context of semantic layer — core
+5db7e038-6be1-4688-a3eb-e876858421bd,149fa3f2-2d12-4eeb-822b-a1f7f402ba3a,Customize schemas (Semantic Layer),Customize schemas in the context of semantic layer — core
+96b050db-91fe-4eaa-8e56-7456b08aba01,149fa3f2-2d12-4eeb-822b-a1f7f402ba3a,Share users (Semantic Layer),Share users in the context of semantic layer — core
+8925f8f3-6c9e-4556-8b1c-b0403488d676,149fa3f2-2d12-4eeb-822b-a1f7f402ba3a,Export teams (Semantic Layer),Export teams in the context of semantic layer — core
+1ccd94cf-5c6b-4b20-bff3-66ef39aea833,149fa3f2-2d12-4eeb-822b-a1f7f402ba3a,Schedule roles (Semantic Layer),Schedule roles in the context of semantic layer — core
+49d09e61-f076-4fd0-90d1-01f248384768,e851f48d-5e09-49b5-b26d-cfcf4718a6b1,Validate connections (Semantic Layer),Validate connections in the context of semantic layer — advanced
+c0fee2fe-efbf-4e01-8e50-a08b6cd3a1e8,e851f48d-5e09-49b5-b26d-cfcf4718a6b1,Transform templates (Semantic Layer),Transform templates in the context of semantic layer — advanced
+50aefc2b-7182-4ca7-9075-51d4a968582c,e851f48d-5e09-49b5-b26d-cfcf4718a6b1,Filter dashboards (Semantic Layer),Filter dashboards in the context of semantic layer — advanced
+cbc300a7-1b90-4d8a-adb7-429849b63a9b,e851f48d-5e09-49b5-b26d-cfcf4718a6b1,Aggregate reports (Semantic Layer),Aggregate reports in the context of semantic layer — advanced
+4833b6d5-1ad4-4fb6-9eb3-74bb8585b802,e851f48d-5e09-49b5-b26d-cfcf4718a6b1,Secure data sources (Semantic Layer),Secure data sources in the context of semantic layer — advanced
+49e05380-626e-4062-852e-336a7482b19e,b9c42631-82b7-489e-af75-92d478eb0672,Manage queries (Semantic Layer),Manage queries in the context of semantic layer — enterprise
+b087520f-02f0-4177-a8d7-c4934bedea6b,b9c42631-82b7-489e-af75-92d478eb0672,Configure metrics (Semantic Layer),Configure metrics in the context of semantic layer — enterprise
+1320afe6-b171-41e4-8b0f-f98f13e24893,b9c42631-82b7-489e-af75-92d478eb0672,Automate permissions (Semantic Layer),Automate permissions in the context of semantic layer — enterprise
+5bd353a7-68a9-45f1-83cd-6b74515ea54f,b9c42631-82b7-489e-af75-92d478eb0672,Monitor workflows (Semantic Layer),Monitor workflows in the context of semantic layer — enterprise
+488598cd-579a-4161-92cf-b91f3fdc248c,b9c42631-82b7-489e-af75-92d478eb0672,Analyze alerts (Semantic Layer),Analyze alerts in the context of semantic layer — enterprise
+254e81ef-b667-48e9-80fd-b5ade5a5d8e6,39eaeeef-3ce3-4556-b21f-a3dc964359be,Optimize pipelines (Semantic Layer),Optimize pipelines in the context of semantic layer — user experience
+7c375d6a-0067-43f2-bb65-0e9d81262a78,39eaeeef-3ce3-4556-b21f-a3dc964359be,Customize schemas (Semantic Layer),Customize schemas in the context of semantic layer — user experience
+61094971-98a2-49ad-b242-76fa3d7d7a9c,39eaeeef-3ce3-4556-b21f-a3dc964359be,Share users (Semantic Layer),Share users in the context of semantic layer — user experience
+d9f94f60-ee9a-4341-9a3c-095bb5a05453,39eaeeef-3ce3-4556-b21f-a3dc964359be,Export teams (Semantic Layer),Export teams in the context of semantic layer — user experience
+c47cb8e1-9144-4b4f-962e-f3bf25b0b425,39eaeeef-3ce3-4556-b21f-a3dc964359be,Schedule roles (Semantic Layer),Schedule roles in the context of semantic layer — user experience
+6493aeee-96f0-42ab-8fcb-2c54bcd30fb9,b6516c93-6a82-4e31-9222-e6d530daed7b,Validate connections (Semantic Layer),Validate connections in the context of semantic layer — automation
+90f165ee-cafe-424f-b729-44b8e9d04ef2,b6516c93-6a82-4e31-9222-e6d530daed7b,Transform templates (Semantic Layer),Transform templates in the context of semantic layer — automation
+8342d08a-8dab-47b8-88d9-0dd84ab69de9,b6516c93-6a82-4e31-9222-e6d530daed7b,Filter dashboards (Semantic Layer),Filter dashboards in the context of semantic layer — automation
+dbe56d42-8b9b-422b-96cd-e87b191cd319,b6516c93-6a82-4e31-9222-e6d530daed7b,Aggregate reports (Semantic Layer),Aggregate reports in the context of semantic layer — automation
+1bea8049-617a-4482-8279-c0a76a5be176,b6516c93-6a82-4e31-9222-e6d530daed7b,Secure data sources (Semantic Layer),Secure data sources in the context of semantic layer — automation
+42226044-ca55-41db-8d04-2abf4d874a87,48973d5a-2efc-455a-81e9-7dd2f66a047c,Manage queries (Self-Service),Manage queries in the context of self-service — core
+07e51a23-2bbb-458b-a87e-55f3fe672eb4,48973d5a-2efc-455a-81e9-7dd2f66a047c,Configure metrics (Self-Service),Configure metrics in the context of self-service — core
+b0fe9eca-17a3-4641-a806-68bcbb9e6cbd,48973d5a-2efc-455a-81e9-7dd2f66a047c,Automate permissions (Self-Service),Automate permissions in the context of self-service — core
+930f603e-93bf-4c69-9d2f-6cac187b597c,48973d5a-2efc-455a-81e9-7dd2f66a047c,Monitor workflows (Self-Service),Monitor workflows in the context of self-service — core
+51167a93-8b50-45f8-8069-2df959fe7238,48973d5a-2efc-455a-81e9-7dd2f66a047c,Analyze alerts (Self-Service),Analyze alerts in the context of self-service — core
+13eb5e94-82b7-4c5a-a410-ff01387b5d80,628557b2-6d5a-4310-a0de-f016fc20c96c,Optimize pipelines (Self-Service),Optimize pipelines in the context of self-service — advanced
+49ccf45e-7145-4a97-b245-7e7333dbbb4b,628557b2-6d5a-4310-a0de-f016fc20c96c,Customize schemas (Self-Service),Customize schemas in the context of self-service — advanced
+b8f3d103-30f2-4309-91f3-3bc7e5a40abc,628557b2-6d5a-4310-a0de-f016fc20c96c,Share users (Self-Service),Share users in the context of self-service — advanced
+d2e592bb-d32f-4cb0-bddf-40cf5bf1cea5,628557b2-6d5a-4310-a0de-f016fc20c96c,Export teams (Self-Service),Export teams in the context of self-service — advanced
+7684d1f6-4c46-46b6-ad99-d4825522929a,628557b2-6d5a-4310-a0de-f016fc20c96c,Schedule roles (Self-Service),Schedule roles in the context of self-service — advanced
+8ab9d7d9-6efc-4c2e-bebd-fa068527a888,4b1bff07-e45d-476a-add8-6cdf1ef8423c,Validate connections (Self-Service),Validate connections in the context of self-service — enterprise
+5d5ab8a9-1631-453d-8dc7-dd4b587ec654,4b1bff07-e45d-476a-add8-6cdf1ef8423c,Transform templates (Self-Service),Transform templates in the context of self-service — enterprise
+51a3f8b5-fb11-4ec5-be1c-7bd1b48a9eb3,4b1bff07-e45d-476a-add8-6cdf1ef8423c,Filter dashboards (Self-Service),Filter dashboards in the context of self-service — enterprise
+a1ceed20-0a1f-429d-8acf-5c4ecaacefdf,4b1bff07-e45d-476a-add8-6cdf1ef8423c,Aggregate reports (Self-Service),Aggregate reports in the context of self-service — enterprise
+48490a3b-3d4c-48af-8026-999c29ff6226,4b1bff07-e45d-476a-add8-6cdf1ef8423c,Secure data sources (Self-Service),Secure data sources in the context of self-service — enterprise
+498d8dc0-ccfb-4b73-b703-9fb75a5f08bd,420f4253-8619-4349-a5b4-e625cd649969,Manage queries (Self-Service),Manage queries in the context of self-service — user experience
+7a027913-8479-4b3d-9f74-833d8fc24c12,420f4253-8619-4349-a5b4-e625cd649969,Configure metrics (Self-Service),Configure metrics in the context of self-service — user experience
+1a003c38-212c-4d34-9edf-a17e2d7df7a4,420f4253-8619-4349-a5b4-e625cd649969,Automate permissions (Self-Service),Automate permissions in the context of self-service — user experience
+e4035591-027a-41c4-abb8-32615a8c106c,420f4253-8619-4349-a5b4-e625cd649969,Monitor workflows (Self-Service),Monitor workflows in the context of self-service — user experience
+d16ba8cf-c374-4868-bef1-5676a7984535,420f4253-8619-4349-a5b4-e625cd649969,Analyze alerts (Self-Service),Analyze alerts in the context of self-service — user experience
+efd00524-85be-4ed2-bf61-688e5f6ba8f3,7af742c8-3b21-47ba-b481-290628eb11e1,Optimize pipelines (Self-Service),Optimize pipelines in the context of self-service — automation
+a9bebce9-c291-47d6-807a-7f7532a238e5,7af742c8-3b21-47ba-b481-290628eb11e1,Customize schemas (Self-Service),Customize schemas in the context of self-service — automation
+fe2db14a-3bda-406c-b1df-e7ce7d15c733,7af742c8-3b21-47ba-b481-290628eb11e1,Share users (Self-Service),Share users in the context of self-service — automation
+f2123c13-ed4d-4d17-bd2f-ab6aaf3b17cd,7af742c8-3b21-47ba-b481-290628eb11e1,Export teams (Self-Service),Export teams in the context of self-service — automation
+547b0c3e-5c42-4b28-9ad6-a013c4f989d4,7af742c8-3b21-47ba-b481-290628eb11e1,Schedule roles (Self-Service),Schedule roles in the context of self-service — automation
+84d29ef4-de63-44b1-bde3-090a6306e195,88c7dc29-6c6e-4f83-bb3f-c22bb143abf4,Validate connections (Multi-tenancy),Validate connections in the context of multi-tenancy — core
+b8a667f6-91dd-4615-9dba-b062cd2ea66a,88c7dc29-6c6e-4f83-bb3f-c22bb143abf4,Transform templates (Multi-tenancy),Transform templates in the context of multi-tenancy — core
+19c4e151-b80d-4532-9493-f4cec9109556,88c7dc29-6c6e-4f83-bb3f-c22bb143abf4,Filter dashboards (Multi-tenancy),Filter dashboards in the context of multi-tenancy — core
+93084ef6-0be6-426b-9167-e87f8bc84860,88c7dc29-6c6e-4f83-bb3f-c22bb143abf4,Aggregate reports (Multi-tenancy),Aggregate reports in the context of multi-tenancy — core
+51b3fd8c-b49c-4d61-9e38-beb590b85778,88c7dc29-6c6e-4f83-bb3f-c22bb143abf4,Secure data sources (Multi-tenancy),Secure data sources in the context of multi-tenancy — core
+749009b9-e046-4a94-9d59-40adcbc9b188,121bc7ca-9c31-43dc-ae33-8c3bf248b6b9,Manage queries (Multi-tenancy),Manage queries in the context of multi-tenancy — advanced
+cf5f8024-9f06-4603-8b13-405f7105257d,121bc7ca-9c31-43dc-ae33-8c3bf248b6b9,Configure metrics (Multi-tenancy),Configure metrics in the context of multi-tenancy — advanced
+97cce051-c5f7-4eb8-8d7d-ba38a637e80a,121bc7ca-9c31-43dc-ae33-8c3bf248b6b9,Automate permissions (Multi-tenancy),Automate permissions in the context of multi-tenancy — advanced
+2fc1054f-e06b-4147-beaf-19d6af5cc6f2,121bc7ca-9c31-43dc-ae33-8c3bf248b6b9,Monitor workflows (Multi-tenancy),Monitor workflows in the context of multi-tenancy — advanced
+0da60995-bb61-424e-88a6-6038b3614a19,121bc7ca-9c31-43dc-ae33-8c3bf248b6b9,Analyze alerts (Multi-tenancy),Analyze alerts in the context of multi-tenancy — advanced
+4ceaae86-c707-4e62-ad00-7aa14df17ab7,70fea702-e935-4fa7-84c1-2a2aa4813e5d,Optimize pipelines (Multi-tenancy),Optimize pipelines in the context of multi-tenancy — enterprise
+644d8d7f-da2a-4297-b15c-3f4ba1598fe3,70fea702-e935-4fa7-84c1-2a2aa4813e5d,Customize schemas (Multi-tenancy),Customize schemas in the context of multi-tenancy — enterprise
+252c6e3b-d8df-46cf-949e-ddb03e1f6b23,70fea702-e935-4fa7-84c1-2a2aa4813e5d,Share users (Multi-tenancy),Share users in the context of multi-tenancy — enterprise
+3181bb03-9eca-4a05-afac-ad06d5cec991,70fea702-e935-4fa7-84c1-2a2aa4813e5d,Export teams (Multi-tenancy),Export teams in the context of multi-tenancy — enterprise
+9b46e4d0-8b98-419a-9cd4-066208d3ebe5,70fea702-e935-4fa7-84c1-2a2aa4813e5d,Schedule roles (Multi-tenancy),Schedule roles in the context of multi-tenancy — enterprise
+f582278b-5e89-4d79-98aa-9d0a4c07ddd1,688fd455-9f10-4e58-84c3-39e948ae8ced,Validate connections (Multi-tenancy),Validate connections in the context of multi-tenancy — user experience
+cc808684-c368-4ee8-b11d-0a8087707e0c,688fd455-9f10-4e58-84c3-39e948ae8ced,Transform templates (Multi-tenancy),Transform templates in the context of multi-tenancy — user experience
+01e7cbf3-ccba-4904-8c5f-58f911475725,688fd455-9f10-4e58-84c3-39e948ae8ced,Filter dashboards (Multi-tenancy),Filter dashboards in the context of multi-tenancy — user experience
+a0d84d5b-806f-4335-a28e-a87fcd1182b7,688fd455-9f10-4e58-84c3-39e948ae8ced,Aggregate reports (Multi-tenancy),Aggregate reports in the context of multi-tenancy — user experience
+8afbdaef-99c0-4df4-bf0f-2d14d26f8009,688fd455-9f10-4e58-84c3-39e948ae8ced,Secure data sources (Multi-tenancy),Secure data sources in the context of multi-tenancy — user experience
+b200b477-9911-479f-8f57-b80de63cff72,c6a7d885-421d-43bc-83c0-5e6487328c6c,Manage queries (Multi-tenancy),Manage queries in the context of multi-tenancy — automation
+f2386e2b-4622-41dd-a216-d9b189209405,c6a7d885-421d-43bc-83c0-5e6487328c6c,Configure metrics (Multi-tenancy),Configure metrics in the context of multi-tenancy — automation
+cf4caa32-d3a1-4a40-a708-8e2b88168a44,c6a7d885-421d-43bc-83c0-5e6487328c6c,Automate permissions (Multi-tenancy),Automate permissions in the context of multi-tenancy — automation
+e2ac8103-06c4-44f7-85e0-5d6d14f33186,c6a7d885-421d-43bc-83c0-5e6487328c6c,Monitor workflows (Multi-tenancy),Monitor workflows in the context of multi-tenancy — automation
+7b05fef1-cfb7-45f6-894e-0dc670ca252a,c6a7d885-421d-43bc-83c0-5e6487328c6c,Analyze alerts (Multi-tenancy),Analyze alerts in the context of multi-tenancy — automation

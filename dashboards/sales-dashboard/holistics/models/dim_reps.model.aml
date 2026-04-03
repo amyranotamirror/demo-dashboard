@@ -1,0 +1,47 @@
+// Dimension: Reps (internal Holistics team)
+// Role-playing twin of dim_contacts — same physical persons table, internal side.
+// Points to v_reps view (persons whose company.type = 'internal').
+// Joined via deals.owner_id in the Sales Pipeline dataset.
+
+Model dim_reps {
+  type: 'table'
+  label: 'Reps'
+  table_name: 'v_reps'
+  data_source_name: 'neondb'
+  description: 'Internal Holistics team: AEs, CS reps, SDRs, managers, etc. Determined by company membership (company.type = internal).'
+
+  dimension id {
+    label: 'Rep ID'
+    type: 'text'
+    primary_key: true
+    definition: @sql {{ #SOURCE.id }};;
+  }
+  dimension name {
+    label: 'Rep Name'
+    type: 'text'
+  }
+  dimension email {
+    label: 'Email'
+    type: 'text'
+    hidden: true
+  }
+  dimension role {
+    label: 'Rep Role'
+    type: 'text'
+    description: 'ae | cs_rep | sdr | manager | bizops | product | data_analyst | ceo | cto'
+  }
+  dimension is_active {
+    label: 'Is Active'
+    type: 'truefalse'
+    definition: @sql {{ #SOURCE.left_at }} IS NULL;;
+  }
+  dimension started_at {
+    label: 'Start Date'
+    type: 'datetime'
+    definition: @sql {{ #SOURCE.created_at }};;
+  }
+  dimension left_at {
+    label: 'Left Date'
+    type: 'datetime'
+  }
+}

@@ -1,0 +1,61 @@
+// Fact: Deal Stage History — one row per stage a deal enters.
+// exited_at = NULL means the deal is currently in that stage.
+// "Many" side of: fct_deals (via deal_id).
+
+Model fct_deal_stage_history {
+  type: 'table'
+  label: 'Deal Stage History'
+  table_name: 'deal_stage_history'
+  data_source_name: 'neondb'
+  description: 'Snapshot of every stage a deal has entered. Time-in-stage = COALESCE(exited_at, NOW()) - entered_at.'
+
+  dimension id {
+    label: 'Stage Entry ID'
+    type: 'text'
+    primary_key: true
+    definition: @sql {{ #SOURCE.id }};;
+  }
+  dimension deal_id {
+    label: 'Deal ID'
+    type: 'text'
+    hidden: true
+  }
+  dimension stage {
+    label: 'Stage'
+    type: 'text'
+    description: 'qualifying | validating | progressing | focus | negotiating'
+  }
+  dimension entered_at {
+    label: 'Entered At'
+    type: 'datetime'
+  }
+  dimension exited_at {
+    label: 'Exited At'
+    type: 'datetime'
+  }
+  dimension is_current_stage {
+    label: 'Is Current Stage'
+    type: 'truefalse'
+    definition: @sql {{ #SOURCE.exited_at }} IS NULL;;
+  }
+  dimension days_in_stage {
+    label: 'Days in Stage'
+    type: 'number'
+    definition: @sql
+      EXTRACT(EPOCH FROM (COALESCE({{ #SOURCE.exited_at }}, NOW()) - {{ #SOURCE.entered_at }})) / 86400;;
+  }
+
+  measure count_stage_entries {
+    label: 'Stage Entries'
+    type: 'number'
+    definition: @sql {{ id }};;
+    aggregation_type: 'count'
+  }
+  measure avg_days_in_stage {
+    label: 'Avg Days in Stage'
+    type: 'number'
+    definition: @sql
+      avg(EXTRACT(EPOCH FROM (COALESCE({{ #SOURCE.exited_at }}, NOW()) - {{ #SOURCE.entered_at }})) / 86400);;
+    aggregation_type: 'custom'
+  }
+}

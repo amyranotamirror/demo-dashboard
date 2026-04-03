@@ -1,0 +1,91 @@
+// Fact: Subscriptions — one active billing record per won deal.
+// "Many" side of: dim_companies (via company_id), fct_deals (via deal_id).
+// ended_at = NULL means the subscription is currently active.
+//
+// Path ambiguity note: subscriptions can reach dim_companies via two paths:
+//   Direct (registered): fct_subscriptions.company_id > dim_companies.id
+//   Transitive (NOT registered separately): fct_subscriptions → fct_deals → dim_companies
+// Register only the direct path in datasets.
+
+Model fct_subscriptions {
+  type: 'table'
+  label: 'Subscriptions'
+  table_name: 'subscriptions'
+  data_source_name: 'neondb'
+
+  dimension id {
+    label: 'Subscription ID'
+    type: 'text'
+    primary_key: true
+    definition: @sql {{ #SOURCE.id }};;
+  }
+  dimension company_id {
+    label: 'Company ID'
+    type: 'text'
+    hidden: true
+  }
+  dimension deal_id {
+    label: 'Deal ID'
+    type: 'text'
+    hidden: true
+  }
+  dimension plan_name {
+    label: 'Plan'
+    type: 'text'
+  }
+  dimension mrr_usd {
+    label: 'MRR (USD)'
+    type: 'number'
+  }
+  dimension billing_cycle {
+    label: 'Billing Cycle'
+    type: 'text'
+    description: 'monthly | annual'
+  }
+  dimension term_months {
+    label: 'Term (Months)'
+    type: 'number'
+  }
+  dimension product_version {
+    label: 'Product Version'
+    type: 'text'
+    description: '2.0 | 2.5 | 2.7 | 3.0 | 4.0'
+  }
+  dimension started_at {
+    label: 'Started At'
+    type: 'date'
+  }
+  dimension ended_at {
+    label: 'Ended At'
+    type: 'date'
+  }
+  dimension churn_reason {
+    label: 'Churn Reason'
+    type: 'text'
+    description: 'voluntary_feature_gap | voluntary_pricing | voluntary_competitor | voluntary_no_usage | involuntary_payment | unknown'
+  }
+  dimension is_active {
+    label: 'Is Active'
+    type: 'truefalse'
+    definition: @sql {{ #SOURCE.ended_at }} IS NULL;;
+  }
+
+  measure count_subscriptions {
+    label: 'Subscriptions'
+    type: 'number'
+    definition: @sql {{ id }};;
+    aggregation_type: 'count'
+  }
+  measure total_mrr {
+    label: 'Total MRR (USD)'
+    type: 'number'
+    definition: @sql sum({{ #SOURCE.mrr_usd }});;
+    aggregation_type: 'custom'
+  }
+  measure avg_mrr {
+    label: 'Avg MRR per Subscription (USD)'
+    type: 'number'
+    definition: @sql avg({{ #SOURCE.mrr_usd }});;
+    aggregation_type: 'custom'
+  }
+}

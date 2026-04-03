@@ -1,19 +1,1001 @@
 id,use_case_id,name,description,status,shipped_at
-76fb650c-52c6-45e7-a5e3-8178832de1db,8827d88a-12e7-46f7-a1bb-f19c58aefbad,Public dashboard links,Share a read-only dashboard with anyone via a link,shipped,2025-08-11
-6c9d4eba-c96a-40cf-b3d9-463ae64e5b73,8827d88a-12e7-46f7-a1bb-f19c58aefbad,Password-protected embeds,Require a password to view an embedded dashboard,shipped,2025-11-22
-06139b47-94d2-41dd-b0d5-636f046a291e,8827d88a-12e7-46f7-a1bb-f19c58aefbad,White-label embedding,Remove Holistics branding from embedded dashboards,planned,
-dde5efc8-fb07-4065-905c-d98fe0b9b79a,578e4e2e-da34-40a0-b12e-08e6285af78c,Shared folders,Organize dashboards into team-accessible folders,shipped,2025-04-13
-b5f1e380-974e-4d3d-bb91-2c4b53e7eeef,578e4e2e-da34-40a0-b12e-08e6285af78c,Dashboard templates,Pre-built starter templates for common analytics,in_development,
-76037b82-d65b-40dd-bc62-e5d591414b04,d15a5df5-dc6e-459d-84d4-448c0a05f7b3,Column masking,Hide raw PII columns from analyst-level users,shipped,2026-02-01
-5b741de6-5d5d-4944-853f-a853ab84ae71,d15a5df5-dc6e-459d-84d4-448c0a05f7b3,Column-level permissions,Grant individual-level access to specific columns,planned,
-aa0d3b77-8fa7-43d7-ba78-68272aad1e1e,85b22292-40d3-481e-979b-bf7c6557cf66,Dynamic row-level security,Filter rows based on user identity at query time,shipped,2025-08-08
-ab38ec25-192d-43d8-a28e-b30d69e678d1,85b22292-40d3-481e-979b-bf7c6557cf66,User attribute filters,Parameterize RLS rules using user profile attributes,shipped,2025-10-04
-adeb42f2-4e0e-4459-b191-fdc48d5e9a27,e2a7c969-6f3c-47c3-8e68-15227ad0e859,Smart query caching,Cache query results and invalidate on data refresh,shipped,2025-05-18
-72cabf17-54c2-42ea-9b67-052fca10769b,d343957b-4fb1-4437-8267-8f99612b1bc3,Pre-built aggregates,Pre-compute complex aggregates at pipeline run time,in_development,
-bebd98c4-e934-4dbe-aea2-896c5e602f39,1cdc9d99-9428-4890-817a-b9e21838a502,BigQuery connector,Native connection to Google BigQuery,shipped,2025-01-03
-cdf52cc0-c8bb-4f47-a91c-648a1b2ec0db,1cdc9d99-9428-4890-817a-b9e21838a502,Snowflake connector,Native connection to Snowflake,shipped,2025-01-03
-55bbcd06-94aa-4487-ba38-13edb5695743,1cdc9d99-9428-4890-817a-b9e21838a502,Redshift connector,Native connection to Amazon Redshift,shipped,2025-03-04
-3cf8f039-70ec-4ab8-b31f-cebba972a9aa,f5c8e6a4-2719-4231-832c-eac0b23aec06,Embedding SDK,Embed Holistics dashboards in external products,shipped,2025-07-04
-79a9ab59-a649-40c0-a65d-c1c5689e73e8,f5c8e6a4-2719-4231-832c-eac0b23aec06,REST API,Programmatic access to reports and data,planned,
-64d35c8d-c5a6-440a-99fb-f19f307ff324,3ec89fbd-704d-4ad1-8d6b-e1e7c238db68,SAML 2.0 integration,Enterprise SSO via SAML for IT-gated accounts,in_development,
-d6b97565-786a-4361-bb24-eb0bb637f088,caafc018-1022-4452-8d83-a817918f75ae,User activity log,Audit trail of user actions for compliance,shipped,2025-09-04
+9422fe78-85aa-44b7-a2ac-69681cb55ac4,fc4a61cb-4d96-4686-a85f-4799a85a9b0c,Public dashboard links,Share a read-only dashboard with anyone via a link,shipped,2025-09-03
+d812d7d2-58f7-474b-8c8b-aa919bde16de,fc4a61cb-4d96-4686-a85f-4799a85a9b0c,Password-protected embeds,Require a password to view an embedded dashboard,shipped,2025-12-15
+9067fac3-479a-4757-9cf4-cebf26928823,fc4a61cb-4d96-4686-a85f-4799a85a9b0c,White-label embedding,Remove Holistics branding from embedded dashboards,planned,
+0ffc87bf-0249-47b3-9494-50c57e17ee24,fc4a61cb-4d96-4686-a85f-4799a85a9b0c,Shared folders,Organize dashboards into team-accessible folders,shipped,2025-05-06
+6e8258a0-feaa-49a4-a4d9-743482d50c3d,fc4a61cb-4d96-4686-a85f-4799a85a9b0c,Dashboard templates,Pre-built starter templates for common analytics,in_development,
+cf167202-9b1e-40df-99e3-52bc692f9a62,4ddda5f7-ce64-4d90-8779-238424c82722,Column masking,Hide raw PII columns from analyst-level users,shipped,2026-02-24
+d7695d2b-5c66-4047-9a3b-48ce077858c6,4ddda5f7-ce64-4d90-8779-238424c82722,Column-level permissions,Grant individual-level access to specific columns,planned,
+902f554f-4769-4f45-85a1-018776af9d70,6719c56a-b36a-4a2d-b4fd-daefc50aa626,Dynamic row-level security,Filter rows based on user identity at query time,shipped,2025-08-31
+cac5e419-a676-4dd5-8007-573a597f2dc9,6719c56a-b36a-4a2d-b4fd-daefc50aa626,User attribute filters,Parameterize RLS rules using user profile attributes,shipped,2025-10-27
+84e440f8-cb31-4200-a100-112eaf399229,087ee3a1-eabd-4009-ae02-df20538e91bf,Smart query caching,Cache query results and invalidate on data refresh,shipped,2025-06-10
+0a51c01f-3cef-443a-9365-d0cc6e8d0bad,087ee3a1-eabd-4009-ae02-df20538e91bf,Pre-built aggregates,Pre-compute complex aggregates at pipeline run time,in_development,
+7a5f4404-2962-43f6-bb47-fb71bb5e355b,480d8c95-1470-4ecc-82a2-63d191447738,BigQuery connector,Native connection to Google BigQuery,shipped,2025-01-26
+5e4f59d2-a2c0-4d51-b8a7-b9effabb7f1b,480d8c95-1470-4ecc-82a2-63d191447738,Snowflake connector,Native connection to Snowflake,shipped,2025-01-26
+69533b0f-8ed1-4907-b6b6-3219ac6795cc,480d8c95-1470-4ecc-82a2-63d191447738,Redshift connector,Native connection to Amazon Redshift,shipped,2025-03-27
+02ddeb1c-9a29-449d-9a44-b567af38e268,0b007e33-2179-4bcd-b2bb-783a8597ce5a,Embedding SDK,Embed Holistics dashboards in external products,shipped,2025-07-27
+3303d3a3-ce76-477f-9dba-643f3bb4c5f3,0b007e33-2179-4bcd-b2bb-783a8597ce5a,REST API,Programmatic access to reports and data,planned,
+d4cf7379-9d8e-4d16-8594-8a5f3183a6f2,9a28965a-993c-46b6-a324-ef2be18e0c18,SAML 2.0 integration,Enterprise SSO via SAML for IT-gated accounts,in_development,
+089deb50-a8a2-481a-814a-9228580f569b,9a28965a-993c-46b6-a324-ef2be18e0c18,User activity log,Audit trail of user actions for compliance,shipped,2025-09-27
+0784f03e-d991-43e4-9a73-52e082464570,645da331-866f-4175-81ea-519e51055cf6,Advanced editor for Data Modeling #0,Advanced editor capability in Data Modeling,in_development,
+a2dbfea5-feef-4b25-ada3-1891850456cc,943394b6-0984-4f3d-9d8a-5be247845d70,Smart editor for Data Modeling #1,Smart editor capability in Data Modeling,shipped,2023-01-05
+6aaee075-761a-4ad3-8818-3b4032d946e5,64a40557-9d97-40c0-8d5b-f595f66bd8fc,Bulk editor for Data Modeling #2,Bulk editor capability in Data Modeling,shipped,2022-01-07
+8197d09d-1f46-428d-8deb-b99822098590,008b6e4e-e2bb-4ffb-bb1a-25995fc2610b,Custom editor for Data Modeling #3,Custom editor capability in Data Modeling,shipped,2021-02-12
+c5a4f158-438d-485a-9788-c463b41008b9,1115cb64-cafe-40ea-83b3-e23700fb8229,Auto editor for Data Modeling #4,Auto editor capability in Data Modeling,shipped,2021-01-31
+04ca488c-b9d4-46e1-a91c-77c14601ea54,1f327bd6-5ba8-4654-9c25-8ec9f9131942,Enhanced editor for Data Modeling #5,Enhanced editor capability in Data Modeling,shipped,2022-06-25
+d0d0152d-31d3-4286-812a-654f7816d732,ad91fa43-b818-474c-bd71-067d54855193,Inline editor for Data Modeling #6,Inline editor capability in Data Modeling,shipped,2023-04-05
+049f99d1-a1a9-4901-b7d9-285397c78bc0,c3cf567b-f12a-499c-98f0-193065b3b1d7,Live editor for Data Modeling #7,Live editor capability in Data Modeling,deprecated,2025-01-14
+fdc30e23-60d4-48ea-b149-ed0155ffa616,36bcf275-4e58-48a0-a44a-5d06b9cd35af,Cached editor for Data Modeling #8,Cached editor capability in Data Modeling,deprecated,2025-02-05
+d2312e54-2808-44f3-869b-5cd9ff1fb847,585f7d2b-8007-4976-ba6b-81696579a7e4,Async editor for Data Modeling #9,Async editor capability in Data Modeling,shipped,2022-05-04
+c2b8d14d-2787-48d2-8c6b-796121d57fc8,446449c7-84cc-4bf7-8209-64cdf0e8df67,Advanced viewer for Data Modeling #10,Advanced viewer capability in Data Modeling,in_development,
+31e69ba2-33bb-4922-9c03-7ee266a71629,4ca8c930-dd01-475b-aadc-cb8a8149a4a2,Smart viewer for Data Modeling #11,Smart viewer capability in Data Modeling,in_development,
+fac5d527-fe79-4abb-a077-5a70bb94e868,c68e92a8-087a-486b-ad44-f646d7fb26bd,Bulk viewer for Data Modeling #12,Bulk viewer capability in Data Modeling,planned,
+b303de05-d70b-4bcf-a466-cc77f5bf37a8,6abaa5f9-a142-421b-8c48-d05c0b2cbfe0,Custom viewer for Data Modeling #13,Custom viewer capability in Data Modeling,in_development,
+21f47d5a-64b1-4579-82ab-a9fd63dab59a,6719c56a-b36a-4a2d-b4fd-daefc50aa626,Auto viewer for Data Modeling #14,Auto viewer capability in Data Modeling,shipped,2020-10-31
+04bb0c66-d8e6-419e-b9a7-eede01c944c4,2008f817-d6cf-4b87-a677-ea19deb43b0e,Enhanced viewer for Data Modeling #15,Enhanced viewer capability in Data Modeling,shipped,2025-07-20
+59dec10a-7962-4fbd-aa4e-53ff8331afbf,bdad2f6b-40bf-4704-896d-fbb70a67bc57,Inline viewer for Data Modeling #16,Inline viewer capability in Data Modeling,shipped,2021-04-14
+666851d7-b2b2-4ac3-b248-15a8c781ba04,95f79681-01aa-4900-9144-16728d3d5477,Live viewer for Data Modeling #17,Live viewer capability in Data Modeling,planned,
+0182405a-411f-49ba-80b4-71fc8928a8e6,7081fb77-bcaa-4ec0-8380-ba4d600f26f9,Cached viewer for Data Modeling #18,Cached viewer capability in Data Modeling,deprecated,2023-02-08
+f6920483-e282-4c21-b8b6-2dd62ebdb295,6f71df6c-8e99-4f6e-9c51-fcf5c29eebbe,Async viewer for Data Modeling #19,Async viewer capability in Data Modeling,planned,
+3c37cd42-49a7-4b8e-9724-e4d2ed198ada,7064e94a-a7b3-4e1b-8af2-6fff85cf25f7,Advanced builder for Data Modeling #20,Advanced builder capability in Data Modeling,shipped,2022-07-22
+21b24ce3-1f20-4ca8-8ab1-07af4dd81767,b404131b-efa9-43ee-b00e-7617e9aa802d,Smart builder for Data Modeling #21,Smart builder capability in Data Modeling,planned,
+2f0d0d6f-aaee-41c6-9a78-d11bee0edb47,a8a24058-c7a6-4841-b872-4e0d4576b047,Bulk builder for Data Modeling #22,Bulk builder capability in Data Modeling,shipped,2023-02-28
+7a0d85a4-8f0f-44de-8131-b8cd71769c8d,5005e820-9388-483f-b6a8-7a4325406d04,Custom builder for Data Modeling #23,Custom builder capability in Data Modeling,planned,
+d5245612-18f3-488a-8e52-f2dca20167a8,655cf69f-d7de-4fb6-b1eb-ccb227c5bed5,Auto builder for Data Modeling #24,Auto builder capability in Data Modeling,shipped,2023-01-10
+a503a41b-0edf-48ec-9b9f-32beaa36d74d,4f4aeec0-54a7-4300-ae0a-f20fa14a3397,Enhanced builder for Visualization #25,Enhanced builder capability in Visualization,shipped,2022-12-08
+52842893-99cd-4466-88e0-9a3618d6159e,3f7e21a7-eb88-4bc0-b929-b8bad892b66c,Inline builder for Visualization #26,Inline builder capability in Visualization,in_development,
+497cde91-32dd-418b-8fd2-9cf2aa8b9333,42691758-e3d0-483b-a7be-545ad77bd0f8,Live builder for Visualization #27,Live builder capability in Visualization,in_development,
+bf059a0d-41de-4f6a-9117-74b6d5d3e120,cfbaeb68-7087-4847-b83e-a7970ca4ebac,Cached builder for Visualization #28,Cached builder capability in Visualization,shipped,2020-11-13
+f868f46b-a443-4092-afd6-bf796b2a1867,de544a2b-6e27-4078-9555-1955de8f6f9f,Async builder for Visualization #29,Async builder capability in Visualization,planned,
+7cb7af96-4dc2-454e-a31f-a112a22e6a1d,0c0b427f-e99d-4aa4-b4a9-8105c3f7e575,Advanced picker for Visualization #30,Advanced picker capability in Visualization,planned,
+9b307e77-bd92-41a7-aa24-0a25d1366857,bd47e361-89f2-4c7f-8a10-c60c6c7f03fd,Smart picker for Visualization #31,Smart picker capability in Visualization,shipped,2025-03-26
+40133448-04de-437a-8e01-f3c0155ee652,afe0f198-d05c-4a16-8992-ed154905c0b3,Bulk picker for Visualization #32,Bulk picker capability in Visualization,shipped,2025-10-13
+07d59a47-2247-4f84-ba04-4f1f9b1d959e,541c685f-b449-4d36-b2e2-b012b8bc9f07,Custom picker for Visualization #33,Custom picker capability in Visualization,shipped,2022-01-20
+ee5e1960-fe6a-491e-aeb7-06c905a1c948,3c3e72d2-49a6-4619-98fb-14ddc605dfd0,Auto picker for Visualization #34,Auto picker capability in Visualization,shipped,2025-08-29
+b76f00c7-b7a0-4f33-a607-007e8944d3f2,e9e0d1e6-2be8-4578-acb6-c26f5aedb7d4,Enhanced picker for Visualization #35,Enhanced picker capability in Visualization,shipped,2023-07-31
+1a3d21c9-b39b-4f02-9387-b79186b11adc,78e0fd8e-edf7-4b82-9863-c61433c0ef02,Inline picker for Visualization #36,Inline picker capability in Visualization,in_development,
+1b6aee0f-c5d8-4e24-9489-704bff90ef46,541b42ed-2ad1-4210-b302-e12d97bccdb9,Live picker for Visualization #37,Live picker capability in Visualization,shipped,2024-05-29
+23d92a89-18a1-442b-9392-579031e78934,2c6655de-c2d6-440a-9e7a-ef4780c724d2,Cached picker for Visualization #38,Cached picker capability in Visualization,in_development,
+0c8c1b80-f4bc-439a-91fc-087c6a27c760,63114578-25a0-4b0e-8641-355328afc6ec,Async picker for Visualization #39,Async picker capability in Visualization,planned,
+77eea086-68fe-42be-b982-1ed034d0684d,e796d20a-bf1e-49a0-9a71-f1d5e7809614,Advanced navigator for Visualization #40,Advanced navigator capability in Visualization,in_development,
+c48df6f5-7e58-4a87-96d1-4bd464226ed6,ebe45120-0724-4fb9-8bb4-fc90ff598299,Smart navigator for Visualization #41,Smart navigator capability in Visualization,shipped,2022-09-01
+89fd2b75-9563-4fe8-ac50-2dcc086b7ed3,c27cca53-e4cd-4f37-b909-09019e504a30,Bulk navigator for Visualization #42,Bulk navigator capability in Visualization,in_development,
+3bcd4b87-9d88-4bae-86ef-bc2b5154b6df,2fcb925b-bc6b-405b-bf5d-729d8169316f,Custom navigator for Visualization #43,Custom navigator capability in Visualization,shipped,2024-05-10
+b11ccfda-f232-460b-9801-ebde02cf18e9,5b6b92cf-85ea-4b28-b97d-63636fd0e627,Auto navigator for Visualization #44,Auto navigator capability in Visualization,shipped,2024-12-24
+0d94fd01-304e-4fb2-861d-1508db300ff1,6fcde54a-80c0-467b-891d-fa7421fa2b88,Enhanced navigator for Visualization #45,Enhanced navigator capability in Visualization,deprecated,2023-10-18
+b31c57ec-7acd-4f2a-9bb3-5e53d76529e4,85a8da51-15d4-49d5-bccd-e26dc8447914,Inline navigator for Visualization #46,Inline navigator capability in Visualization,in_development,
+5d7a8018-d70e-4ed0-8de4-78acb409d52b,4a5cdfea-951f-48a7-b088-b80b9b007103,Live navigator for Visualization #47,Live navigator capability in Visualization,shipped,2024-07-11
+3c58a259-b50c-47ec-99c6-eeb273a566ba,910e9014-cbe1-4b8a-bbfa-a76684dfc2e9,Cached navigator for Visualization #48,Cached navigator capability in Visualization,planned,
+5e58a4a7-6e13-46dd-8604-650f4393b562,e943c956-d718-425f-9a1d-73656fe3f536,Async navigator for Visualization #49,Async navigator capability in Visualization,shipped,2025-11-15
+faa4c662-e6c1-42bf-be15-f7623f92ee8e,2f986ac9-7579-428c-94eb-24563d6463fd,Advanced wizard for Charts #50,Advanced wizard capability in Charts,shipped,2021-01-02
+b548ed71-3c9b-435f-b355-fdf5e0358a50,a31e9dcb-5787-4d88-9aa5-ccbe4be87168,Smart wizard for Charts #51,Smart wizard capability in Charts,in_development,
+50e7f833-3434-4caf-a828-72de79d3357c,01165687-35ef-4a3f-b14e-e274609521cd,Bulk wizard for Charts #52,Bulk wizard capability in Charts,shipped,2024-01-16
+bc00aa58-c7fd-48ec-b370-ea13ac9a0253,d351f982-47b3-4532-97de-498e97d220a9,Custom wizard for Charts #53,Custom wizard capability in Charts,shipped,2022-12-25
+7e8a6430-1089-4b72-b459-ea9b93d1fc73,f87729c1-35b0-4066-85f9-11d7e7c625ed,Auto wizard for Charts #54,Auto wizard capability in Charts,shipped,2023-08-29
+92262498-b327-41a6-9901-975ce84d8ea1,90df2aa2-89a0-4097-9388-169371b4cb70,Enhanced wizard for Charts #55,Enhanced wizard capability in Charts,shipped,2020-10-11
+558c3476-6e5a-4458-b6b9-a83b88602823,c949f42b-53e8-4cd2-981d-111032f1ad81,Inline wizard for Charts #56,Inline wizard capability in Charts,planned,
+0ee5a921-6658-4463-b747-6f2b42402743,b9e17783-af20-4627-b1a3-3287f75606df,Live wizard for Charts #57,Live wizard capability in Charts,planned,
+851b1949-16de-456d-809d-d9c2259ae2d3,a7e3aa6d-59ca-4155-9b00-faab5b74413f,Cached wizard for Charts #58,Cached wizard capability in Charts,deprecated,2023-02-25
+9ce57ed8-cd11-4edd-981a-8bb01f51acd6,0ec69930-65cf-47ab-a4f5-ab21547c4fb0,Async wizard for Charts #59,Async wizard capability in Charts,planned,
+e6b2389b-0fd8-4de7-9a0e-840d14d465ee,23ef3d13-2479-480b-a74b-7d14fd532069,Advanced renderer for Charts #60,Advanced renderer capability in Charts,shipped,2023-10-10
+cce547e7-8cbc-4482-909d-a97b0cadd97b,6e2a6e47-8665-4171-a4b3-dd89cd649f55,Smart renderer for Charts #61,Smart renderer capability in Charts,shipped,2025-01-27
+9f9ea473-ee84-4869-9e1e-880c8780ad26,c268357b-525a-4363-8aed-70f26ea61026,Bulk renderer for Charts #62,Bulk renderer capability in Charts,planned,
+6ec48bde-bd41-44ac-9f63-53f8f1c4f5d6,bea12c01-2c52-477b-9400-69fc73c72da4,Custom renderer for Charts #63,Custom renderer capability in Charts,deprecated,2022-07-06
+74366aa4-78ae-4600-9b88-16bfa721d5a5,a123d8bd-d769-4bc0-a1a6-124c95933824,Auto renderer for Charts #64,Auto renderer capability in Charts,in_development,
+55560a4c-3e2e-424b-b415-6617295b3f86,1f33503a-8006-4da4-bdff-62b68bb9ea54,Enhanced renderer for Charts #65,Enhanced renderer capability in Charts,planned,
+8215de22-3d08-41d9-b34b-3f55dfe4433b,6b02cd19-6c6c-4011-b03b-4a4bf8c0e030,Inline renderer for Charts #66,Inline renderer capability in Charts,shipped,2023-07-27
+cfd43d46-06a7-45a7-9625-f67b2c72d14d,0ffb40db-78c5-4311-8ab9-5197f1139941,Live renderer for Charts #67,Live renderer capability in Charts,planned,
+3f28b6d3-3095-4f7b-99ea-37ae084a6165,3bd07440-2764-433d-8c63-823a0c08ac46,Cached renderer for Charts #68,Cached renderer capability in Charts,in_development,
+de03269f-bc66-4465-a77b-f950923410df,76eb0d5d-a8c0-4ebc-aede-7c00cbcc0703,Async renderer for Charts #69,Async renderer capability in Charts,shipped,2024-01-22
+e43f108b-4541-433b-962e-c2a9c4a29237,20013793-a790-4faf-8162-6eb29cb591ed,Advanced connector for Charts #70,Advanced connector capability in Charts,planned,
+4a0936ef-d63c-49e8-965c-e9e968f69b13,8b4b50e8-5be6-4e2f-ba10-82559b2f3f88,Smart connector for Charts #71,Smart connector capability in Charts,planned,
+4fb05330-9a80-4ec9-acc8-a1704a93d3d3,230d721c-b52b-4151-991b-34b5b8be8556,Bulk connector for Charts #72,Bulk connector capability in Charts,in_development,
+2179e82b-61d2-4b30-a7ac-f15c082dc3d5,79c0a07a-326f-4246-8d9f-7b5ef58bc864,Custom connector for Charts #73,Custom connector capability in Charts,in_development,
+e5b51f60-a505-444f-b626-63389f92879d,04c6e8e3-1583-4fd8-a198-b54220b083af,Auto connector for Charts #74,Auto connector capability in Charts,shipped,2025-02-22
+f6280041-0114-4284-8bce-76107ecc6901,7fa10a98-3e2a-4ced-ab08-8f1ed62130ec,Enhanced connector for Security #75,Enhanced connector capability in Security,planned,
+9ce663b6-e109-43a5-9b97-6ffc16f0692f,4ddda5f7-ce64-4d90-8779-238424c82722,Inline connector for Security #76,Inline connector capability in Security,planned,
+92029c90-e086-491d-b2dd-9dc11a2b8518,dd1ba9ee-f6e0-4a94-a98a-0151cc4d6781,Live connector for Security #77,Live connector capability in Security,in_development,
+2cddad44-ac43-417d-a7f8-000aa7359fc4,86e1d833-2926-48bc-a0c6-57e1b725e91b,Cached connector for Security #78,Cached connector capability in Security,planned,
+519229f6-0277-4ad1-a62d-5a8eca60d00e,13ce630b-77ba-47c1-930b-edf21bb3dfc5,Async connector for Security #79,Async connector capability in Security,planned,
+d5dae875-9f7f-40b1-b643-4748c013854d,d4d7bdba-eaa0-49d3-a105-ec2966246afa,Advanced validator for Security #80,Advanced validator capability in Security,shipped,2023-12-28
+bd98d95e-d0c2-43ba-ab85-73623d9bc54e,0cd09ba3-d7f4-4ce2-a56b-5d994cbc9fe2,Smart validator for Security #81,Smart validator capability in Security,deprecated,2025-11-24
+f10b9ae3-fc47-4658-a2e0-d27d2d4dbc47,665c15b7-6f1b-48b9-84a4-0d0921849529,Bulk validator for Security #82,Bulk validator capability in Security,shipped,2022-03-27
+e69e925f-54e6-4ce5-9e2f-10a505d7f08a,5283de37-9035-4d28-8029-3b5b356419f0,Custom validator for Security #83,Custom validator capability in Security,in_development,
+9832860b-3f31-42ee-9704-216296d0b9df,29abe08a-349b-4f9a-abe4-09caedf8f00f,Auto validator for Security #84,Auto validator capability in Security,in_development,
+eacc26b5-5e12-4c60-ab5f-25e4873403c3,0bb75935-87b9-47dc-bd9a-67a1a98b64b8,Enhanced validator for Security #85,Enhanced validator capability in Security,deprecated,2023-02-04
+29a2a48c-a6ce-43bd-96d5-29491c13cfaa,e6a14d09-aaa6-4e0c-8b10-ce04f8d0f24e,Inline validator for Security #86,Inline validator capability in Security,shipped,2021-08-01
+494741e8-811e-44e0-b3d9-9e6f1a17cadf,310e56b7-684a-42bd-8f14-8541c8d48121,Live validator for Security #87,Live validator capability in Security,planned,
+5cc0df2a-a03b-4abd-b5ec-07193b5c8747,da9ac1ef-e066-46f4-ba6a-fd981995abf0,Cached validator for Security #88,Cached validator capability in Security,planned,
+2baf9dec-0336-461f-a92e-5bb2096f8e41,08da7d71-8313-4634-aa88-c2e01c7b613c,Async validator for Security #89,Async validator capability in Security,shipped,2022-03-16
+bf1649f6-4369-4bb9-8af1-7f92459a4d99,52de0d82-8909-41e1-913b-a40de4302e07,Advanced parser for Security #90,Advanced parser capability in Security,shipped,2024-09-15
+2a112453-1b7e-4181-a661-7e722b4befd9,c484ff52-56c3-4277-949d-445e9d8b2046,Smart parser for Security #91,Smart parser capability in Security,planned,
+423fd5ef-b143-4932-829d-41b935146abe,4775d21e-71bb-4fbb-b1c3-64544db1cc44,Bulk parser for Security #92,Bulk parser capability in Security,in_development,
+b917bf77-7ce7-4d7e-b092-693c5c491e28,a5249454-4fd8-4e5a-9487-bd373eec1796,Custom parser for Security #93,Custom parser capability in Security,shipped,2025-06-26
+93fe5d83-6816-4baa-aa96-b3e700ebd49f,e1d7507e-2277-428e-a609-1e79722ec516,Auto parser for Security #94,Auto parser capability in Security,planned,
+db162cf4-bebf-4f83-9a71-6bf238870df2,bcda76a6-e348-49bc-a947-5c298a7a6ffe,Enhanced parser for Security #95,Enhanced parser capability in Security,in_development,
+df680171-7873-4481-96c1-d05d37ee64c3,d149061d-74af-4501-85cf-7d9b1cf77169,Inline parser for Security #96,Inline parser capability in Security,in_development,
+8c646490-6f80-4d7e-815c-ca1d9e90e4f2,eabdd599-a072-4836-b7a1-8e2cf0a337ff,Live parser for Security #97,Live parser capability in Security,shipped,2024-06-21
+bcc38d83-8890-48dc-8398-1d1b98dc339d,ce40940d-8ec3-4a54-91a8-945cb04d047f,Cached parser for Security #98,Cached parser capability in Security,planned,
+fb451655-e92b-4e3d-b7ba-0aa233157194,f19b3959-ad12-4f1e-94d5-aef42ff35f8c,Async parser for Security #99,Async parser capability in Security,shipped,2026-01-28
+334bb87a-02bd-4779-9fbc-ca7c4331612f,fc4a61cb-4d96-4686-a85f-4799a85a9b0c,Advanced editor for Collaboration #100,Advanced editor capability in Collaboration,shipped,2022-11-28
+30d20953-ea12-41bd-aed7-47c489fd39c0,7e92d6dc-d21f-48f3-b81c-c5cf5fc1faf1,Smart editor for Collaboration #101,Smart editor capability in Collaboration,in_development,
+43062935-2f3f-4ced-b88e-7091edf601dd,aef21c51-0ffe-43c2-9593-6ec2e00ad3b3,Bulk editor for Collaboration #102,Bulk editor capability in Collaboration,shipped,2021-06-16
+623e27a0-3530-4bbb-89fa-474632dbe4d7,1bb72a85-c5e6-4e0d-b418-90ed2461ea5b,Custom editor for Collaboration #103,Custom editor capability in Collaboration,shipped,2024-04-13
+509457c9-3e77-464c-aad5-5f70e8077f7b,61f19728-6251-40ed-81ba-f80a2cdeff33,Auto editor for Collaboration #104,Auto editor capability in Collaboration,shipped,2024-06-17
+2fde9ca5-de5a-4fca-a0b5-69ccf8b9d1c8,6ed26bb9-c270-43ea-bc53-0229e956b7f6,Enhanced editor for Collaboration #105,Enhanced editor capability in Collaboration,shipped,2021-10-15
+d64dfa26-b478-4ae7-b194-282aa75dc4d7,958c83b0-c284-4a1e-ae8e-513a1cf57130,Inline editor for Collaboration #106,Inline editor capability in Collaboration,planned,
+95a80ec2-c0de-4b24-9bb8-00a746df06b8,664c0445-32ec-40bb-8f67-d976a9cd78f3,Live editor for Collaboration #107,Live editor capability in Collaboration,shipped,2021-05-25
+96729e34-9e9c-44e3-aa71-5500845e3963,a22ec827-3118-4485-be44-5c3d3cbc62cf,Cached editor for Collaboration #108,Cached editor capability in Collaboration,shipped,2022-09-17
+685b779c-f8ea-4c9b-9476-4acef3b24854,9aad36da-1b4e-4e7a-ac18-159d7a66f23b,Async editor for Collaboration #109,Async editor capability in Collaboration,shipped,2025-08-20
+914941c5-a120-4849-9f20-36316e23cefd,b8deeeac-0a05-4fc4-999a-d6ed693bb69c,Advanced viewer for Collaboration #110,Advanced viewer capability in Collaboration,shipped,2024-10-07
+8dd48cf0-77ec-42fa-8e31-bdb7ad2a7d6f,624600fc-7a7c-4e15-b091-b4d15b8910c8,Smart viewer for Collaboration #111,Smart viewer capability in Collaboration,planned,
+fda6bb2d-bbb7-4665-87e6-703ed28b824e,bd26c70f-4a2f-4d9f-838f-aad3b99d362b,Bulk viewer for Collaboration #112,Bulk viewer capability in Collaboration,deprecated,2022-11-01
+8963608d-0528-4b2c-8426-e1dc213ec25d,51cb13a6-b4ae-48c3-b0bc-7ce1eb55cfdf,Custom viewer for Collaboration #113,Custom viewer capability in Collaboration,deprecated,2024-07-20
+6109277b-d76d-4430-afd0-9d2fa5594144,1590d534-e224-4a38-ae8b-19ae2ff46dcc,Auto viewer for Collaboration #114,Auto viewer capability in Collaboration,planned,
+84f590a3-e030-4f64-b675-0029c058379f,d9948b6d-f215-4604-85a3-bdd99c1b6490,Enhanced viewer for Collaboration #115,Enhanced viewer capability in Collaboration,in_development,
+996a2ac6-a536-423b-ae4e-0f1ce485d1a6,3be1c28c-b110-49f2-b7b9-492aefcd717e,Inline viewer for Collaboration #116,Inline viewer capability in Collaboration,planned,
+00c0c542-714f-41d8-a123-259397771a53,7f1c3fe5-dac8-4815-97f7-288798354b9b,Live viewer for Collaboration #117,Live viewer capability in Collaboration,in_development,
+ef80e96f-cfcc-4ccf-80b9-43530224992c,2122d091-34f8-4708-8114-7ab4dbd119f7,Cached viewer for Collaboration #118,Cached viewer capability in Collaboration,shipped,2021-10-27
+27f3776e-27d1-4f97-88e1-f8d3cf6861ea,2bcc6229-f500-4fc4-ae39-89c6bbb4460e,Async viewer for Collaboration #119,Async viewer capability in Collaboration,shipped,2022-04-16
+66603043-b601-4e2b-9844-dfd443043798,e55c94fe-e69d-4dce-a338-5ec866aa2631,Advanced builder for Collaboration #120,Advanced builder capability in Collaboration,in_development,
+e049411d-0572-4878-a754-72df47efbe6a,8035b61f-f12b-4fe7-a3d8-27e7a7cf1abf,Smart builder for Collaboration #121,Smart builder capability in Collaboration,planned,
+274d5d09-3d33-4250-b9d8-d959964d7ad5,68c9d9e7-af89-4eaa-ab48-9a4bbe89395a,Bulk builder for Collaboration #122,Bulk builder capability in Collaboration,in_development,
+37cac4fc-96df-4e3b-9227-0739dde97397,3f882ff7-ca33-4856-8902-f588a93aeb74,Custom builder for Collaboration #123,Custom builder capability in Collaboration,planned,
+c409ea6a-c261-4862-9be7-5bc10a4b9e28,600ac142-ff56-4968-b52f-d27406c05462,Auto builder for Collaboration #124,Auto builder capability in Collaboration,planned,
+965e0ec3-e9e9-4ab6-abea-286a01641b52,087ee3a1-eabd-4009-ae02-df20538e91bf,Enhanced builder for Performance #125,Enhanced builder capability in Performance,shipped,2022-02-18
+0ccfe690-c1d4-443a-94a5-b9b1b912a35a,8b7fe48d-4028-4c56-9c9d-d56b75b80cbb,Inline builder for Performance #126,Inline builder capability in Performance,deprecated,2023-04-05
+1e5e0add-ece5-4175-a2ae-d3b756b1d43d,c61ad363-7ede-44e9-b696-fbda28ac0478,Live builder for Performance #127,Live builder capability in Performance,planned,
+99d8cf9e-a8a3-46bb-8127-4041395530e0,a216f313-cb8c-40fd-8c8d-66dbabc70b8d,Cached builder for Performance #128,Cached builder capability in Performance,planned,
+d082a5d8-c431-4270-a927-463b04a7c366,add5b268-bc6d-4a60-8974-c6cda3aa0c3d,Async builder for Performance #129,Async builder capability in Performance,shipped,2025-01-08
+729b86b7-351a-4e7b-814b-e7c633b5bbdf,2bad5a3a-ad5e-4ba7-8a4d-6e24d4e0c857,Advanced picker for Performance #130,Advanced picker capability in Performance,in_development,
+5ea23943-88c2-440c-a3a0-53665324864e,d109dc38-96d1-4459-b4a5-44f64fa17b89,Smart picker for Performance #131,Smart picker capability in Performance,shipped,2022-07-28
+150f6413-4d56-4dbd-a7b7-dace5135f622,5316c136-8908-4f44-8968-dbc8142df03a,Bulk picker for Performance #132,Bulk picker capability in Performance,shipped,2022-03-28
+890b5e75-d0ae-4e74-ac03-9b3ad43672b1,7fb1accf-2b4e-4b2f-8b76-179d6bde1e98,Custom picker for Performance #133,Custom picker capability in Performance,planned,
+c64f45bd-0b10-49f0-8974-73ca8becf0fc,79593384-c465-46e0-bb09-2228f8578bd4,Auto picker for Performance #134,Auto picker capability in Performance,shipped,2023-07-13
+a470089f-3e6b-4651-8369-063853aa4324,4ac8d334-80c4-4bcd-9a28-4e9527e34020,Enhanced picker for Performance #135,Enhanced picker capability in Performance,shipped,2023-06-29
+5f7a85cc-a3f8-4909-b984-4bd48502fa0e,d89a5ed1-7186-40cb-b93a-9036c0d71b51,Inline picker for Performance #136,Inline picker capability in Performance,shipped,2021-05-14
+1843ce57-1226-4fa6-bc14-b8d13966cf2b,2d5b47cf-77d1-4f7d-8272-182bcced3da4,Live picker for Performance #137,Live picker capability in Performance,shipped,2025-11-15
+f41dbae0-619b-456b-a648-c7b0b846a6ee,da023b5a-a686-41b7-9faf-ab5fdec9020f,Cached picker for Performance #138,Cached picker capability in Performance,in_development,
+38c628a5-5bb7-461f-a681-b9e9ca5d33c8,45a20a2f-c6c4-418f-a138-93363c961cbc,Async picker for Performance #139,Async picker capability in Performance,shipped,2025-08-11
+c198c179-af8b-4066-9628-c9d7e99e3949,7b560677-db8f-49e8-b8b8-cf8f0962c78f,Advanced navigator for Performance #140,Advanced navigator capability in Performance,planned,
+edcd8804-9e45-4292-8046-bf3e91a7488d,a3b68ad2-82e3-4ae2-a02e-4c1c2aa2c9f7,Smart navigator for Performance #141,Smart navigator capability in Performance,shipped,2021-08-20
+4253a5a1-ea7c-486d-be74-397c7261a588,6b42903f-7097-419b-b4c9-a6ec01c85da2,Bulk navigator for Performance #142,Bulk navigator capability in Performance,shipped,2023-05-16
+7ef29b34-e49b-4bc9-a088-3d28d7adb660,7d97062f-c208-4778-bea1-128926d351fd,Custom navigator for Performance #143,Custom navigator capability in Performance,shipped,2022-08-04
+b39d1eb2-341f-450d-b2e9-92852b8822d3,23a3b5a2-30c0-4736-acdd-f0dd0dee23bf,Auto navigator for Performance #144,Auto navigator capability in Performance,shipped,2021-07-25
+3a51beb9-87be-467f-bc4a-e320efc49ed7,e25581b3-0259-46f6-bd97-77647c5f938a,Enhanced navigator for Performance #145,Enhanced navigator capability in Performance,shipped,2024-08-26
+08880ab0-9334-4739-8f7e-2215b9f61331,ff98ce8d-e758-44b2-9e9f-e179b4f4fcb3,Inline navigator for Performance #146,Inline navigator capability in Performance,in_development,
+3a15e150-1174-44dc-b78c-1554c714499c,4f46cdcb-adce-4313-919a-493c93e57ef0,Live navigator for Performance #147,Live navigator capability in Performance,shipped,2026-02-07
+c772d948-4f18-4605-9f45-2264461cdb6f,7a08caca-78bd-4f1f-9329-895016f60072,Cached navigator for Performance #148,Cached navigator capability in Performance,shipped,2023-10-02
+0e2e5a2e-9472-4539-8516-ac0e03b66ad2,3315eb81-a6d9-4166-b919-458cebb5ff86,Async navigator for Performance #149,Async navigator capability in Performance,planned,
+6c1f1713-9456-4818-b4e4-723b25560589,480d8c95-1470-4ecc-82a2-63d191447738,Advanced wizard for Integrations #150,Advanced wizard capability in Integrations,shipped,2024-12-02
+3c64cbd8-460a-422f-a550-5b219fc5c33e,53c69b34-f46d-4d8c-9fd8-a388167633fe,Smart wizard for Integrations #151,Smart wizard capability in Integrations,deprecated,2023-05-23
+18098575-7db4-4f34-9549-455a1f753e60,60500670-3466-4a1e-9da0-139b7bd501fd,Bulk wizard for Integrations #152,Bulk wizard capability in Integrations,planned,
+f9442dbe-b9dd-48ff-b3c2-214b8a2153f7,49b5b8ec-c6d7-4202-820d-d8528365276c,Custom wizard for Integrations #153,Custom wizard capability in Integrations,shipped,2024-06-19
+55ec2e2d-6c11-47a1-80c3-605e1e4993c6,5353e653-fa19-4bc1-ba16-725b4b1dfe3b,Auto wizard for Integrations #154,Auto wizard capability in Integrations,planned,
+7f901278-0b50-44a4-bb4e-1c3cd2f2f377,80109d4d-0be7-49fe-aee0-31d02fcced28,Enhanced wizard for Integrations #155,Enhanced wizard capability in Integrations,in_development,
+d5f23342-3ded-4c0c-9cbd-1df5643e27cd,1af0e76c-0062-4733-a320-666c1074ab62,Inline wizard for Integrations #156,Inline wizard capability in Integrations,planned,
+8feb0d38-a4f3-4494-84db-3513532b473e,a6c96355-2c19-4f06-96e5-bc595371be9b,Live wizard for Integrations #157,Live wizard capability in Integrations,shipped,2021-03-14
+6adc7c15-4baa-4c0a-b233-adeb68ddecb5,247546c6-ee41-4969-b9c9-6976cb02fa87,Cached wizard for Integrations #158,Cached wizard capability in Integrations,deprecated,2023-07-22
+8de6db91-b7c0-4393-ab17-4db5118bb6c1,4e6cbd1c-e7d6-4986-b86f-91afe36537ae,Async wizard for Integrations #159,Async wizard capability in Integrations,shipped,2025-04-14
+3f131179-fca0-4621-94ee-db3786f06c0f,21091d6b-5112-4f7a-b859-8db1cb608614,Advanced renderer for Integrations #160,Advanced renderer capability in Integrations,deprecated,2023-12-22
+aff029e6-4c3d-4591-85c6-e5f91354158c,313e1439-1a20-4096-9563-31e4d1d91f66,Smart renderer for Integrations #161,Smart renderer capability in Integrations,in_development,
+0d0aadd2-51d9-43bc-a807-d540600e70b1,8827cd5e-4880-4ecf-a1c5-49c06316426d,Bulk renderer for Integrations #162,Bulk renderer capability in Integrations,shipped,2025-04-29
+665e742f-0825-455e-b178-dd0756a851ac,8c47b6b1-21cf-49b0-b888-df5a723c08c1,Custom renderer for Integrations #163,Custom renderer capability in Integrations,planned,
+147136ff-6adb-4bf6-968b-dbdf4a761d8d,5896878a-3541-414b-b6d0-16a2c7a719e0,Auto renderer for Integrations #164,Auto renderer capability in Integrations,planned,
+2e2c0eac-4115-4781-8969-aaafcf276817,bd853784-281d-46d8-bfc5-38983fe883ac,Enhanced renderer for Integrations #165,Enhanced renderer capability in Integrations,shipped,2025-12-03
+1b033e53-7c89-43c8-ac83-4a7807db9e0a,fc0a61be-adc4-41eb-92a9-ecd4eff54fba,Inline renderer for Integrations #166,Inline renderer capability in Integrations,in_development,
+8bf89401-0796-4dcd-9e90-6b35a780e9f5,a7c4b39a-d490-4895-ac3e-cc43ef7bcbbe,Live renderer for Integrations #167,Live renderer capability in Integrations,shipped,2021-01-07
+dfa4dbe9-1761-444c-b618-af1c620330ee,22f1df97-864c-4a7b-b0da-7c391204e0a1,Cached renderer for Integrations #168,Cached renderer capability in Integrations,in_development,
+37cdba67-311c-4ad2-b1c8-74987027afd2,95905df5-53be-49d7-b80c-c8931c0866e1,Async renderer for Integrations #169,Async renderer capability in Integrations,in_development,
+cb632d6c-9d92-43c2-920a-8bc30f3505d0,3f99376f-e0de-4c89-8b35-2fa28cde693b,Advanced connector for Integrations #170,Advanced connector capability in Integrations,planned,
+7abfbe2a-3095-4e01-b86c-39c088af9998,6bb8f555-47d0-4f44-8a94-69815a0039d1,Smart connector for Integrations #171,Smart connector capability in Integrations,shipped,2025-06-07
+5045ce2d-f240-4f43-a576-083ed62f54cf,5d05d6db-5b3b-4cb0-b0cf-cfd4c94fe85b,Bulk connector for Integrations #172,Bulk connector capability in Integrations,shipped,2025-02-20
+70fc9abb-666b-43bf-993b-a82d6573a67e,62fb7940-19c3-43f2-894d-f3719f6c5e51,Custom connector for Integrations #173,Custom connector capability in Integrations,shipped,2024-11-30
+3e2ddc65-c277-4a35-934d-95b71e599671,2f493f17-bdc2-4428-a8b3-cf1551695c9f,Auto connector for Integrations #174,Auto connector capability in Integrations,planned,
+8e7f7889-ec85-459d-a9f5-fca07d27e835,9a28965a-993c-46b6-a324-ef2be18e0c18,Enhanced connector for Admin #175,Enhanced connector capability in Admin,shipped,2025-01-29
+15ebf4a8-800a-409a-916d-cc3310d8a32e,da3048ed-061a-4aa5-b064-f95631ca101d,Inline connector for Admin #176,Inline connector capability in Admin,planned,
+00ea308f-25b1-482b-8c97-03aa963bd486,68fa7c79-fba3-4a5c-a9e3-79e17e27efc5,Live connector for Admin #177,Live connector capability in Admin,shipped,2021-04-14
+a732b895-f55a-4b01-9a60-c8c823c88ad1,29a84ec1-710e-45b9-b9be-9f7aa1b88a8b,Cached connector for Admin #178,Cached connector capability in Admin,shipped,2024-05-03
+11bdb618-9078-404d-818d-d22b894f3c4d,9a5287db-dfa1-4e4b-b738-2823375d7a66,Async connector for Admin #179,Async connector capability in Admin,shipped,2021-10-28
+bc4775da-8ca5-4a1e-a0b9-5fceafc85abf,ee5b21ca-9dd1-41f6-b84e-186b25dd267b,Advanced validator for Admin #180,Advanced validator capability in Admin,shipped,2025-06-06
+25e05833-b2e4-42eb-98b9-5cef80c9b479,f91d1753-a66c-4795-aa30-1be7cf9dae7f,Smart validator for Admin #181,Smart validator capability in Admin,in_development,
+03b4b2be-840e-4d97-ac77-a2f40daf03c7,26826d71-684a-4a90-a229-99b12ebb3e00,Bulk validator for Admin #182,Bulk validator capability in Admin,in_development,
+542410ca-0d3c-43fd-97e9-3ac5341d4f67,c7c0bd04-3872-400a-bf32-b29339ad4ba1,Custom validator for Admin #183,Custom validator capability in Admin,shipped,2022-12-10
+3d8078bd-f706-48fd-993b-2b0e27cbd27e,28dce522-3087-4ba2-85cf-fed0c757d2b8,Auto validator for Admin #184,Auto validator capability in Admin,planned,
+bdc57e84-2c91-47ef-ab2d-5e04a7bba018,25114232-c6e7-4bbf-8f32-a0f7f014cb39,Enhanced validator for Admin #185,Enhanced validator capability in Admin,shipped,2021-01-11
+36c2fada-c302-450b-9483-cc0658bd1624,3f0543ab-f88f-48f0-a35c-31f93dedb3d2,Inline validator for Admin #186,Inline validator capability in Admin,shipped,2022-10-05
+2f2fa12d-b72e-4199-8494-ce40b586be4a,508e7ce7-110e-42ef-a1f7-f33f6c33452c,Live validator for Admin #187,Live validator capability in Admin,planned,
+1221e814-0906-43f5-a354-57bf2cae8145,ee4f2389-0aa6-4b3c-8dba-a7903b9b72d9,Cached validator for Admin #188,Cached validator capability in Admin,shipped,2021-11-10
+22d940af-a56d-4a1f-bbc9-a2bbc38a4399,20908be6-cf67-4a61-b244-8dc98c416435,Async validator for Admin #189,Async validator capability in Admin,in_development,
+74c66dac-26b7-4697-b799-361c0c594788,6d4cb120-72c0-4cd5-938a-c60d566162dd,Advanced parser for Admin #190,Advanced parser capability in Admin,in_development,
+0c6e67f0-ce5e-4d63-98d5-cc038efaf715,55425c44-039f-4e62-aa9b-09ed71b1530a,Smart parser for Admin #191,Smart parser capability in Admin,in_development,
+1c724fc7-047f-4b59-bea6-36cc56d77bef,73db58a2-e45f-4c73-ac7a-797ddde6ed90,Bulk parser for Admin #192,Bulk parser capability in Admin,shipped,2025-02-01
+613c2f41-8e93-4931-9850-edae475b3f07,2e25fcf2-4953-43d1-9628-3e7f55f9e1ca,Custom parser for Admin #193,Custom parser capability in Admin,planned,
+a4504f6a-92f2-4d11-b5fa-04c9dbe8307d,5a59d398-b9f3-4b73-b878-59c0b0e3a2b6,Auto parser for Admin #194,Auto parser capability in Admin,shipped,2024-08-10
+edaa7660-8a5d-447e-b831-9bbc39d3c422,ac01d776-c2ef-409c-bbaa-ee7314928f7c,Enhanced parser for Admin #195,Enhanced parser capability in Admin,planned,
+cf88931f-f729-4305-b689-5600b7c8696b,5e8dd8f3-f62e-41ab-848a-468192f43944,Inline parser for Admin #196,Inline parser capability in Admin,shipped,2024-07-31
+0ddcf3fd-1b86-4f04-93a7-bf66811f6186,96ebed9f-1500-49ed-9678-88228f212db1,Live parser for Admin #197,Live parser capability in Admin,shipped,2024-02-02
+36dfa915-d05f-4a85-8f21-5cd85eb49a68,33f88ea6-b41e-4716-b330-079889b5eec0,Cached parser for Admin #198,Cached parser capability in Admin,planned,
+5431dc6a-5a29-4b97-bb19-791322d8720e,55313f0b-0bbb-4799-8c81-2bd441354a23,Async parser for Admin #199,Async parser capability in Admin,in_development,
+40e8f44f-82cb-4a83-9c37-73722c74d917,cd3a7722-0bcf-479b-bd8d-3b49216101d8,Advanced editor for AI/ML #200,Advanced editor capability in AI/ML,shipped,2025-10-16
+385ac341-3584-4a9b-9b67-c0c404126f6e,d810814b-e4a6-4daa-b9e4-106741cf23f3,Smart editor for AI/ML #201,Smart editor capability in AI/ML,deprecated,2024-05-03
+b70c6845-157b-4e16-aae6-6038a3bee082,8ba90148-435b-4c0f-9a22-53795a15f3bf,Bulk editor for AI/ML #202,Bulk editor capability in AI/ML,shipped,2023-10-12
+9ea5d0ed-bb76-4367-8c87-3f8446fdc5ce,d7d83346-06f9-4947-9bae-e7e7ff6ab4ee,Custom editor for AI/ML #203,Custom editor capability in AI/ML,planned,
+14114839-4067-4a58-acba-77e01b8a29e4,446534a3-c8c1-48ad-b55a-3f176b5d0938,Auto editor for AI/ML #204,Auto editor capability in AI/ML,deprecated,2023-05-07
+6cc693f0-e72a-481f-9716-f652d79b500c,3bdfe049-9409-4674-80c5-9e8063140225,Enhanced editor for AI/ML #205,Enhanced editor capability in AI/ML,in_development,
+b825a4c7-f240-4b2b-bdea-c9a72d1d6052,62011120-64fc-49b6-a37f-12dca021ea59,Inline editor for AI/ML #206,Inline editor capability in AI/ML,shipped,2023-09-14
+cae5de65-2041-4173-ac87-c925d4c644ac,bc7a2c8c-286e-4ec7-8e41-198edf5c2ffa,Live editor for AI/ML #207,Live editor capability in AI/ML,planned,
+348df34a-f289-45b1-b412-4e7521d5511c,dd405986-7017-41c0-9ee1-b2404ec7a02d,Cached editor for AI/ML #208,Cached editor capability in AI/ML,shipped,2025-09-13
+72253f7e-ceee-425a-8fb9-17879df834e7,912e0535-94ab-4c09-b06f-16cd46f0eb61,Async editor for AI/ML #209,Async editor capability in AI/ML,planned,
+53153273-9276-449b-9def-7bdad65b0f6c,30361528-95d3-4fa4-862b-609841901332,Advanced viewer for AI/ML #210,Advanced viewer capability in AI/ML,shipped,2025-09-07
+1b462287-5d42-4b6e-b1c2-e35f20d8fd70,4ca60a5b-02a7-4f30-ba97-992e0a0a4443,Smart viewer for AI/ML #211,Smart viewer capability in AI/ML,in_development,
+4a187216-94ae-4f6a-b979-a091d96d2262,dbf63a72-5e8d-481f-8375-43cd3b43bcd2,Bulk viewer for AI/ML #212,Bulk viewer capability in AI/ML,planned,
+ca54c41d-f6c3-4cda-9128-48a6df471490,71a1db8f-a84f-458e-955b-987a30c82c57,Custom viewer for AI/ML #213,Custom viewer capability in AI/ML,planned,
+63c9bd38-be32-4a7b-b7f0-8c7d5bd8295c,609b3549-ed06-4616-a525-802f4b3a1273,Auto viewer for AI/ML #214,Auto viewer capability in AI/ML,shipped,2022-08-13
+0701cdaf-6ea0-4246-824d-b6a031cd54b2,dd7e192d-9be0-4530-98ec-7a3af4067331,Enhanced viewer for AI/ML #215,Enhanced viewer capability in AI/ML,in_development,
+c25e0eaa-d0c3-491e-b22e-4fed5901041a,5661d125-d97e-4eea-9ea6-93b7203e424b,Inline viewer for AI/ML #216,Inline viewer capability in AI/ML,shipped,2023-04-03
+e8004ee0-3f4c-42c4-bd8f-efea3a19030a,e1750929-6aff-4719-b370-3bf84536faa9,Live viewer for AI/ML #217,Live viewer capability in AI/ML,planned,
+93f5da67-9b69-465d-b3d6-4c610c2d4842,4b7b6a2d-93ee-4876-86c2-2f14bf79b466,Cached viewer for AI/ML #218,Cached viewer capability in AI/ML,planned,
+8aa61bba-3d98-41c8-9443-af1c6a4b8454,8a60e79d-2748-44a0-9722-5db7a54c5b66,Async viewer for AI/ML #219,Async viewer capability in AI/ML,shipped,2022-06-11
+ee151cc1-88cb-4f74-96c4-c7f44993f34f,6f811f2b-3237-4735-9500-78201b47f32c,Advanced builder for AI/ML #220,Advanced builder capability in AI/ML,deprecated,2024-02-22
+f87146e4-1280-4890-a004-5da29402bf32,ad61f89a-07f5-460e-9483-9b4f6745b062,Smart builder for AI/ML #221,Smart builder capability in AI/ML,planned,
+2f3bc8ac-9625-4414-9841-d04df16f8ae3,e512457f-58e2-4605-ad2d-2b922a20f0d7,Bulk builder for AI/ML #222,Bulk builder capability in AI/ML,planned,
+162b9fbf-7aff-423e-a8c5-f705306b929c,20cf4cbd-b29c-48bf-8b2e-5ecb725a446e,Custom builder for AI/ML #223,Custom builder capability in AI/ML,planned,
+7fb07b60-af42-4285-b2d7-da469b999593,d0efb65c-aba2-41dd-a025-54974c48e811,Auto builder for AI/ML #224,Auto builder capability in AI/ML,planned,
+cb981810-041d-45f9-805b-4973fb4a99ea,0b007e33-2179-4bcd-b2bb-783a8597ce5a,Enhanced builder for Embedding #225,Enhanced builder capability in Embedding,planned,
+e23c966e-0a2b-42bf-b110-8ca29e66ca0b,bb848717-f19a-4d8a-86f2-8708a59f8a9e,Inline builder for Embedding #226,Inline builder capability in Embedding,shipped,2024-01-14
+4300057f-5777-4505-bec8-0d11f1e3b416,918a972d-9a62-4ecd-a7f2-f7e4a8a9e0b7,Live builder for Embedding #227,Live builder capability in Embedding,shipped,2023-08-28
+927ad977-12f3-4cab-8b13-288572f489c1,91188810-c086-48e1-9719-088254a8848c,Cached builder for Embedding #228,Cached builder capability in Embedding,in_development,
+a89859a4-4abc-4bdd-8763-0e53be96b1e3,8d998239-1521-41e2-8112-e4544145a721,Async builder for Embedding #229,Async builder capability in Embedding,planned,
+6cb44baa-7c82-49b4-ba8e-7cb260fbf420,e3bcffd3-dad6-48b3-9b69-ce0ee2e328be,Advanced picker for Embedding #230,Advanced picker capability in Embedding,planned,
+f29dfe45-a357-48f2-aee1-8b9fb950a111,6af6b61e-eebb-4b02-b75a-369b3738c680,Smart picker for Embedding #231,Smart picker capability in Embedding,shipped,2024-10-02
+51640392-8753-4a2b-8bc6-a1b2f678c6e3,8e807443-6c1c-4ec0-8bb2-fc377e09064d,Bulk picker for Embedding #232,Bulk picker capability in Embedding,shipped,2024-12-19
+1b97a940-8af1-4846-b330-3b1fb3e84661,766a91fc-9d4a-4565-a431-0fa85be30539,Custom picker for Embedding #233,Custom picker capability in Embedding,shipped,2022-01-06
+87da8f13-0947-4376-81b1-d4e5bc4072cb,2558f483-665f-41cd-b364-040a50cbab53,Auto picker for Embedding #234,Auto picker capability in Embedding,planned,
+30e64c06-ddfe-48e5-a88b-3064bbbe3914,fa65a0f3-c163-4537-b55e-27b673681591,Enhanced picker for Embedding #235,Enhanced picker capability in Embedding,in_development,
+485bd0dd-51b3-4403-a79b-8fdda6f72b01,bfae5815-273f-436e-af07-6666884a5ed9,Inline picker for Embedding #236,Inline picker capability in Embedding,deprecated,2022-10-01
+adee8c26-9dc8-4dde-9c48-efc7754d0d74,5658445d-4bb1-45a6-a405-99e3344fef7b,Live picker for Embedding #237,Live picker capability in Embedding,planned,
+8f6bf6c8-b95b-407b-84fb-f19cfc4c5168,34ac25e7-6168-4961-b120-7dd213a6657f,Cached picker for Embedding #238,Cached picker capability in Embedding,deprecated,2024-04-19
+9a22d844-4134-41d9-8ccf-ddf8c47549dc,791a0e6b-0e8c-418d-9729-4a8876b54568,Async picker for Embedding #239,Async picker capability in Embedding,shipped,2024-02-07
+82678a9b-98e5-400f-a4c1-202925c501e5,8dfd8090-af49-43ed-8689-4e514489c300,Advanced navigator for Embedding #240,Advanced navigator capability in Embedding,shipped,2020-11-02
+a1bb841e-9208-4fb7-b49e-f1e7fa014d4d,1b758d53-5b76-43d3-b60b-3dedb6a30b0d,Smart navigator for Embedding #241,Smart navigator capability in Embedding,shipped,2022-08-13
+c182a85d-6bb6-446d-acd2-8f084c5e5a02,ac33e23b-0be9-4add-a290-97dc8366f640,Bulk navigator for Embedding #242,Bulk navigator capability in Embedding,shipped,2022-10-18
+4ee0f715-21d5-4224-b028-2e89a1998180,5c4eab04-2ac8-4185-b78f-cd4068507789,Custom navigator for Embedding #243,Custom navigator capability in Embedding,planned,
+ae06e3cc-d40a-4f24-808a-fcc3383ea9b1,787fa277-4d3f-4d0a-8465-e287d139f775,Auto navigator for Embedding #244,Auto navigator capability in Embedding,in_development,
+44a7d6e0-bc2e-4163-9db3-d255b773b6a4,9faf3baf-4533-4be4-af3a-2d6d0704f900,Enhanced navigator for Embedding #245,Enhanced navigator capability in Embedding,shipped,2020-10-28
+db574095-664d-40c5-a1d8-01d4784c2dba,03cad670-bd31-4a68-b262-29b762989da6,Inline navigator for Embedding #246,Inline navigator capability in Embedding,shipped,2024-08-22
+e6d14949-3a17-4ea6-a69e-09f40d8d633b,eccfcf2d-f7b0-4bfe-8a60-e41ad95bc381,Live navigator for Embedding #247,Live navigator capability in Embedding,in_development,
+2360a77e-12f8-4506-a6cf-5677c60d733f,dd1c238d-323f-48f6-a13f-2e8b9e3a33ae,Cached navigator for Embedding #248,Cached navigator capability in Embedding,shipped,2021-05-13
+aef30878-6090-47a2-a4c0-621ec834dd7b,74f71aca-8267-46fe-8d4c-6c1d9eedf38c,Async navigator for Embedding #249,Async navigator capability in Embedding,shipped,2024-08-27
+28fc4c6b-cff3-4ae2-8fec-1949fb916905,2bedfb9f-cbe1-4fb0-b2aa-1d3af3972810,Advanced wizard for Export/Delivery #250,Advanced wizard capability in Export/Delivery,shipped,2025-08-16
+b4d42825-fbce-4147-b5d8-0466507fdee3,8a41749b-83e0-45c8-b191-071ebd33bffd,Smart wizard for Export/Delivery #251,Smart wizard capability in Export/Delivery,planned,
+ba19c232-3ecb-477b-b7e7-87a93570c7b7,7efb83b5-9af6-4f28-a6cd-48a8124b0636,Bulk wizard for Export/Delivery #252,Bulk wizard capability in Export/Delivery,shipped,2025-08-18
+ff04e8b2-32e4-4a55-badb-a3e339762eb2,3d130da2-e29c-4463-a608-bfead01adcef,Custom wizard for Export/Delivery #253,Custom wizard capability in Export/Delivery,planned,
+49488108-7c58-4cb2-8f3b-b130d7817d43,dd45adbf-dddd-4618-b0f1-7977cfb21a70,Auto wizard for Export/Delivery #254,Auto wizard capability in Export/Delivery,planned,
+5d564368-0206-4080-a310-66a8d7ade725,6851ef79-9fc7-4eb5-b821-57f79c4a0aa1,Enhanced wizard for Export/Delivery #255,Enhanced wizard capability in Export/Delivery,shipped,2023-11-19
+5ecaebc3-7ba6-4516-b164-0cd607cd6cc6,9d6e761e-4b5b-4b16-8743-76c8525954ab,Inline wizard for Export/Delivery #256,Inline wizard capability in Export/Delivery,planned,
+3ef4b22f-76be-4189-ba59-00c1a6eb4e83,8b988bbd-23eb-4f54-993b-0f41e0b9d815,Live wizard for Export/Delivery #257,Live wizard capability in Export/Delivery,planned,
+2c60a65d-69e8-4348-bd61-d31c6dedc5eb,51dd40c1-b3e0-42c7-897e-b21ba5f8c788,Cached wizard for Export/Delivery #258,Cached wizard capability in Export/Delivery,shipped,2024-09-29
+180bcd5c-ed6a-4d57-b5a0-857677325b89,0418388c-e990-4e9c-b643-d89f2c64a806,Async wizard for Export/Delivery #259,Async wizard capability in Export/Delivery,shipped,2024-04-28
+3fa68354-5fc8-46c2-b819-0372fb6b4bec,4a3f5d4e-5ffb-484d-ae17-8e782bcb5909,Advanced renderer for Export/Delivery #260,Advanced renderer capability in Export/Delivery,in_development,
+70c19f86-12e6-4b2f-92b2-21ef534b9129,58a526a8-aa20-43a2-882a-ea40f3a7f86d,Smart renderer for Export/Delivery #261,Smart renderer capability in Export/Delivery,in_development,
+33623e2f-d00a-4b98-90c6-a9713616fb66,69631439-cf25-4362-90aa-47132783a2af,Bulk renderer for Export/Delivery #262,Bulk renderer capability in Export/Delivery,shipped,2023-01-24
+1485e2c3-f779-49ff-9112-2e4b2df719be,710613aa-4604-47ae-8bf5-8cebd32e44b2,Custom renderer for Export/Delivery #263,Custom renderer capability in Export/Delivery,shipped,2021-10-07
+6a1b3106-b5d2-43d4-bdc5-fd825e4ff2f6,51a49ff4-41c6-4a1d-becb-710ac339373f,Auto renderer for Export/Delivery #264,Auto renderer capability in Export/Delivery,deprecated,2025-07-02
+0d350659-2128-4fe6-80dd-28ea1fd7a95b,be73c30e-b391-41b5-b28f-ba240b25cb30,Enhanced renderer for Export/Delivery #265,Enhanced renderer capability in Export/Delivery,in_development,
+8a155548-3954-4d8b-97ef-99e748bf4b9c,9b3483d5-767f-4a17-b1ff-5f279d30b86d,Inline renderer for Export/Delivery #266,Inline renderer capability in Export/Delivery,planned,
+cc2d410c-84f4-4ef2-b063-4f88baff7ad2,4aaaea64-fd97-4e9d-aba8-7dd33f4b66e7,Live renderer for Export/Delivery #267,Live renderer capability in Export/Delivery,planned,
+ad79ac1a-809d-4975-ad8f-cb0e7e470eed,7118d6d8-1161-4350-a3b1-f3ecbceea037,Cached renderer for Export/Delivery #268,Cached renderer capability in Export/Delivery,planned,
+d19826cc-b1c8-42de-b087-4dbec53fe57c,f1f14a56-75d7-49d8-b6ed-b508ca115d39,Async renderer for Export/Delivery #269,Async renderer capability in Export/Delivery,planned,
+b908c43c-7039-4c2c-9673-1e4595b0efff,5577d201-0c31-4dae-a82a-7f4d2ec5ccb2,Advanced connector for Export/Delivery #270,Advanced connector capability in Export/Delivery,shipped,2023-07-13
+a628f600-a5a7-4830-ba3c-11e98bee450f,93398edf-c68f-499b-9c07-58a1d64cb804,Smart connector for Export/Delivery #271,Smart connector capability in Export/Delivery,in_development,
+2baf524d-0352-4ac2-80a6-fd63dd77ac52,eff26e96-186a-41bb-b674-86d75fd9711e,Bulk connector for Export/Delivery #272,Bulk connector capability in Export/Delivery,shipped,2023-01-04
+d9a6071e-16fc-4ba8-865f-e3fbef74a1be,5a0d2457-2d1d-4b29-8627-65bfe39da570,Custom connector for Export/Delivery #273,Custom connector capability in Export/Delivery,shipped,2021-10-15
+7a0dd002-3891-459a-a29b-aedf56890ec7,bd1dd411-e8a1-4c6e-bc9a-7d380a20f58e,Auto connector for Export/Delivery #274,Auto connector capability in Export/Delivery,planned,
+4082cc18-bf1d-49c1-ae7b-a7bdccb219b3,2d520deb-a8aa-4a58-82e6-bc810e1c3270,Enhanced connector for Mobile #275,Enhanced connector capability in Mobile,shipped,2022-03-12
+b3f541c4-cca8-4d82-92ec-7694370bc4ad,431578bf-2002-463a-991f-3da97a524795,Inline connector for Mobile #276,Inline connector capability in Mobile,planned,
+24805835-97d2-47f3-85f4-017752fe3361,0ed11ed0-e775-4433-88ca-bb697a71b53e,Live connector for Mobile #277,Live connector capability in Mobile,shipped,2023-07-01
+b02d4a0f-16b2-43bf-ba21-f62886462684,25c6bffc-ec38-4ae3-893a-7a478184342f,Cached connector for Mobile #278,Cached connector capability in Mobile,planned,
+510f2fb4-3489-4dd1-a38b-5653d35ef199,f2c47dbf-104a-4d0d-83b9-fa3c1e34c0e4,Async connector for Mobile #279,Async connector capability in Mobile,planned,
+9a09e6f4-12d3-4e8a-b90f-2c0abb172ef9,e22c02ba-9a8f-4500-a58c-42edfd46fa18,Advanced validator for Mobile #280,Advanced validator capability in Mobile,shipped,2024-02-23
+12671208-cda7-47cb-b22a-ae0dbba9bb00,976cc7ca-1396-49cb-92db-70db32e5511a,Smart validator for Mobile #281,Smart validator capability in Mobile,planned,
+d01264ad-1d90-4dce-9c32-b6e6493feb70,fe6c1d0b-f703-4f7e-9f0c-13abfeaae6a1,Bulk validator for Mobile #282,Bulk validator capability in Mobile,deprecated,2025-08-14
+1598826c-8480-4769-8e12-4bf4db37b6cc,21df7aa7-4243-4601-bd0c-bbff6c55898c,Custom validator for Mobile #283,Custom validator capability in Mobile,planned,
+a1ea87d2-a895-4531-9f88-cb75f73eb516,70361dbe-400f-43c8-881c-abeb2f83e294,Auto validator for Mobile #284,Auto validator capability in Mobile,shipped,2023-11-25
+461a42a1-3483-4498-a97c-035fc73a7ac6,dfa83e54-54b3-4908-94d6-e5ca9371a6e3,Enhanced validator for Mobile #285,Enhanced validator capability in Mobile,shipped,2021-04-04
+9f766e6b-0eee-40b2-9c29-efe094e502d5,f4b6e2fd-f236-480b-a493-88f65e67f3ef,Inline validator for Mobile #286,Inline validator capability in Mobile,planned,
+ac1e6c12-a032-4cae-aa03-93b68d72c37e,7894ce6d-5d84-4f62-a55a-567bbb700197,Live validator for Mobile #287,Live validator capability in Mobile,shipped,2024-03-23
+962b5089-eefb-4519-af7c-1eee06e0e3f2,83d7578f-2672-4709-aac3-9f0774dbeabe,Cached validator for Mobile #288,Cached validator capability in Mobile,in_development,
+0586fb96-e1a0-4653-8382-5a349238c9f8,acfa9823-c0a7-4a8c-8017-257a89cc808a,Async validator for Mobile #289,Async validator capability in Mobile,shipped,2025-07-29
+da878f5f-1c40-45b5-883e-2a444c8aa805,73bf8ae9-2dc5-45e1-a22c-c2b463e633ca,Advanced parser for Mobile #290,Advanced parser capability in Mobile,shipped,2021-10-13
+a123be1c-df50-47ff-84a6-838ea9da3905,ecdc8324-3022-45fd-ab8f-ff2b65ef365b,Smart parser for Mobile #291,Smart parser capability in Mobile,shipped,2020-10-09
+9780e618-5c9d-4ba3-ae6b-fde4c98ea2e7,5b616d9a-b4d6-4c8d-a4d9-0b817c0f87ca,Bulk parser for Mobile #292,Bulk parser capability in Mobile,planned,
+2c1e15b4-d136-4300-808a-0605d603f778,bf8ed4ec-fd3e-4fb5-8a09-b7d8c9fc6f76,Custom parser for Mobile #293,Custom parser capability in Mobile,in_development,
+cefebcdf-d4dc-4678-ab68-e7c784351362,94581446-d490-4508-927b-b5b6897d8ba9,Auto parser for Mobile #294,Auto parser capability in Mobile,shipped,2023-12-07
+34a559f9-94cf-4a55-a01c-b5626e273906,aa66f5ff-7817-45a2-a1ff-f9c0956915f6,Enhanced parser for Mobile #295,Enhanced parser capability in Mobile,planned,
+d975dd4d-e212-45e3-a5bd-1d49bbfb7da4,9b76ab6f-37a0-422a-9662-a575017fbd89,Inline parser for Mobile #296,Inline parser capability in Mobile,shipped,2024-05-14
+630b2f00-6ab3-4f03-8c23-794799722e6a,5bada45e-cfaf-4cef-baef-799f24023eba,Live parser for Mobile #297,Live parser capability in Mobile,planned,
+50fa72be-10aa-4b9c-8177-6ea0770606b6,147e280e-cd0b-452c-9ae5-4aae0e22eaea,Cached parser for Mobile #298,Cached parser capability in Mobile,shipped,2025-06-06
+fb1492d9-9075-477d-8976-72d8353b06d6,bfe86617-cb69-47e0-973f-d2ee4ffa28e7,Async parser for Mobile #299,Async parser capability in Mobile,planned,
+b6264e03-7043-484b-b189-bbe058efdf1d,b003c371-f7af-48ce-ab84-055739e61a04,Advanced editor for Alerting #300,Advanced editor capability in Alerting,shipped,2022-07-05
+61090654-34e8-40b8-823c-c63fd0679517,ed5c8a4e-f62e-425a-9957-bd859391ffbc,Smart editor for Alerting #301,Smart editor capability in Alerting,in_development,
+08cb9aa2-407e-4e30-b24e-3c7f2b9e3855,b3744010-5157-4dd3-bb22-f02c25f1fb4c,Bulk editor for Alerting #302,Bulk editor capability in Alerting,shipped,2024-10-01
+e9b77c61-e475-4975-85d8-f9e8cb2ba63f,6e2a93c9-5f30-4b28-8b0a-b47caaa3d657,Custom editor for Alerting #303,Custom editor capability in Alerting,planned,
+6270ec2c-1d18-4f79-904c-acadd118ad7b,159dd31f-104f-4b2c-9ca8-92c8e8c3d79c,Auto editor for Alerting #304,Auto editor capability in Alerting,shipped,2025-01-15
+69bf7d94-0b2e-4938-826f-2a6a871678c4,f538b960-8907-4794-843e-eee3957221c9,Enhanced editor for Alerting #305,Enhanced editor capability in Alerting,planned,
+6b053f1f-5fac-4448-a609-c77dca6e09f9,166101b9-2cf2-4fba-aaeb-c3cd468e2a73,Inline editor for Alerting #306,Inline editor capability in Alerting,shipped,2022-03-05
+9711873b-ef96-48ef-afd8-7fecb36213d2,5552fb56-3871-43f5-9576-3568784939cf,Live editor for Alerting #307,Live editor capability in Alerting,planned,
+b10c7cbd-05e0-4e82-8a3e-90bf4e0f2986,9acfd275-6f44-4bb2-980d-2aa921cd1cb3,Cached editor for Alerting #308,Cached editor capability in Alerting,planned,
+2aa05916-9d75-481d-b8c0-e2dddc91545e,acfa11ab-d033-46e1-8e64-7e6beff56876,Async editor for Alerting #309,Async editor capability in Alerting,shipped,2022-12-21
+7e2f0023-794b-4d38-8a94-fff42f217cb9,dff6eaeb-0a11-47e0-955e-78176e638092,Advanced viewer for Alerting #310,Advanced viewer capability in Alerting,shipped,2024-02-01
+132a63a1-668b-4c1f-b0c6-a02be187eb88,7d379108-3c5f-4fa7-b6d3-ca58bfba7708,Smart viewer for Alerting #311,Smart viewer capability in Alerting,shipped,2024-03-23
+a6f777ca-91c9-4a43-9749-544e782a20f8,5a21d774-5e00-44a9-b8a0-cd827e9060af,Bulk viewer for Alerting #312,Bulk viewer capability in Alerting,planned,
+55b7684b-274e-4a87-b9d2-735790cc5cf9,33f56f8a-4369-47e8-8ed6-df048f6e2aa6,Custom viewer for Alerting #313,Custom viewer capability in Alerting,shipped,2024-05-19
+4e5e3ad4-e13d-4d9a-9a7a-8e56ace19a60,9faae864-baed-4b70-91ef-07e729dc61ee,Auto viewer for Alerting #314,Auto viewer capability in Alerting,shipped,2022-07-21
+d4488a83-7361-4c0e-835b-cb5df30a5f50,044be161-caf9-4c59-a3d0-6bb67f4a12a8,Enhanced viewer for Alerting #315,Enhanced viewer capability in Alerting,shipped,2025-05-27
+f4060163-5bc6-4781-8de6-33fcfc1daff1,0cd6f7cb-ac09-415a-986e-545a60ae14a3,Inline viewer for Alerting #316,Inline viewer capability in Alerting,in_development,
+ac0d7991-a1d9-4525-9e49-a2fa354d35f8,63f70044-9412-46ff-b1c7-74feceab410c,Live viewer for Alerting #317,Live viewer capability in Alerting,in_development,
+acd5028e-f6a6-4412-ab4d-ac2769d8350a,213b1bc0-0f49-47df-953a-7fb7d21165bd,Cached viewer for Alerting #318,Cached viewer capability in Alerting,shipped,2022-11-18
+28755b5a-a743-4fad-b341-50863b018345,5b6952d3-ce30-4dd7-915b-180df489f446,Async viewer for Alerting #319,Async viewer capability in Alerting,planned,
+cd977e4b-24ae-441c-9086-b7c4b21b1816,7d9ee7e7-2cd4-4c51-8790-362f6d97dbb7,Advanced builder for Alerting #320,Advanced builder capability in Alerting,shipped,2022-07-31
+e4e52e2c-e9bf-4af8-8243-ff7c7a598c48,d22499d9-5ca1-4e52-b58b-a0fa7c4abbcb,Smart builder for Alerting #321,Smart builder capability in Alerting,shipped,2021-07-27
+68bc2ee1-ddf9-49fb-883d-850d5145c248,b686981d-5be1-4bbe-a8bf-0f91a68d08ce,Bulk builder for Alerting #322,Bulk builder capability in Alerting,shipped,2026-02-20
+28e5ac67-af05-4c56-84de-3e0efaa4e475,50d4bdd4-0a51-4997-8b28-ec3b06a254b4,Custom builder for Alerting #323,Custom builder capability in Alerting,shipped,2024-02-06
+fef241c0-c446-44a5-b5fc-5419b339473c,88507f87-09d4-4eff-8602-07ab6e1ceec7,Auto builder for Alerting #324,Auto builder capability in Alerting,shipped,2025-01-21
+0fd63630-6235-40bf-b662-096b8ed275a5,d7ac0082-b797-49c8-9659-44a4fb8ed942,Enhanced builder for Scheduling #325,Enhanced builder capability in Scheduling,shipped,2024-10-08
+f03be7e4-14c6-4fd7-ad1d-79a6f929ab09,b7140707-f7b1-47d8-bb45-1de991d9df3a,Inline builder for Scheduling #326,Inline builder capability in Scheduling,in_development,
+10eeba0e-1c14-4db5-9d92-43a7b6a00393,d964905a-f775-4e48-b45a-419bae2a286d,Live builder for Scheduling #327,Live builder capability in Scheduling,shipped,2021-05-05
+9bdab8d7-2e95-4aac-b74b-7dccaa19e903,22b8690b-aa8d-45b3-9048-36d9488b6e9d,Cached builder for Scheduling #328,Cached builder capability in Scheduling,shipped,2021-08-31
+eb29120e-b352-49a9-abc9-c8ea24ca7d2e,8eaffde2-3206-4ed6-a19d-af29dc96d53f,Async builder for Scheduling #329,Async builder capability in Scheduling,in_development,
+d7c89805-5dd7-4b21-998d-d2a4e0a3051c,b3d07d4a-ff21-47b9-8f43-24bc21182411,Advanced picker for Scheduling #330,Advanced picker capability in Scheduling,shipped,2023-02-10
+148a28d0-cef7-4987-b50e-69d1680d88d2,a2a380a4-eb40-40da-ab86-e57e40fa79ef,Smart picker for Scheduling #331,Smart picker capability in Scheduling,shipped,2023-03-03
+9796d0fd-9691-47e4-bcf1-84c30c7788e6,04e6f391-7713-46a3-9bab-76dadd1bbac0,Bulk picker for Scheduling #332,Bulk picker capability in Scheduling,shipped,2023-11-10
+90b77f88-5f2e-4ded-ac46-5b18783b3002,78bf0871-0876-471c-b611-a527ab2f1445,Custom picker for Scheduling #333,Custom picker capability in Scheduling,shipped,2025-05-09
+e26c01af-1b29-4126-8427-b3094efc5088,20a528e4-0f66-401f-81f4-247da71a3664,Auto picker for Scheduling #334,Auto picker capability in Scheduling,shipped,2025-01-31
+71612612-26b6-441f-a96e-c4828a34eb19,3af2a0e1-931f-4913-90bf-2d723377507f,Enhanced picker for Scheduling #335,Enhanced picker capability in Scheduling,shipped,2022-06-11
+9463385d-ec4b-42a3-9f71-c3f70457fcd8,6f2cbefb-fc66-42d4-bb9d-8ab9f815afeb,Inline picker for Scheduling #336,Inline picker capability in Scheduling,shipped,2022-12-25
+017bd7cd-da2a-487a-9a33-4e1e2dfea812,cb302333-0a4a-4e17-be10-3506ce27bb1e,Live picker for Scheduling #337,Live picker capability in Scheduling,shipped,2024-10-23
+3e7e35ad-8396-4203-82e9-7b3a835e0611,7d436615-00b7-47c3-953e-6765bb61af2d,Cached picker for Scheduling #338,Cached picker capability in Scheduling,planned,
+5d5deb3d-53d6-4062-b133-b3604360ac9e,a6765fed-aac5-45f5-a03f-c3130083a7f6,Async picker for Scheduling #339,Async picker capability in Scheduling,shipped,2026-02-06
+e38c3782-7013-438d-a87a-386264dc2945,15d88c20-0115-40ec-b683-0575ba25c763,Advanced navigator for Scheduling #340,Advanced navigator capability in Scheduling,shipped,2023-01-03
+4f7024b4-79cf-41d8-9101-bae285e794c3,f698e047-a9e9-4385-b53b-9415440399b3,Smart navigator for Scheduling #341,Smart navigator capability in Scheduling,planned,
+e7c40dde-13a7-4755-b4ed-4eb819524b4c,add61929-adf3-4721-a8de-fe91cb9ce7f3,Bulk navigator for Scheduling #342,Bulk navigator capability in Scheduling,shipped,2021-11-05
+e762a5ea-091c-4a23-8606-3aa00900eb5d,8bd2729a-5749-46cb-bb16-8997dd59d2d9,Custom navigator for Scheduling #343,Custom navigator capability in Scheduling,deprecated,2023-12-09
+6c64b84c-2093-4e14-a7f5-f421f84f8826,d8a9e322-28f0-4008-bec3-933adbb4a426,Auto navigator for Scheduling #344,Auto navigator capability in Scheduling,in_development,
+3a1064aa-c6e5-4ab4-b102-1e79f9c206fd,879aa647-1a35-496c-8a76-af61c2d780be,Enhanced navigator for Scheduling #345,Enhanced navigator capability in Scheduling,planned,
+210a8e97-949c-4c10-a2fb-758769a127aa,1f8d497a-4539-4d74-8ffe-c73e4f4dad43,Inline navigator for Scheduling #346,Inline navigator capability in Scheduling,shipped,2021-07-07
+c629c29a-5709-45c2-95b3-7cbf0842a39c,978a08e7-e461-4b83-8803-431e9e15c8ac,Live navigator for Scheduling #347,Live navigator capability in Scheduling,planned,
+51998bc1-a531-468d-8405-e2a7e580b478,2cfa64b4-d311-447d-80a2-c271a1d2290b,Cached navigator for Scheduling #348,Cached navigator capability in Scheduling,shipped,2022-06-25
+d16cdc03-30a4-4257-9bb4-9a8638238a68,b6389aa2-ea78-48ce-ad96-cb59e3dc0787,Async navigator for Scheduling #349,Async navigator capability in Scheduling,planned,
+63d9e31a-b5e3-4891-ae98-87199bae56f9,9c44c037-0753-407d-b819-fb55f292a7b1,Advanced wizard for Git/Version Control #350,Advanced wizard capability in Git/Version Control,in_development,
+088bb9c2-f83d-4373-9ad8-4f113f783d94,ca5e16dc-48dd-4c4d-a689-6d473f26f2ee,Smart wizard for Git/Version Control #351,Smart wizard capability in Git/Version Control,shipped,2026-01-16
+e171d093-8327-495f-a188-88effae929d5,4eb153c2-b1d9-4723-97b1-89b37a6b0f28,Bulk wizard for Git/Version Control #352,Bulk wizard capability in Git/Version Control,in_development,
+db679f9a-625c-4384-a873-a590e32c5e54,dc4b9e83-0525-4e80-bfbf-9723ae8530cd,Custom wizard for Git/Version Control #353,Custom wizard capability in Git/Version Control,shipped,2024-04-13
+2c0088a2-ab35-4c8b-9c2e-613fc8006943,331c8673-358c-4037-bcbc-7ffca0951fe5,Auto wizard for Git/Version Control #354,Auto wizard capability in Git/Version Control,in_development,
+97b326ce-2f65-4c04-9c57-d23f709188f9,b03ebf76-cd87-4de0-a2f0-160238ee162b,Enhanced wizard for Git/Version Control #355,Enhanced wizard capability in Git/Version Control,shipped,2022-05-08
+0ae2ebe6-02b8-4344-8d20-dcd79d28429a,248b8ec4-3286-4d34-ac01-c1bfb4efc286,Inline wizard for Git/Version Control #356,Inline wizard capability in Git/Version Control,planned,
+74bc35bf-2e2d-4e48-a96f-235977752546,b6cfea29-ecd0-43cd-ad01-678e21dcffb5,Live wizard for Git/Version Control #357,Live wizard capability in Git/Version Control,planned,
+c5cf82b6-3c8d-4a3a-ae42-adc683665113,3ef340b2-bb06-48d2-96cf-83f4b415fbdb,Cached wizard for Git/Version Control #358,Cached wizard capability in Git/Version Control,in_development,
+a8401d5b-8cda-4e94-8232-99fda9265b5d,12ffda36-da50-4c44-bbc6-8115c460c7ee,Async wizard for Git/Version Control #359,Async wizard capability in Git/Version Control,shipped,2025-10-12
+cf108212-651b-4e51-bcfb-768b3569dba9,23b901de-c4de-48db-aabc-7a2782be74ca,Advanced renderer for Git/Version Control #360,Advanced renderer capability in Git/Version Control,in_development,
+39a93c7b-9c82-43ec-add4-35a99ecb9bb4,337e9065-6869-4705-9899-371e5f216aa1,Smart renderer for Git/Version Control #361,Smart renderer capability in Git/Version Control,shipped,2021-08-27
+6f3b18b6-cd6a-46df-a1cb-99f52a6f30a6,f17154ef-939d-49dd-98a0-dcde0cd92104,Bulk renderer for Git/Version Control #362,Bulk renderer capability in Git/Version Control,shipped,2022-06-14
+7a55526c-501f-4be7-90f3-b43d95fd24a3,51718af0-60e8-43d2-a84e-21fcd581637a,Custom renderer for Git/Version Control #363,Custom renderer capability in Git/Version Control,in_development,
+2227b1ec-33c7-40f5-b88b-22bcd4722d91,30e38666-8148-4e6f-840f-1085a383e319,Auto renderer for Git/Version Control #364,Auto renderer capability in Git/Version Control,shipped,2022-07-26
+f64f62b7-0718-4225-9902-3ea2c8368eae,b1d0029f-b0fc-4fd3-b8fd-cb7a8533bdf4,Enhanced renderer for Git/Version Control #365,Enhanced renderer capability in Git/Version Control,shipped,2022-11-06
+4d89088c-eb38-4f15-864f-252c8a94f99b,80d920da-a305-40e8-8342-f833f2c49976,Inline renderer for Git/Version Control #366,Inline renderer capability in Git/Version Control,shipped,2024-01-09
+2bb92af5-4425-4a37-b673-afb4e8fbbd04,e558118b-e885-4577-a79a-8a1f547c1ffd,Live renderer for Git/Version Control #367,Live renderer capability in Git/Version Control,deprecated,2022-10-20
+2f7f7d31-8cb1-49b6-a897-e891dcc7f08d,3d83c58e-c053-423c-a87a-fa033571e75e,Cached renderer for Git/Version Control #368,Cached renderer capability in Git/Version Control,planned,
+7d260092-2929-4875-86b9-179aa8c27d62,f8b2b64e-48eb-4c13-b6a2-e9cca7f021e5,Async renderer for Git/Version Control #369,Async renderer capability in Git/Version Control,shipped,2022-04-18
+b2d3947f-14c4-4d17-a937-e206a17b7ccc,9cf8a025-1e54-4a88-809e-bd8648ce4eb0,Advanced connector for Git/Version Control #370,Advanced connector capability in Git/Version Control,shipped,2023-05-20
+278a42d6-c781-4728-8ab8-4164bf100027,da55acde-a94b-40b8-95b5-e3e49aa6d225,Smart connector for Git/Version Control #371,Smart connector capability in Git/Version Control,in_development,
+8fe6e831-ba96-4199-b26c-4ba152fe0798,67b05e87-76b6-4454-9155-6239d14f33dd,Bulk connector for Git/Version Control #372,Bulk connector capability in Git/Version Control,planned,
+39a64293-37b7-43e6-b171-8f6a629b37d3,00db7e3e-12c2-4764-af9b-ebf30eae55d5,Custom connector for Git/Version Control #373,Custom connector capability in Git/Version Control,planned,
+5efe0f5a-dc11-4b76-bb5b-d59e4c92e16a,1ef4de10-3b0f-43fc-9e47-096065382edd,Auto connector for Git/Version Control #374,Auto connector capability in Git/Version Control,shipped,2023-03-05
+3c1021ca-d3a4-4b7f-98cc-1a6ef51e7663,2ab47cd3-ca97-4b05-baa7-3fb03beee9d2,Enhanced connector for Developer Experience #375,Enhanced connector capability in Developer Experience,planned,
+863031b4-f546-4f8e-9040-b0a41acb449a,85a65ce8-e7e9-4187-b080-ab47f05f6fc7,Inline connector for Developer Experience #376,Inline connector capability in Developer Experience,shipped,2021-11-24
+64cdbcfc-debd-48a6-bfe5-9e2335d0ea5d,03846797-53b0-4db2-863d-0473c96409c4,Live connector for Developer Experience #377,Live connector capability in Developer Experience,shipped,2021-09-23
+da3361bc-2548-4b2d-80a8-9dca93eeb68c,e4bc5832-a0ce-44bf-87ca-3737514af98c,Cached connector for Developer Experience #378,Cached connector capability in Developer Experience,shipped,2023-10-02
+f2057d0b-e4e5-49fc-8cbc-45515106716d,29f383cc-9257-4a41-9071-8dd38f632bd7,Async connector for Developer Experience #379,Async connector capability in Developer Experience,planned,
+295bd035-8ffb-4007-a7fc-f08180ac2040,0ce7efef-950a-439d-ac88-446dea76f74f,Advanced validator for Developer Experience #380,Advanced validator capability in Developer Experience,shipped,2025-05-06
+f240026c-9fde-4bff-abcd-ab341e67c7f2,1b56adb4-6e75-49ea-ba00-4f015b32f33f,Smart validator for Developer Experience #381,Smart validator capability in Developer Experience,planned,
+8adf8983-ac65-485a-aacb-928d6864cf34,4de9fc29-b970-47d6-a6d0-0a89eec4c6ca,Bulk validator for Developer Experience #382,Bulk validator capability in Developer Experience,shipped,2025-06-07
+e8bd9982-9299-43f6-86ca-ceee2d2c5f8e,49e7f986-7f2c-401f-a996-0bb6549fd471,Custom validator for Developer Experience #383,Custom validator capability in Developer Experience,in_development,
+38657f12-653d-4fd2-9101-2a9bd2a4cf0c,92522ddd-4c8f-4566-94bf-59412fbd5224,Auto validator for Developer Experience #384,Auto validator capability in Developer Experience,planned,
+25df8bd8-8905-4c89-b0ac-7830b6069e21,34725d17-908f-40ea-a491-8521aa2990c2,Enhanced validator for Developer Experience #385,Enhanced validator capability in Developer Experience,in_development,
+90c12b18-535b-451e-be22-aa08fad7bb47,634bff7e-10a4-428f-8841-901e6b10b052,Inline validator for Developer Experience #386,Inline validator capability in Developer Experience,shipped,2025-04-25
+8ddfadd5-ce15-416f-8ec6-e72bb78c0493,24770bd5-71a3-4f92-8a54-c6c606be5bb8,Live validator for Developer Experience #387,Live validator capability in Developer Experience,shipped,2024-05-09
+a5ba43f9-6c1a-4d0e-a6ee-4f5a074f268e,80fa1ba1-b3e9-4a68-a1f7-428f216d70a2,Cached validator for Developer Experience #388,Cached validator capability in Developer Experience,shipped,2025-09-12
+d0a0827a-9b0b-4f1f-9610-99c8a4683ad2,860a54e8-d314-45c0-a556-ca13218ac2ae,Async validator for Developer Experience #389,Async validator capability in Developer Experience,shipped,2021-05-26
+cf1ba01a-44e3-4fad-a5db-5e9640af98f0,aad6e5a7-88b4-4c41-a77e-b32a57c43e59,Advanced parser for Developer Experience #390,Advanced parser capability in Developer Experience,planned,
+5aee6676-8c8d-418e-8c5c-a06f1ec7ec57,43951133-2ff0-46fc-801f-2be1b016d988,Smart parser for Developer Experience #391,Smart parser capability in Developer Experience,in_development,
+7d069032-ea3d-49ea-975f-f65ad1ca3097,bf94842f-d166-4c95-ae13-01c74145e32c,Bulk parser for Developer Experience #392,Bulk parser capability in Developer Experience,shipped,2023-06-24
+ddaead4e-953d-4b90-873b-9991e1aedcb6,7a32efab-d3f7-49de-9896-bb854b4230a1,Custom parser for Developer Experience #393,Custom parser capability in Developer Experience,shipped,2021-07-28
+c181bc15-7f7a-4b33-a668-621edf8e894a,a67c2aa7-d3c4-4f64-a24f-87df871ebd8a,Auto parser for Developer Experience #394,Auto parser capability in Developer Experience,planned,
+85a53020-f74f-47e6-8c1c-7bc53840f3bc,8f6c7511-e6a2-401d-bfe7-f13745f6950d,Enhanced parser for Developer Experience #395,Enhanced parser capability in Developer Experience,shipped,2025-12-01
+3e39fb1e-95c7-4f3c-a002-69d2975d8167,5bf8c060-414b-44f4-b5ae-0f6b7a928a07,Inline parser for Developer Experience #396,Inline parser capability in Developer Experience,shipped,2023-03-16
+caf43102-d026-46c0-8559-b66e12c78c4f,1b602c6e-6e8c-429c-a8c0-860b5f566873,Live parser for Developer Experience #397,Live parser capability in Developer Experience,shipped,2026-01-28
+0f042279-eec6-4b12-a25b-c4bbc0a50f83,3b6ce7ec-3e41-4c18-8b0d-56a6f4f56253,Cached parser for Developer Experience #398,Cached parser capability in Developer Experience,in_development,
+682bd36d-129c-45a6-a619-6adfab5d7448,7db27134-15a3-4c19-9d79-367777591648,Async parser for Developer Experience #399,Async parser capability in Developer Experience,deprecated,2024-12-20
+49263714-9e0a-4b8b-8069-7dc90057df97,702fbf43-c0be-45ab-aed2-6d99a36aa46a,Advanced editor for Data Quality #400,Advanced editor capability in Data Quality,deprecated,2023-04-22
+d2cebef9-0427-4903-a09d-5b7c5ec56f7f,58d49ecd-4980-45f3-ac2c-134972a92618,Smart editor for Data Quality #401,Smart editor capability in Data Quality,in_development,
+0eabc852-d4a1-4335-b4ae-4039ba4e6997,e0df72de-c362-4c65-9aaf-50cd18eb85f2,Bulk editor for Data Quality #402,Bulk editor capability in Data Quality,shipped,2023-12-05
+bb89f8c5-990b-445d-a1a1-0b3a9c3abfd4,6b105784-b858-41d0-9969-5b8d74e61e8a,Custom editor for Data Quality #403,Custom editor capability in Data Quality,planned,
+fee77be3-5bbe-472b-872e-c5bb7f25a278,0d0a788e-210d-4e3c-8ca4-ef21728c4588,Auto editor for Data Quality #404,Auto editor capability in Data Quality,planned,
+cdb690b6-fe5a-4dc5-8151-889bae3be8a2,0585334e-8370-4522-b627-7cd0ced7c6ff,Enhanced editor for Data Quality #405,Enhanced editor capability in Data Quality,in_development,
+edd5ff42-9af6-4a99-a2ad-5225ce2e2344,738edab0-a7c2-4f88-a07a-39cca5c8e138,Inline editor for Data Quality #406,Inline editor capability in Data Quality,shipped,2023-01-22
+1a187b4f-5fd1-4a47-acd6-e3b43939c691,bf0dbc16-4114-417d-8275-d74f1a42959a,Live editor for Data Quality #407,Live editor capability in Data Quality,in_development,
+2d7e4c63-fcc4-4fa0-84d8-49b00c81f747,9b276a2b-3669-4fc4-adb5-e7031d733750,Cached editor for Data Quality #408,Cached editor capability in Data Quality,shipped,2022-01-26
+5f91c8b8-c8d0-4332-9ee0-fc55c3d3ca3f,d71e2b37-387f-4878-9aa8-ba5760c08470,Async editor for Data Quality #409,Async editor capability in Data Quality,in_development,
+f7e4993c-1958-463e-9d57-e4836d0016ae,21174d85-5f74-4b07-a9d8-4ae57d89cd20,Advanced viewer for Data Quality #410,Advanced viewer capability in Data Quality,shipped,2021-03-25
+06d370c9-f258-44a7-b9f6-16d3845f85a3,174fa20b-3b92-484b-aecf-08e59ab44e63,Smart viewer for Data Quality #411,Smart viewer capability in Data Quality,shipped,2023-10-13
+d67a03ba-0324-437a-a198-827006696205,63c5e336-142f-467d-99fe-8fc3fc32da3f,Bulk viewer for Data Quality #412,Bulk viewer capability in Data Quality,shipped,2022-07-23
+edc25986-1d7d-4a0c-b629-5d74b479e3f2,c9f79f53-89de-47fd-b777-57db82959de8,Custom viewer for Data Quality #413,Custom viewer capability in Data Quality,shipped,2025-06-16
+1f5c2ed5-b100-4978-9957-c77db8aebf9c,8c67b0b4-3a41-4545-bb94-cf0d40038f5a,Auto viewer for Data Quality #414,Auto viewer capability in Data Quality,shipped,2020-11-28
+4955a145-7c8b-4455-9763-95e5c7aef616,c6e9c1af-f5a0-466d-89f3-b8762f2c1f2b,Enhanced viewer for Data Quality #415,Enhanced viewer capability in Data Quality,shipped,2021-02-16
+181506b1-6fcf-4c8d-9b34-092da2749c94,e35978b3-d8b7-4093-b05a-d0422ac9c886,Inline viewer for Data Quality #416,Inline viewer capability in Data Quality,planned,
+a301b787-ad0d-471e-8c77-53242e8c1243,41106d8b-067e-4e45-a4e0-1ce5e3f8a0ee,Live viewer for Data Quality #417,Live viewer capability in Data Quality,shipped,2024-06-29
+504ecf1d-3b05-4a97-929c-e5cabb7f66aa,63bbedb2-37b9-457a-9221-cb42b7b8b249,Cached viewer for Data Quality #418,Cached viewer capability in Data Quality,planned,
+149a25d5-2ca6-42c3-bfb1-d93f6de5bb64,ed94830c-cee1-4af6-bbbb-d77d67de3c6d,Async viewer for Data Quality #419,Async viewer capability in Data Quality,shipped,2023-02-26
+c3e57873-8f55-4629-a818-4576b31c1b93,30cb4db6-3362-4296-a95d-9c9178545ba6,Advanced builder for Data Quality #420,Advanced builder capability in Data Quality,planned,
+7ad4d08f-a644-48a4-8c95-7e15c1122316,80380fb0-ebfe-4fd4-a70e-502bddd98ff6,Smart builder for Data Quality #421,Smart builder capability in Data Quality,in_development,
+b85882cf-49a5-412e-a02e-c8d8afae9a46,3895d72f-21fd-4b6b-be81-f122b5064261,Bulk builder for Data Quality #422,Bulk builder capability in Data Quality,planned,
+cc4e8c86-ca0c-4bdc-b2f3-2a038c88304b,718dc737-a7cf-4839-abf3-2d4dd0b0c529,Custom builder for Data Quality #423,Custom builder capability in Data Quality,shipped,2023-02-12
+fa53f51e-1537-4914-a4dd-d2b36dad2051,c42d016d-9b62-4d69-926d-1cb201f6343f,Auto builder for Data Quality #424,Auto builder capability in Data Quality,in_development,
+b9024a96-449b-494c-b402-79e015597d32,c2fa1f0a-e995-441e-a86a-c48d77d97c97,Enhanced builder for Semantic Layer #425,Enhanced builder capability in Semantic Layer,shipped,2022-07-04
+5ee16593-8f85-4460-982e-30c28efa310f,5db7e038-6be1-4688-a3eb-e876858421bd,Inline builder for Semantic Layer #426,Inline builder capability in Semantic Layer,shipped,2023-05-31
+b4c5af0d-7404-4a68-bc6b-0a4d44847e5d,96b050db-91fe-4eaa-8e56-7456b08aba01,Live builder for Semantic Layer #427,Live builder capability in Semantic Layer,shipped,2022-11-27
+14371af4-2697-4b74-94dd-e610f70c73e9,8925f8f3-6c9e-4556-8b1c-b0403488d676,Cached builder for Semantic Layer #428,Cached builder capability in Semantic Layer,planned,
+de7e793b-00b5-4882-84b8-753bdbdcd4f4,1ccd94cf-5c6b-4b20-bff3-66ef39aea833,Async builder for Semantic Layer #429,Async builder capability in Semantic Layer,planned,
+49f03633-81dd-4699-961b-b04d841c6d76,49d09e61-f076-4fd0-90d1-01f248384768,Advanced picker for Semantic Layer #430,Advanced picker capability in Semantic Layer,shipped,2023-09-07
+abae086a-9647-4db0-abfe-be19c3653cf7,c0fee2fe-efbf-4e01-8e50-a08b6cd3a1e8,Smart picker for Semantic Layer #431,Smart picker capability in Semantic Layer,planned,
+39258f1e-8cc6-4e20-a333-0fb9f70f2656,50aefc2b-7182-4ca7-9075-51d4a968582c,Bulk picker for Semantic Layer #432,Bulk picker capability in Semantic Layer,shipped,2021-03-14
+763b6e5c-6ede-4bfe-98aa-59e351100ee4,cbc300a7-1b90-4d8a-adb7-429849b63a9b,Custom picker for Semantic Layer #433,Custom picker capability in Semantic Layer,shipped,2024-11-10
+a7f9c792-58a5-4a00-a2a7-ab250979c141,4833b6d5-1ad4-4fb6-9eb3-74bb8585b802,Auto picker for Semantic Layer #434,Auto picker capability in Semantic Layer,in_development,
+64197667-afe1-4098-a1a7-fcf5c8ec7a30,49e05380-626e-4062-852e-336a7482b19e,Enhanced picker for Semantic Layer #435,Enhanced picker capability in Semantic Layer,planned,
+2bf7ee4d-3b2a-42b2-a3f7-02d181684727,b087520f-02f0-4177-a8d7-c4934bedea6b,Inline picker for Semantic Layer #436,Inline picker capability in Semantic Layer,shipped,2021-02-08
+ba0aba82-ed9a-4bf0-9cda-033f8ee6abf2,1320afe6-b171-41e4-8b0f-f98f13e24893,Live picker for Semantic Layer #437,Live picker capability in Semantic Layer,in_development,
+da1572db-9e55-40fa-96b5-7ec6e150a5b3,5bd353a7-68a9-45f1-83cd-6b74515ea54f,Cached picker for Semantic Layer #438,Cached picker capability in Semantic Layer,planned,
+52eef11e-ec74-4eba-b0ab-bbf3c24b1439,488598cd-579a-4161-92cf-b91f3fdc248c,Async picker for Semantic Layer #439,Async picker capability in Semantic Layer,planned,
+340a61d9-6168-4559-8a98-ebae3103ad2e,254e81ef-b667-48e9-80fd-b5ade5a5d8e6,Advanced navigator for Semantic Layer #440,Advanced navigator capability in Semantic Layer,shipped,2022-09-06
+0cf152bc-1f5b-486f-90e8-d30587195be3,7c375d6a-0067-43f2-bb65-0e9d81262a78,Smart navigator for Semantic Layer #441,Smart navigator capability in Semantic Layer,planned,
+0d7fe2ee-27d7-4a1a-b442-20a067c13e7a,61094971-98a2-49ad-b242-76fa3d7d7a9c,Bulk navigator for Semantic Layer #442,Bulk navigator capability in Semantic Layer,shipped,2025-10-07
+7c79ec0d-cc9e-4d7f-8773-dce1df4d05de,d9f94f60-ee9a-4341-9a3c-095bb5a05453,Custom navigator for Semantic Layer #443,Custom navigator capability in Semantic Layer,shipped,2021-05-21
+30d59b03-3ae1-4d83-af8e-fbda9a747844,c47cb8e1-9144-4b4f-962e-f3bf25b0b425,Auto navigator for Semantic Layer #444,Auto navigator capability in Semantic Layer,shipped,2023-11-08
+3102f98f-aac5-4efa-af09-afdb9114a825,6493aeee-96f0-42ab-8fcb-2c54bcd30fb9,Enhanced navigator for Semantic Layer #445,Enhanced navigator capability in Semantic Layer,deprecated,2024-04-22
+8ffa375b-6116-4a74-8b19-49a17e3c50a6,90f165ee-cafe-424f-b729-44b8e9d04ef2,Inline navigator for Semantic Layer #446,Inline navigator capability in Semantic Layer,shipped,2024-08-14
+7a9d3c36-4bcb-4ead-8483-3620b8c6c5cf,8342d08a-8dab-47b8-88d9-0dd84ab69de9,Live navigator for Semantic Layer #447,Live navigator capability in Semantic Layer,shipped,2024-10-23
+ca68585e-1fc5-4104-83b4-836f7407fff1,dbe56d42-8b9b-422b-96cd-e87b191cd319,Cached navigator for Semantic Layer #448,Cached navigator capability in Semantic Layer,planned,
+6c423bdd-35d0-4fd8-bbd3-c21340fecd34,1bea8049-617a-4482-8279-c0a76a5be176,Async navigator for Semantic Layer #449,Async navigator capability in Semantic Layer,planned,
+fe9bd9a6-92cf-4c67-8823-cf68360b65da,42226044-ca55-41db-8d04-2abf4d874a87,Advanced wizard for Self-Service #450,Advanced wizard capability in Self-Service,shipped,2026-01-11
+5fe3b6e0-e40e-4c35-b37f-54cf16a56bb2,07e51a23-2bbb-458b-a87e-55f3fe672eb4,Smart wizard for Self-Service #451,Smart wizard capability in Self-Service,shipped,2021-04-03
+9d8b8db0-6f14-4536-a3cd-5869e0046699,b0fe9eca-17a3-4641-a806-68bcbb9e6cbd,Bulk wizard for Self-Service #452,Bulk wizard capability in Self-Service,in_development,
+c7a21e80-27a1-4f52-b727-f039054e8643,930f603e-93bf-4c69-9d2f-6cac187b597c,Custom wizard for Self-Service #453,Custom wizard capability in Self-Service,in_development,
+dfca6cf1-88d0-454d-b3e0-7e37fcfa7c7d,51167a93-8b50-45f8-8069-2df959fe7238,Auto wizard for Self-Service #454,Auto wizard capability in Self-Service,shipped,2024-03-23
+0cd1d638-88a0-4e40-bfb1-77c24fb7def0,13eb5e94-82b7-4c5a-a410-ff01387b5d80,Enhanced wizard for Self-Service #455,Enhanced wizard capability in Self-Service,in_development,
+9fcf7ee5-8656-4c5a-9b9c-013e78e3fa26,49ccf45e-7145-4a97-b245-7e7333dbbb4b,Inline wizard for Self-Service #456,Inline wizard capability in Self-Service,planned,
+3c943ae2-49ea-4a04-8915-4f52d0bc45dd,b8f3d103-30f2-4309-91f3-3bc7e5a40abc,Live wizard for Self-Service #457,Live wizard capability in Self-Service,shipped,2026-02-07
+f219f9ab-ae53-4958-8a64-ac4c85a79570,d2e592bb-d32f-4cb0-bddf-40cf5bf1cea5,Cached wizard for Self-Service #458,Cached wizard capability in Self-Service,shipped,2025-06-11
+accf35cd-a0ef-4728-b69e-904cd98ef2d3,7684d1f6-4c46-46b6-ad99-d4825522929a,Async wizard for Self-Service #459,Async wizard capability in Self-Service,planned,
+7e85b458-9ac7-4ced-8e57-eb2175469ab0,8ab9d7d9-6efc-4c2e-bebd-fa068527a888,Advanced renderer for Self-Service #460,Advanced renderer capability in Self-Service,shipped,2023-07-30
+da24dbbe-638f-4933-80e1-13bd6c79acbf,5d5ab8a9-1631-453d-8dc7-dd4b587ec654,Smart renderer for Self-Service #461,Smart renderer capability in Self-Service,shipped,2022-08-07
+42b95189-a66f-444b-a939-dc5765c851d7,51a3f8b5-fb11-4ec5-be1c-7bd1b48a9eb3,Bulk renderer for Self-Service #462,Bulk renderer capability in Self-Service,shipped,2024-08-05
+bae1fdf2-a9ae-4281-93fd-7d2fa7c477d9,a1ceed20-0a1f-429d-8acf-5c4ecaacefdf,Custom renderer for Self-Service #463,Custom renderer capability in Self-Service,shipped,2022-04-10
+7299caa0-345b-48dd-9f2a-416dc3f9731e,48490a3b-3d4c-48af-8026-999c29ff6226,Auto renderer for Self-Service #464,Auto renderer capability in Self-Service,shipped,2024-03-06
+5e522132-046c-4acd-b366-56f53ba7d044,498d8dc0-ccfb-4b73-b703-9fb75a5f08bd,Enhanced renderer for Self-Service #465,Enhanced renderer capability in Self-Service,shipped,2023-12-11
+10e6b8c0-b271-4fc7-8de7-73c3c59ed994,7a027913-8479-4b3d-9f74-833d8fc24c12,Inline renderer for Self-Service #466,Inline renderer capability in Self-Service,in_development,
+ea1860ca-54b9-4d64-8e4a-8b0ddd9dfff9,1a003c38-212c-4d34-9edf-a17e2d7df7a4,Live renderer for Self-Service #467,Live renderer capability in Self-Service,shipped,2022-12-30
+8bdc2ee8-7af0-472f-b58d-51b4952a4c91,e4035591-027a-41c4-abb8-32615a8c106c,Cached renderer for Self-Service #468,Cached renderer capability in Self-Service,planned,
+ca88f321-1ffa-4720-bbc8-c99a06f49f85,d16ba8cf-c374-4868-bef1-5676a7984535,Async renderer for Self-Service #469,Async renderer capability in Self-Service,shipped,2024-09-24
+16f85944-17ba-4fb0-88f7-bdebf5b445d0,efd00524-85be-4ed2-bf61-688e5f6ba8f3,Advanced connector for Self-Service #470,Advanced connector capability in Self-Service,shipped,2024-06-14
+b0736831-db68-4485-8e0d-60d1d36f2d84,a9bebce9-c291-47d6-807a-7f7532a238e5,Smart connector for Self-Service #471,Smart connector capability in Self-Service,shipped,2023-03-24
+1163c444-8627-4fea-bc7f-ba1aa7ef8477,fe2db14a-3bda-406c-b1df-e7ce7d15c733,Bulk connector for Self-Service #472,Bulk connector capability in Self-Service,shipped,2025-06-03
+9f15af4c-81b4-4d48-b471-604f408143f2,f2123c13-ed4d-4d17-bd2f-ab6aaf3b17cd,Custom connector for Self-Service #473,Custom connector capability in Self-Service,shipped,2025-04-11
+7afb5570-357e-4070-a3ff-2042ee501c32,547b0c3e-5c42-4b28-9ad6-a013c4f989d4,Auto connector for Self-Service #474,Auto connector capability in Self-Service,in_development,
+c6533c16-05a9-4217-b28f-213023e1d27d,84d29ef4-de63-44b1-bde3-090a6306e195,Enhanced connector for Multi-tenancy #475,Enhanced connector capability in Multi-tenancy,shipped,2021-04-25
+054b6602-8f79-4d04-b8df-48cc0599daad,b8a667f6-91dd-4615-9dba-b062cd2ea66a,Inline connector for Multi-tenancy #476,Inline connector capability in Multi-tenancy,planned,
+108fbfce-15f4-4305-b88c-732acf2142df,19c4e151-b80d-4532-9493-f4cec9109556,Live connector for Multi-tenancy #477,Live connector capability in Multi-tenancy,shipped,2023-10-14
+e14ecce7-158a-4914-8d5a-2b2b244ed782,93084ef6-0be6-426b-9167-e87f8bc84860,Cached connector for Multi-tenancy #478,Cached connector capability in Multi-tenancy,planned,
+e59780b6-c9aa-4712-b2ee-23b9c417b050,51b3fd8c-b49c-4d61-9e38-beb590b85778,Async connector for Multi-tenancy #479,Async connector capability in Multi-tenancy,planned,
+2df56839-a56d-4861-9be5-a75419556592,749009b9-e046-4a94-9d59-40adcbc9b188,Advanced validator for Multi-tenancy #480,Advanced validator capability in Multi-tenancy,in_development,
+a3c8ed07-fa32-4551-977e-757d0a578ad3,cf5f8024-9f06-4603-8b13-405f7105257d,Smart validator for Multi-tenancy #481,Smart validator capability in Multi-tenancy,planned,
+393c1901-d672-4d0d-a3dd-6f9dd8dab4ca,97cce051-c5f7-4eb8-8d7d-ba38a637e80a,Bulk validator for Multi-tenancy #482,Bulk validator capability in Multi-tenancy,in_development,
+999a369a-1ff2-4a3d-9ec5-24a1b1f67499,2fc1054f-e06b-4147-beaf-19d6af5cc6f2,Custom validator for Multi-tenancy #483,Custom validator capability in Multi-tenancy,shipped,2023-01-23
+8f414225-3cb0-45ea-a519-0c0088c3eae0,0da60995-bb61-424e-88a6-6038b3614a19,Auto validator for Multi-tenancy #484,Auto validator capability in Multi-tenancy,shipped,2024-08-07
+4d1102fb-3373-420a-a431-af9b9adb5fd4,4ceaae86-c707-4e62-ad00-7aa14df17ab7,Enhanced validator for Multi-tenancy #485,Enhanced validator capability in Multi-tenancy,planned,
+86516d2f-0c18-4e1d-acc9-a984672f0dad,644d8d7f-da2a-4297-b15c-3f4ba1598fe3,Inline validator for Multi-tenancy #486,Inline validator capability in Multi-tenancy,shipped,2026-03-01
+4cb0ea87-5bba-4089-aaf1-4ed97beef395,252c6e3b-d8df-46cf-949e-ddb03e1f6b23,Live validator for Multi-tenancy #487,Live validator capability in Multi-tenancy,planned,
+70adc1df-443d-4779-954a-661b31d6c3cf,3181bb03-9eca-4a05-afac-ad06d5cec991,Cached validator for Multi-tenancy #488,Cached validator capability in Multi-tenancy,shipped,2023-08-03
+64af1422-29ce-485a-811e-93723a0e6646,9b46e4d0-8b98-419a-9cd4-066208d3ebe5,Async validator for Multi-tenancy #489,Async validator capability in Multi-tenancy,in_development,
+772c2d38-a6c3-44fd-8e61-53b5e6e9f5ab,f582278b-5e89-4d79-98aa-9d0a4c07ddd1,Advanced parser for Multi-tenancy #490,Advanced parser capability in Multi-tenancy,shipped,2022-07-19
+a512be8d-13a5-436d-9257-df09b0cad99f,cc808684-c368-4ee8-b11d-0a8087707e0c,Smart parser for Multi-tenancy #491,Smart parser capability in Multi-tenancy,planned,
+83468b2c-3af2-4f9a-8b14-c4ed1672d994,01e7cbf3-ccba-4904-8c5f-58f911475725,Bulk parser for Multi-tenancy #492,Bulk parser capability in Multi-tenancy,shipped,2023-01-10
+958a00f6-4ca2-43f2-985e-fcce19eee846,a0d84d5b-806f-4335-a28e-a87fcd1182b7,Custom parser for Multi-tenancy #493,Custom parser capability in Multi-tenancy,in_development,
+f7591532-06ee-4171-b172-b2901c94131a,8afbdaef-99c0-4df4-bf0f-2d14d26f8009,Auto parser for Multi-tenancy #494,Auto parser capability in Multi-tenancy,shipped,2022-04-11
+52b03980-e863-4d6e-b7fe-d080a8b371fe,b200b477-9911-479f-8f57-b80de63cff72,Enhanced parser for Multi-tenancy #495,Enhanced parser capability in Multi-tenancy,planned,
+d81afaba-ee20-4d8d-86f0-e6b4aa95725d,f2386e2b-4622-41dd-a216-d9b189209405,Inline parser for Multi-tenancy #496,Inline parser capability in Multi-tenancy,shipped,2021-04-27
+1c4c329c-f14c-4bbf-ab8e-70cabb5c4259,cf4caa32-d3a1-4a40-a708-8e2b88168a44,Live parser for Multi-tenancy #497,Live parser capability in Multi-tenancy,in_development,
+3fdf23bd-2dac-4a7f-9485-676d5106673f,e2ac8103-06c4-44f7-85e0-5d6d14f33186,Cached parser for Multi-tenancy #498,Cached parser capability in Multi-tenancy,shipped,2022-01-27
+a5fad6a8-0a78-4624-953f-6b6ff8024c2b,7b05fef1-cfb7-45f6-894e-0dc670ca252a,Async parser for Multi-tenancy #499,Async parser capability in Multi-tenancy,shipped,2022-04-13
+68c58384-c0d4-4441-84cb-7b2f61120e85,645da331-866f-4175-81ea-519e51055cf6,Advanced editor for Data Modeling #500,Advanced editor capability in Data Modeling,planned,
+08e37862-8d18-41bb-bd3f-ef13b2800753,943394b6-0984-4f3d-9d8a-5be247845d70,Smart editor for Data Modeling #501,Smart editor capability in Data Modeling,in_development,
+cf340d8d-be71-43fe-a7b2-200d324a8510,64a40557-9d97-40c0-8d5b-f595f66bd8fc,Bulk editor for Data Modeling #502,Bulk editor capability in Data Modeling,shipped,2023-12-14
+65106a2b-9b0a-46ac-a506-d922abddd7b7,008b6e4e-e2bb-4ffb-bb1a-25995fc2610b,Custom editor for Data Modeling #503,Custom editor capability in Data Modeling,planned,
+923a15e3-1289-4adb-a551-d12031e78a20,1115cb64-cafe-40ea-83b3-e23700fb8229,Auto editor for Data Modeling #504,Auto editor capability in Data Modeling,planned,
+d2379e0c-0da3-4818-806b-438375fce053,1f327bd6-5ba8-4654-9c25-8ec9f9131942,Enhanced editor for Data Modeling #505,Enhanced editor capability in Data Modeling,shipped,2024-06-14
+f4abc9fa-0332-4244-abd4-8383134a4f68,ad91fa43-b818-474c-bd71-067d54855193,Inline editor for Data Modeling #506,Inline editor capability in Data Modeling,in_development,
+fd0801e1-2d6f-408a-8852-a82e5b6a8fdf,c3cf567b-f12a-499c-98f0-193065b3b1d7,Live editor for Data Modeling #507,Live editor capability in Data Modeling,in_development,
+f1a61bad-0d73-4504-ad10-2a0dab52ccf7,36bcf275-4e58-48a0-a44a-5d06b9cd35af,Cached editor for Data Modeling #508,Cached editor capability in Data Modeling,shipped,2021-11-12
+dbbf3a86-478a-4abc-8e8c-a357623ff481,585f7d2b-8007-4976-ba6b-81696579a7e4,Async editor for Data Modeling #509,Async editor capability in Data Modeling,planned,
+11f11b25-7114-44d6-acb5-8028da68d1a5,446449c7-84cc-4bf7-8209-64cdf0e8df67,Advanced viewer for Data Modeling #510,Advanced viewer capability in Data Modeling,planned,
+c1e96cc1-d2cd-43b5-b049-02dea4ae0a0a,4ca8c930-dd01-475b-aadc-cb8a8149a4a2,Smart viewer for Data Modeling #511,Smart viewer capability in Data Modeling,in_development,
+214e716e-420f-4b51-a5b3-50e1a3a24237,c68e92a8-087a-486b-ad44-f646d7fb26bd,Bulk viewer for Data Modeling #512,Bulk viewer capability in Data Modeling,planned,
+66e0d373-12e6-4721-ae0e-2a90c6fde597,6abaa5f9-a142-421b-8c48-d05c0b2cbfe0,Custom viewer for Data Modeling #513,Custom viewer capability in Data Modeling,shipped,2025-04-27
+b003746e-67e6-4236-a644-e9684423534b,6719c56a-b36a-4a2d-b4fd-daefc50aa626,Auto viewer for Data Modeling #514,Auto viewer capability in Data Modeling,in_development,
+6ca59c3d-12fd-483f-8148-19cae1bf76fa,2008f817-d6cf-4b87-a677-ea19deb43b0e,Enhanced viewer for Data Modeling #515,Enhanced viewer capability in Data Modeling,shipped,2024-01-29
+525a557e-cf4e-475c-bd2c-ddce53e47e02,bdad2f6b-40bf-4704-896d-fbb70a67bc57,Inline viewer for Data Modeling #516,Inline viewer capability in Data Modeling,shipped,2021-07-04
+c561a415-2a76-44b1-9ba2-3733cb953861,95f79681-01aa-4900-9144-16728d3d5477,Live viewer for Data Modeling #517,Live viewer capability in Data Modeling,planned,
+c5b6f30b-4c87-473b-8448-8c6eddca30f8,7081fb77-bcaa-4ec0-8380-ba4d600f26f9,Cached viewer for Data Modeling #518,Cached viewer capability in Data Modeling,shipped,2025-06-26
+e4c69023-0b81-43ce-af5e-070db67350b4,6f71df6c-8e99-4f6e-9c51-fcf5c29eebbe,Async viewer for Data Modeling #519,Async viewer capability in Data Modeling,planned,
+fbfa08ee-af76-42a3-a588-94ac5caa76ba,7064e94a-a7b3-4e1b-8af2-6fff85cf25f7,Advanced builder for Data Modeling #520,Advanced builder capability in Data Modeling,shipped,2024-09-06
+ef0a6d38-11f4-4250-8635-d6dbb30e8874,b404131b-efa9-43ee-b00e-7617e9aa802d,Smart builder for Data Modeling #521,Smart builder capability in Data Modeling,planned,
+eaec1a11-a27f-4763-a52f-fd26cb413bc1,a8a24058-c7a6-4841-b872-4e0d4576b047,Bulk builder for Data Modeling #522,Bulk builder capability in Data Modeling,planned,
+d97bc7ac-4225-4e6b-b1ba-a2fa50a9d5bc,5005e820-9388-483f-b6a8-7a4325406d04,Custom builder for Data Modeling #523,Custom builder capability in Data Modeling,in_development,
+79f0b418-f7fd-44c9-aa65-b7971b5bab5d,655cf69f-d7de-4fb6-b1eb-ccb227c5bed5,Auto builder for Data Modeling #524,Auto builder capability in Data Modeling,in_development,
+75a3ec4b-f5ea-4a48-81bf-cb480ec0354e,4f4aeec0-54a7-4300-ae0a-f20fa14a3397,Enhanced builder for Visualization #525,Enhanced builder capability in Visualization,shipped,2021-04-03
+87aeb3c1-7a51-4a45-bd3d-fbb2f0364ee0,3f7e21a7-eb88-4bc0-b929-b8bad892b66c,Inline builder for Visualization #526,Inline builder capability in Visualization,shipped,2023-10-13
+e8f57561-1bc5-4dc6-8943-064af499624f,42691758-e3d0-483b-a7be-545ad77bd0f8,Live builder for Visualization #527,Live builder capability in Visualization,planned,
+1bdd5954-3c3c-4546-93fc-ea5b0ce2f714,cfbaeb68-7087-4847-b83e-a7970ca4ebac,Cached builder for Visualization #528,Cached builder capability in Visualization,in_development,
+00c28020-bf52-42d7-8bcb-d074b7bf08f3,de544a2b-6e27-4078-9555-1955de8f6f9f,Async builder for Visualization #529,Async builder capability in Visualization,shipped,2021-01-11
+4d22b22f-5772-405b-9423-1a2b5b503148,0c0b427f-e99d-4aa4-b4a9-8105c3f7e575,Advanced picker for Visualization #530,Advanced picker capability in Visualization,planned,
+9c0b8f6e-af67-4a09-87e8-f1b1114d0482,bd47e361-89f2-4c7f-8a10-c60c6c7f03fd,Smart picker for Visualization #531,Smart picker capability in Visualization,shipped,2024-08-23
+0a62b1ee-ec66-462e-95dd-a3e350f30885,afe0f198-d05c-4a16-8992-ed154905c0b3,Bulk picker for Visualization #532,Bulk picker capability in Visualization,in_development,
+90c1067b-6451-4289-9d10-7c9ec1aec71c,541c685f-b449-4d36-b2e2-b012b8bc9f07,Custom picker for Visualization #533,Custom picker capability in Visualization,shipped,2022-07-05
+e49b5b7d-0d6e-4fe3-8769-0291635c5b61,3c3e72d2-49a6-4619-98fb-14ddc605dfd0,Auto picker for Visualization #534,Auto picker capability in Visualization,deprecated,2025-07-29
+690979a3-8564-49e4-8817-a31b5cc297cb,e9e0d1e6-2be8-4578-acb6-c26f5aedb7d4,Enhanced picker for Visualization #535,Enhanced picker capability in Visualization,shipped,2024-12-10
+febc3f5f-d0ec-490b-8f0e-753fc252f0ab,78e0fd8e-edf7-4b82-9863-c61433c0ef02,Inline picker for Visualization #536,Inline picker capability in Visualization,planned,
+a62334b1-7459-4e46-8427-5c6a21d0ab4f,541b42ed-2ad1-4210-b302-e12d97bccdb9,Live picker for Visualization #537,Live picker capability in Visualization,shipped,2023-01-13
+d57ad3ca-50de-4707-a706-56d8056f8033,2c6655de-c2d6-440a-9e7a-ef4780c724d2,Cached picker for Visualization #538,Cached picker capability in Visualization,planned,
+434e1dbd-c1f9-4272-be55-653353f5838e,63114578-25a0-4b0e-8641-355328afc6ec,Async picker for Visualization #539,Async picker capability in Visualization,planned,
+28c88906-3ebe-4b06-90a2-49e153b61e15,e796d20a-bf1e-49a0-9a71-f1d5e7809614,Advanced navigator for Visualization #540,Advanced navigator capability in Visualization,planned,
+a5f6cf7d-c25c-4103-ab87-ccfd35c2a675,ebe45120-0724-4fb9-8bb4-fc90ff598299,Smart navigator for Visualization #541,Smart navigator capability in Visualization,in_development,
+800938de-d557-46cd-9e7a-a124cd678d69,c27cca53-e4cd-4f37-b909-09019e504a30,Bulk navigator for Visualization #542,Bulk navigator capability in Visualization,shipped,2022-02-28
+392e7aef-0fed-4fb0-a5aa-9dab543a5713,2fcb925b-bc6b-405b-bf5d-729d8169316f,Custom navigator for Visualization #543,Custom navigator capability in Visualization,shipped,2022-12-01
+78f97309-a3d8-4dcf-879e-0bff1533826a,5b6b92cf-85ea-4b28-b97d-63636fd0e627,Auto navigator for Visualization #544,Auto navigator capability in Visualization,in_development,
+e79d8192-28e8-4a07-92e8-f1a8724f7af6,6fcde54a-80c0-467b-891d-fa7421fa2b88,Enhanced navigator for Visualization #545,Enhanced navigator capability in Visualization,shipped,2023-08-21
+55f9a278-dd0f-489d-b545-e79f57c5aecb,85a8da51-15d4-49d5-bccd-e26dc8447914,Inline navigator for Visualization #546,Inline navigator capability in Visualization,planned,
+ac596b33-86f5-4e6b-892d-3cb7c6365b5d,4a5cdfea-951f-48a7-b088-b80b9b007103,Live navigator for Visualization #547,Live navigator capability in Visualization,planned,
+f01604b4-1a85-4acd-b7f0-211bc5062fba,910e9014-cbe1-4b8a-bbfa-a76684dfc2e9,Cached navigator for Visualization #548,Cached navigator capability in Visualization,shipped,2025-03-16
+b4cffbf6-5e35-46d9-82ea-ec456532329e,e943c956-d718-425f-9a1d-73656fe3f536,Async navigator for Visualization #549,Async navigator capability in Visualization,shipped,2021-12-27
+5d1f1e39-c0b8-4637-82ae-b80aba431290,2f986ac9-7579-428c-94eb-24563d6463fd,Advanced wizard for Charts #550,Advanced wizard capability in Charts,shipped,2022-02-25
+47a8b73b-c7d0-4445-af6b-85d2500bd8aa,a31e9dcb-5787-4d88-9aa5-ccbe4be87168,Smart wizard for Charts #551,Smart wizard capability in Charts,planned,
+f03eea16-06c1-4351-8acc-c32377ca250c,01165687-35ef-4a3f-b14e-e274609521cd,Bulk wizard for Charts #552,Bulk wizard capability in Charts,in_development,
+bce32d9e-9613-4020-8a4b-4be81fa87ee7,d351f982-47b3-4532-97de-498e97d220a9,Custom wizard for Charts #553,Custom wizard capability in Charts,deprecated,2023-02-09
+813db5cc-b2ff-4dea-8301-a61e00d8d9b3,f87729c1-35b0-4066-85f9-11d7e7c625ed,Auto wizard for Charts #554,Auto wizard capability in Charts,shipped,2026-02-08
+ade57a1b-91f8-49c7-9510-89c90f8849e6,90df2aa2-89a0-4097-9388-169371b4cb70,Enhanced wizard for Charts #555,Enhanced wizard capability in Charts,shipped,2025-01-22
+8ee817cc-8ac6-4859-9f0f-5d55fbf92303,c949f42b-53e8-4cd2-981d-111032f1ad81,Inline wizard for Charts #556,Inline wizard capability in Charts,in_development,
+c3a05ddb-7bc7-4d3c-93a3-65f55440c424,b9e17783-af20-4627-b1a3-3287f75606df,Live wizard for Charts #557,Live wizard capability in Charts,planned,
+d65623fe-6f24-48bf-9d9c-0711c8143bbf,a7e3aa6d-59ca-4155-9b00-faab5b74413f,Cached wizard for Charts #558,Cached wizard capability in Charts,shipped,2020-12-05
+db8c0853-c3ed-4ebc-bdeb-ca6b818a568e,0ec69930-65cf-47ab-a4f5-ab21547c4fb0,Async wizard for Charts #559,Async wizard capability in Charts,planned,
+e36e1288-81f9-4302-ab8d-c6de735c0e2e,23ef3d13-2479-480b-a74b-7d14fd532069,Advanced renderer for Charts #560,Advanced renderer capability in Charts,planned,
+a603d814-50d8-4a9b-95b4-8570db123417,6e2a6e47-8665-4171-a4b3-dd89cd649f55,Smart renderer for Charts #561,Smart renderer capability in Charts,planned,
+9d8e109a-d9f4-49b3-bb02-5d30222b9ccb,c268357b-525a-4363-8aed-70f26ea61026,Bulk renderer for Charts #562,Bulk renderer capability in Charts,in_development,
+f476fd60-2c8d-4c0c-a3ca-1278fd965977,bea12c01-2c52-477b-9400-69fc73c72da4,Custom renderer for Charts #563,Custom renderer capability in Charts,shipped,2022-03-21
+f4290ffa-b746-4e24-b910-db9ae9cf93a1,a123d8bd-d769-4bc0-a1a6-124c95933824,Auto renderer for Charts #564,Auto renderer capability in Charts,shipped,2023-08-23
+6cbfe7cc-7bee-485c-8233-cba1d1c38e5e,1f33503a-8006-4da4-bdff-62b68bb9ea54,Enhanced renderer for Charts #565,Enhanced renderer capability in Charts,shipped,2023-10-11
+fb46a410-f8d0-4933-8b54-aa4ab69cd529,6b02cd19-6c6c-4011-b03b-4a4bf8c0e030,Inline renderer for Charts #566,Inline renderer capability in Charts,shipped,2025-02-13
+153562e7-b3e7-4e29-bdd9-f3ede9483670,0ffb40db-78c5-4311-8ab9-5197f1139941,Live renderer for Charts #567,Live renderer capability in Charts,shipped,2022-12-27
+fc221e12-f9e6-4148-b363-86d2e1a3bb2c,3bd07440-2764-433d-8c63-823a0c08ac46,Cached renderer for Charts #568,Cached renderer capability in Charts,in_development,
+a640d4bd-13b6-4ce7-a6be-aead07dd26af,76eb0d5d-a8c0-4ebc-aede-7c00cbcc0703,Async renderer for Charts #569,Async renderer capability in Charts,planned,
+7e4c856d-a5b0-4b25-8956-17c896af1147,20013793-a790-4faf-8162-6eb29cb591ed,Advanced connector for Charts #570,Advanced connector capability in Charts,shipped,2022-05-06
+0a16d3d1-cc77-4092-ab12-19ad2b42db95,8b4b50e8-5be6-4e2f-ba10-82559b2f3f88,Smart connector for Charts #571,Smart connector capability in Charts,planned,
+99377aa2-b7d4-42ab-91a7-eb840cf838b3,230d721c-b52b-4151-991b-34b5b8be8556,Bulk connector for Charts #572,Bulk connector capability in Charts,shipped,2026-02-15
+b42f75f7-d6dd-4c17-83df-da2f53984f97,79c0a07a-326f-4246-8d9f-7b5ef58bc864,Custom connector for Charts #573,Custom connector capability in Charts,in_development,
+00af5019-f381-40f5-9842-5c7c0a53351b,04c6e8e3-1583-4fd8-a198-b54220b083af,Auto connector for Charts #574,Auto connector capability in Charts,planned,
+c205ccb7-2931-43cc-a785-829ca4b547bd,7fa10a98-3e2a-4ced-ab08-8f1ed62130ec,Enhanced connector for Security #575,Enhanced connector capability in Security,shipped,2024-08-29
+7d7b450f-e63b-4209-9aba-423c52c45196,4ddda5f7-ce64-4d90-8779-238424c82722,Inline connector for Security #576,Inline connector capability in Security,shipped,2025-09-11
+796e3e91-1488-4181-8887-c3a0c5896aeb,dd1ba9ee-f6e0-4a94-a98a-0151cc4d6781,Live connector for Security #577,Live connector capability in Security,planned,
+a312a142-3aab-4baf-9fa2-d501737841a0,86e1d833-2926-48bc-a0c6-57e1b725e91b,Cached connector for Security #578,Cached connector capability in Security,shipped,2024-02-18
+97afabac-40ad-4c34-9e52-ee75815d4902,13ce630b-77ba-47c1-930b-edf21bb3dfc5,Async connector for Security #579,Async connector capability in Security,shipped,2021-08-28
+cb70dd48-c422-487d-9228-95e409a18c4e,d4d7bdba-eaa0-49d3-a105-ec2966246afa,Advanced validator for Security #580,Advanced validator capability in Security,in_development,
+69af88fa-b080-4087-9ecc-19ef1455f402,0cd09ba3-d7f4-4ce2-a56b-5d994cbc9fe2,Smart validator for Security #581,Smart validator capability in Security,shipped,2025-05-19
+398f76f5-1370-4f0e-a75b-c82c64fc4153,665c15b7-6f1b-48b9-84a4-0d0921849529,Bulk validator for Security #582,Bulk validator capability in Security,shipped,2024-04-17
+cbb11c3d-64d5-4ae6-b296-47224a266ecc,5283de37-9035-4d28-8029-3b5b356419f0,Custom validator for Security #583,Custom validator capability in Security,shipped,2025-12-10
+2b0e3b25-0b10-4fc2-93a2-c4ea6dd78a61,29abe08a-349b-4f9a-abe4-09caedf8f00f,Auto validator for Security #584,Auto validator capability in Security,planned,
+399647a3-b57d-4d7d-9f5b-72210581fde4,0bb75935-87b9-47dc-bd9a-67a1a98b64b8,Enhanced validator for Security #585,Enhanced validator capability in Security,planned,
+469b2457-e9e4-49d4-9047-d5f9cf192043,e6a14d09-aaa6-4e0c-8b10-ce04f8d0f24e,Inline validator for Security #586,Inline validator capability in Security,in_development,
+0ec5a64f-bb1c-410f-bc5b-efcbd9e6bb8f,310e56b7-684a-42bd-8f14-8541c8d48121,Live validator for Security #587,Live validator capability in Security,shipped,2021-02-06
+6f363e31-1bc4-42a1-b1f4-45c26ab6f9f8,da9ac1ef-e066-46f4-ba6a-fd981995abf0,Cached validator for Security #588,Cached validator capability in Security,shipped,2023-09-23
+23c66fb8-f298-4e9d-967d-fe347201a56e,08da7d71-8313-4634-aa88-c2e01c7b613c,Async validator for Security #589,Async validator capability in Security,shipped,2020-11-09
+eec59f00-c8ca-4026-a790-1f43cb50d089,52de0d82-8909-41e1-913b-a40de4302e07,Advanced parser for Security #590,Advanced parser capability in Security,shipped,2025-05-14
+f9c48c78-d8c1-4088-b9d0-a77375c36454,c484ff52-56c3-4277-949d-445e9d8b2046,Smart parser for Security #591,Smart parser capability in Security,shipped,2024-02-24
+f9b6818e-4fbc-43cb-80f1-3c269f043611,4775d21e-71bb-4fbb-b1c3-64544db1cc44,Bulk parser for Security #592,Bulk parser capability in Security,shipped,2021-07-02
+78e2802e-e683-4e64-906f-1522ab841c43,a5249454-4fd8-4e5a-9487-bd373eec1796,Custom parser for Security #593,Custom parser capability in Security,shipped,2023-11-04
+73b27b8f-65f0-4849-a86d-98ada396387f,e1d7507e-2277-428e-a609-1e79722ec516,Auto parser for Security #594,Auto parser capability in Security,in_development,
+d81482bd-18cc-41cd-9fa8-6f8fa0379970,bcda76a6-e348-49bc-a947-5c298a7a6ffe,Enhanced parser for Security #595,Enhanced parser capability in Security,shipped,2025-05-11
+87048f10-a61b-46b8-b793-b26faaab098b,d149061d-74af-4501-85cf-7d9b1cf77169,Inline parser for Security #596,Inline parser capability in Security,planned,
+9feae036-a28d-492e-a64b-93e3b3ad0574,eabdd599-a072-4836-b7a1-8e2cf0a337ff,Live parser for Security #597,Live parser capability in Security,deprecated,2025-09-12
+065143ec-1619-4b36-91ad-5a5ed200ea8b,ce40940d-8ec3-4a54-91a8-945cb04d047f,Cached parser for Security #598,Cached parser capability in Security,in_development,
+b75bc6cb-019d-4346-ba7f-ce169b3b999f,f19b3959-ad12-4f1e-94d5-aef42ff35f8c,Async parser for Security #599,Async parser capability in Security,planned,
+a42bf1f5-377f-4631-97d1-9ed785472045,fc4a61cb-4d96-4686-a85f-4799a85a9b0c,Advanced editor for Collaboration #600,Advanced editor capability in Collaboration,shipped,2024-10-05
+433a4a7e-7dd0-4e5b-93e6-a7b0142912ef,7e92d6dc-d21f-48f3-b81c-c5cf5fc1faf1,Smart editor for Collaboration #601,Smart editor capability in Collaboration,shipped,2021-08-10
+29e1db4d-35e1-4424-8ed6-a2ee618016e7,aef21c51-0ffe-43c2-9593-6ec2e00ad3b3,Bulk editor for Collaboration #602,Bulk editor capability in Collaboration,in_development,
+29a05747-b83e-4da3-ab91-84c43e9e0732,1bb72a85-c5e6-4e0d-b418-90ed2461ea5b,Custom editor for Collaboration #603,Custom editor capability in Collaboration,planned,
+d6b0549e-432d-4270-b796-16b8dc68df5f,61f19728-6251-40ed-81ba-f80a2cdeff33,Auto editor for Collaboration #604,Auto editor capability in Collaboration,deprecated,2024-06-17
+7944039d-7836-4e6a-b189-335936c3d44c,6ed26bb9-c270-43ea-bc53-0229e956b7f6,Enhanced editor for Collaboration #605,Enhanced editor capability in Collaboration,shipped,2020-11-02
+18a50b95-8e6d-466b-bb6a-04159a18ff4f,958c83b0-c284-4a1e-ae8e-513a1cf57130,Inline editor for Collaboration #606,Inline editor capability in Collaboration,shipped,2025-05-25
+a7e95bd7-2a15-4e85-9d19-baf29c3e78cc,664c0445-32ec-40bb-8f67-d976a9cd78f3,Live editor for Collaboration #607,Live editor capability in Collaboration,shipped,2023-08-22
+7f60f1bf-6783-47c8-a0e4-e8fdcddc31c2,a22ec827-3118-4485-be44-5c3d3cbc62cf,Cached editor for Collaboration #608,Cached editor capability in Collaboration,planned,
+46ca6e6e-e7f5-488a-b086-4cbfbabe1a43,9aad36da-1b4e-4e7a-ac18-159d7a66f23b,Async editor for Collaboration #609,Async editor capability in Collaboration,in_development,
+a871b600-61b6-4efa-8784-95598a200f25,b8deeeac-0a05-4fc4-999a-d6ed693bb69c,Advanced viewer for Collaboration #610,Advanced viewer capability in Collaboration,planned,
+d6cf7231-4c37-4ee9-a621-dc0d6d13792d,624600fc-7a7c-4e15-b091-b4d15b8910c8,Smart viewer for Collaboration #611,Smart viewer capability in Collaboration,planned,
+0c86beca-b733-480c-86fa-86d2f0418c49,bd26c70f-4a2f-4d9f-838f-aad3b99d362b,Bulk viewer for Collaboration #612,Bulk viewer capability in Collaboration,shipped,2021-04-02
+d9c93e79-d121-4667-bdca-a1bc34401057,51cb13a6-b4ae-48c3-b0bc-7ce1eb55cfdf,Custom viewer for Collaboration #613,Custom viewer capability in Collaboration,planned,
+8b5596f5-bd2a-4c9e-bbe4-375e42a190c0,1590d534-e224-4a38-ae8b-19ae2ff46dcc,Auto viewer for Collaboration #614,Auto viewer capability in Collaboration,shipped,2024-04-17
+cd2d7a8c-d15c-4436-b784-a55648d2eea2,d9948b6d-f215-4604-85a3-bdd99c1b6490,Enhanced viewer for Collaboration #615,Enhanced viewer capability in Collaboration,planned,
+59e013a0-504d-4568-97ac-0527fc41cc45,3be1c28c-b110-49f2-b7b9-492aefcd717e,Inline viewer for Collaboration #616,Inline viewer capability in Collaboration,shipped,2021-03-07
+4d36e5ae-d7ad-4178-bcd9-3165ad4c34ba,7f1c3fe5-dac8-4815-97f7-288798354b9b,Live viewer for Collaboration #617,Live viewer capability in Collaboration,shipped,2024-06-13
+f75b4ebc-9de7-4ec7-8ab8-7918ae9f249f,2122d091-34f8-4708-8114-7ab4dbd119f7,Cached viewer for Collaboration #618,Cached viewer capability in Collaboration,shipped,2026-01-12
+f1114fcf-7a34-4531-8556-29b36d2ac456,2bcc6229-f500-4fc4-ae39-89c6bbb4460e,Async viewer for Collaboration #619,Async viewer capability in Collaboration,shipped,2024-05-04
+37ea3e66-1947-4771-a34e-d5f8163075bb,e55c94fe-e69d-4dce-a338-5ec866aa2631,Advanced builder for Collaboration #620,Advanced builder capability in Collaboration,in_development,
+05abf339-649d-4483-a990-5c2c8fbfac49,8035b61f-f12b-4fe7-a3d8-27e7a7cf1abf,Smart builder for Collaboration #621,Smart builder capability in Collaboration,in_development,
+d97b9b8a-beb8-421d-93a5-db43238d656b,68c9d9e7-af89-4eaa-ab48-9a4bbe89395a,Bulk builder for Collaboration #622,Bulk builder capability in Collaboration,shipped,2023-12-07
+965c5edb-b682-4c4e-98f1-96eec0bab37b,3f882ff7-ca33-4856-8902-f588a93aeb74,Custom builder for Collaboration #623,Custom builder capability in Collaboration,shipped,2021-05-12
+4c337c86-53f2-4b61-a69d-ead2aa5a6755,600ac142-ff56-4968-b52f-d27406c05462,Auto builder for Collaboration #624,Auto builder capability in Collaboration,shipped,2025-04-05
+c154f4be-fb72-4fd2-aaf2-3b182984c091,087ee3a1-eabd-4009-ae02-df20538e91bf,Enhanced builder for Performance #625,Enhanced builder capability in Performance,planned,
+dfdf281e-3dfa-46dc-9378-4bde4dc7f429,8b7fe48d-4028-4c56-9c9d-d56b75b80cbb,Inline builder for Performance #626,Inline builder capability in Performance,in_development,
+4c3b9366-188a-4e9b-a339-9908703159cb,c61ad363-7ede-44e9-b696-fbda28ac0478,Live builder for Performance #627,Live builder capability in Performance,planned,
+32ca4929-66d2-4265-a6c9-1b2c90bb23e2,a216f313-cb8c-40fd-8c8d-66dbabc70b8d,Cached builder for Performance #628,Cached builder capability in Performance,in_development,
+2149891b-7097-42d5-afd2-d91586ea844b,add5b268-bc6d-4a60-8974-c6cda3aa0c3d,Async builder for Performance #629,Async builder capability in Performance,planned,
+324d8f0f-13c1-4618-93cc-e94a19be79e4,2bad5a3a-ad5e-4ba7-8a4d-6e24d4e0c857,Advanced picker for Performance #630,Advanced picker capability in Performance,shipped,2025-05-20
+c0944d59-92cf-4511-a68c-76c892b6ea6a,d109dc38-96d1-4459-b4a5-44f64fa17b89,Smart picker for Performance #631,Smart picker capability in Performance,planned,
+f0fb9f88-b978-4d9f-a126-970adf1dbe86,5316c136-8908-4f44-8968-dbc8142df03a,Bulk picker for Performance #632,Bulk picker capability in Performance,in_development,
+e65db697-2fd2-4f40-8af1-de1cfe16ffe6,7fb1accf-2b4e-4b2f-8b76-179d6bde1e98,Custom picker for Performance #633,Custom picker capability in Performance,shipped,2020-11-03
+4db39a53-3729-49e8-97aa-a9b283a42a89,79593384-c465-46e0-bb09-2228f8578bd4,Auto picker for Performance #634,Auto picker capability in Performance,planned,
+a241748a-66f0-4d78-804d-ab3470441c6c,4ac8d334-80c4-4bcd-9a28-4e9527e34020,Enhanced picker for Performance #635,Enhanced picker capability in Performance,shipped,2023-04-12
+d0de64ac-fbd5-4122-a719-88d7faa08c26,d89a5ed1-7186-40cb-b93a-9036c0d71b51,Inline picker for Performance #636,Inline picker capability in Performance,in_development,
+fa5ba44f-48f4-4d9c-9697-5927d605aa45,2d5b47cf-77d1-4f7d-8272-182bcced3da4,Live picker for Performance #637,Live picker capability in Performance,shipped,2025-10-23
+aed648e4-e607-4c03-9ebd-176826f8f85f,da023b5a-a686-41b7-9faf-ab5fdec9020f,Cached picker for Performance #638,Cached picker capability in Performance,shipped,2024-03-12
+6bad8d15-d079-4404-8549-4ee3458fc1fe,45a20a2f-c6c4-418f-a138-93363c961cbc,Async picker for Performance #639,Async picker capability in Performance,shipped,2025-03-18
+0acb4d0e-bb9c-4f12-b4d9-4cf0301364b8,7b560677-db8f-49e8-b8b8-cf8f0962c78f,Advanced navigator for Performance #640,Advanced navigator capability in Performance,in_development,
+9bc2e8f1-cb50-493b-941f-9866b3b622d3,a3b68ad2-82e3-4ae2-a02e-4c1c2aa2c9f7,Smart navigator for Performance #641,Smart navigator capability in Performance,planned,
+183f62d4-f546-4b65-8b2d-452e70cee795,6b42903f-7097-419b-b4c9-a6ec01c85da2,Bulk navigator for Performance #642,Bulk navigator capability in Performance,shipped,2025-03-05
+b81bcd0c-8e21-44fa-bc4b-67573f492528,7d97062f-c208-4778-bea1-128926d351fd,Custom navigator for Performance #643,Custom navigator capability in Performance,in_development,
+27dd9fdc-62dc-4287-91c5-e1ce982ba437,23a3b5a2-30c0-4736-acdd-f0dd0dee23bf,Auto navigator for Performance #644,Auto navigator capability in Performance,in_development,
+56cc091e-8054-48bd-a83a-93b6a88a63df,e25581b3-0259-46f6-bd97-77647c5f938a,Enhanced navigator for Performance #645,Enhanced navigator capability in Performance,shipped,2025-05-13
+21c554c8-9441-471b-be4d-9d467448559e,ff98ce8d-e758-44b2-9e9f-e179b4f4fcb3,Inline navigator for Performance #646,Inline navigator capability in Performance,shipped,2023-06-05
+3fa87f76-8f8a-493b-bb45-499134fce4b1,4f46cdcb-adce-4313-919a-493c93e57ef0,Live navigator for Performance #647,Live navigator capability in Performance,in_development,
+999fcd63-dfaa-40e6-9997-fd94131acb2b,7a08caca-78bd-4f1f-9329-895016f60072,Cached navigator for Performance #648,Cached navigator capability in Performance,in_development,
+3501ec19-e689-4fff-91ca-92db7443e73a,3315eb81-a6d9-4166-b919-458cebb5ff86,Async navigator for Performance #649,Async navigator capability in Performance,shipped,2021-08-05
+b229cfa6-b88c-4c4c-9381-b3c2839c045b,480d8c95-1470-4ecc-82a2-63d191447738,Advanced wizard for Integrations #650,Advanced wizard capability in Integrations,in_development,
+f27919e1-5ec8-4931-b2f1-30f529112f81,53c69b34-f46d-4d8c-9fd8-a388167633fe,Smart wizard for Integrations #651,Smart wizard capability in Integrations,planned,
+73b27caf-e6a4-4fc4-b964-61b6fb56e7c0,60500670-3466-4a1e-9da0-139b7bd501fd,Bulk wizard for Integrations #652,Bulk wizard capability in Integrations,shipped,2023-02-08
+4a01785f-f4aa-4958-bc6a-b2a3241b0dac,49b5b8ec-c6d7-4202-820d-d8528365276c,Custom wizard for Integrations #653,Custom wizard capability in Integrations,shipped,2024-06-20
+ef066394-9063-42b0-b507-3f30de0e11c6,5353e653-fa19-4bc1-ba16-725b4b1dfe3b,Auto wizard for Integrations #654,Auto wizard capability in Integrations,planned,
+c6151f19-38a9-48d4-b338-81f3bc3e9624,80109d4d-0be7-49fe-aee0-31d02fcced28,Enhanced wizard for Integrations #655,Enhanced wizard capability in Integrations,planned,
+42c3bc6f-dc58-4b93-b82d-38f926e4c06d,1af0e76c-0062-4733-a320-666c1074ab62,Inline wizard for Integrations #656,Inline wizard capability in Integrations,shipped,2021-03-28
+2b8657cb-d117-4212-a7a2-ef815495a601,a6c96355-2c19-4f06-96e5-bc595371be9b,Live wizard for Integrations #657,Live wizard capability in Integrations,shipped,2021-09-08
+b7265aa4-2404-47cd-9d86-9b50205d0a79,247546c6-ee41-4969-b9c9-6976cb02fa87,Cached wizard for Integrations #658,Cached wizard capability in Integrations,planned,
+d138f0cb-868e-4c4a-aba2-7c8cbb69aa16,4e6cbd1c-e7d6-4986-b86f-91afe36537ae,Async wizard for Integrations #659,Async wizard capability in Integrations,shipped,2022-11-27
+4fb888cd-d7b5-4b4b-8215-2612ffc21b2f,21091d6b-5112-4f7a-b859-8db1cb608614,Advanced renderer for Integrations #660,Advanced renderer capability in Integrations,shipped,2023-04-08
+1b1fa10c-56a8-483f-a4a3-d10cfc22420b,313e1439-1a20-4096-9563-31e4d1d91f66,Smart renderer for Integrations #661,Smart renderer capability in Integrations,shipped,2025-10-02
+23b0475d-dd1f-4ee8-9f7e-5947b580cc48,8827cd5e-4880-4ecf-a1c5-49c06316426d,Bulk renderer for Integrations #662,Bulk renderer capability in Integrations,shipped,2026-02-23
+c1fa7897-f4b1-4f43-b64e-4993c179fa45,8c47b6b1-21cf-49b0-b888-df5a723c08c1,Custom renderer for Integrations #663,Custom renderer capability in Integrations,shipped,2026-02-23
+07f07021-888c-4ec7-b9ab-4954f8fa826e,5896878a-3541-414b-b6d0-16a2c7a719e0,Auto renderer for Integrations #664,Auto renderer capability in Integrations,in_development,
+a66e0c35-eb9a-44ba-981e-9638def0c710,bd853784-281d-46d8-bfc5-38983fe883ac,Enhanced renderer for Integrations #665,Enhanced renderer capability in Integrations,shipped,2023-05-17
+52ee6b0f-ca34-4b7e-a20f-4031742cc8b8,fc0a61be-adc4-41eb-92a9-ecd4eff54fba,Inline renderer for Integrations #666,Inline renderer capability in Integrations,shipped,2022-05-27
+2bd3248f-6131-4d2d-955f-8d4b8857881e,a7c4b39a-d490-4895-ac3e-cc43ef7bcbbe,Live renderer for Integrations #667,Live renderer capability in Integrations,shipped,2023-04-19
+1b68cbd0-24b4-49e8-835f-aaac028b2f45,22f1df97-864c-4a7b-b0da-7c391204e0a1,Cached renderer for Integrations #668,Cached renderer capability in Integrations,shipped,2022-05-05
+4d9f1dc1-1447-49d0-a014-ece752023e50,95905df5-53be-49d7-b80c-c8931c0866e1,Async renderer for Integrations #669,Async renderer capability in Integrations,shipped,2024-06-02
+e95394bc-df8d-4263-8740-fdd8cfadbcbc,3f99376f-e0de-4c89-8b35-2fa28cde693b,Advanced connector for Integrations #670,Advanced connector capability in Integrations,planned,
+5bcd2102-2ebc-4dea-9b05-d72de2187fa4,6bb8f555-47d0-4f44-8a94-69815a0039d1,Smart connector for Integrations #671,Smart connector capability in Integrations,shipped,2021-06-10
+ce7a75af-f807-447f-8015-2b5e6097718d,5d05d6db-5b3b-4cb0-b0cf-cfd4c94fe85b,Bulk connector for Integrations #672,Bulk connector capability in Integrations,in_development,
+57de0d50-1e30-45b9-8127-6eb3f3cfa67e,62fb7940-19c3-43f2-894d-f3719f6c5e51,Custom connector for Integrations #673,Custom connector capability in Integrations,in_development,
+4e2b41cd-5b4c-43fa-b7be-30b6047bc78e,2f493f17-bdc2-4428-a8b3-cf1551695c9f,Auto connector for Integrations #674,Auto connector capability in Integrations,shipped,2025-11-18
+0dfbe641-16a6-4236-9451-da2af622cc98,9a28965a-993c-46b6-a324-ef2be18e0c18,Enhanced connector for Admin #675,Enhanced connector capability in Admin,in_development,
+1b11b6b9-51ca-451f-a60d-38d240a5e690,da3048ed-061a-4aa5-b064-f95631ca101d,Inline connector for Admin #676,Inline connector capability in Admin,in_development,
+49f9dc65-eab2-45b1-9615-22e55301e9bf,68fa7c79-fba3-4a5c-a9e3-79e17e27efc5,Live connector for Admin #677,Live connector capability in Admin,shipped,2022-03-07
+1efc81da-2e53-4397-9730-94f33bfd9d72,29a84ec1-710e-45b9-b9be-9f7aa1b88a8b,Cached connector for Admin #678,Cached connector capability in Admin,planned,
+7adb5e73-9e82-4367-aece-4ad6aa702a41,9a5287db-dfa1-4e4b-b738-2823375d7a66,Async connector for Admin #679,Async connector capability in Admin,in_development,
+da48503b-6b7e-4b62-817a-85b3bbaeb4fa,ee5b21ca-9dd1-41f6-b84e-186b25dd267b,Advanced validator for Admin #680,Advanced validator capability in Admin,shipped,2023-11-15
+0a8df155-d8aa-49f1-835e-65ea190c7be6,f91d1753-a66c-4795-aa30-1be7cf9dae7f,Smart validator for Admin #681,Smart validator capability in Admin,in_development,
+a535006c-8d58-4842-b7df-5623d9f865d7,26826d71-684a-4a90-a229-99b12ebb3e00,Bulk validator for Admin #682,Bulk validator capability in Admin,in_development,
+fe6e7b5e-8700-4250-af73-bfb6872513e1,c7c0bd04-3872-400a-bf32-b29339ad4ba1,Custom validator for Admin #683,Custom validator capability in Admin,shipped,2024-07-10
+1b7df34f-0058-4308-ad1e-706d9a6c1e54,28dce522-3087-4ba2-85cf-fed0c757d2b8,Auto validator for Admin #684,Auto validator capability in Admin,shipped,2022-07-30
+3baa0f1a-3ce0-42af-ac3c-bfa157b74e7b,25114232-c6e7-4bbf-8f32-a0f7f014cb39,Enhanced validator for Admin #685,Enhanced validator capability in Admin,in_development,
+c47372c5-a33b-4c9f-9db6-894d4f1c92d8,3f0543ab-f88f-48f0-a35c-31f93dedb3d2,Inline validator for Admin #686,Inline validator capability in Admin,shipped,2025-05-04
+db9d2bff-78f5-4a65-af59-965c1b363c2f,508e7ce7-110e-42ef-a1f7-f33f6c33452c,Live validator for Admin #687,Live validator capability in Admin,planned,
+5ead60ba-ed5f-448e-851c-353d5d17209a,ee4f2389-0aa6-4b3c-8dba-a7903b9b72d9,Cached validator for Admin #688,Cached validator capability in Admin,planned,
+03d72cb3-6657-4008-8f6d-6a4e77d554b9,20908be6-cf67-4a61-b244-8dc98c416435,Async validator for Admin #689,Async validator capability in Admin,shipped,2025-08-22
+3fa8513c-2c7f-4eb6-9635-601d510384c0,6d4cb120-72c0-4cd5-938a-c60d566162dd,Advanced parser for Admin #690,Advanced parser capability in Admin,shipped,2023-05-26
+4855f52f-7aad-4537-a46f-d94ea4b4607f,55425c44-039f-4e62-aa9b-09ed71b1530a,Smart parser for Admin #691,Smart parser capability in Admin,shipped,2022-03-26
+86ab92dd-5776-4259-9a06-73c0d3e66b59,73db58a2-e45f-4c73-ac7a-797ddde6ed90,Bulk parser for Admin #692,Bulk parser capability in Admin,shipped,2022-12-14
+ef2c3c6a-f224-4035-8e22-f6db6ce098f8,2e25fcf2-4953-43d1-9628-3e7f55f9e1ca,Custom parser for Admin #693,Custom parser capability in Admin,shipped,2021-04-24
+b0064f38-2ef3-4e6c-8c83-717512bc9313,5a59d398-b9f3-4b73-b878-59c0b0e3a2b6,Auto parser for Admin #694,Auto parser capability in Admin,shipped,2023-03-30
+0c97cecb-2605-4723-9582-05c4ff38fdc5,ac01d776-c2ef-409c-bbaa-ee7314928f7c,Enhanced parser for Admin #695,Enhanced parser capability in Admin,deprecated,2023-09-14
+6a80fc9a-5aaf-48b7-be36-fe0a95c976dc,5e8dd8f3-f62e-41ab-848a-468192f43944,Inline parser for Admin #696,Inline parser capability in Admin,in_development,
+f1c67a30-cf6b-419d-bedb-79f2fa2c9bde,96ebed9f-1500-49ed-9678-88228f212db1,Live parser for Admin #697,Live parser capability in Admin,in_development,
+525811ff-5e1d-4e74-b344-c1b586bd9f08,33f88ea6-b41e-4716-b330-079889b5eec0,Cached parser for Admin #698,Cached parser capability in Admin,shipped,2024-05-06
+1db77a35-87fd-4fd5-ae0c-324e55140cba,55313f0b-0bbb-4799-8c81-2bd441354a23,Async parser for Admin #699,Async parser capability in Admin,planned,
+ef0731f7-c8fc-4857-8d4a-4ccfc3dae9e7,cd3a7722-0bcf-479b-bd8d-3b49216101d8,Advanced editor for AI/ML #700,Advanced editor capability in AI/ML,planned,
+7f527806-ea5e-4d2f-9670-e45ccc4f2723,d810814b-e4a6-4daa-b9e4-106741cf23f3,Smart editor for AI/ML #701,Smart editor capability in AI/ML,planned,
+3e767a42-1a21-4d5d-97e6-65b5e010f855,8ba90148-435b-4c0f-9a22-53795a15f3bf,Bulk editor for AI/ML #702,Bulk editor capability in AI/ML,shipped,2021-01-04
+fdcec7bb-822b-46cd-aa4f-3d087ce07e0d,d7d83346-06f9-4947-9bae-e7e7ff6ab4ee,Custom editor for AI/ML #703,Custom editor capability in AI/ML,shipped,2022-05-13
+936545cf-8f76-4e57-aa2e-b21403d1e58c,446534a3-c8c1-48ad-b55a-3f176b5d0938,Auto editor for AI/ML #704,Auto editor capability in AI/ML,planned,
+96be4b07-28d5-4855-bc02-37752ee29b85,3bdfe049-9409-4674-80c5-9e8063140225,Enhanced editor for AI/ML #705,Enhanced editor capability in AI/ML,planned,
+22318f0f-45d8-459e-9cca-b7f5b75724b8,62011120-64fc-49b6-a37f-12dca021ea59,Inline editor for AI/ML #706,Inline editor capability in AI/ML,shipped,2024-04-27
+4db49f8b-290a-4b86-96ee-84203333b13c,bc7a2c8c-286e-4ec7-8e41-198edf5c2ffa,Live editor for AI/ML #707,Live editor capability in AI/ML,shipped,2021-08-12
+f28d6c72-fd17-49e7-b5be-95086229361c,dd405986-7017-41c0-9ee1-b2404ec7a02d,Cached editor for AI/ML #708,Cached editor capability in AI/ML,shipped,2024-09-27
+c38fcaf3-4712-411e-997b-8fa3d0105b7e,912e0535-94ab-4c09-b06f-16cd46f0eb61,Async editor for AI/ML #709,Async editor capability in AI/ML,shipped,2024-04-30
+88427701-74da-47e5-b348-8e58a2824bdc,30361528-95d3-4fa4-862b-609841901332,Advanced viewer for AI/ML #710,Advanced viewer capability in AI/ML,planned,
+6cdbf7f7-aad9-4c36-a08c-6efb0314e9ef,4ca60a5b-02a7-4f30-ba97-992e0a0a4443,Smart viewer for AI/ML #711,Smart viewer capability in AI/ML,shipped,2022-03-17
+4725f6ca-afef-4fd4-b63d-8d3785d218fb,dbf63a72-5e8d-481f-8375-43cd3b43bcd2,Bulk viewer for AI/ML #712,Bulk viewer capability in AI/ML,planned,
+108a07fd-492e-4517-815b-1e6f342d9823,71a1db8f-a84f-458e-955b-987a30c82c57,Custom viewer for AI/ML #713,Custom viewer capability in AI/ML,shipped,2024-06-09
+95a99174-e314-4e94-b459-f1bccfc41d38,609b3549-ed06-4616-a525-802f4b3a1273,Auto viewer for AI/ML #714,Auto viewer capability in AI/ML,shipped,2025-05-16
+67ff20da-40ef-4015-960f-d8c7ff7e3c09,dd7e192d-9be0-4530-98ec-7a3af4067331,Enhanced viewer for AI/ML #715,Enhanced viewer capability in AI/ML,planned,
+caa98cc9-4631-476d-9727-c0e51de0eec4,5661d125-d97e-4eea-9ea6-93b7203e424b,Inline viewer for AI/ML #716,Inline viewer capability in AI/ML,in_development,
+b2dc9e75-8f52-472d-814d-f7eb8a4455be,e1750929-6aff-4719-b370-3bf84536faa9,Live viewer for AI/ML #717,Live viewer capability in AI/ML,shipped,2021-05-08
+cb4a2de5-114a-4544-b183-0fffd3084ddc,4b7b6a2d-93ee-4876-86c2-2f14bf79b466,Cached viewer for AI/ML #718,Cached viewer capability in AI/ML,shipped,2020-11-20
+a5712fa5-81ea-4a15-b729-d067d88bfb51,8a60e79d-2748-44a0-9722-5db7a54c5b66,Async viewer for AI/ML #719,Async viewer capability in AI/ML,shipped,2020-12-01
+749b84c2-bafd-49c0-98f4-d560619e2e47,6f811f2b-3237-4735-9500-78201b47f32c,Advanced builder for AI/ML #720,Advanced builder capability in AI/ML,planned,
+36028f0f-3e82-44f0-a53d-cb1f9a2434d2,ad61f89a-07f5-460e-9483-9b4f6745b062,Smart builder for AI/ML #721,Smart builder capability in AI/ML,shipped,2020-11-10
+b396335e-cd34-4e4c-b33f-439387fed7aa,e512457f-58e2-4605-ad2d-2b922a20f0d7,Bulk builder for AI/ML #722,Bulk builder capability in AI/ML,planned,
+4d26970c-917a-4b71-afa4-126462f81a08,20cf4cbd-b29c-48bf-8b2e-5ecb725a446e,Custom builder for AI/ML #723,Custom builder capability in AI/ML,shipped,2021-12-01
+d203b06e-3fe8-4edc-b891-840b39d4ab08,d0efb65c-aba2-41dd-a025-54974c48e811,Auto builder for AI/ML #724,Auto builder capability in AI/ML,planned,
+4fae62ae-9012-4040-875b-212b432138f3,0b007e33-2179-4bcd-b2bb-783a8597ce5a,Enhanced builder for Embedding #725,Enhanced builder capability in Embedding,planned,
+4c8f4723-118c-49b3-851a-ed6291883816,bb848717-f19a-4d8a-86f2-8708a59f8a9e,Inline builder for Embedding #726,Inline builder capability in Embedding,shipped,2025-07-11
+1e1a1a32-3a44-44b1-afa1-c749e2156222,918a972d-9a62-4ecd-a7f2-f7e4a8a9e0b7,Live builder for Embedding #727,Live builder capability in Embedding,shipped,2022-11-07
+e31f4704-1b9a-49da-b355-59bbf5cac13f,91188810-c086-48e1-9719-088254a8848c,Cached builder for Embedding #728,Cached builder capability in Embedding,shipped,2022-08-06
+eb8271b8-4895-47ee-a978-bb007afd812d,8d998239-1521-41e2-8112-e4544145a721,Async builder for Embedding #729,Async builder capability in Embedding,shipped,2023-01-27
+bf56fa97-db1e-4242-884c-024f06b67451,e3bcffd3-dad6-48b3-9b69-ce0ee2e328be,Advanced picker for Embedding #730,Advanced picker capability in Embedding,planned,
+ed114f68-9801-45e4-81a6-891c803bd995,6af6b61e-eebb-4b02-b75a-369b3738c680,Smart picker for Embedding #731,Smart picker capability in Embedding,shipped,2025-05-05
+d2cff6fd-0476-456f-83e3-57501c6eff2d,8e807443-6c1c-4ec0-8bb2-fc377e09064d,Bulk picker for Embedding #732,Bulk picker capability in Embedding,shipped,2023-12-29
+ce33015f-d309-4821-b9ff-f12f3e2a97f9,766a91fc-9d4a-4565-a431-0fa85be30539,Custom picker for Embedding #733,Custom picker capability in Embedding,shipped,2022-07-30
+3c5f080b-ea7d-4547-827e-3652abaab6d5,2558f483-665f-41cd-b364-040a50cbab53,Auto picker for Embedding #734,Auto picker capability in Embedding,planned,
+f6f74d72-7d6a-4148-b5d7-0fdc50f11550,fa65a0f3-c163-4537-b55e-27b673681591,Enhanced picker for Embedding #735,Enhanced picker capability in Embedding,shipped,2025-01-04
+667ce8c3-9857-4724-9321-b0f657d51d8a,bfae5815-273f-436e-af07-6666884a5ed9,Inline picker for Embedding #736,Inline picker capability in Embedding,planned,
+21c204a1-bc95-46ce-92d3-acd647b06cbe,5658445d-4bb1-45a6-a405-99e3344fef7b,Live picker for Embedding #737,Live picker capability in Embedding,planned,
+364da70a-5650-4194-9651-b3aac37cf3ae,34ac25e7-6168-4961-b120-7dd213a6657f,Cached picker for Embedding #738,Cached picker capability in Embedding,planned,
+acdb0981-3c00-412f-9331-5776c652232c,791a0e6b-0e8c-418d-9729-4a8876b54568,Async picker for Embedding #739,Async picker capability in Embedding,planned,
+95eb427d-f757-4c98-9987-f7096c9fc4e6,8dfd8090-af49-43ed-8689-4e514489c300,Advanced navigator for Embedding #740,Advanced navigator capability in Embedding,shipped,2024-12-23
+7927f897-a739-4a60-bb37-e243fd0aed2f,1b758d53-5b76-43d3-b60b-3dedb6a30b0d,Smart navigator for Embedding #741,Smart navigator capability in Embedding,shipped,2022-09-14
+39305dc4-bc85-4daf-bee3-d692d5375e96,ac33e23b-0be9-4add-a290-97dc8366f640,Bulk navigator for Embedding #742,Bulk navigator capability in Embedding,deprecated,2025-11-24
+0fc22882-dee8-4a42-9964-687825ed51dd,5c4eab04-2ac8-4185-b78f-cd4068507789,Custom navigator for Embedding #743,Custom navigator capability in Embedding,shipped,2022-03-09
+e106130e-a4f5-43a1-8008-4e21599ffbdd,787fa277-4d3f-4d0a-8465-e287d139f775,Auto navigator for Embedding #744,Auto navigator capability in Embedding,shipped,2021-04-16
+1699ecaa-ca05-46e9-b3f6-1827a1997134,9faf3baf-4533-4be4-af3a-2d6d0704f900,Enhanced navigator for Embedding #745,Enhanced navigator capability in Embedding,shipped,2023-02-08
+188090a4-edee-4a7b-938f-89868c13c7fd,03cad670-bd31-4a68-b262-29b762989da6,Inline navigator for Embedding #746,Inline navigator capability in Embedding,planned,
+3ad42556-41d4-4a3f-8f44-677342b2baa6,eccfcf2d-f7b0-4bfe-8a60-e41ad95bc381,Live navigator for Embedding #747,Live navigator capability in Embedding,in_development,
+7c3df832-2b6d-464a-8219-4487e715f4ba,dd1c238d-323f-48f6-a13f-2e8b9e3a33ae,Cached navigator for Embedding #748,Cached navigator capability in Embedding,shipped,2022-12-14
+478d4484-9e7b-4b73-b67c-a86c4e5ae551,74f71aca-8267-46fe-8d4c-6c1d9eedf38c,Async navigator for Embedding #749,Async navigator capability in Embedding,in_development,
+75252877-49a5-43a7-8c69-205ff9850eb1,2bedfb9f-cbe1-4fb0-b2aa-1d3af3972810,Advanced wizard for Export/Delivery #750,Advanced wizard capability in Export/Delivery,deprecated,2023-08-09
+d2601c13-9640-4bae-a91c-17ad06e3cea6,8a41749b-83e0-45c8-b191-071ebd33bffd,Smart wizard for Export/Delivery #751,Smart wizard capability in Export/Delivery,planned,
+286d75b4-aae7-4c28-b966-8ccec1308e9a,7efb83b5-9af6-4f28-a6cd-48a8124b0636,Bulk wizard for Export/Delivery #752,Bulk wizard capability in Export/Delivery,planned,
+25466968-77df-44f8-81b2-1de555ea1c5a,3d130da2-e29c-4463-a608-bfead01adcef,Custom wizard for Export/Delivery #753,Custom wizard capability in Export/Delivery,shipped,2021-11-18
+ebfc18b0-4f5b-4e75-93b9-fbe072fde4ec,dd45adbf-dddd-4618-b0f1-7977cfb21a70,Auto wizard for Export/Delivery #754,Auto wizard capability in Export/Delivery,deprecated,2025-07-27
+a388b070-5e3d-424e-aabf-58390850aebf,6851ef79-9fc7-4eb5-b821-57f79c4a0aa1,Enhanced wizard for Export/Delivery #755,Enhanced wizard capability in Export/Delivery,shipped,2026-02-25
+250758e7-ced8-4779-a3ac-d1058a66a9c8,9d6e761e-4b5b-4b16-8743-76c8525954ab,Inline wizard for Export/Delivery #756,Inline wizard capability in Export/Delivery,planned,
+21758941-3f5d-4a3e-8454-3415fc4c9220,8b988bbd-23eb-4f54-993b-0f41e0b9d815,Live wizard for Export/Delivery #757,Live wizard capability in Export/Delivery,planned,
+296aa32f-a730-4b6c-bbc9-0247c09279db,51dd40c1-b3e0-42c7-897e-b21ba5f8c788,Cached wizard for Export/Delivery #758,Cached wizard capability in Export/Delivery,shipped,2023-11-28
+37d2c6b6-1985-4478-970f-d2be02012d25,0418388c-e990-4e9c-b643-d89f2c64a806,Async wizard for Export/Delivery #759,Async wizard capability in Export/Delivery,planned,
+bdee4adc-d551-46bb-b6da-c61551721be8,4a3f5d4e-5ffb-484d-ae17-8e782bcb5909,Advanced renderer for Export/Delivery #760,Advanced renderer capability in Export/Delivery,shipped,2022-10-28
+e0020864-0758-45cd-99d9-a10da2502b4c,58a526a8-aa20-43a2-882a-ea40f3a7f86d,Smart renderer for Export/Delivery #761,Smart renderer capability in Export/Delivery,deprecated,2022-11-12
+efb904bd-c431-4a8e-8b72-a51995891f1b,69631439-cf25-4362-90aa-47132783a2af,Bulk renderer for Export/Delivery #762,Bulk renderer capability in Export/Delivery,planned,
+b178d94d-7fce-482c-9e81-876bb187f2be,710613aa-4604-47ae-8bf5-8cebd32e44b2,Custom renderer for Export/Delivery #763,Custom renderer capability in Export/Delivery,shipped,2025-08-27
+3ced7d0a-90d7-42e8-afbb-5eebc91c7240,51a49ff4-41c6-4a1d-becb-710ac339373f,Auto renderer for Export/Delivery #764,Auto renderer capability in Export/Delivery,planned,
+0a69e340-c546-4483-8365-f8e8f28f2af1,be73c30e-b391-41b5-b28f-ba240b25cb30,Enhanced renderer for Export/Delivery #765,Enhanced renderer capability in Export/Delivery,planned,
+8f69ef5a-2f14-436a-a235-5f537a276836,9b3483d5-767f-4a17-b1ff-5f279d30b86d,Inline renderer for Export/Delivery #766,Inline renderer capability in Export/Delivery,shipped,2021-03-04
+55b6cfc4-660e-4751-99c9-84359461a9fd,4aaaea64-fd97-4e9d-aba8-7dd33f4b66e7,Live renderer for Export/Delivery #767,Live renderer capability in Export/Delivery,shipped,2023-08-23
+1b5fa106-2dae-4745-911d-516d210fa54b,7118d6d8-1161-4350-a3b1-f3ecbceea037,Cached renderer for Export/Delivery #768,Cached renderer capability in Export/Delivery,shipped,2022-03-03
+42a8e9b8-72dd-4daa-aceb-c4781b82625e,f1f14a56-75d7-49d8-b6ed-b508ca115d39,Async renderer for Export/Delivery #769,Async renderer capability in Export/Delivery,planned,
+6a20c124-5464-4e13-92be-15dd82740bec,5577d201-0c31-4dae-a82a-7f4d2ec5ccb2,Advanced connector for Export/Delivery #770,Advanced connector capability in Export/Delivery,shipped,2024-07-23
+1bc23f1a-de6d-4fd5-a2aa-d99ed4dd82a0,93398edf-c68f-499b-9c07-58a1d64cb804,Smart connector for Export/Delivery #771,Smart connector capability in Export/Delivery,in_development,
+7292199d-a1cf-4ec5-a269-eb13fc964162,eff26e96-186a-41bb-b674-86d75fd9711e,Bulk connector for Export/Delivery #772,Bulk connector capability in Export/Delivery,shipped,2023-08-21
+51651b62-82ca-42d9-8c1b-a505db8ba74b,5a0d2457-2d1d-4b29-8627-65bfe39da570,Custom connector for Export/Delivery #773,Custom connector capability in Export/Delivery,shipped,2022-11-19
+1f1b4c9c-156f-434a-8ea4-0c2eafa10d80,bd1dd411-e8a1-4c6e-bc9a-7d380a20f58e,Auto connector for Export/Delivery #774,Auto connector capability in Export/Delivery,shipped,2026-01-24
+42ee1e16-d1cb-420c-a419-951f00f37594,2d520deb-a8aa-4a58-82e6-bc810e1c3270,Enhanced connector for Mobile #775,Enhanced connector capability in Mobile,shipped,2025-10-15
+61243e4e-4641-4e1c-b0f1-cf0ea2bfd691,431578bf-2002-463a-991f-3da97a524795,Inline connector for Mobile #776,Inline connector capability in Mobile,shipped,2022-11-14
+56c5ae1d-18b2-4b9a-aaec-e6838a4ba67a,0ed11ed0-e775-4433-88ca-bb697a71b53e,Live connector for Mobile #777,Live connector capability in Mobile,planned,
+b61d5d1d-8504-4590-a4ac-773d345b8329,25c6bffc-ec38-4ae3-893a-7a478184342f,Cached connector for Mobile #778,Cached connector capability in Mobile,in_development,
+7e480181-77ca-443b-a48d-173c5a8fbb61,f2c47dbf-104a-4d0d-83b9-fa3c1e34c0e4,Async connector for Mobile #779,Async connector capability in Mobile,in_development,
+ac229245-501e-40f6-891d-c0d776e1e6fb,e22c02ba-9a8f-4500-a58c-42edfd46fa18,Advanced validator for Mobile #780,Advanced validator capability in Mobile,in_development,
+e218a082-8057-4fc3-b236-35962805cd2d,976cc7ca-1396-49cb-92db-70db32e5511a,Smart validator for Mobile #781,Smart validator capability in Mobile,shipped,2025-11-05
+117dedfe-ba5b-4a71-b120-6d9344144d5d,fe6c1d0b-f703-4f7e-9f0c-13abfeaae6a1,Bulk validator for Mobile #782,Bulk validator capability in Mobile,planned,
+803d2f20-e268-43df-ab5b-d395ef8f0ab9,21df7aa7-4243-4601-bd0c-bbff6c55898c,Custom validator for Mobile #783,Custom validator capability in Mobile,in_development,
+4a77b4fe-8b53-48f4-b018-f7aa08bfd4ab,70361dbe-400f-43c8-881c-abeb2f83e294,Auto validator for Mobile #784,Auto validator capability in Mobile,shipped,2021-07-13
+d4fb02c4-10d6-43fa-9c75-6d8378a3b113,dfa83e54-54b3-4908-94d6-e5ca9371a6e3,Enhanced validator for Mobile #785,Enhanced validator capability in Mobile,shipped,2022-04-27
+a1748ece-4ee7-47a4-bad6-35c9e1f5e395,f4b6e2fd-f236-480b-a493-88f65e67f3ef,Inline validator for Mobile #786,Inline validator capability in Mobile,in_development,
+7cf860af-1bd6-41ae-b975-6b9183ca4970,7894ce6d-5d84-4f62-a55a-567bbb700197,Live validator for Mobile #787,Live validator capability in Mobile,deprecated,2025-07-30
+a02b2b83-b69b-4c77-afab-a42b5a2a1ede,83d7578f-2672-4709-aac3-9f0774dbeabe,Cached validator for Mobile #788,Cached validator capability in Mobile,in_development,
+ac1513ce-fdd6-4d18-8344-f1b187b05409,acfa9823-c0a7-4a8c-8017-257a89cc808a,Async validator for Mobile #789,Async validator capability in Mobile,planned,
+02457fd8-e71a-4232-8e86-e8910ada9a6b,73bf8ae9-2dc5-45e1-a22c-c2b463e633ca,Advanced parser for Mobile #790,Advanced parser capability in Mobile,in_development,
+ba0bd9cd-3bf3-4008-816f-4f9242096f7c,ecdc8324-3022-45fd-ab8f-ff2b65ef365b,Smart parser for Mobile #791,Smart parser capability in Mobile,shipped,2023-07-29
+9141c720-3d69-4162-ac40-7588d74264cd,5b616d9a-b4d6-4c8d-a4d9-0b817c0f87ca,Bulk parser for Mobile #792,Bulk parser capability in Mobile,shipped,2021-01-30
+38841aec-5058-4371-b89a-4224ee167fef,bf8ed4ec-fd3e-4fb5-8a09-b7d8c9fc6f76,Custom parser for Mobile #793,Custom parser capability in Mobile,shipped,2022-08-29
+ce254a0c-df2d-48c1-be71-020b65fe1435,94581446-d490-4508-927b-b5b6897d8ba9,Auto parser for Mobile #794,Auto parser capability in Mobile,planned,
+311d19ce-b91b-4643-89fa-b2958bd0272f,aa66f5ff-7817-45a2-a1ff-f9c0956915f6,Enhanced parser for Mobile #795,Enhanced parser capability in Mobile,in_development,
+955d5eea-11a5-43d7-bcf7-501fa552138e,9b76ab6f-37a0-422a-9662-a575017fbd89,Inline parser for Mobile #796,Inline parser capability in Mobile,in_development,
+9057a41b-9fca-4bc5-ace3-8a8d298862c4,5bada45e-cfaf-4cef-baef-799f24023eba,Live parser for Mobile #797,Live parser capability in Mobile,in_development,
+54e87328-cda7-4306-97b5-0a993f780657,147e280e-cd0b-452c-9ae5-4aae0e22eaea,Cached parser for Mobile #798,Cached parser capability in Mobile,planned,
+14f0482d-e096-44bd-989b-3655d108ba08,bfe86617-cb69-47e0-973f-d2ee4ffa28e7,Async parser for Mobile #799,Async parser capability in Mobile,planned,
+290f14d1-6eda-45b4-9167-8cc9ed3178a5,b003c371-f7af-48ce-ab84-055739e61a04,Advanced editor for Alerting #800,Advanced editor capability in Alerting,planned,
+31beaf57-ec01-4ad6-a532-51fbf6ebd804,ed5c8a4e-f62e-425a-9957-bd859391ffbc,Smart editor for Alerting #801,Smart editor capability in Alerting,planned,
+da825066-cde0-4bd0-8185-be5bcaeb31d5,b3744010-5157-4dd3-bb22-f02c25f1fb4c,Bulk editor for Alerting #802,Bulk editor capability in Alerting,in_development,
+0aa4f379-6906-4b6e-a2d6-4e6a89085548,6e2a93c9-5f30-4b28-8b0a-b47caaa3d657,Custom editor for Alerting #803,Custom editor capability in Alerting,shipped,2023-04-02
+19b09968-e30a-41db-b74d-b76e9198cf1e,159dd31f-104f-4b2c-9ca8-92c8e8c3d79c,Auto editor for Alerting #804,Auto editor capability in Alerting,shipped,2024-01-04
+61ee4c0b-e9b3-4390-a5ae-60e97321d5cc,f538b960-8907-4794-843e-eee3957221c9,Enhanced editor for Alerting #805,Enhanced editor capability in Alerting,in_development,
+7a09980f-bdf0-48b4-9a53-93e6ee74852f,166101b9-2cf2-4fba-aaeb-c3cd468e2a73,Inline editor for Alerting #806,Inline editor capability in Alerting,in_development,
+c38136cc-2b16-4c13-85f5-dc49a476f52f,5552fb56-3871-43f5-9576-3568784939cf,Live editor for Alerting #807,Live editor capability in Alerting,in_development,
+16a5c570-d2dd-436f-a138-573b1ea15884,9acfd275-6f44-4bb2-980d-2aa921cd1cb3,Cached editor for Alerting #808,Cached editor capability in Alerting,planned,
+aef6e9b9-e928-4d68-870c-14311fce54a2,acfa11ab-d033-46e1-8e64-7e6beff56876,Async editor for Alerting #809,Async editor capability in Alerting,shipped,2021-11-18
+f0fc863d-ff8f-4d2c-9f24-6d4fbff52640,dff6eaeb-0a11-47e0-955e-78176e638092,Advanced viewer for Alerting #810,Advanced viewer capability in Alerting,planned,
+81b02d27-243c-482e-a9dd-1986a8a4d5ba,7d379108-3c5f-4fa7-b6d3-ca58bfba7708,Smart viewer for Alerting #811,Smart viewer capability in Alerting,in_development,
+dab1f969-dcf9-4541-955a-4d906d5de82f,5a21d774-5e00-44a9-b8a0-cd827e9060af,Bulk viewer for Alerting #812,Bulk viewer capability in Alerting,planned,
+79b40efb-1d9a-4e84-ba1f-cfec28bdb647,33f56f8a-4369-47e8-8ed6-df048f6e2aa6,Custom viewer for Alerting #813,Custom viewer capability in Alerting,in_development,
+e8e30f97-99ae-4d6f-aafa-ec82f32e4526,9faae864-baed-4b70-91ef-07e729dc61ee,Auto viewer for Alerting #814,Auto viewer capability in Alerting,planned,
+66a1464d-7af5-4c70-a7cf-9198842853f3,044be161-caf9-4c59-a3d0-6bb67f4a12a8,Enhanced viewer for Alerting #815,Enhanced viewer capability in Alerting,shipped,2023-08-28
+735f3691-2c21-4a7a-b01b-1b97ac2fab37,0cd6f7cb-ac09-415a-986e-545a60ae14a3,Inline viewer for Alerting #816,Inline viewer capability in Alerting,in_development,
+e480b796-52ac-4ef6-95c2-d3dd9dcfb5d6,63f70044-9412-46ff-b1c7-74feceab410c,Live viewer for Alerting #817,Live viewer capability in Alerting,in_development,
+b590f687-f917-4d01-a079-17644f9d9a5a,213b1bc0-0f49-47df-953a-7fb7d21165bd,Cached viewer for Alerting #818,Cached viewer capability in Alerting,planned,
+a9b60550-dbf4-40c9-9d90-bc55c9902868,5b6952d3-ce30-4dd7-915b-180df489f446,Async viewer for Alerting #819,Async viewer capability in Alerting,shipped,2022-02-21
+4d50c6d2-1229-4ea3-b1c1-4d8cbdc5bee1,7d9ee7e7-2cd4-4c51-8790-362f6d97dbb7,Advanced builder for Alerting #820,Advanced builder capability in Alerting,shipped,2023-08-29
+55175e6d-3ef8-4b89-8f75-834cc794ad5c,d22499d9-5ca1-4e52-b58b-a0fa7c4abbcb,Smart builder for Alerting #821,Smart builder capability in Alerting,shipped,2025-07-10
+57e726f3-2d60-4e77-8bbc-eff1d0d46ce7,b686981d-5be1-4bbe-a8bf-0f91a68d08ce,Bulk builder for Alerting #822,Bulk builder capability in Alerting,in_development,
+c2fc6156-fe16-4d45-b866-2eb9f16effc3,50d4bdd4-0a51-4997-8b28-ec3b06a254b4,Custom builder for Alerting #823,Custom builder capability in Alerting,shipped,2022-01-19
+045ff3f0-276e-4d85-b667-11c4a10ddbba,88507f87-09d4-4eff-8602-07ab6e1ceec7,Auto builder for Alerting #824,Auto builder capability in Alerting,shipped,2022-10-27
+0fd3ac70-aff3-4bd1-b8a5-e7f50dfef48f,d7ac0082-b797-49c8-9659-44a4fb8ed942,Enhanced builder for Scheduling #825,Enhanced builder capability in Scheduling,shipped,2024-12-01
+05b59cb0-853f-423a-b458-d26373f409bc,b7140707-f7b1-47d8-bb45-1de991d9df3a,Inline builder for Scheduling #826,Inline builder capability in Scheduling,in_development,
+f10bede5-d9b4-40e2-ae71-3fc9dcc65dd9,d964905a-f775-4e48-b45a-419bae2a286d,Live builder for Scheduling #827,Live builder capability in Scheduling,in_development,
+48159b06-d495-44ab-abb5-5d9cc95d0d7f,22b8690b-aa8d-45b3-9048-36d9488b6e9d,Cached builder for Scheduling #828,Cached builder capability in Scheduling,in_development,
+7dc8fe8e-2ea1-46d9-8613-6f5c40dafda0,8eaffde2-3206-4ed6-a19d-af29dc96d53f,Async builder for Scheduling #829,Async builder capability in Scheduling,shipped,2025-10-28
+e1b00962-be8f-46bc-a705-b3c4089705e3,b3d07d4a-ff21-47b9-8f43-24bc21182411,Advanced picker for Scheduling #830,Advanced picker capability in Scheduling,in_development,
+ca3dc517-7e6f-4d9e-8260-b3ac021482c8,a2a380a4-eb40-40da-ab86-e57e40fa79ef,Smart picker for Scheduling #831,Smart picker capability in Scheduling,shipped,2024-02-08
+627fbf6a-29fd-467d-bb7c-06ee45e56e3e,04e6f391-7713-46a3-9bab-76dadd1bbac0,Bulk picker for Scheduling #832,Bulk picker capability in Scheduling,shipped,2021-05-08
+495904c8-15f9-4a26-830b-7d39db1e5ba4,78bf0871-0876-471c-b611-a527ab2f1445,Custom picker for Scheduling #833,Custom picker capability in Scheduling,in_development,
+40939ada-cd5d-4ba4-b180-1d86fb3b6504,20a528e4-0f66-401f-81f4-247da71a3664,Auto picker for Scheduling #834,Auto picker capability in Scheduling,shipped,2024-06-23
+9073c5c7-904d-430c-89c6-ad77015acda0,3af2a0e1-931f-4913-90bf-2d723377507f,Enhanced picker for Scheduling #835,Enhanced picker capability in Scheduling,planned,
+fadb1eda-7890-47cf-a47e-4fad5f510d9b,6f2cbefb-fc66-42d4-bb9d-8ab9f815afeb,Inline picker for Scheduling #836,Inline picker capability in Scheduling,planned,
+3f20f9d4-dfd1-43f3-86b1-9fc01e58dab0,cb302333-0a4a-4e17-be10-3506ce27bb1e,Live picker for Scheduling #837,Live picker capability in Scheduling,planned,
+60a17763-b431-4fc8-bb8e-38edf7ab29a5,7d436615-00b7-47c3-953e-6765bb61af2d,Cached picker for Scheduling #838,Cached picker capability in Scheduling,shipped,2025-08-20
+8cdd5642-d77e-4057-8ffd-24e62c85de3c,a6765fed-aac5-45f5-a03f-c3130083a7f6,Async picker for Scheduling #839,Async picker capability in Scheduling,shipped,2021-12-01
+3e32298e-15eb-40bd-829e-3e08ab3e4a1a,15d88c20-0115-40ec-b683-0575ba25c763,Advanced navigator for Scheduling #840,Advanced navigator capability in Scheduling,shipped,2024-08-15
+79c2e9f4-e408-4489-8762-9cc5e273e554,f698e047-a9e9-4385-b53b-9415440399b3,Smart navigator for Scheduling #841,Smart navigator capability in Scheduling,in_development,
+a05827dc-939b-4b9e-831e-68925dd7ad67,add61929-adf3-4721-a8de-fe91cb9ce7f3,Bulk navigator for Scheduling #842,Bulk navigator capability in Scheduling,shipped,2025-12-30
+9f2e2f07-6e9f-4b24-8c8c-031af4e6ae87,8bd2729a-5749-46cb-bb16-8997dd59d2d9,Custom navigator for Scheduling #843,Custom navigator capability in Scheduling,shipped,2020-12-29
+a51eda5b-8bb2-4547-8d05-3cd905349d5a,d8a9e322-28f0-4008-bec3-933adbb4a426,Auto navigator for Scheduling #844,Auto navigator capability in Scheduling,in_development,
+13efde62-2039-4da0-8e73-1440fd110f40,879aa647-1a35-496c-8a76-af61c2d780be,Enhanced navigator for Scheduling #845,Enhanced navigator capability in Scheduling,shipped,2021-10-11
+c8b1ee0b-98b2-47cb-94aa-ba8c488ee684,1f8d497a-4539-4d74-8ffe-c73e4f4dad43,Inline navigator for Scheduling #846,Inline navigator capability in Scheduling,in_development,
+653649e4-a8a0-4d52-958b-39af1d773bca,978a08e7-e461-4b83-8803-431e9e15c8ac,Live navigator for Scheduling #847,Live navigator capability in Scheduling,in_development,
+3a3b24bb-0054-4bf3-b08e-9701c8ae4cd1,2cfa64b4-d311-447d-80a2-c271a1d2290b,Cached navigator for Scheduling #848,Cached navigator capability in Scheduling,in_development,
+8bac90c2-dabd-4ac5-8af1-7c50e9bc3b95,b6389aa2-ea78-48ce-ad96-cb59e3dc0787,Async navigator for Scheduling #849,Async navigator capability in Scheduling,in_development,
+7f54be5a-9c47-4a51-b2cb-80661283f215,9c44c037-0753-407d-b819-fb55f292a7b1,Advanced wizard for Git/Version Control #850,Advanced wizard capability in Git/Version Control,planned,
+df162521-554c-4d7b-8dc9-e08cd50de8d4,ca5e16dc-48dd-4c4d-a689-6d473f26f2ee,Smart wizard for Git/Version Control #851,Smart wizard capability in Git/Version Control,shipped,2022-10-09
+303b1646-5f67-4ed3-9afb-495bf39f6588,4eb153c2-b1d9-4723-97b1-89b37a6b0f28,Bulk wizard for Git/Version Control #852,Bulk wizard capability in Git/Version Control,in_development,
+bafaa8e3-1aa3-4056-bc41-2063c28ec3e8,dc4b9e83-0525-4e80-bfbf-9723ae8530cd,Custom wizard for Git/Version Control #853,Custom wizard capability in Git/Version Control,planned,
+c4835a74-23fb-42ef-a97a-8bd6f56f867c,331c8673-358c-4037-bcbc-7ffca0951fe5,Auto wizard for Git/Version Control #854,Auto wizard capability in Git/Version Control,deprecated,2024-10-29
+c2c5db75-14bf-4c30-bee7-3fed97aaef41,b03ebf76-cd87-4de0-a2f0-160238ee162b,Enhanced wizard for Git/Version Control #855,Enhanced wizard capability in Git/Version Control,in_development,
+ae79f715-7dca-42a4-bc7e-c8ffa073e488,248b8ec4-3286-4d34-ac01-c1bfb4efc286,Inline wizard for Git/Version Control #856,Inline wizard capability in Git/Version Control,shipped,2021-03-17
+36383a56-88a1-432d-bb7f-aadd1750645b,b6cfea29-ecd0-43cd-ad01-678e21dcffb5,Live wizard for Git/Version Control #857,Live wizard capability in Git/Version Control,shipped,2023-10-29
+fecbd28f-ee13-46be-ac7d-079bcb83d126,3ef340b2-bb06-48d2-96cf-83f4b415fbdb,Cached wizard for Git/Version Control #858,Cached wizard capability in Git/Version Control,deprecated,2024-12-02
+bf4964cf-c58f-4435-9c95-acc064a01bba,12ffda36-da50-4c44-bbc6-8115c460c7ee,Async wizard for Git/Version Control #859,Async wizard capability in Git/Version Control,shipped,2021-09-27
+5810ebc0-f2a7-4f6b-8dea-bc7d4ecbb0ec,23b901de-c4de-48db-aabc-7a2782be74ca,Advanced renderer for Git/Version Control #860,Advanced renderer capability in Git/Version Control,planned,
+d7eec357-533c-406c-9618-7a5f0cca5e9a,337e9065-6869-4705-9899-371e5f216aa1,Smart renderer for Git/Version Control #861,Smart renderer capability in Git/Version Control,deprecated,2024-02-28
+e18170bb-70ab-4e94-8def-e2c2710c22f5,f17154ef-939d-49dd-98a0-dcde0cd92104,Bulk renderer for Git/Version Control #862,Bulk renderer capability in Git/Version Control,in_development,
+192d4964-74a0-416a-9224-44dc3573b368,51718af0-60e8-43d2-a84e-21fcd581637a,Custom renderer for Git/Version Control #863,Custom renderer capability in Git/Version Control,in_development,
+ebdc5d66-78ed-4aaf-b585-bbb8ea664562,30e38666-8148-4e6f-840f-1085a383e319,Auto renderer for Git/Version Control #864,Auto renderer capability in Git/Version Control,planned,
+5ba2469b-d349-4860-b8f9-ad4ea01c0460,b1d0029f-b0fc-4fd3-b8fd-cb7a8533bdf4,Enhanced renderer for Git/Version Control #865,Enhanced renderer capability in Git/Version Control,in_development,
+9346de9a-cb05-4e15-809c-9c07f9df292d,80d920da-a305-40e8-8342-f833f2c49976,Inline renderer for Git/Version Control #866,Inline renderer capability in Git/Version Control,shipped,2020-11-10
+7e18b81a-8a5b-4f00-80f1-24e082be0397,e558118b-e885-4577-a79a-8a1f547c1ffd,Live renderer for Git/Version Control #867,Live renderer capability in Git/Version Control,in_development,
+808ff6ca-c244-499c-93a5-46638023c473,3d83c58e-c053-423c-a87a-fa033571e75e,Cached renderer for Git/Version Control #868,Cached renderer capability in Git/Version Control,shipped,2024-04-03
+4af04c1a-1c57-44db-98a0-37e1667f1f1f,f8b2b64e-48eb-4c13-b6a2-e9cca7f021e5,Async renderer for Git/Version Control #869,Async renderer capability in Git/Version Control,planned,
+90d97b51-b5ef-46e8-a574-7fe0958e11e2,9cf8a025-1e54-4a88-809e-bd8648ce4eb0,Advanced connector for Git/Version Control #870,Advanced connector capability in Git/Version Control,deprecated,2024-09-25
+42e8aea1-126e-434c-a991-9421fe43be32,da55acde-a94b-40b8-95b5-e3e49aa6d225,Smart connector for Git/Version Control #871,Smart connector capability in Git/Version Control,shipped,2022-01-18
+726cd1ee-9192-4313-9ec0-5f3140475d32,67b05e87-76b6-4454-9155-6239d14f33dd,Bulk connector for Git/Version Control #872,Bulk connector capability in Git/Version Control,shipped,2023-04-28
+a9276aa3-102a-4834-abdc-129454fb7b83,00db7e3e-12c2-4764-af9b-ebf30eae55d5,Custom connector for Git/Version Control #873,Custom connector capability in Git/Version Control,in_development,
+03af6f2c-226d-4587-a3fa-310cf4cf7813,1ef4de10-3b0f-43fc-9e47-096065382edd,Auto connector for Git/Version Control #874,Auto connector capability in Git/Version Control,in_development,
+caa8f070-2d84-46f9-950e-85e2b16be575,2ab47cd3-ca97-4b05-baa7-3fb03beee9d2,Enhanced connector for Developer Experience #875,Enhanced connector capability in Developer Experience,shipped,2024-03-21
+b8e29fb8-bb58-45d7-8257-8445be0d7292,85a65ce8-e7e9-4187-b080-ab47f05f6fc7,Inline connector for Developer Experience #876,Inline connector capability in Developer Experience,planned,
+0d67738a-334a-4ff6-9637-865f8a0cb865,03846797-53b0-4db2-863d-0473c96409c4,Live connector for Developer Experience #877,Live connector capability in Developer Experience,planned,
+b5a8bb68-6462-48a8-b506-cce2d7e2771c,e4bc5832-a0ce-44bf-87ca-3737514af98c,Cached connector for Developer Experience #878,Cached connector capability in Developer Experience,planned,
+8b967fbe-3f1c-4aeb-a9b1-9c522046d1ea,29f383cc-9257-4a41-9071-8dd38f632bd7,Async connector for Developer Experience #879,Async connector capability in Developer Experience,shipped,2024-04-20
+9dd65fd6-055f-40ed-8874-66ee0d38e49f,0ce7efef-950a-439d-ac88-446dea76f74f,Advanced validator for Developer Experience #880,Advanced validator capability in Developer Experience,planned,
+c94faa42-6742-4c24-bd3f-eb50a1f6c547,1b56adb4-6e75-49ea-ba00-4f015b32f33f,Smart validator for Developer Experience #881,Smart validator capability in Developer Experience,planned,
+78ebf1bb-c803-4eae-b946-ccecc07e62e7,4de9fc29-b970-47d6-a6d0-0a89eec4c6ca,Bulk validator for Developer Experience #882,Bulk validator capability in Developer Experience,planned,
+08b46ca2-124f-4c27-b780-b07d574a3583,49e7f986-7f2c-401f-a996-0bb6549fd471,Custom validator for Developer Experience #883,Custom validator capability in Developer Experience,in_development,
+9418730a-07cb-45fd-a95d-2ba9b915acec,92522ddd-4c8f-4566-94bf-59412fbd5224,Auto validator for Developer Experience #884,Auto validator capability in Developer Experience,planned,
+480a3161-b45a-477c-b3e2-7ce213eda38a,34725d17-908f-40ea-a491-8521aa2990c2,Enhanced validator for Developer Experience #885,Enhanced validator capability in Developer Experience,shipped,2022-09-14
+1b9bd450-2473-4800-b0f4-5291f09db095,634bff7e-10a4-428f-8841-901e6b10b052,Inline validator for Developer Experience #886,Inline validator capability in Developer Experience,shipped,2024-10-12
+ee013091-0336-46d8-b65a-a6c5956d1e52,24770bd5-71a3-4f92-8a54-c6c606be5bb8,Live validator for Developer Experience #887,Live validator capability in Developer Experience,shipped,2025-09-19
+30041fc4-95b5-4fdf-ac3b-3066320b9925,80fa1ba1-b3e9-4a68-a1f7-428f216d70a2,Cached validator for Developer Experience #888,Cached validator capability in Developer Experience,shipped,2020-10-28
+85a529b7-b18e-4bae-bf6a-eb026c097052,860a54e8-d314-45c0-a556-ca13218ac2ae,Async validator for Developer Experience #889,Async validator capability in Developer Experience,in_development,
+65662a0f-ef58-4f11-838a-0370e18e24b5,aad6e5a7-88b4-4c41-a77e-b32a57c43e59,Advanced parser for Developer Experience #890,Advanced parser capability in Developer Experience,shipped,2022-12-06
+4cff2b67-b730-4370-97eb-6a8fb0c58095,43951133-2ff0-46fc-801f-2be1b016d988,Smart parser for Developer Experience #891,Smart parser capability in Developer Experience,shipped,2022-04-03
+659092fd-8a4a-47a9-8c97-54213c549575,bf94842f-d166-4c95-ae13-01c74145e32c,Bulk parser for Developer Experience #892,Bulk parser capability in Developer Experience,planned,
+c031505c-e949-4d4d-8505-c193993f70db,7a32efab-d3f7-49de-9896-bb854b4230a1,Custom parser for Developer Experience #893,Custom parser capability in Developer Experience,shipped,2022-05-22
+8b18d233-187f-4f4d-8540-a9e63e89d65c,a67c2aa7-d3c4-4f64-a24f-87df871ebd8a,Auto parser for Developer Experience #894,Auto parser capability in Developer Experience,shipped,2022-12-05
+eeaba632-5507-407c-8cb3-675d32f5b2d4,8f6c7511-e6a2-401d-bfe7-f13745f6950d,Enhanced parser for Developer Experience #895,Enhanced parser capability in Developer Experience,in_development,
+3e09e498-329f-495b-ae92-6588a409cfd2,5bf8c060-414b-44f4-b5ae-0f6b7a928a07,Inline parser for Developer Experience #896,Inline parser capability in Developer Experience,in_development,
+bd3bf008-57e8-4f04-8ca6-f471b89570be,1b602c6e-6e8c-429c-a8c0-860b5f566873,Live parser for Developer Experience #897,Live parser capability in Developer Experience,planned,
+0ff362a2-95d0-4b69-8379-6b6c220bdd90,3b6ce7ec-3e41-4c18-8b0d-56a6f4f56253,Cached parser for Developer Experience #898,Cached parser capability in Developer Experience,in_development,
+a0c2fb05-03e6-49ec-b0ef-3e191511ec72,7db27134-15a3-4c19-9d79-367777591648,Async parser for Developer Experience #899,Async parser capability in Developer Experience,shipped,2023-01-29
+8d28be17-db15-4589-9148-3ec1d17a7905,702fbf43-c0be-45ab-aed2-6d99a36aa46a,Advanced editor for Data Quality #900,Advanced editor capability in Data Quality,planned,
+ce14098a-5eb1-4599-8b22-338a25d3f122,58d49ecd-4980-45f3-ac2c-134972a92618,Smart editor for Data Quality #901,Smart editor capability in Data Quality,shipped,2023-06-16
+5cea5324-8dca-43f3-b6c0-6282e7f23e88,e0df72de-c362-4c65-9aaf-50cd18eb85f2,Bulk editor for Data Quality #902,Bulk editor capability in Data Quality,shipped,2023-05-27
+de9fc2e4-5297-4128-a00e-f752cbe17efe,6b105784-b858-41d0-9969-5b8d74e61e8a,Custom editor for Data Quality #903,Custom editor capability in Data Quality,planned,
+30cab3fd-2e1d-4b4f-a8bb-cc5bb15999c3,0d0a788e-210d-4e3c-8ca4-ef21728c4588,Auto editor for Data Quality #904,Auto editor capability in Data Quality,planned,
+79c35329-7a4b-4f52-8cbf-b4055d09d8b7,0585334e-8370-4522-b627-7cd0ced7c6ff,Enhanced editor for Data Quality #905,Enhanced editor capability in Data Quality,shipped,2025-03-08
+9b389cbb-14f1-471a-b4d3-2cb0950dafac,738edab0-a7c2-4f88-a07a-39cca5c8e138,Inline editor for Data Quality #906,Inline editor capability in Data Quality,shipped,2024-06-07
+c5a925dd-b2c5-4220-9dfb-f402eaada378,bf0dbc16-4114-417d-8275-d74f1a42959a,Live editor for Data Quality #907,Live editor capability in Data Quality,planned,
+d245f50d-efef-4521-9a52-8f02f9cf6af5,9b276a2b-3669-4fc4-adb5-e7031d733750,Cached editor for Data Quality #908,Cached editor capability in Data Quality,in_development,
+3353e01a-fade-4628-8d6b-9626e7e62049,d71e2b37-387f-4878-9aa8-ba5760c08470,Async editor for Data Quality #909,Async editor capability in Data Quality,planned,
+663028df-afbb-447e-bb7b-0cae600cfc53,21174d85-5f74-4b07-a9d8-4ae57d89cd20,Advanced viewer for Data Quality #910,Advanced viewer capability in Data Quality,planned,
+ad13ad42-a763-4eae-9da8-90d09c65f4c1,174fa20b-3b92-484b-aecf-08e59ab44e63,Smart viewer for Data Quality #911,Smart viewer capability in Data Quality,planned,
+c3da18f3-8f31-46cd-a32f-fd59dd5a3b11,63c5e336-142f-467d-99fe-8fc3fc32da3f,Bulk viewer for Data Quality #912,Bulk viewer capability in Data Quality,shipped,2025-05-22
+12d47d24-999b-43e7-938e-dcc29a19c4eb,c9f79f53-89de-47fd-b777-57db82959de8,Custom viewer for Data Quality #913,Custom viewer capability in Data Quality,shipped,2023-05-03
+31f2f887-2831-4f45-9db5-0077394ef019,8c67b0b4-3a41-4545-bb94-cf0d40038f5a,Auto viewer for Data Quality #914,Auto viewer capability in Data Quality,shipped,2023-05-06
+e5bab8f5-17c5-496d-a976-a52b8c19aa08,c6e9c1af-f5a0-466d-89f3-b8762f2c1f2b,Enhanced viewer for Data Quality #915,Enhanced viewer capability in Data Quality,shipped,2025-09-11
+86061eb7-86e9-4d70-8643-6a7d1b51634a,e35978b3-d8b7-4093-b05a-d0422ac9c886,Inline viewer for Data Quality #916,Inline viewer capability in Data Quality,shipped,2022-09-21
+cc8b4921-7ed9-4979-940e-ed2079d797f7,41106d8b-067e-4e45-a4e0-1ce5e3f8a0ee,Live viewer for Data Quality #917,Live viewer capability in Data Quality,in_development,
+49111f6c-975a-44d7-9e24-7023aaddc740,63bbedb2-37b9-457a-9221-cb42b7b8b249,Cached viewer for Data Quality #918,Cached viewer capability in Data Quality,in_development,
+2e03a7c0-a3bf-4d53-bfcf-5e8058b2a684,ed94830c-cee1-4af6-bbbb-d77d67de3c6d,Async viewer for Data Quality #919,Async viewer capability in Data Quality,shipped,2021-02-23
+d9c8a3e3-7150-4df0-b5bd-3dd6fe57f3c5,30cb4db6-3362-4296-a95d-9c9178545ba6,Advanced builder for Data Quality #920,Advanced builder capability in Data Quality,in_development,
+e40e65d9-9aa1-45c0-9224-d6a698dddd74,80380fb0-ebfe-4fd4-a70e-502bddd98ff6,Smart builder for Data Quality #921,Smart builder capability in Data Quality,shipped,2025-03-03
+a82295f1-8f1b-4418-a563-ec1ffc529ea8,3895d72f-21fd-4b6b-be81-f122b5064261,Bulk builder for Data Quality #922,Bulk builder capability in Data Quality,shipped,2023-09-14
+09d5aa59-3d00-43fe-a4a8-ef8556a424b7,718dc737-a7cf-4839-abf3-2d4dd0b0c529,Custom builder for Data Quality #923,Custom builder capability in Data Quality,planned,
+785cf879-d0f0-4f2d-93b2-bf4f09481fe6,c42d016d-9b62-4d69-926d-1cb201f6343f,Auto builder for Data Quality #924,Auto builder capability in Data Quality,in_development,
+043118ba-a911-4445-ae4c-160a5e638f20,c2fa1f0a-e995-441e-a86a-c48d77d97c97,Enhanced builder for Semantic Layer #925,Enhanced builder capability in Semantic Layer,in_development,
+74318351-df2a-42b2-8792-1036c6fd6f0f,5db7e038-6be1-4688-a3eb-e876858421bd,Inline builder for Semantic Layer #926,Inline builder capability in Semantic Layer,shipped,2025-07-29
+97649cc7-6148-4881-a0c0-2d43bfc317d2,96b050db-91fe-4eaa-8e56-7456b08aba01,Live builder for Semantic Layer #927,Live builder capability in Semantic Layer,in_development,
+2cb2bd19-2942-4ff5-aa14-c902f0aa558f,8925f8f3-6c9e-4556-8b1c-b0403488d676,Cached builder for Semantic Layer #928,Cached builder capability in Semantic Layer,planned,
+1eeb5c39-58f1-422f-b979-6834eeca4baf,1ccd94cf-5c6b-4b20-bff3-66ef39aea833,Async builder for Semantic Layer #929,Async builder capability in Semantic Layer,planned,
+dd8d18f4-3b04-4a7a-b05f-83002a036439,49d09e61-f076-4fd0-90d1-01f248384768,Advanced picker for Semantic Layer #930,Advanced picker capability in Semantic Layer,shipped,2025-10-07
+0a6aaed1-ee43-49f1-aca5-617c92646eea,c0fee2fe-efbf-4e01-8e50-a08b6cd3a1e8,Smart picker for Semantic Layer #931,Smart picker capability in Semantic Layer,in_development,
+532c0ec7-7e5b-412e-a6ec-ea246ecba34a,50aefc2b-7182-4ca7-9075-51d4a968582c,Bulk picker for Semantic Layer #932,Bulk picker capability in Semantic Layer,planned,
+941bc786-ef58-4274-bd98-53f2a6d32f86,cbc300a7-1b90-4d8a-adb7-429849b63a9b,Custom picker for Semantic Layer #933,Custom picker capability in Semantic Layer,planned,
+fb0304b6-38cc-475a-946e-d834fdabef26,4833b6d5-1ad4-4fb6-9eb3-74bb8585b802,Auto picker for Semantic Layer #934,Auto picker capability in Semantic Layer,planned,
+9b9c8a0d-de4f-4de2-85ed-645e367dd797,49e05380-626e-4062-852e-336a7482b19e,Enhanced picker for Semantic Layer #935,Enhanced picker capability in Semantic Layer,in_development,
+6fe0084b-1fd5-4b72-bba0-7ad6553844b1,b087520f-02f0-4177-a8d7-c4934bedea6b,Inline picker for Semantic Layer #936,Inline picker capability in Semantic Layer,in_development,
+752ffd95-ae49-476d-bac4-b34a168509a3,1320afe6-b171-41e4-8b0f-f98f13e24893,Live picker for Semantic Layer #937,Live picker capability in Semantic Layer,shipped,2024-04-01
+9bb9cd8b-d898-40fb-9e5a-ae88a60a0f56,5bd353a7-68a9-45f1-83cd-6b74515ea54f,Cached picker for Semantic Layer #938,Cached picker capability in Semantic Layer,shipped,2024-08-13
+c47ab6f4-12b9-4f95-8f51-c1180485f029,488598cd-579a-4161-92cf-b91f3fdc248c,Async picker for Semantic Layer #939,Async picker capability in Semantic Layer,planned,
+57ac463a-dc37-44d5-92a2-e38f44a8d35e,254e81ef-b667-48e9-80fd-b5ade5a5d8e6,Advanced navigator for Semantic Layer #940,Advanced navigator capability in Semantic Layer,planned,
+04e2ec36-582a-408f-b9b7-58e42fbac48c,7c375d6a-0067-43f2-bb65-0e9d81262a78,Smart navigator for Semantic Layer #941,Smart navigator capability in Semantic Layer,in_development,
+7feefd8a-60c0-4fe9-9223-67d5b7cf938b,61094971-98a2-49ad-b242-76fa3d7d7a9c,Bulk navigator for Semantic Layer #942,Bulk navigator capability in Semantic Layer,shipped,2023-01-11
+69320476-1310-46e9-985e-2655604f0395,d9f94f60-ee9a-4341-9a3c-095bb5a05453,Custom navigator for Semantic Layer #943,Custom navigator capability in Semantic Layer,shipped,2022-01-29
+54e4713b-ea35-4078-9f5a-755a051f9558,c47cb8e1-9144-4b4f-962e-f3bf25b0b425,Auto navigator for Semantic Layer #944,Auto navigator capability in Semantic Layer,in_development,
+2b831471-e14d-4d78-91e1-0dd337701bbe,6493aeee-96f0-42ab-8fcb-2c54bcd30fb9,Enhanced navigator for Semantic Layer #945,Enhanced navigator capability in Semantic Layer,shipped,2024-03-02
+d3d7f0bd-184f-4131-9f11-de08212d3cb0,90f165ee-cafe-424f-b729-44b8e9d04ef2,Inline navigator for Semantic Layer #946,Inline navigator capability in Semantic Layer,in_development,
+169cce1b-fac4-45dd-aa3b-2e4291f8b4c6,8342d08a-8dab-47b8-88d9-0dd84ab69de9,Live navigator for Semantic Layer #947,Live navigator capability in Semantic Layer,shipped,2025-03-27
+26fac3b3-a5f7-4a68-92e1-08d9e18eebea,dbe56d42-8b9b-422b-96cd-e87b191cd319,Cached navigator for Semantic Layer #948,Cached navigator capability in Semantic Layer,in_development,
+afe15350-1202-4d38-bb83-7fe3694347f6,1bea8049-617a-4482-8279-c0a76a5be176,Async navigator for Semantic Layer #949,Async navigator capability in Semantic Layer,shipped,2020-12-29
+d07412c6-f94c-43d2-a520-ff87b866431d,42226044-ca55-41db-8d04-2abf4d874a87,Advanced wizard for Self-Service #950,Advanced wizard capability in Self-Service,planned,
+79241dca-149e-4850-abf6-8cd20aee524d,07e51a23-2bbb-458b-a87e-55f3fe672eb4,Smart wizard for Self-Service #951,Smart wizard capability in Self-Service,planned,
+4d136184-d429-4904-b2f9-a6797c1195f8,b0fe9eca-17a3-4641-a806-68bcbb9e6cbd,Bulk wizard for Self-Service #952,Bulk wizard capability in Self-Service,in_development,
+43250946-766a-44f5-985e-49de0bc34df0,930f603e-93bf-4c69-9d2f-6cac187b597c,Custom wizard for Self-Service #953,Custom wizard capability in Self-Service,shipped,2024-04-04
+c56956fc-d4ce-40a8-9002-34929c458e90,51167a93-8b50-45f8-8069-2df959fe7238,Auto wizard for Self-Service #954,Auto wizard capability in Self-Service,in_development,
+53fb8c0d-127b-4865-b1e6-6302081f45fe,13eb5e94-82b7-4c5a-a410-ff01387b5d80,Enhanced wizard for Self-Service #955,Enhanced wizard capability in Self-Service,shipped,2025-12-10
+70c0ac20-3147-46f7-990f-10b9ccb37680,49ccf45e-7145-4a97-b245-7e7333dbbb4b,Inline wizard for Self-Service #956,Inline wizard capability in Self-Service,shipped,2023-01-03
+63cdda8e-462c-40db-b9fb-0bdd706a31c5,b8f3d103-30f2-4309-91f3-3bc7e5a40abc,Live wizard for Self-Service #957,Live wizard capability in Self-Service,planned,
+c43b2fe3-abd0-4dfd-9652-5516d4f1e9ec,d2e592bb-d32f-4cb0-bddf-40cf5bf1cea5,Cached wizard for Self-Service #958,Cached wizard capability in Self-Service,planned,
+399da5fe-86cc-4015-bf0c-a121a1499a21,7684d1f6-4c46-46b6-ad99-d4825522929a,Async wizard for Self-Service #959,Async wizard capability in Self-Service,planned,
+fb422524-dc0f-4389-9bd4-4e89048c1180,8ab9d7d9-6efc-4c2e-bebd-fa068527a888,Advanced renderer for Self-Service #960,Advanced renderer capability in Self-Service,planned,
+223b2da6-b331-4cbb-aa55-fbb34a7abeb3,5d5ab8a9-1631-453d-8dc7-dd4b587ec654,Smart renderer for Self-Service #961,Smart renderer capability in Self-Service,shipped,2023-01-22
+04b7d90c-a98b-41e9-86d8-4d30ed9ef514,51a3f8b5-fb11-4ec5-be1c-7bd1b48a9eb3,Bulk renderer for Self-Service #962,Bulk renderer capability in Self-Service,shipped,2023-12-07
+57f0c151-10af-4b25-8b92-2b5d1ebc9e39,a1ceed20-0a1f-429d-8acf-5c4ecaacefdf,Custom renderer for Self-Service #963,Custom renderer capability in Self-Service,deprecated,2023-03-27
+050d47bf-b4d5-4398-9735-f23d94ada13d,48490a3b-3d4c-48af-8026-999c29ff6226,Auto renderer for Self-Service #964,Auto renderer capability in Self-Service,shipped,2021-02-22
+f591e777-bcb0-481a-849f-418af5430b99,498d8dc0-ccfb-4b73-b703-9fb75a5f08bd,Enhanced renderer for Self-Service #965,Enhanced renderer capability in Self-Service,shipped,2025-09-29
+ae6d733a-7594-499c-aba4-bbb230e0486e,7a027913-8479-4b3d-9f74-833d8fc24c12,Inline renderer for Self-Service #966,Inline renderer capability in Self-Service,shipped,2022-06-03
+d1ecb7d5-5798-41cf-8a63-5662eaab4af9,1a003c38-212c-4d34-9edf-a17e2d7df7a4,Live renderer for Self-Service #967,Live renderer capability in Self-Service,shipped,2023-12-23
+22c08138-4fc6-4b93-8faf-b06742b91856,e4035591-027a-41c4-abb8-32615a8c106c,Cached renderer for Self-Service #968,Cached renderer capability in Self-Service,shipped,2021-03-13
+f8a88260-dfe4-46ba-9d12-af330790baba,d16ba8cf-c374-4868-bef1-5676a7984535,Async renderer for Self-Service #969,Async renderer capability in Self-Service,planned,
+fb7ebeec-7b61-4162-8a22-dc7a25f318bf,efd00524-85be-4ed2-bf61-688e5f6ba8f3,Advanced connector for Self-Service #970,Advanced connector capability in Self-Service,shipped,2022-04-21
+4a102af0-dc44-49f8-b3f0-1c47ef05c7e9,a9bebce9-c291-47d6-807a-7f7532a238e5,Smart connector for Self-Service #971,Smart connector capability in Self-Service,shipped,2022-11-08
+86569bf7-7cd6-4bae-a2c6-60597fa23466,fe2db14a-3bda-406c-b1df-e7ce7d15c733,Bulk connector for Self-Service #972,Bulk connector capability in Self-Service,planned,
+64d6a460-1a00-41e2-9bb2-6141006a8868,f2123c13-ed4d-4d17-bd2f-ab6aaf3b17cd,Custom connector for Self-Service #973,Custom connector capability in Self-Service,in_development,
+79cd0a6c-6188-43db-9c40-b312658058e0,547b0c3e-5c42-4b28-9ad6-a013c4f989d4,Auto connector for Self-Service #974,Auto connector capability in Self-Service,shipped,2021-11-03
+9319ebc1-110b-4ce6-8917-14d43d9cd625,84d29ef4-de63-44b1-bde3-090a6306e195,Enhanced connector for Multi-tenancy #975,Enhanced connector capability in Multi-tenancy,deprecated,2022-09-08
+dbaec872-da29-493f-93f2-2be84d406801,b8a667f6-91dd-4615-9dba-b062cd2ea66a,Inline connector for Multi-tenancy #976,Inline connector capability in Multi-tenancy,in_development,
+588cd704-b2b0-4a16-86da-3fbe2006ad73,19c4e151-b80d-4532-9493-f4cec9109556,Live connector for Multi-tenancy #977,Live connector capability in Multi-tenancy,shipped,2021-07-12
+f54273e3-5113-4936-ad2f-e34a1c59beb2,93084ef6-0be6-426b-9167-e87f8bc84860,Cached connector for Multi-tenancy #978,Cached connector capability in Multi-tenancy,in_development,
+365622b0-d183-4d12-a509-1e8584d001b8,51b3fd8c-b49c-4d61-9e38-beb590b85778,Async connector for Multi-tenancy #979,Async connector capability in Multi-tenancy,planned,
+fc9d20df-997b-4d62-b1bf-5b20c3a64ea7,749009b9-e046-4a94-9d59-40adcbc9b188,Advanced validator for Multi-tenancy #980,Advanced validator capability in Multi-tenancy,in_development,
+04a538c3-4ec6-4e44-87d4-727182980fc9,cf5f8024-9f06-4603-8b13-405f7105257d,Smart validator for Multi-tenancy #981,Smart validator capability in Multi-tenancy,in_development,

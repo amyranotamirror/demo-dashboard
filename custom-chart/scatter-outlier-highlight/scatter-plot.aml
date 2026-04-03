@@ -1,0 +1,122 @@
+CustomChart {
+  fields {
+    field x_axis     { type: "dimension"; label: "X Axis";  data_type: "number" }
+    field y_axis     { type: "dimension"; label: "Y Axis";  data_type: "number" }
+    field group      { type: "dimension"; label: "Group" }
+    field is_outlier { type: "dimension"; label: "Is Outlier (true/false)"; data_type: "boolean" }
+  }
+  template: @vgl {
+    "data": {"values": @{values}},
+    "transform": [
+      {"calculate": "'Cross-filter other charts'", "as": "_tip_click"},
+      {"calculate": "'Date drill, Drill-through'", "as": "_tip_right"}
+    ],
+    "layer": [
+      {
+        "mark": {"type": "rule", "color": "#cccccc", "strokeWidth": 1},
+        "encoding": {
+          "x": {"field": @{fields.x_axis.name}, "type": "quantitative"},
+          "opacity": {
+            "condition": {"param": "_hover", "empty": false, "value": 0.7},
+            "value": 0
+          }
+        }
+      },
+      {
+        "mark": {"type": "circle", "strokeOpacity": 0},
+        "encoding": {
+          "x": {"field": @{fields.x_axis.name}, "type": "quantitative"},
+          "y": {"field": @{fields.y_axis.name}, "type": "quantitative"},
+          "color": {
+            "field": @{fields.group.name},
+            "type": "nominal",
+            "scale": {"scheme": @{options.color_scheme.value}}
+          },
+          "size": {"value": 900},
+          "opacity": {
+            "condition": [
+              {
+                "test": {"field": @{fields.is_outlier.name}, "oneOf": [true, "true", 1, "1"]},
+                "value": 0.18
+              },
+              {"param": "_hover", "empty": false, "value": 0.18}
+            ],
+            "value": 0
+          }
+        }
+      },
+      {
+        "params": [
+          {"name": "_hover", "select": {"type": "point", "on": "mouseover", "nearest": true, "clear": "mouseout"}}
+        ],
+        "mark": {"type": "point", "filled": true},
+        "encoding": {
+          "x": {"field": @{fields.x_axis.name}, "type": "quantitative", "title": "X Axis"},
+          "y": {"field": @{fields.y_axis.name}, "type": "quantitative", "title": "Y Axis"},
+          "color": {
+            "field": @{fields.group.name},
+            "type": "nominal",
+            "scale": {"scheme": @{options.color_scheme.value}},
+            "legend": {"title": "Group"}
+          },
+          "shape": {
+            "field": @{fields.group.name},
+            "type": "nominal"
+          },
+          "size": {
+            "condition": [
+              {
+                "test": {"field": @{fields.is_outlier.name}, "oneOf": [true, "true", 1, "1"]},
+                "value": 160
+              },
+              {"param": "_hover", "empty": false, "value": 130}
+            ],
+            "value": 55
+          },
+          "stroke": {
+            "condition": [
+              {
+                "test": {"field": @{fields.is_outlier.name}, "oneOf": [true, "true", 1, "1"]},
+                "value": "white"
+              },
+              {"param": "_hover", "empty": false, "value": "white"}
+            ],
+            "value": "transparent"
+          },
+          "strokeWidth": {
+            "condition": [
+              {
+                "test": {"field": @{fields.is_outlier.name}, "oneOf": [true, "true", 1, "1"]},
+                "value": 1.5
+              },
+              {"param": "_hover", "empty": false, "value": 1.5}
+            ],
+            "value": 0
+          },
+          "opacity": {
+            "condition": [
+              {
+                "test": {"field": @{fields.is_outlier.name}, "oneOf": [true, "true", 1, "1"]},
+                "value": 1
+              },
+              {"param": "_hover", "empty": false, "value": 1}
+            ],
+            "value": 0.3
+          },
+          "tooltip": [
+            {"field": @{fields.group.name},  "type": "nominal",      "title": "Group"},
+            {"field": @{fields.x_axis.name}, "type": "quantitative", "title": "X Axis",  "format": ".2f"},
+            {"field": @{fields.y_axis.name}, "type": "quantitative", "title": "Y Axis",  "format": ".2f"},
+            {"field": "_tip_click",          "type": "nominal",      "title": "Click"},
+            {"field": "_tip_right",          "type": "nominal",      "title": "Right-click"}
+          ]
+        }
+      }
+    ],
+    "config": {
+      "view":   {"stroke": "transparent"},
+      "axis":   {"gridColor": "#eeeeee", "domain": false, "ticks": false},
+      "legend": {"symbolOpacity": 1}
+    }
+  };;
+}

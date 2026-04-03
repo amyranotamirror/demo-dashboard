@@ -1,0 +1,139 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Salesforce CRM Dark — Glassmorphism Theme v1
+// Inspired by: Behance "Salesforce CRM SaaS UX/UI Design"
+// Dark mode · glassmorphism blocks · selective lime-green accent
+// Font: Space Grotesk (Google Fonts, closest match to Lufga)
+// Apply: Dashboard my_dashboard { theme: salesforce_crm_dark }
+// ─────────────────────────────────────────────────────────────────────────────
+
+const sfcrm_page_bg        = "#0A0C12"
+const sfcrm_canvas_bg      = "#111520"
+const sfcrm_block_bg       = "#181D2C"
+const sfcrm_block_border   = "rgba(255,255,255,0.07)"
+const sfcrm_canvas_border  = "rgba(255,255,255,0.05)"
+const sfcrm_accent_lime    = "#CCFF00"
+const sfcrm_accent_blue    = "#5B7CF8"
+const sfcrm_text_primary   = "#F0F2FF"
+const sfcrm_text_secondary = "#8892AC"
+const sfcrm_text_muted     = "#4A5268"
+const sfcrm_nav_bg         = "#080A10"
+const sfcrm_font           = "Space Grotesk"
+
+PageTheme salesforce_crm_dark {
+  background {
+    bg_color: sfcrm_page_bg
+  }
+
+  canvas {
+    background { bg_color: sfcrm_canvas_bg }
+    border {
+      border_width: 1
+      border_radius: 20
+      border_color: sfcrm_canvas_border
+      border_style: "solid"
+    }
+    shadow: "lg"
+    opacity: 1
+  }
+
+  block {
+    label {
+      font_family: sfcrm_font
+      font_size: 10
+      font_color: sfcrm_text_secondary
+      font_weight: "semibold"
+      font_style: "normal"
+    }
+    text {
+      font_family: sfcrm_font
+      font_size: 13
+      font_color: sfcrm_text_primary
+      font_weight: "normal"
+      font_style: "normal"
+    }
+    border {
+      border_width: 1
+      border_radius: 16
+      border_color: sfcrm_block_border
+      border_style: "solid"
+    }
+    background { bg_color: sfcrm_block_bg }
+    padding: 20
+    shadow: "md"
+    opacity: 1
+  }
+
+  viz {
+    table {
+      general {
+        bg_color:      sfcrm_block_bg
+        hover_color:   "rgba(204,255,0,0.04)"
+        banding_color: "rgba(0,0,0,0.20)"
+        font_size:     12
+        font_color:    sfcrm_text_primary
+        font_family:   sfcrm_font
+        border_color:  "rgba(255,255,255,0.06)"
+        border_width:  1
+        grid_color:    "rgba(255,255,255,0.04)"
+      }
+      header {
+        bg_color:    "#0E1220"
+        font_size:   10
+        font_color:  sfcrm_text_secondary
+        font_weight: "semibold"
+      }
+    }
+  }
+
+  custom_css: @css
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+    /* ── Glassmorphism blocks ──────────────────────────────────────── */
+    .dac-viz-block,
+    .dac-ic-block,
+    .dac-text-block {
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
+      background: rgba(24, 29, 44, 0.75) !important;
+    }
+
+    /* ── Canvas: lime top glow edge ────────────────────────────────── */
+    .dac-canvas { border-top: 1px solid rgba(204,255,0,0.10) !important; }
+
+    /* ── KPI: white value, muted label ─────────────────────────────── */
+    .h-kpi-metric-kpi   { color: #F0F2FF !important; font-weight: 700 !important; }
+    .h-kpi-metric-label { color: #8892AC !important; font-size: 10px !important; text-transform: uppercase !important; letter-spacing: 0.07em !important; }
+    .h-kpi-metric-diff.positive { color: #CCFF00 !important; }
+    .h-kpi-metric-diff.negative { color: #FF5566 !important; }
+
+    /* ── Block labels: uppercase, spaced ────────────────────────────── */
+    .dac-viz-block-label {
+      text-transform: uppercase !important;
+      letter-spacing: 0.07em !important;
+      font-size: 10px !important;
+      color: #8892AC !important;
+    }
+
+    /* ── Filter blocks ──────────────────────────────────────────────── */
+    .dac-ic-block-label {
+      text-transform: uppercase !important;
+      letter-spacing: 0.07em !important;
+      font-size: 10px !important;
+      color: #8892AC !important;
+    }
+
+    /* ── Utility classes for TextBlock content ──────────────────────── */
+    .sfcrm-lime { color: #CCFF00 !important; }
+    .sfcrm-blue { color: #5B7CF8 !important; }
+    .sfcrm-section {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.10em;
+      color: #8892AC;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      margin-bottom: 14px;
+    }
+  ;;
+}

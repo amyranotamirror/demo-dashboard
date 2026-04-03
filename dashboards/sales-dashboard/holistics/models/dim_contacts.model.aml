@@ -1,0 +1,47 @@
+// Dimension: Contacts (external people at prospect/customer companies)
+// Role-playing twin of dim_reps — same physical persons table, external side.
+// Points to v_contacts view (persons whose company.type != 'internal').
+// Joined via call_attendees.person_id in the Relationship & Health dataset.
+
+Model dim_contacts {
+  type: 'table'
+  label: 'Contacts'
+  table_name: 'v_contacts'
+  data_source_name: 'neondb'
+  description: 'External contacts at prospect and customer companies. Roles: champion, decision_maker, evaluator, end_user.'
+
+  dimension id {
+    label: 'Contact ID'
+    type: 'text'
+    primary_key: true
+    definition: @sql {{ #SOURCE.id }};;
+  }
+  dimension company_id {
+    label: 'Company ID'
+    type: 'text'
+    hidden: true
+  }
+  dimension name {
+    label: 'Contact Name'
+    type: 'text'
+  }
+  dimension email {
+    label: 'Email'
+    type: 'text'
+    hidden: true
+  }
+  dimension role {
+    label: 'Contact Role'
+    type: 'text'
+    description: 'champion | decision_maker | evaluator | end_user'
+  }
+  dimension is_active {
+    label: 'Is Active'
+    type: 'truefalse'
+    definition: @sql {{ #SOURCE.left_at }} IS NULL;;
+  }
+  dimension created_at {
+    label: 'Created At'
+    type: 'datetime'
+  }
+}
